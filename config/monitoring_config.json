@@ -1,0 +1,126 @@
+{
+    "logging": {
+        "file": "logs/n8n.log",
+        "level": "INFO",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        "max_size_mb": 10,
+        "backup_count": 5
+    },
+    "metrics": {
+        "collection_interval": 60,
+        "retention_hours": 24,
+        "export_interval": 300,
+        "export_format": "prometheus"
+    },
+    "health_checks": {
+        "interval_seconds": 60,
+        "timeout_seconds": 10,
+        "retry_count": 3
+    },
+    "resources": {
+        "limits": {
+            "cpu": 90,
+            "memory": 85,
+            "disk": 90,
+            "network": 80
+        },
+        "warnings": {
+            "cpu": 70,
+            "memory": 70,
+            "disk": 80,
+            "network": 70
+        }
+    },
+    "services": {
+        "workflow_executor": {
+            "health_check": {
+                "endpoint": "/health",
+                "timeout": 5,
+                "expected_status": 200
+            },
+            "metrics": {
+                "enabled": true,
+                "collection_interval": 30
+            }
+        },
+        "message_broker": {
+            "health_check": {
+                "endpoint": "/health",
+                "timeout": 5,
+                "expected_status": 200
+            },
+            "metrics": {
+                "enabled": true,
+                "collection_interval": 30
+            }
+        },
+        "event_stream": {
+            "health_check": {
+                "endpoint": "/health",
+                "timeout": 5,
+                "expected_status": 200
+            },
+            "metrics": {
+                "enabled": true,
+                "collection_interval": 30
+            }
+        }
+    },
+    "dependencies": {
+        "database": {
+            "health_check": {
+                "type": "connection",
+                "timeout": 5
+            },
+            "metrics": {
+                "enabled": true,
+                "collection_interval": 60
+            }
+        },
+        "cache": {
+            "health_check": {
+                "type": "connection",
+                "timeout": 5
+            },
+            "metrics": {
+                "enabled": true,
+                "collection_interval": 60
+            }
+        }
+    },
+    "alerts": {
+        "enabled": true,
+        "channels": {
+            "email": {
+                "enabled": true,
+                "recipients": ["admin@example.com"]
+            },
+            "slack": {
+                "enabled": true,
+                "webhook_url": "https://hooks.slack.com/services/your-webhook-url"
+            }
+        },
+        "thresholds": {
+            "error_rate": 0.05,
+            "response_time": 1000,
+            "resource_usage": 0.9
+        }
+    },
+    "endpoints": {
+        "metrics": {
+            "path": "/metrics",
+            "enabled": true,
+            "auth_required": true
+        },
+        "health": {
+            "path": "/health",
+            "enabled": true,
+            "auth_required": false
+        },
+        "status": {
+            "path": "/status",
+            "enabled": true,
+            "auth_required": true
+        }
+    }
+} 

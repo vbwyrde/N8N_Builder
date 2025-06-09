@@ -1,0 +1,57 @@
+{
+    "security": {
+        "secret_key": "test_secret_key",
+        "token_expiry": 3600,
+        "rate_limits": {
+            "default": {
+                "requests": 100,
+                "period": 60
+            },
+            "workflow": {
+                "requests": 10,
+                "period": 60
+            }
+        }
+    },
+    "error_recovery": {
+        "circuit_breaker": {
+            "failure_threshold": 3,
+            "recovery_timeout": 30,
+            "half_open_timeout": 10
+        },
+        "retry": {
+            "max_attempts": 3,
+            "initial_delay": 1.0,
+            "max_delay": 30.0
+        }
+    },
+    "monitoring": {
+        "logging": {
+            "file": "logs/test_n8n.log",
+            "level": "DEBUG",
+            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            "max_size_mb": 1,
+            "backup_count": 2
+        },
+        "metrics": {
+            "collection_interval": 10,
+            "retention_hours": 1,
+            "export_interval": 60
+        },
+        "health_checks": {
+            "interval_seconds": 10,
+            "timeout_seconds": 5
+        }
+    },
+    "max_concurrent_workflows": 3,
+    "resource_limits": {
+        "cpu": 50,
+        "memory": 512,
+        "disk": 1024
+    },
+    "test_settings": {
+        "timeout": 5,
+        "retry_count": 2,
+        "mock_delay": 0.1
+    }
+} 

@@ -1,0 +1,61 @@
+{
+    "error_recovery": {
+        "circuit_breaker": {
+            "failure_threshold": 5,
+            "recovery_timeout": 30,
+            "half_open_timeout": 10,
+            "success_threshold": 2
+        },
+        "retry": {
+            "max_attempts": 3,
+            "initial_delay": 1.0,
+            "max_delay": 30.0,
+            "backoff_factor": 2.0
+        },
+        "max_error_history": 100,
+        "error_cleanup": {
+            "max_age_hours": 24,
+            "cleanup_interval_minutes": 60
+        },
+        "service_specific": {
+            "workflow_executor": {
+                "circuit_breaker": {
+                    "failure_threshold": 3,
+                    "recovery_timeout": 60
+                },
+                "retry": {
+                    "max_attempts": 5,
+                    "initial_delay": 2.0
+                }
+            },
+            "external_api": {
+                "circuit_breaker": {
+                    "failure_threshold": 10,
+                    "recovery_timeout": 120
+                },
+                "retry": {
+                    "max_attempts": 3,
+                    "initial_delay": 5.0
+                }
+            }
+        },
+        "graceful_degradation": {
+            "enabled": true,
+            "fallback_timeout": 5.0,
+            "degradation_levels": [
+                {
+                    "name": "full",
+                    "description": "Full functionality"
+                },
+                {
+                    "name": "reduced",
+                    "description": "Reduced functionality with fallbacks"
+                },
+                {
+                    "name": "minimal",
+                    "description": "Minimal functionality with local fallbacks"
+                }
+            ]
+        }
+    }
+} 
