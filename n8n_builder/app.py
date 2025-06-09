@@ -1,0 +1,157 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from typing import List, Optional, Dict, Any
+import asyncio
+import json
+import uuid
+from datetime import datetime
+import os
+import logging
+
+from .n8n_builder import N8NBuilder
+from .validators import BaseWorkflowValidator, ValidationResult
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# Get the static directory path
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+logger.debug(f"Static directory path: {static_dir}")
+logger.debug(f"Static directory exists: {os.path.exists(static_dir)}")
+logger.debug(f"Static directory contents: {os.listdir(static_dir) if os.path.exists(static_dir) else 'Directory not found'}")
+
+# Create FastAPI app
+app = FastAPI(title="N8N Workflow Builder API")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize our components
+workflow_builder = N8NBuilder()
+workflow_validator = BaseWorkflowValidator()
+
+class WorkflowRequest(BaseModel):
+    description: str
+    thread_id: Optional[str] = None
+    run_id: Optional[str] = None
+
+class WorkflowResponse(BaseModel):
+    workflow_id: str
+    workflow_json: str
+    validation_result: ValidationResult
+    timestamp: datetime
+
+    def dict(self, *args, **kwargs):
+        d = super().dict(*args, **kwargs)
+        d['timestamp'] = d['timestamp'].isoformat()
+        return d
+
+@app.get("/")
+async def root():
+    """Serve the main UI page."""
+    index_path = os.path.join(static_dir, "index.html")
+    logger.debug(f"Attempting to serve index.html from: {index_path}")
+    logger.debug(f"File exists: {os.path.exists(index_path)}")
+    
+    if not os.path.exists(index_path):
+        raise HTTPException(status_code=404, detail=f"index.html not found at {index_path}")
+    return FileResponse(index_path)
+
+# Mount static files AFTER defining the root route
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+logger.debug("Mounted static files directory")
+
+async def generate_workflow_events(request: WorkflowRequest):
+    """Generate events for workflow creation process."""
+    workflow_id = str(uuid.uuid4())
+    thread_id = request.thread_id or str(uuid.uuid4())
+    run_id = request.run_id or str(uuid.uuid4())
+    
+    # Start event
+    yield json.dumps({
+        "type": "RUN_STARTED",
+        "workflow_id": workflow_id,
+        "thread_id": thread_id,
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat()
+    }) + "\n"
+    
+    try:
+        # Generate workflow
+        workflow_json = workflow_builder.generate_workflow(request.description)
+        
+        # Validate workflow
+        validation_result = workflow_validator.validate_workflow(workflow_json)
+        
+        # Create response
+        response = WorkflowResponse(
+            workflow_id=workflow_id,
+            workflow_json=workflow_json,
+            validation_result=validation_result,
+            timestamp=datetime.now()
+        )
+        
+        # Success event
+        yield json.dumps({
+            "type": "WORKFLOW_GENERATED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "data": response.dict()
+        }) + "\n"
+        
+        # Finish event
+        yield json.dumps({
+            "type": "RUN_FINISHED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "success": True
+        }) + "\n"
+        
+    except Exception as e:
+        # Error event
+        yield json.dumps({
+            "type": "RUN_ERROR",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e)
+        }) + "\n"
+
+@app.post("/generate")
+async def generate_workflow(request: WorkflowRequest):
+    """Generate an n8n workflow from a description."""
+    return StreamingResponse(
+        generate_workflow_events(request),
+        media_type="text/event-stream"
+    )
+
+@app.get("/feedback/{workflow_id}")
+async def get_workflow_feedback(workflow_id: str):
+    """Get feedback for a specific workflow."""
+    feedback = workflow_builder.get_feedback_history()
+    workflow_feedback = [f for f in feedback if f.workflow_id == workflow_id]
+    
+    if not workflow_feedback:
+        raise HTTPException(status_code=404, detail="Workflow feedback not found")
+    
+    return workflow_feedback
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()} 

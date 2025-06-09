@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N8N Workflow Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .error {
+            color: #d32f2f;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            border: 1px solid #d32f2f;
+            border-radius: 4px;
+            background-color: #ffebee;
+        }
+        .loading {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+            color: #666;
+        }
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60% { content: "..."; }
+            80%, 100% { content: ""; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>N8N Workflow Builder</h1>
+        <p>Describe the workflow you want to create, and the AI will generate the N8N workflow JSON for you.</p>
+        
+        <textarea id="description" placeholder="Describe your workflow here..."></textarea>
+        <button id="generate" onclick="generateWorkflow()">Generate Workflow</button>
+        
+        <div id="loading" class="loading">Generating workflow</div>
+        <div id="error" class="error"></div>
+        
+        <pre id="result"></pre>
+    </div>
+
+    <script>
+        const API_BASE_URL = window.location.origin;  // Use the same origin as the page
+
+        async function generateWorkflow() {
+            const description = document.getElementById('description').value.trim();
+            const generateButton = document.getElementById('generate');
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            
+            if (!description) {
+                showError('Please enter a workflow description');
+                return;
+            }
+            
+            // Reset UI state
+            generateButton.disabled = true;
+            loadingDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+            resultDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/generate-workflow`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ description }),
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ detail: 'Failed to generate workflow' }));
+                    throw new Error(errorData.detail || 'Failed to generate workflow');
+                }
+                
+                const workflow = await response.json();
+                
+                // Display the formatted JSON
+                resultDiv.textContent = JSON.stringify(workflow, null, 2);
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message || 'An unexpected error occurred');
+            } finally {
+                generateButton.disabled = false;
+                loadingDiv.style.display = 'none';
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html> 
