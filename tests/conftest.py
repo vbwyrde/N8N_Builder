@@ -1,11 +1,12 @@
 import pytest
+import pytest_asyncio
 import asyncio
 import json
 from typing import Dict, Any, Generator
 from datetime import datetime
 from pathlib import Path
 
-from n8n_builder.agents.integration.agent_integration_manager import AgentIntegrationManager, WorkflowPriority
+from n8n_builder.agents.integration.agent_integration_manager import AgentIntegrationManager, WorkflowPriority, AgentConfig
 from n8n_builder.agents.integration.monitoring import MonitoringManager, MetricType, HealthStatus
 from n8n_builder.agents.integration.security import SecurityManager, PermissionLevel
 from n8n_builder.agents.integration.error_recovery import ErrorRecoveryManager, CircuitState
@@ -28,7 +29,7 @@ def test_config() -> Dict[str, Any]:
     with open(config_path) as f:
         return json.load(f)
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def message_broker():
     """Create a message broker instance for testing."""
     broker = MessageBroker()
@@ -36,7 +37,7 @@ async def message_broker():
     yield broker
     await broker.stop()
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def state_manager(tmp_path):
     """Create a state manager instance for testing."""
     state_file = tmp_path / "test_state.json"
@@ -44,7 +45,7 @@ async def state_manager(tmp_path):
     yield manager
     await manager.close()
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def event_stream_manager():
     """Create an event stream manager instance for testing."""
     manager = EventStreamManager()
@@ -52,25 +53,25 @@ async def event_stream_manager():
     yield manager
     await manager.stop()
 
-@pytest.fixture
-async def ui_controller(event_stream_manager):
+@pytest_asyncio.fixture
+async def ui_controller():
     """Create a UI controller instance for testing."""
-    controller = AgentUIController(event_stream_manager)
+    controller = AgentUIController()
     await controller.start()
     yield controller
     await controller.stop()
 
 @pytest.fixture
-async def security_manager(test_config):
+def security_manager(test_config):
     """Create a security manager instance for testing."""
     return SecurityManager(test_config.get('security', {}))
 
 @pytest.fixture
-async def error_recovery_manager(test_config):
+def error_recovery_manager(test_config):
     """Create an error recovery manager instance for testing."""
     return ErrorRecoveryManager(test_config.get('error_recovery', {}))
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def monitoring_manager(test_config):
     """Create a monitoring manager instance for testing."""
     manager = MonitoringManager(test_config.get('monitoring', {}))
@@ -78,19 +79,26 @@ async def monitoring_manager(test_config):
     yield manager
     await manager.stop()
 
-@pytest.fixture
-async def agent_integration_manager(
-    test_config,
-    message_broker,
-    state_manager,
-    event_stream_manager,
-    ui_controller,
-    security_manager,
-    error_recovery_manager,
-    monitoring_manager
-):
+@pytest_asyncio.fixture
+async def agent_integration_manager(test_config):
     """Create an agent integration manager instance for testing."""
-    manager = AgentIntegrationManager(test_config)
+    agent_config_data = test_config.get('agent', {})
+    config = AgentConfig(
+        name=agent_config_data.get('name', 'test_integration_manager'),
+        capabilities=agent_config_data.get('capabilities', {
+            'workflow_processing': True,
+            'error_recovery': True,
+            'monitoring': True,
+            'security': True
+        }),
+        max_concurrent_workflows=agent_config_data.get('max_concurrent_workflows', 5),
+        timeout=agent_config_data.get('timeout', 300),
+        security=test_config.get('security', {}),
+        error_recovery=test_config.get('error_recovery', {}),
+        monitoring=test_config.get('monitoring', {}),
+        resource_limits=test_config.get('resource_limits', {})
+    )
+    manager = AgentIntegrationManager(config)
     await manager.start()
     yield manager
     await manager.stop()
@@ -184,13 +192,14 @@ def test_user():
         'user_id': 'test_user',
         'username': 'test',
         'permissions': [PermissionLevel.READ, PermissionLevel.WRITE],
-        'email': 'test@example.com'
+        'email': 'test@example.com',
+        'roles': ['user', 'workflow_processor']
     }
 
 @pytest.fixture
 def test_token(security_manager, test_user):
     """Generate a test authentication token."""
-    return security_manager.generate_token(test_user)
+    return security_manager.generate_token(test_user['user_id'], test_user['roles'])
 
 @pytest.fixture
 def test_workflow_priority():
