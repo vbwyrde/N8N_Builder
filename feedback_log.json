@@ -1,0 +1,66 @@
+[
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    },\n    {\n      \"id\": \"3\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Workflow Update\",\n        \"text\": \"Workflow has been updated\"\n      },\n      \"position\": [\n        0,\n        0\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T19:17:31.963259"
+  },
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T19:24:15.325026"
+  },
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T19:32:19.406415"
+  },
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T19:50:07.136945"
+  },
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T20:11:50.357000"
+  },
+  {
+    "workflow_id": "multi-iter-test",
+    "description": "\n            Based on testing feedback: The email works but needs better formatting\n            \n            Additional requirements: Make the email HTML formatted\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but needs better formatting",
+    "timestamp": "2025-06-10T20:12:16.162266"
+  },
+  {
+    "workflow_id": "test-iteration-1",
+    "description": "\n            Based on testing feedback: The email works but I need to add a condition to only send emails during business hours\n            \n            Additional requirements: Also add logging to track when emails are sent\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but I need to add a condition to only send emails during business hours",
+    "timestamp": "2025-06-10T20:22:09.926231"
+  },
+  {
+    "workflow_id": "multi-iter-test",
+    "description": "\n            Based on testing feedback: The email works but needs better formatting\n            \n            Additional requirements: Make the email HTML formatted\n            \n            Please modify the workflow to address these issues and requirements.\n            ",
+    "generated_workflow": "{\n  \"name\": \"Basic Email Notification\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Manual Trigger\",\n      \"type\": \"n8n-nodes-base.manualTrigger\",\n      \"parameters\": {},\n      \"position\": [\n        240,\n        300\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Send Email\",\n      \"type\": \"n8n-nodes-base.emailSend\",\n      \"parameters\": {\n        \"to\": \"user@example.com\",\n        \"subject\": \"Test Email\",\n        \"text\": \"This is a test email from N8N workflow\",\n        \"html\": \"<p>This is a test email from N8N workflow with HTML formatting.</p>\"\n      },\n      \"position\": [\n        460,\n        300\n      ]\n    }\n  ],\n  \"connections\": {\n    \"Manual Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": {},\n  \"active\": true,\n  \"version\": 1\n}",
+    "success": true,
+    "feedback": "Iteration based on testing: The email works but needs better formatting",
+    "timestamp": "2025-06-10T20:24:56.234133"
+  }
+]

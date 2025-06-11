@@ -45,6 +45,21 @@ class WorkflowRequest(BaseModel):
     thread_id: Optional[str] = None
     run_id: Optional[str] = None
 
+class WorkflowModificationRequest(BaseModel):
+    existing_workflow_json: str
+    modification_description: str
+    workflow_id: Optional[str] = None
+    thread_id: Optional[str] = None
+    run_id: Optional[str] = None
+
+class WorkflowIterationRequest(BaseModel):
+    workflow_id: str
+    existing_workflow_json: str
+    feedback_from_testing: str
+    additional_requirements: Optional[str] = ""
+    thread_id: Optional[str] = None
+    run_id: Optional[str] = None
+
 class WorkflowResponse(BaseModel):
     workflow_id: str
     workflow_json: str
@@ -139,6 +154,163 @@ async def generate_workflow(request: WorkflowRequest):
         generate_workflow_events(request),
         media_type="text/event-stream"
     )
+
+@app.post("/modify")
+async def modify_workflow(request: WorkflowModificationRequest):
+    """Modify an existing workflow based on a description of changes needed."""
+    return StreamingResponse(
+        modify_workflow_events(request),
+        media_type="text/event-stream"
+    )
+
+@app.post("/iterate")
+async def iterate_workflow(request: WorkflowIterationRequest):
+    """Iterate on a workflow based on testing feedback and new requirements."""
+    return StreamingResponse(
+        iterate_workflow_events(request),
+        media_type="text/event-stream"
+    )
+
+async def modify_workflow_events(request: WorkflowModificationRequest):
+    """Generate events for workflow modification process."""
+    workflow_id = request.workflow_id or str(uuid.uuid4())
+    thread_id = request.thread_id or str(uuid.uuid4())
+    run_id = request.run_id or str(uuid.uuid4())
+    
+    # Start event
+    yield json.dumps({
+        "type": "MODIFICATION_STARTED",
+        "workflow_id": workflow_id,
+        "thread_id": thread_id,
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat()
+    }) + "\n"
+    
+    try:
+        # Modify workflow
+        modified_workflow_json = workflow_builder.modify_workflow(
+            request.existing_workflow_json,
+            request.modification_description,
+            workflow_id
+        )
+        
+        # Validate modified workflow
+        validation_result = workflow_validator.validate_workflow(modified_workflow_json)
+        
+        # Create response
+        response = WorkflowResponse(
+            workflow_id=workflow_id,
+            workflow_json=modified_workflow_json,
+            validation_result=validation_result,
+            timestamp=datetime.now()
+        )
+        
+        # Success event
+        yield json.dumps({
+            "type": "WORKFLOW_MODIFIED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "data": response.dict()
+        }) + "\n"
+        
+        # Finish event
+        yield json.dumps({
+            "type": "MODIFICATION_FINISHED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "success": True
+        }) + "\n"
+        
+    except Exception as e:
+        # Error event
+        yield json.dumps({
+            "type": "MODIFICATION_ERROR",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e)
+        }) + "\n"
+
+async def iterate_workflow_events(request: WorkflowIterationRequest):
+    """Generate events for workflow iteration process."""
+    workflow_id = request.workflow_id
+    thread_id = request.thread_id or str(uuid.uuid4())
+    run_id = request.run_id or str(uuid.uuid4())
+    
+    # Start event
+    yield json.dumps({
+        "type": "ITERATION_STARTED",
+        "workflow_id": workflow_id,
+        "thread_id": thread_id,
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat()
+    }) + "\n"
+    
+    try:
+        # Iterate workflow
+        iterated_workflow_json = workflow_builder.iterate_workflow(
+            request.workflow_id,
+            request.existing_workflow_json,
+            request.feedback_from_testing,
+            request.additional_requirements or ""
+        )
+        
+        # Validate iterated workflow
+        validation_result = workflow_validator.validate_workflow(iterated_workflow_json)
+        
+        # Create response
+        response = WorkflowResponse(
+            workflow_id=workflow_id,
+            workflow_json=iterated_workflow_json,
+            validation_result=validation_result,
+            timestamp=datetime.now()
+        )
+        
+        # Success event
+        yield json.dumps({
+            "type": "WORKFLOW_ITERATED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "data": response.dict()
+        }) + "\n"
+        
+        # Finish event
+        yield json.dumps({
+            "type": "ITERATION_FINISHED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "success": True
+        }) + "\n"
+        
+    except Exception as e:
+        # Error event
+        yield json.dumps({
+            "type": "ITERATION_ERROR",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e)
+        }) + "\n"
+
+@app.get("/iterations/{workflow_id}")
+async def get_workflow_iterations(workflow_id: str):
+    """Get the iteration history for a specific workflow."""
+    iterations = workflow_builder.get_workflow_iterations(workflow_id)
+    
+    if not iterations:
+        raise HTTPException(status_code=404, detail="No iterations found for this workflow")
+    
+    return iterations
 
 @app.get("/feedback/{workflow_id}")
 async def get_workflow_feedback(workflow_id: str):
