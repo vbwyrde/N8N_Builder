@@ -15,6 +15,7 @@ from pathlib import Path
 from .n8n_builder import N8NBuilder
 from .validators import BaseWorkflowValidator, ValidationResult
 from .error_handler import EnhancedErrorHandler, ErrorDetail
+from .project_manager import project_manager, filesystem_utils, ProjectInfo, WorkflowInfo
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -73,6 +74,42 @@ class WorkflowResponse(BaseModel):
         d = super().dict(*args, **kwargs)
         d['timestamp'] = d['timestamp'].isoformat()
         return d
+
+# Project API Models
+class ProjectCreateRequest(BaseModel):
+    name: str
+    description: Optional[str] = ""
+    initial_workflows: Optional[List[str]] = None
+
+class ProjectResponse(BaseModel):
+    name: str
+    path: str
+    description: str
+    created_date: str
+    last_modified: str
+    workflow_count: int
+    workflows: List[str]
+    settings: Dict[str, Any]
+
+class WorkflowFileRequest(BaseModel):
+    workflow_data: Dict[str, Any]
+    create_backup: Optional[bool] = True
+
+class WorkflowFileResponse(BaseModel):
+    filename: str
+    project_name: str
+    workflow_data: Dict[str, Any]
+    file_size: int
+    last_modified: str
+
+class ProjectStatsResponse(BaseModel):
+    total_projects: int
+    total_workflows: int
+    projects_root: str
+    average_workflows_per_project: float
+    project_names: List[str]
+    largest_project: Optional[str]
+    most_recent_project: Optional[str]
 
 @app.get("/")
 async def root():
