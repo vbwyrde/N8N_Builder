@@ -13,6 +13,8 @@ from .config import config
 from .error_handler import EnhancedErrorHandler, ErrorDetail, ValidationError as EValidationError
 from .validators import EdgeCaseValidator, EdgeCaseValidationResult
 from .performance_optimizer import performance_optimizer, PerformanceMetrics
+from .retry_manager import retry_manager, RetryConfig, RetryStrategy, FailureType
+from .workflow_differ import workflow_differ, WorkflowDiff
 
 # Configure enhanced logging for iteration operations
 logging.basicConfig(
@@ -103,7 +105,7 @@ class WorkflowFeedback:
 
 class N8NBuilder:
     def __init__(self):
-        """Initialize N8N Builder with enhanced error handling and performance optimization."""
+        """Initialize N8N Builder with enhanced error handling, performance optimization, and retry logic."""
         self.documentation_path = Path("NN_Builder.md")
         self.node_types: Dict[str, NodeTypeInfo] = {}
         self.workflow_patterns: Dict[str, WorkflowPattern] = {}
@@ -122,6 +124,12 @@ class N8NBuilder:
         self.performance_optimizer = performance_optimizer
         logger.info("Performance optimizer initialized for large workflow processing")
         
+        # Initialize enhanced retry logic with fallback strategies
+        self.retry_manager = retry_manager
+        self._setup_retry_configurations()
+        self._register_fallback_strategies()
+        logger.info("Enhanced retry manager initialized with intelligent failure handling")
+        
         try:
             self.initialize_builder()
         except Exception as e:
@@ -129,6 +137,212 @@ class N8NBuilder:
             logger.error(f"Error initializing N8N Builder: {error_detail.title} - {error_detail.message}")
             if error_detail.fix_suggestions:
                 logger.info(f"Suggestions: {'; '.join(error_detail.fix_suggestions)}")
+
+    def _setup_retry_configurations(self):
+        """Setup retry configurations for different types of LLM failures."""
+        # Configure different retry strategies for different failure types
+        
+        # Timeout failures - more aggressive retries with longer delays
+        timeout_config = RetryConfig(
+            max_attempts=5,
+            base_delay=2.0,
+            max_delay=120.0,
+            strategy=RetryStrategy.EXPONENTIAL_BACKOFF,
+            jitter=True,
+            failure_threshold=3,
+            recovery_timeout=30
+        )
+        
+        # Rate limiting - linear backoff with longer delays
+        rate_limit_config = RetryConfig(
+            max_attempts=4,
+            base_delay=5.0,
+            max_delay=180.0,
+            strategy=RetryStrategy.LINEAR_BACKOFF,
+            jitter=True,
+            failure_threshold=2,
+            recovery_timeout=120
+        )
+        
+        # Server errors - exponential backoff
+        server_error_config = RetryConfig(
+            max_attempts=4,
+            base_delay=1.5,
+            max_delay=60.0,
+            strategy=RetryStrategy.EXPONENTIAL_BACKOFF,
+            jitter=True,
+            failure_threshold=4,
+            recovery_timeout=45
+        )
+        
+        # Connection errors - immediate retry first, then exponential
+        connection_error_config = RetryConfig(
+            max_attempts=6,
+            base_delay=0.5,
+            max_delay=30.0,
+            strategy=RetryStrategy.EXPONENTIAL_BACKOFF,
+            jitter=True,
+            failure_threshold=3,
+            recovery_timeout=20
+        )
+        
+        # Validation errors - fewer retries as these are often permanent
+        validation_error_config = RetryConfig(
+            max_attempts=2,
+            base_delay=1.0,
+            max_delay=5.0,
+            strategy=RetryStrategy.FIXED_DELAY,
+            jitter=False,
+            failure_threshold=2,
+            recovery_timeout=60
+        )
+        
+        # Default configuration with failure-specific overrides
+        default_config = RetryConfig(
+            max_attempts=3,
+            base_delay=1.0,
+            max_delay=60.0,
+            strategy=RetryStrategy.EXPONENTIAL_BACKOFF,
+            jitter=True,
+            failure_threshold=5,
+            recovery_timeout=60,
+            failure_configs={
+                FailureType.TIMEOUT: timeout_config,
+                FailureType.RATE_LIMIT: rate_limit_config,
+                FailureType.SERVER_ERROR: server_error_config,
+                FailureType.CONNECTION_ERROR: connection_error_config,
+                FailureType.VALIDATION_ERROR: validation_error_config
+            }
+        )
+        
+        # Configure the retry manager for our LLM endpoint
+        endpoint_key = self.llm_config.endpoint or "default_llm"
+        self.retry_manager.configure_endpoint(endpoint_key, default_config)
+        
+        logger.info(f"Configured retry strategies for LLM endpoint: {endpoint_key}")
+
+    def _register_fallback_strategies(self):
+        """Register fallback strategies for when LLM API completely fails."""
+        # Register mock response fallback
+        self.retry_manager.register_fallback_strategy(
+            "mock_response", 
+            self._fallback_mock_response
+        )
+        
+        # Register simplified response fallback
+        self.retry_manager.register_fallback_strategy(
+            "simplified_response", 
+            self._fallback_simplified_response
+        )
+        
+        # Register cached response fallback (if we had caching)
+        self.retry_manager.register_fallback_strategy(
+            "basic_workflow", 
+            self._fallback_basic_workflow
+        )
+        
+        logger.info("Registered 3 fallback strategies for LLM failures")
+
+    async def _fallback_mock_response(self, prompt: str, **kwargs) -> str:
+        """Fallback strategy: Generate mock response based on prompt content."""
+        logger.info("Using mock response fallback strategy")
+        
+        # Analyze prompt to determine appropriate mock response
+        if "email" in prompt.lower():
+            return json.dumps([{
+                "action": "add_node",
+                "details": {
+                    "node_id": "fallback_email",
+                    "name": "Email Fallback",
+                    "node_type": "n8n-nodes-base.emailSend",
+                    "parameters": {
+                        "to": "user@example.com",
+                        "subject": "Fallback Email",
+                        "text": "This email was generated by fallback logic"
+                    }
+                },
+                "reasoning": "Fallback email node added due to LLM failure"
+            }])
+        elif "database" in prompt.lower() or "db" in prompt.lower():
+            return json.dumps([{
+                "action": "add_node",
+                "details": {
+                    "node_id": "fallback_db",
+                    "name": "Database Fallback",
+                    "node_type": "n8n-nodes-base.postgres",
+                    "parameters": {
+                        "operation": "insert",
+                        "table": "fallback_table"
+                    }
+                },
+                "reasoning": "Fallback database node added due to LLM failure"
+            }])
+        else:
+            return json.dumps([{
+                "action": "add_node",
+                "details": {
+                    "node_id": "fallback_generic",
+                    "name": "Generic Fallback",
+                    "node_type": "n8n-nodes-base.noOp",
+                    "parameters": {}
+                },
+                "reasoning": "Generic fallback node added due to LLM failure"
+            }])
+
+    async def _fallback_simplified_response(self, prompt: str, **kwargs) -> str:
+        """Fallback strategy: Generate simplified but functional response."""
+        logger.info("Using simplified response fallback strategy")
+        
+        return json.dumps([{
+            "action": "add_node",
+            "details": {
+                "node_id": "simplified_node",
+                "name": "Simplified Node",
+                "node_type": "n8n-nodes-base.function",
+                "parameters": {
+                    "code": "// Simplified fallback function\nreturn items;"
+                }
+            },
+            "reasoning": "Simplified function node added as safe fallback"
+        }])
+
+    async def _fallback_basic_workflow(self, prompt: str, **kwargs) -> str:
+        """Fallback strategy: Return basic workflow structure."""
+        logger.info("Using basic workflow fallback strategy")
+        
+        return json.dumps({
+            "name": "Fallback Workflow",
+            "nodes": [
+                {
+                    "id": "fallback_start",
+                    "name": "Start",
+                    "type": "n8n-nodes-base.manualTrigger",
+                    "parameters": {}
+                },
+                {
+                    "id": "fallback_end",
+                    "name": "End",
+                    "type": "n8n-nodes-base.noOp",
+                    "parameters": {}
+                }
+            ],
+            "connections": {
+                "Start": {
+                    "main": [
+                        [
+                            {
+                                "node": "End",
+                                "type": "main",
+                                "index": 0
+                            }
+                        ]
+                    ]
+                }
+            },
+            "settings": {},
+            "active": False,
+            "version": 1
+        })
 
     def generate_workflow(self, plain_english_description: str) -> str:
         """Generate an n8n workflow from a plain English description."""
@@ -1449,18 +1663,171 @@ CRITICAL: Return ONLY the JSON array, no other text, no thinking tags, no explan
             logger.error(f"Error tracking workflow iteration: {str(e)}")
 
     def _summarize_changes(self, original: str, modified: str) -> Dict[str, Any]:
-        """Summarize the changes between two workflow versions."""
+        """Summarize the changes between two workflow versions using comprehensive diffing."""
         try:
-            orig_workflow = json.loads(original)
-            mod_workflow = json.loads(modified)
+            # Use the comprehensive workflow differ for detailed analysis
+            diff_result = workflow_differ.compare_workflows(original, modified)
             
+            # Return enhanced summary with detailed information
             return {
-                "nodes_added": len(mod_workflow["nodes"]) - len(orig_workflow["nodes"]),
-                "connections_changed": len(mod_workflow["connections"]) != len(orig_workflow["connections"]),
-                "parameters_modified": True  # Simplified for now
+                # Basic compatibility (existing fields)
+                "nodes_added": diff_result.nodes_added,
+                "connections_changed": diff_result.connections_added > 0 or diff_result.connections_removed > 0,
+                "parameters_modified": diff_result.parameters_changed > 0,
+                
+                # Enhanced detailed information
+                "detailed_analysis": diff_result.to_dict(),
+                "has_changes": diff_result.has_changes,
+                "overall_severity": diff_result.overall_severity.value,
+                "change_summary": diff_result.change_summary,
+                "human_readable_summary": diff_result.get_human_readable_summary(),
+                
+                # Statistics breakdown
+                "nodes_removed": diff_result.nodes_removed,
+                "nodes_modified": diff_result.nodes_modified,
+                "connections_added": diff_result.connections_added,
+                "connections_removed": diff_result.connections_removed,
+                "connections_modified": diff_result.connections_modified,
+                "parameters_changed": diff_result.parameters_changed,
+                "workflow_changes": len(diff_result.workflow_changes),
+                
+                # Performance metrics
+                "analysis_duration_ms": diff_result.analysis_duration_ms,
+                "comparison_complexity": diff_result.comparison_complexity,
+                
+                # Hashes for tracking
+                "original_hash": diff_result.original_workflow_hash,
+                "modified_hash": diff_result.modified_workflow_hash
             }
-        except:
-            return {"error": "Could not analyze changes"}
+        except Exception as e:
+            logger.error(f"Error in comprehensive workflow diffing: {str(e)}")
+            # Fallback to basic analysis
+            try:
+                orig_workflow = json.loads(original)
+                mod_workflow = json.loads(modified)
+                
+                return {
+                    "nodes_added": len(mod_workflow["nodes"]) - len(orig_workflow["nodes"]),
+                    "connections_changed": len(mod_workflow["connections"]) != len(orig_workflow["connections"]),
+                    "parameters_modified": True,  # Simplified for fallback
+                    "error": f"Comprehensive diffing failed: {str(e)}",
+                    "fallback_used": True
+                }
+            except:
+                return {"error": "Could not analyze changes"}
+
+    def compare_workflow_versions(self, original_json: str, modified_json: str) -> WorkflowDiff:
+        """
+        Compare two workflow versions and return detailed diff analysis.
+        
+        Args:
+            original_json: Original workflow JSON string
+            modified_json: Modified workflow JSON string
+            
+        Returns:
+            WorkflowDiff object with comprehensive comparison results
+        """
+        return workflow_differ.compare_workflows(original_json, modified_json)
+
+    def generate_workflow_diff_report(self, original_json: str, modified_json: str, format: str = "html") -> str:
+        """
+        Generate a formatted diff report between two workflows.
+        
+        Args:
+            original_json: Original workflow JSON string
+            modified_json: Modified workflow JSON string
+            format: Report format ("html", "text", or "json")
+            
+        Returns:
+            Formatted diff report string
+        """
+        diff_result = workflow_differ.compare_workflows(original_json, modified_json)
+        
+        if format.lower() == "html":
+            return workflow_differ.generate_html_diff_report(diff_result)
+        elif format.lower() == "text":
+            return self._generate_text_diff_report(diff_result)
+        elif format.lower() == "json":
+            return json.dumps(diff_result.to_dict(), indent=2)
+        else:
+            raise ValueError(f"Unsupported format: {format}. Use 'html', 'text', or 'json'")
+
+    def _generate_text_diff_report(self, diff: WorkflowDiff) -> str:
+        """Generate a text-based diff report."""
+        report_lines = []
+        
+        # Header
+        report_lines.append("=" * 60)
+        report_lines.append("WORKFLOW DIFF REPORT")
+        report_lines.append("=" * 60)
+        report_lines.append(f"Analysis Date: {diff.analysis_timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+        report_lines.append(f"Overall Severity: {diff.overall_severity.value.upper()}")
+        report_lines.append(f"Changes Detected: {'Yes' if diff.has_changes else 'No'}")
+        report_lines.append(f"Analysis Duration: {diff.analysis_duration_ms:.2f}ms")
+        report_lines.append("")
+        
+        # Summary
+        report_lines.append("SUMMARY:")
+        report_lines.append(f"  {diff.change_summary}")
+        report_lines.append("")
+        
+        # Statistics
+        report_lines.append("STATISTICS:")
+        report_lines.append(f"  Nodes Added: {diff.nodes_added}")
+        report_lines.append(f"  Nodes Removed: {diff.nodes_removed}")
+        report_lines.append(f"  Nodes Modified: {diff.nodes_modified}")
+        report_lines.append(f"  Connections Added: {diff.connections_added}")
+        report_lines.append(f"  Connections Removed: {diff.connections_removed}")
+        report_lines.append(f"  Parameters Changed: {diff.parameters_changed}")
+        report_lines.append("")
+        
+        # Node Changes
+        if diff.node_diffs:
+            report_lines.append("NODE CHANGES:")
+            for node_diff in diff.node_diffs:
+                change_symbol = {
+                    "node_added": "+ ",
+                    "node_removed": "- ",
+                    "node_modified": "~ "
+                }.get(node_diff.change_type.value, "  ")
+                
+                report_lines.append(f"  {change_symbol}{node_diff.node_name} ({node_diff.node_id})")
+                report_lines.append(f"    Type: {node_diff.change_type.value.replace('_', ' ').title()}")
+                report_lines.append(f"    Severity: {node_diff.severity.value.upper()}")
+                report_lines.append(f"    Description: {node_diff.description}")
+                
+                if node_diff.parameter_changes:
+                    report_lines.append("    Parameter Changes:")
+                    for param_name, param_change in node_diff.parameter_changes.items():
+                        change_desc = f"      {param_name}: {param_change['change_type']}"
+                        if param_change['old_value'] is not None and param_change['new_value'] is not None:
+                            change_desc += f" ({param_change['old_value']} → {param_change['new_value']})"
+                        report_lines.append(change_desc)
+                
+                report_lines.append("")
+        
+        # Connection Changes
+        if diff.connection_diffs:
+            report_lines.append("CONNECTION CHANGES:")
+            for conn_diff in diff.connection_diffs:
+                change_symbol = {
+                    "connection_added": "+ ",
+                    "connection_removed": "- ",
+                    "connection_modified": "~ "
+                }.get(conn_diff.change_type.value, "  ")
+                
+                report_lines.append(f"  {change_symbol}{conn_diff.source_node} → {conn_diff.target_node}")
+                report_lines.append(f"    Type: {conn_diff.change_type.value.replace('_', ' ').title()}")
+                report_lines.append(f"    Connection Type: {conn_diff.connection_type}")
+                report_lines.append(f"    Description: {conn_diff.description}")
+                report_lines.append("")
+        
+        return "\n".join(report_lines)
+
+    def get_workflow_diff_history(self) -> List[Dict[str, Any]]:
+        """Get the history of workflow comparisons."""
+        history = workflow_differ.get_comparison_history()
+        return [diff.to_dict() for diff in history]
 
     def _mock_workflow_modification(self, workflow: Dict[str, Any], description: str) -> str:
         """Generate mock modification instructions for testing."""
@@ -1468,25 +1835,27 @@ CRITICAL: Return ONLY the JSON array, no other text, no thinking tags, no explan
             return json.dumps([{
                 "action": "add_node",
                 "details": {
-                    "node_id": str(len(workflow["nodes"]) + 1),
-                    "name": "Send Email",
+                    "node_id": "fallback_email",
+                    "name": "Email Fallback",
                     "node_type": "n8n-nodes-base.emailSend",
                     "parameters": {
                         "to": "user@example.com",
-                        "subject": "Workflow Update",
-                        "text": "Workflow has been updated"
+                        "subject": "Fallback Email",
+                        "text": "This email was generated by fallback logic"
                     }
-                }
+                },
+                "reasoning": "Fallback email node added due to LLM failure"
             }])
         else:
             return json.dumps([{
-                "action": "add_node", 
+                "action": "add_node",
                 "details": {
-                    "node_id": str(len(workflow["nodes"]) + 1),
-                    "name": "No Op",
+                    "node_id": "fallback_generic",
+                    "name": "Generic Fallback",
                     "node_type": "n8n-nodes-base.noOp",
                     "parameters": {}
-                }
+                },
+                "reasoning": "Generic fallback node added due to LLM failure"
             }])
 
     def _validate_workflow_structure(self, workflow: Dict[str, Any]) -> bool:
@@ -1515,11 +1884,123 @@ The workflow should:
 Return only the workflow JSON, no additional text or explanation."""
 
     async def _call_mimo_vl7b(self, prompt: str, max_retries: int = 3) -> str:
-        """Call the Mimo VL 7B API with enhanced error handling."""
+        """Call the Mimo VL 7B API with enhanced retry logic and intelligent failure handling."""
+        operation_id = f"llm_call_{int(time.time() * 1000)}"
+        endpoint_key = self.llm_config.endpoint or "default_llm"
+        
+        # Use the retry manager for intelligent handling
+        try:
+            result, retry_metrics = await self.retry_manager.execute_with_retry(
+                self._execute_llm_call,
+                operation_id,
+                "llm_api_call",
+                endpoint_key,
+                prompt
+            )
+            
+            # Log retry metrics if there were retries
+            if retry_metrics.total_attempts > 1 or retry_metrics.fallback_used:
+                logger.info(f"LLM call completed with retry handling [ID: {operation_id}]", extra={
+                    'operation_id': operation_id,
+                    'total_attempts': retry_metrics.total_attempts,
+                    'total_retry_time': retry_metrics.total_retry_time,
+                    'fallback_used': retry_metrics.fallback_used,
+                    'final_success': retry_metrics.final_success
+                })
+            
+            return result
+            
+        except Exception as e:
+            # If retry manager completely fails, fall back to original implementation
+            logger.warning(f"Retry manager failed, using original LLM implementation: {str(e)}")
+            return await self._call_mimo_vl7b_original(prompt, max_retries)
+
+    async def _execute_llm_call(self, prompt: str) -> str:
+        """Execute a single LLM API call (used by retry manager)."""
+        llm_logger.info(f"Executing LLM API call", extra={
+            'endpoint': self.llm_config.endpoint,
+            'model': self.llm_config.model,
+            'is_local': self.llm_config.is_local,
+            'prompt_length': len(prompt)
+        })
+        
+        if self.llm_config.is_local:
+            async with httpx.AsyncClient(timeout=1200.0) as client:  # 20 minute timeout
+                response = await client.post(
+                    self.llm_config.endpoint,
+                    json={
+                        "model": self.llm_config.model,
+                        "messages": [
+                            {"role": "system", "content": "You are an n8n workflow generation assistant. Always respond with valid JSON only."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        "temperature": self.llm_config.temperature,
+                        "max_tokens": self.llm_config.max_tokens
+                    }
+                )
+                response.raise_for_status()
+                
+                # Enhanced response validation
+                response_data = response.json()
+                if not response_data or "choices" not in response_data:
+                    raise ValueError("Invalid response structure from LLM API")
+                
+                if not response_data["choices"] or len(response_data["choices"]) == 0:
+                    raise ValueError("No choices returned from LLM API")
+                
+                content = response_data["choices"][0]["message"]["content"]
+                if not content or content.strip() == "":
+                    raise ValueError("Empty response content from LLM API")
+                
+                llm_logger.info(f"LLM call successful", extra={
+                    'response_length': len(content),
+                    'response_preview': content[:100] + '...' if len(content) > 100 else content
+                })
+                
+                logger.debug(f"LLM Response (first 200 chars): {content[:200]}...")
+                logger.info("Successfully received response from LLM")
+                return content.strip()
+        else:
+            if not self.llm_config.api_key:
+                raise ValueError("API key is required when not using local endpoint")
+            async with httpx.AsyncClient(timeout=1200.0) as client:
+                response = await client.post(
+                    self.llm_config.endpoint,
+                    headers={"Authorization": f"Bearer {self.llm_config.api_key}"},
+                    json={
+                        "model": self.llm_config.model,
+                        "messages": [
+                            {"role": "system", "content": "You are an n8n workflow generation assistant. Always respond with valid JSON only."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        "temperature": self.llm_config.temperature,
+                        "max_tokens": self.llm_config.max_tokens
+                    }
+                )
+                response.raise_for_status()
+                
+                # Enhanced response validation
+                response_data = response.json()
+                if not response_data or "choices" not in response_data:
+                    raise ValueError("Invalid response structure from LLM API")
+                
+                content = response_data["choices"][0]["message"]["content"]
+                if not content or content.strip() == "":
+                    raise ValueError("Empty response content from LLM API")
+                
+                llm_logger.info(f"LLM call successful", extra={
+                    'response_length': len(content),
+                    'endpoint_type': 'external'
+                })
+                
+                return content.strip()
+
+    async def _call_mimo_vl7b_original(self, prompt: str, max_retries: int = 3) -> str:
+        """Original LLM API calling implementation as fallback."""
         retry_count = 0
         last_error = None
         
-        llm_logger.info(f"Starting LLM call", extra={
+        llm_logger.info(f"Starting original LLM call fallback", extra={
             'endpoint': self.llm_config.endpoint,
             'model': self.llm_config.model,
             'is_local': self.llm_config.is_local,
@@ -1561,7 +2042,7 @@ Return only the workflow JSON, no additional text or explanation."""
                             raise ValueError("Empty response content from LLM API")
                         
                         attempt_time = time.time() - attempt_start
-                        llm_logger.info(f"LLM call successful", extra={
+                        llm_logger.info(f"Original LLM call successful", extra={
                             'attempt': retry_count + 1,
                             'response_time': attempt_time,
                             'response_length': len(content),
@@ -1569,7 +2050,7 @@ Return only the workflow JSON, no additional text or explanation."""
                         })
                         
                         logger.debug(f"LLM Response (first 200 chars): {content[:200]}...")
-                        logger.info("Successfully received response from LLM")
+                        logger.info("Successfully received response from original LLM implementation")
                         return content.strip()
                 else:
                     if not self.llm_config.api_key:
@@ -1600,7 +2081,7 @@ Return only the workflow JSON, no additional text or explanation."""
                             raise ValueError("Empty response content from LLM API")
                         
                         attempt_time = time.time() - attempt_start
-                        llm_logger.info(f"LLM call successful", extra={
+                        llm_logger.info(f"Original LLM call successful", extra={
                             'attempt': retry_count + 1,
                             'response_time': attempt_time,
                             'response_length': len(content),
@@ -1614,7 +2095,7 @@ Return only the workflow JSON, no additional text or explanation."""
                 last_error = e
                 retry_count += 1
                 
-                llm_logger.warning(f"LLM call timeout", extra={
+                llm_logger.warning(f"Original LLM call timeout", extra={
                     'attempt': retry_count,
                     'attempt_time': attempt_time,
                     'error': str(e),
@@ -1625,61 +2106,27 @@ Return only the workflow JSON, no additional text or explanation."""
                     logger.warning(f"Timeout on attempt {retry_count}, retrying...")
                     await asyncio.sleep(2 ** retry_count)  # Exponential backoff
                 continue
-            except httpx.HTTPStatusError as e:
-                attempt_time = time.time() - attempt_start
-                
-                llm_logger.error(f"LLM HTTP error", extra={
-                    'attempt': retry_count + 1,
-                    'attempt_time': attempt_time,
-                    'status_code': e.response.status_code,
-                    'response_text': e.response.text[:200],
-                    'retrying': retry_count + 1 < max_retries
-                })
-                
-                logger.error(f"HTTP error on attempt {retry_count + 1}: {e.response.status_code} - {e.response.text}")
-                last_error = e
-                retry_count += 1
-                if retry_count < max_retries:
-                    await asyncio.sleep(2)
-                continue
-            except ValueError as e:
-                attempt_time = time.time() - attempt_start
-                
-                llm_logger.error(f"LLM response validation error", extra={
-                    'attempt': retry_count + 1,
-                    'attempt_time': attempt_time,
-                    'error': str(e),
-                    'retrying': retry_count + 1 < max_retries
-                })
-                
-                logger.error(f"Response validation error on attempt {retry_count + 1}: {str(e)}")
-                last_error = e
-                retry_count += 1
-                if retry_count < max_retries:
-                    await asyncio.sleep(1)
-                continue
             except Exception as e:
                 attempt_time = time.time() - attempt_start
+                last_error = e
+                retry_count += 1
                 
-                llm_logger.error(f"LLM unexpected error", extra={
-                    'attempt': retry_count + 1,
+                llm_logger.error(f"Original LLM call error", extra={
+                    'attempt': retry_count,
                     'attempt_time': attempt_time,
                     'error_type': type(e).__name__,
                     'error': str(e),
-                    'retrying': retry_count + 1 < max_retries
+                    'retrying': retry_count < max_retries
                 })
                 
-                logger.error(f"Unexpected error on attempt {retry_count + 1}: {str(e)}", exc_info=True)
-                last_error = e
-                retry_count += 1
                 if retry_count < max_retries:
                     await asyncio.sleep(1)
                 continue
         
         # If we get here, all retries failed
-        error_message = f"Failed to get valid response from LLM after {max_retries} attempts. Last error: {str(last_error)}"
+        error_message = f"Failed to get valid response from original LLM after {max_retries} attempts. Last error: {str(last_error)}"
         
-        llm_logger.error(f"LLM call failed completely", extra={
+        llm_logger.error(f"Original LLM call failed completely", extra={
             'max_retries': max_retries,
             'final_error': str(last_error),
             'total_attempts': retry_count
