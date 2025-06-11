@@ -2,6 +2,13 @@
   "name": "File Processing Workflow",
   "nodes": [
     {
+      "id": "0",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {},
+      "position": [40, 300]
+    },
+    {
       "id": "1",
       "name": "Watch Folder",
       "type": "n8n-nodes-base.watchFolder",
@@ -43,6 +50,17 @@
     }
   ],
   "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Watch Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Watch Folder": {
       "main": [
         [

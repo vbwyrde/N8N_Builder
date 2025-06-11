@@ -1,0 +1,23 @@
+{
+  "targets": {
+    "workflow_loading": 0.1,
+    "workflow_validation": 0.05,
+    "simple_modification": 10.0,
+    "complex_modification": 20.0,
+    "iteration_cycle": 15.0,
+    "llm_call": 5.0
+  },
+  "results": {
+    "workflow_loading": 0.0,
+    "workflow_validation": 0.0,
+    "simple_modification": 26.927996397018433
+  },
+  "meets_targets": {
+    "workflow_loading": true,
+    "workflow_validation": true,
+    "simple_modification": false,
+    "complex_modification": false,
+    "iteration_cycle": false,
+    "llm_call": false
+  }
+}

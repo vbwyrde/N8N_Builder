@@ -1,0 +1,65 @@
+{
+  "test_suite": "N8N Builder Integration Tests",
+  "timestamp": "2025-06-11T00:24:13.830879",
+  "total_tests": 6,
+  "performance_metrics": {
+    "total_tests": 20,
+    "successful_tests": 20,
+    "workflow_load_stats": {
+      "count": 4,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "std": 0.0
+    },
+    "modify_workflow_stats": {
+      "count": 3,
+      "mean": 27.113240877787273,
+      "median": 26.879230260849,
+      "min": 26.81106686592102,
+      "max": 27.649425506591797,
+      "std": 0.46559857090278034
+    },
+    "iterate_workflow_stats": {
+      "count": 3,
+      "mean": 27.155772924423218,
+      "median": 27.133792877197266,
+      "min": 27.131435871124268,
+      "max": 27.20209002494812,
+      "std": 0.04012909443511614
+    },
+    "llm_call_stats": {
+      "count": 3,
+      "mean": 16.15340216954549,
+      "median": 11.01423168182373,
+      "min": 10.86986780166626,
+      "max": 26.576107025146484,
+      "std": 9.026615789580275
+    },
+    "validation_stats": {
+      "count": 5,
+      "mean": 0.00019998550415039061,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0009999275207519531,
+      "std": 0.00044718118179483976
+    },
+    "overall_stats": {
+      "count": 20,
+      "mean": 13.302771043777465,
+      "median": 10.942049741744995,
+      "min": 0.0,
+      "max": 27.649425506591797,
+      "std": 13.229625627518871
+    }
+  },
+  "llm_configuration": {
+    "endpoint": "http://localhost:1234/v1/chat/completions",
+    "model": "mimo-vl-7b",
+    "is_local": true,
+    "timeout": 30
+  },
+  "test_workflows_processed": 4,
+  "results_directory": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\tests\\integration_results"
+}

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -10,9 +10,11 @@ import uuid
 from datetime import datetime
 import os
 import logging
+from pathlib import Path
 
 from .n8n_builder import N8NBuilder
 from .validators import BaseWorkflowValidator, ValidationResult
+from .error_handler import EnhancedErrorHandler, ErrorDetail
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -39,6 +41,7 @@ app.add_middleware(
 # Initialize our components
 workflow_builder = N8NBuilder()
 workflow_validator = BaseWorkflowValidator()
+error_handler = EnhancedErrorHandler()
 
 class WorkflowRequest(BaseModel):
     description: str
@@ -172,7 +175,7 @@ async def iterate_workflow(request: WorkflowIterationRequest):
     )
 
 async def modify_workflow_events(request: WorkflowModificationRequest):
-    """Generate events for workflow modification process."""
+    """Generate events for workflow modification process with enhanced error handling."""
     workflow_id = request.workflow_id or str(uuid.uuid4())
     thread_id = request.thread_id or str(uuid.uuid4())
     run_id = request.run_id or str(uuid.uuid4())
@@ -187,6 +190,82 @@ async def modify_workflow_events(request: WorkflowModificationRequest):
     }) + "\n"
     
     try:
+        # Pre-validate inputs with enhanced error handling
+        yield json.dumps({
+            "type": "VALIDATION_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Validating workflow and modification request..."
+        }) + "\n"
+        
+        # Validate workflow JSON
+        workflow_validation_errors = error_handler.validate_workflow_input(request.existing_workflow_json)
+        if workflow_validation_errors:
+            validation_error_detail = error_handler.create_validation_error_summary(workflow_validation_errors)
+            
+            yield json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": validation_error_detail.category.value,
+                    "severity": validation_error_detail.severity.value,
+                    "title": validation_error_detail.title,
+                    "message": validation_error_detail.message,
+                    "user_guidance": validation_error_detail.user_guidance,
+                    "fix_suggestions": validation_error_detail.fix_suggestions,
+                    "technical_details": validation_error_detail.technical_details
+                }
+            }) + "\n"
+            return
+        
+        # Validate modification description
+        description_validation_errors = error_handler.validate_modification_description(request.modification_description)
+        if description_validation_errors:
+            description_error_detail = error_handler.create_validation_error_summary(description_validation_errors)
+            
+            yield json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": description_error_detail.category.value,
+                    "severity": description_error_detail.severity.value,
+                    "title": description_error_detail.title,
+                    "message": description_error_detail.message,
+                    "user_guidance": description_error_detail.user_guidance,
+                    "fix_suggestions": description_error_detail.fix_suggestions,
+                    "technical_details": description_error_detail.technical_details
+                }
+            }) + "\n"
+            return
+        
+        # Validation passed
+        yield json.dumps({
+            "type": "VALIDATION_COMPLETED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Input validation completed successfully"
+        }) + "\n"
+        
+        # Processing started
+        yield json.dumps({
+            "type": "PROCESSING_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Processing workflow modification..."
+        }) + "\n"
+        
         # Modify workflow
         modified_workflow_json = workflow_builder.modify_workflow(
             request.existing_workflow_json,
@@ -226,18 +305,32 @@ async def modify_workflow_events(request: WorkflowModificationRequest):
         }) + "\n"
         
     except Exception as e:
-        # Error event
+        # Enhanced error handling
+        error_detail = error_handler.categorize_error(e, {
+            'workflow_id': workflow_id,
+            'operation_type': 'api_modify_workflow'
+        })
+        
+        # Error event with detailed information
         yield json.dumps({
             "type": "MODIFICATION_ERROR",
             "workflow_id": workflow_id,
             "thread_id": thread_id,
             "run_id": run_id,
             "timestamp": datetime.now().isoformat(),
-            "error": str(e)
+            "error": {
+                "category": error_detail.category.value,
+                "severity": error_detail.severity.value,
+                "title": error_detail.title,
+                "message": error_detail.message,
+                "user_guidance": error_detail.user_guidance,
+                "fix_suggestions": error_detail.fix_suggestions,
+                "technical_details": error_detail.technical_details
+            }
         }) + "\n"
 
 async def iterate_workflow_events(request: WorkflowIterationRequest):
-    """Generate events for workflow iteration process."""
+    """Generate events for workflow iteration process with enhanced error handling."""
     workflow_id = request.workflow_id
     thread_id = request.thread_id or str(uuid.uuid4())
     run_id = request.run_id or str(uuid.uuid4())
@@ -252,6 +345,122 @@ async def iterate_workflow_events(request: WorkflowIterationRequest):
     }) + "\n"
     
     try:
+        # Pre-validate inputs with enhanced error handling
+        yield json.dumps({
+            "type": "VALIDATION_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Validating workflow and iteration request..."
+        }) + "\n"
+        
+        # Validate workflow ID
+        if not workflow_id or not workflow_id.strip():
+            error_detail = ErrorDetail(
+                category="input_validation",
+                severity="error",
+                title="Missing Workflow ID",
+                message="Workflow ID is required for iteration tracking",
+                user_guidance="Please provide a valid workflow ID to track iteration history",
+                fix_suggestions=[
+                    "Provide a unique workflow ID string",
+                    "Use a descriptive name like 'my-email-workflow' or 'customer-onboarding'"
+                ]
+            )
+            
+            yield json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": error_detail.category.value,
+                    "severity": error_detail.severity.value,
+                    "title": error_detail.title,
+                    "message": error_detail.message,
+                    "user_guidance": error_detail.user_guidance,
+                    "fix_suggestions": error_detail.fix_suggestions
+                }
+            }) + "\n"
+            return
+        
+        # Validate workflow JSON
+        workflow_validation_errors = error_handler.validate_workflow_input(request.existing_workflow_json)
+        if workflow_validation_errors:
+            validation_error_detail = error_handler.create_validation_error_summary(workflow_validation_errors)
+            
+            yield json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": validation_error_detail.category.value,
+                    "severity": validation_error_detail.severity.value,
+                    "title": validation_error_detail.title,
+                    "message": validation_error_detail.message,
+                    "user_guidance": validation_error_detail.user_guidance,
+                    "fix_suggestions": validation_error_detail.fix_suggestions,
+                    "technical_details": validation_error_detail.technical_details
+                }
+            }) + "\n"
+            return
+        
+        # Validate feedback from testing
+        if not request.feedback_from_testing or not request.feedback_from_testing.strip():
+            error_detail = ErrorDetail(
+                category="input_validation",
+                severity="error",
+                title="Missing Testing Feedback",
+                message="Testing feedback is required for workflow iteration",
+                user_guidance="Please provide feedback about how the workflow performed during testing",
+                fix_suggestions=[
+                    "Describe what worked well: 'The email sending works correctly'",
+                    "Describe what needs improvement: 'The error handling needs to be more robust'",
+                    "Provide specific issues: 'The workflow fails when the API is unavailable'"
+                ]
+            )
+            
+            yield json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": error_detail.category.value,
+                    "severity": error_detail.severity.value,
+                    "title": error_detail.title,
+                    "message": error_detail.message,
+                    "user_guidance": error_detail.user_guidance,
+                    "fix_suggestions": error_detail.fix_suggestions
+                }
+            }) + "\n"
+            return
+        
+        # Validation passed
+        yield json.dumps({
+            "type": "VALIDATION_COMPLETED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Input validation completed successfully"
+        }) + "\n"
+        
+        # Processing started
+        yield json.dumps({
+            "type": "PROCESSING_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Processing workflow iteration..."
+        }) + "\n"
+        
         # Iterate workflow
         iterated_workflow_json = workflow_builder.iterate_workflow(
             request.workflow_id,
@@ -292,14 +501,28 @@ async def iterate_workflow_events(request: WorkflowIterationRequest):
         }) + "\n"
         
     except Exception as e:
-        # Error event
+        # Enhanced error handling
+        error_detail = error_handler.categorize_error(e, {
+            'workflow_id': workflow_id,
+            'operation_type': 'api_iterate_workflow'
+        })
+        
+        # Error event with detailed information
         yield json.dumps({
             "type": "ITERATION_ERROR",
             "workflow_id": workflow_id,
             "thread_id": thread_id,
             "run_id": run_id,
             "timestamp": datetime.now().isoformat(),
-            "error": str(e)
+            "error": {
+                "category": error_detail.category.value,
+                "severity": error_detail.severity.value,
+                "title": error_detail.title,
+                "message": error_detail.message,
+                "user_guidance": error_detail.user_guidance,
+                "fix_suggestions": error_detail.fix_suggestions,
+                "technical_details": error_detail.technical_details
+            }
         }) + "\n"
 
 @app.get("/iterations/{workflow_id}")

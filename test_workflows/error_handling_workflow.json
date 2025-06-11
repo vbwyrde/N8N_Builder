@@ -1,0 +1,106 @@
+{
+  "name": "Error Handling Demo",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {},
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Risky Operation",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.unreliable.com/data",
+        "method": "GET"
+      },
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Success Handler",
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "success"
+            }
+          ]
+        }
+      },
+      "position": [
+        680,
+        200
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "error"
+            },
+            {
+              "name": "error_message",
+              "value": "={{$json.error}}"
+            }
+          ]
+        }
+      },
+      "position": [
+        680,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Risky Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risky Operation": {
+      "main": [
+        [
+          {
+            "node": "Success Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "error": [
+        [
+          {
+            "node": "Error Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": true,
+  "version": 1
+}

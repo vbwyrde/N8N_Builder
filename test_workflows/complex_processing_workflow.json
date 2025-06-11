@@ -1,0 +1,168 @@
+{
+  "name": "Complex Data Processing Pipeline",
+  "nodes": [
+    {
+      "id": "0",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {},
+      "position": [
+        40,
+        300
+      ]
+    },
+    {
+      "id": "1",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.example.com/data",
+        "method": "GET"
+      },
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "id": "2",
+      "name": "JSON Filter",
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "filtered_data",
+              "value": "={{$json.data.filter(item => item.status === 'active')}}"
+            }
+          ]
+        }
+      },
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "parameters": {
+        "batchSize": 5
+      },
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Process Batch",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "// Process each batch\nconst results = [];\nfor (const item of items) {\n  results.push({\n    id: item.json.id,\n    processed: true,\n    timestamp: new Date().toISOString()\n  });\n}\nreturn results.map(r => ({json: r}));"
+      },
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "parameters": {
+        "mode": "append"
+      },
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Send Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.example.com/results",
+        "method": "POST",
+        "body": "={{JSON.stringify($json)}}"
+      },
+      "position": [
+        1340,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "JSON Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Filter": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Process Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Batch": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": true,
+  "version": 1
+}

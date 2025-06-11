@@ -1,0 +1,181 @@
+[
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "load_workflow",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\basic_email_workflow.json",
+    "workflow_size_bytes": 763
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "validation",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\basic_email_workflow.json"
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "load_workflow",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\complex_processing_workflow.json",
+    "workflow_size_bytes": 3241
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "validation",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\complex_processing_workflow.json"
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "load_workflow",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\error_handling_workflow.json",
+    "workflow_size_bytes": 1886
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "validation",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\error_handling_workflow.json"
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "load_workflow",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\file_processing_workflow.json",
+    "workflow_size_bytes": 2101
+  },
+  {
+    "test_name": "test_01_workflow_loading",
+    "operation": "validation",
+    "duration_seconds": 0.0,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:20.808909",
+    "workflow_file": "C:\\Users\\mabramsR\\source\\Cursor_Workspaces\\N8N_Builder\\test_workflows\\file_processing_workflow.json"
+  },
+  {
+    "test_name": "test_02_modification",
+    "operation": "modify_workflow",
+    "duration_seconds": 27.649425506591797,
+    "success": true,
+    "timestamp": "2025-06-11T00:19:48.460334",
+    "description": "Add error handling to the email workflow",
+    "original_size": 763,
+    "modified_size": 763
+  },
+  {
+    "test_name": "test_02_modification",
+    "operation": "modify_workflow",
+    "duration_seconds": 26.879230260849,
+    "success": true,
+    "timestamp": "2025-06-11T00:20:15.339564",
+    "description": "Add logging node to track email sending",
+    "original_size": 763,
+    "modified_size": 527
+  },
+  {
+    "test_name": "test_02_modification",
+    "operation": "modify_workflow",
+    "duration_seconds": 26.81106686592102,
+    "success": true,
+    "timestamp": "2025-06-11T00:20:42.150631",
+    "description": "Add delay between email sends to avoid rate limiting",
+    "original_size": 763,
+    "modified_size": 763
+  },
+  {
+    "test_name": "test_03_iteration",
+    "operation": "iterate_workflow",
+    "duration_seconds": 27.20209002494812,
+    "success": true,
+    "timestamp": "2025-06-11T00:21:09.355720",
+    "workflow_id": "file-proc-v1",
+    "feedback_length": 87,
+    "requirements_length": 47
+  },
+  {
+    "test_name": "test_03_iteration",
+    "operation": "iterate_workflow",
+    "duration_seconds": 27.133792877197266,
+    "success": true,
+    "timestamp": "2025-06-11T00:21:36.499775",
+    "workflow_id": "file-proc-v2",
+    "feedback_length": 68,
+    "requirements_length": 52
+  },
+  {
+    "test_name": "test_03_iteration",
+    "operation": "iterate_workflow",
+    "duration_seconds": 27.131435871124268,
+    "success": true,
+    "timestamp": "2025-06-11T00:22:03.641644",
+    "workflow_id": "file-proc-v3",
+    "feedback_length": 69,
+    "requirements_length": 49
+  },
+  {
+    "test_name": "test_04_llm_performance",
+    "operation": "llm_call",
+    "duration_seconds": 10.86986780166626,
+    "success": true,
+    "timestamp": "2025-06-11T00:22:14.516263",
+    "prompt_length": 68,
+    "response_length": 3611
+  },
+  {
+    "test_name": "test_04_llm_performance",
+    "operation": "llm_call",
+    "duration_seconds": 26.576107025146484,
+    "success": true,
+    "timestamp": "2025-06-11T00:22:41.092370",
+    "prompt_length": 107,
+    "response_length": 9238
+  },
+  {
+    "test_name": "test_04_llm_performance",
+    "operation": "llm_call",
+    "duration_seconds": 11.01423168182373,
+    "success": true,
+    "timestamp": "2025-06-11T00:22:52.106601",
+    "prompt_length": 79,
+    "response_length": 4094
+  },
+  {
+    "test_name": "test_05_complex_handling",
+    "operation": "validation",
+    "duration_seconds": 0.0009999275207519531,
+    "success": true,
+    "timestamp": "2025-06-11T00:22:52.111710",
+    "description": "Validate complex workflow structure"
+  },
+  {
+    "test_name": "test_05_complex_handling",
+    "operation": "modification",
+    "duration_seconds": 27.460657596588135,
+    "success": true,
+    "timestamp": "2025-06-11T00:23:19.572367",
+    "description": "Add monitoring and alerting to the complex pipeline"
+  },
+  {
+    "test_name": "test_05_complex_handling",
+    "operation": "iteration",
+    "duration_seconds": 27.326515436172485,
+    "success": true,
+    "timestamp": "2025-06-11T00:23:46.898883",
+    "description": "Optimize complex workflow based on performance feedback"
+  }
+]

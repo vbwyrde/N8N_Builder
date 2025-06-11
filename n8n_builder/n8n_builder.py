@@ -10,6 +10,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .config import config
+from .error_handler import EnhancedErrorHandler, ErrorDetail, ValidationError as EValidationError
+from .validators import EdgeCaseValidator, EdgeCaseValidationResult
+from .performance_optimizer import performance_optimizer, PerformanceMetrics
 
 # Configure enhanced logging for iteration operations
 logging.basicConfig(
@@ -100,13 +103,32 @@ class WorkflowFeedback:
 
 class N8NBuilder:
     def __init__(self):
+        """Initialize N8N Builder with enhanced error handling and performance optimization."""
         self.documentation_path = Path("NN_Builder.md")
         self.node_types: Dict[str, NodeTypeInfo] = {}
         self.workflow_patterns: Dict[str, WorkflowPattern] = {}
         self.feedback_log: List[WorkflowFeedback] = []
         self.llm_config = config.mimo_llm
         logger.info(f"N8N Builder LLM Config: endpoint={self.llm_config.endpoint}, is_local={self.llm_config.is_local}, model={self.llm_config.model}")
-        self.initialize_builder()
+        self.iteration_history = {}
+        
+        # Initialize enhanced error handling
+        self.error_handler = EnhancedErrorHandler()
+        
+        # Initialize edge case validator
+        self.edge_case_validator = EdgeCaseValidator()
+        
+        # Initialize performance optimizer (global instance)
+        self.performance_optimizer = performance_optimizer
+        logger.info("Performance optimizer initialized for large workflow processing")
+        
+        try:
+            self.initialize_builder()
+        except Exception as e:
+            error_detail = self.error_handler.categorize_error(e, {"context": "initialization"})
+            logger.error(f"Error initializing N8N Builder: {error_detail.title} - {error_detail.message}")
+            if error_detail.fix_suggestions:
+                logger.info(f"Suggestions: {'; '.join(error_detail.fix_suggestions)}")
 
     def generate_workflow(self, plain_english_description: str) -> str:
         """Generate an n8n workflow from a plain English description."""
@@ -417,17 +439,89 @@ class N8NBuilder:
             'modification_description': modification_description[:100] + '...' if len(modification_description) > 100 else modification_description
         })
         
-        # Input validation
+        # Enhanced input validation with detailed feedback
         validation_start = time.time()
-        validation_error = self._validate_modify_inputs(existing_workflow_json, modification_description, workflow_id)
-        metrics.validation_time = time.time() - validation_start
         
-        if validation_error:
-            metrics.finish(success=False, error_message=f"Input validation failed: {validation_error}")
-            iteration_logger.error(f"Input validation failed [ID: {metrics.operation_id}]: {validation_error}")
-            performance_logger.info(f"Modify operation failed", extra=metrics.to_dict())
+        # Validate workflow JSON
+        workflow_validation_errors = self.error_handler.validate_workflow_input(existing_workflow_json)
+        if workflow_validation_errors:
+            validation_error_detail = self.error_handler.create_validation_error_summary(workflow_validation_errors)
+            metrics.finish(success=False, error_message=validation_error_detail.message)
+            
+            iteration_logger.error(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {validation_error_detail.user_guidance}")
+            if validation_error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(validation_error_detail.fix_suggestions)}")
+            
+            performance_logger.info(f"Modify operation failed due to validation", extra=metrics.to_dict())
             return existing_workflow_json
         
+        # Validate modification description
+        description_validation_errors = self.error_handler.validate_modification_description(modification_description)
+        if description_validation_errors:
+            description_error_detail = self.error_handler.create_validation_error_summary(description_validation_errors)
+            metrics.finish(success=False, error_message=description_error_detail.message)
+            
+            iteration_logger.error(f"Description validation failed [ID: {metrics.operation_id}]: {description_error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {description_error_detail.user_guidance}")
+            if description_error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(description_error_detail.fix_suggestions)}")
+            
+            performance_logger.info(f"Modify operation failed due to description validation", extra=metrics.to_dict())
+            return existing_workflow_json
+        
+        metrics.validation_time = time.time() - validation_start
+        
+        # Enhanced Edge Case Validation
+        edge_case_start = time.time()
+        try:
+            edge_case_result = self.edge_case_validator.validate_edge_cases(
+                existing_workflow_json, 
+                modification_description
+            )
+            
+            if not edge_case_result.is_valid:
+                metrics.finish(success=False, error_message=f"Edge case validation failed: {'; '.join(edge_case_result.errors)}")
+                
+                iteration_logger.error(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected")
+                iteration_logger.info(f"Edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
+                
+                # Log specific edge case errors
+                for error in edge_case_result.errors:
+                    iteration_logger.error(f"Edge case error [ID: {metrics.operation_id}]: {error}")
+                
+                # Log edge case suggestions
+                if edge_case_result.suggestions:
+                    iteration_logger.info(f"Edge case suggestions [ID: {metrics.operation_id}]: {'; '.join(edge_case_result.suggestions)}")
+                
+                performance_logger.info(f"Modify operation failed due to edge case validation", extra=metrics.to_dict())
+                return existing_workflow_json
+            
+            # Log edge case warnings and performance metrics
+            if edge_case_result.warnings:
+                iteration_logger.warning(f"Edge case warnings [ID: {metrics.operation_id}]: {'; '.join(edge_case_result.warnings)}")
+            
+            if edge_case_result.edge_cases_detected:
+                iteration_logger.info(f"Non-critical edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
+            
+            # Add edge case metrics to our tracking
+            edge_case_time = time.time() - edge_case_start
+            metrics.validation_time += edge_case_time
+            
+            iteration_logger.info(f"Edge case validation completed [ID: {metrics.operation_id}]", extra={
+                'operation_id': metrics.operation_id,
+                'edge_case_time': edge_case_time,
+                'edge_cases_detected': len(edge_case_result.edge_cases_detected),
+                'warnings_count': len(edge_case_result.warnings),
+                'performance_metrics': edge_case_result.performance_metrics
+            })
+            
+        except Exception as e:
+            edge_case_time = time.time() - edge_case_start
+            metrics.validation_time += edge_case_time
+            iteration_logger.warning(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}")
+            # Continue with normal processing if edge case validation fails
+
         try:
             # 1. Parse and validate existing workflow
             existing_workflow = json.loads(existing_workflow_json)
@@ -440,11 +534,23 @@ class N8NBuilder:
             })
             
             if not self._validate_workflow_structure(existing_workflow):
-                error_msg = "Invalid existing workflow structure"
-                metrics.finish(success=False, error_message=error_msg)
-                iteration_logger.error(f"Workflow structure validation failed [ID: {metrics.operation_id}]")
+                error_detail = ErrorDetail(
+                    category="workflow_structure",
+                    severity="error",
+                    title="Invalid Workflow Structure",
+                    message="The existing workflow has structural issues that prevent modification",
+                    user_guidance="Please ensure your workflow has the correct structure with required fields",
+                    fix_suggestions=[
+                        "Check that your workflow has 'name', 'nodes', and 'connections' fields",
+                        "Ensure all nodes have 'id', 'name', and 'type' fields",
+                        "Verify that connections reference existing nodes"
+                    ]
+                )
+                metrics.finish(success=False, error_message=error_detail.message)
+                iteration_logger.error(f"Workflow structure validation failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
                 performance_logger.info(f"Modify operation failed", extra=metrics.to_dict())
-                raise ValueError(error_msg)
+                return existing_workflow_json
 
             # 2. Analyze the existing workflow
             analysis_start = time.time()
@@ -462,7 +568,7 @@ class N8NBuilder:
             # 3. Build modification prompt
             prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
             
-            # 4. Get modification instructions from LLM
+            # 4. Get modification instructions from LLM with enhanced error handling
             llm_start = time.time()
             try:
                 modifications_response = asyncio.run(self._call_mimo_vl7b(prompt))
@@ -477,33 +583,50 @@ class N8NBuilder:
                 
             except Exception as e:
                 llm_error_time = time.time() - llm_start
-                error_msg = f"LLM call failed: {str(e)}"
-                metrics.finish(success=False, error_message=error_msg)
-                
-                llm_logger.error(f"LLM call failed [ID: {metrics.operation_id}]", extra={
+                error_detail = self.error_handler.create_llm_error_guidance(e, {
                     'operation_id': metrics.operation_id,
-                    'llm_time': llm_error_time,
-                    'error': str(e)
+                    'operation_type': 'modify_workflow',
+                    'workflow_id': workflow_id
                 })
+                
+                llm_logger.error(f"LLM call failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                llm_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+                if error_detail.fix_suggestions:
+                    llm_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
                 
                 iteration_logger.warning(f"LLM failed, using mock response [ID: {metrics.operation_id}]")
                 modifications_response = self._mock_workflow_modification(existing_workflow, modification_description)
                 metrics.llm_calls_count = 0
                 metrics.llm_total_time = llm_error_time
 
-            # 5. Apply modifications
+            # 5. Apply modifications with enhanced error handling
             modification_start = time.time()
-            modified_workflow = self._apply_workflow_modifications(existing_workflow, modifications_response)
-            modification_time = time.time() - modification_start
-            metrics.nodes_after = len(modified_workflow.get('nodes', []))
-            
-            iteration_logger.info(f"Modifications applied [ID: {metrics.operation_id}]", extra={
-                'operation_id': metrics.operation_id,
-                'modification_time': modification_time,
-                'nodes_before': metrics.nodes_before,
-                'nodes_after': metrics.nodes_after,
-                'nodes_changed': metrics.nodes_after - metrics.nodes_before
-            })
+            try:
+                modified_workflow = self._apply_workflow_modifications(existing_workflow, modifications_response)
+                modification_time = time.time() - modification_start
+                metrics.nodes_after = len(modified_workflow.get('nodes', []))
+                
+                iteration_logger.info(f"Modifications applied [ID: {metrics.operation_id}]", extra={
+                    'operation_id': metrics.operation_id,
+                    'modification_time': modification_time,
+                    'nodes_before': metrics.nodes_before,
+                    'nodes_after': metrics.nodes_after,
+                    'nodes_changed': metrics.nodes_after - metrics.nodes_before
+                })
+                
+            except Exception as e:
+                error_detail = self.error_handler.categorize_error(e, {
+                    'operation_id': metrics.operation_id,
+                    'operation_type': 'apply_modifications',
+                    'workflow_id': workflow_id
+                })
+                
+                iteration_logger.error(f"Modification application failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+                
+                # Return original workflow on modification failure
+                modified_workflow = existing_workflow
+                metrics.nodes_after = metrics.nodes_before
 
             # 6. Validate the modified workflow
             validation_start = time.time()
@@ -514,6 +637,7 @@ class N8NBuilder:
             if not is_valid:
                 validation_logger.warning(f"Modified workflow failed validation [ID: {metrics.operation_id}], returning original")
                 iteration_logger.warning(f"Returning original workflow due to validation failure [ID: {metrics.operation_id}]")
+                iteration_logger.info(f"Validation guidance [ID: {metrics.operation_id}]: The modified workflow contains structural issues. Using original workflow to prevent errors.")
                 metrics.nodes_after = metrics.nodes_before  # Reset since we're returning original
                 modified_workflow_json = existing_workflow_json
 
@@ -545,17 +669,21 @@ class N8NBuilder:
             return modified_workflow_json
             
         except Exception as e:
-            error_msg = f"Error modifying workflow: {str(e)}"
-            metrics.finish(success=False, error_message=error_msg)
-            
-            iteration_logger.error(f"Workflow modification failed [ID: {metrics.operation_id}]", extra={
+            error_detail = self.error_handler.categorize_error(e, {
                 'operation_id': metrics.operation_id,
-                'error': str(e),
-                'duration': metrics.duration_seconds
+                'operation_type': 'modify_workflow',
+                'workflow_id': workflow_id
             })
             
+            metrics.finish(success=False, error_message=error_detail.message)
+            
+            iteration_logger.error(f"Workflow modification failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+            if error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
+            
             performance_logger.error(f"Workflow modification failed", extra=metrics.to_dict())
-            logger.error(error_msg)
+            logger.error(f"Workflow modification failed: {error_detail.title} - {error_detail.message}")
             return existing_workflow_json
 
     def iterate_workflow(self, workflow_id: str, existing_workflow_json: str, 
@@ -574,21 +702,152 @@ class N8NBuilder:
             'has_additional_requirements': bool(additional_requirements)
         })
         
-        # Input validation
+        # Enhanced input validation with detailed feedback
         validation_start = time.time()
-        validation_error = self._validate_iterate_inputs(workflow_id, existing_workflow_json, feedback_from_testing, additional_requirements)
-        metrics.validation_time = time.time() - validation_start
         
-        if validation_error:
-            metrics.finish(success=False, error_message=f"Input validation failed: {validation_error}")
-            iteration_logger.error(f"Input validation failed [ID: {metrics.operation_id}]: {validation_error}")
-            performance_logger.info(f"Iterate operation failed", extra=metrics.to_dict())
+        # Validate workflow ID
+        if not workflow_id or not workflow_id.strip():
+            error_detail = ErrorDetail(
+                category="input_validation",
+                severity="error",
+                title="Missing Workflow ID",
+                message="Workflow ID is required for iteration tracking",
+                user_guidance="Please provide a valid workflow ID to track iteration history",
+                fix_suggestions=[
+                    "Provide a unique workflow ID string",
+                    "Use a descriptive name like 'my-email-workflow' or 'customer-onboarding'"
+                ]
+            )
+            metrics.finish(success=False, error_message=error_detail.message)
+            iteration_logger.error(f"Workflow ID validation failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+            performance_logger.info(f"Iterate operation failed due to workflow ID validation", extra=metrics.to_dict())
             return existing_workflow_json
         
+        # Validate workflow JSON
+        workflow_validation_errors = self.error_handler.validate_workflow_input(existing_workflow_json)
+        if workflow_validation_errors:
+            validation_error_detail = self.error_handler.create_validation_error_summary(workflow_validation_errors)
+            metrics.finish(success=False, error_message=validation_error_detail.message)
+            
+            iteration_logger.error(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {validation_error_detail.user_guidance}")
+            if validation_error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(validation_error_detail.fix_suggestions)}")
+            
+            performance_logger.info(f"Iterate operation failed due to workflow validation", extra=metrics.to_dict())
+            return existing_workflow_json
+        
+        # Validate feedback from testing
+        if not feedback_from_testing or not feedback_from_testing.strip():
+            error_detail = ErrorDetail(
+                category="input_validation",
+                severity="error",
+                title="Missing Testing Feedback",
+                message="Testing feedback is required for workflow iteration",
+                user_guidance="Please provide feedback about how the workflow performed during testing",
+                fix_suggestions=[
+                    "Describe what worked well: 'The email sending works correctly'",
+                    "Describe what needs improvement: 'The error handling needs to be more robust'",
+                    "Provide specific issues: 'The workflow fails when the API is unavailable'"
+                ]
+            )
+            metrics.finish(success=False, error_message=error_detail.message)
+            iteration_logger.error(f"Feedback validation failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+            performance_logger.info(f"Iterate operation failed due to feedback validation", extra=metrics.to_dict())
+            return existing_workflow_json
+        
+        # Validate feedback length and quality
+        feedback_validation_errors = self.error_handler.validate_modification_description(feedback_from_testing)
+        if feedback_validation_errors:
+            feedback_error_detail = self.error_handler.create_validation_error_summary(feedback_validation_errors)
+            metrics.finish(success=False, error_message=feedback_error_detail.message)
+            
+            iteration_logger.error(f"Feedback quality validation failed [ID: {metrics.operation_id}]: {feedback_error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {feedback_error_detail.user_guidance}")
+            if feedback_error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(feedback_error_detail.fix_suggestions)}")
+            
+            performance_logger.info(f"Iterate operation failed due to feedback quality", extra=metrics.to_dict())
+            return existing_workflow_json
+        
+        metrics.validation_time = time.time() - validation_start
+        
+        # Enhanced Edge Case Validation for Iteration
+        edge_case_start = time.time()
         try:
-            # Parse existing workflow
-            existing_workflow = json.loads(existing_workflow_json)
-            metrics.nodes_before = len(existing_workflow.get('nodes', []))
+            # Combine feedback and additional requirements for edge case validation
+            combined_description = f"FEEDBACK FROM TESTING: {feedback_from_testing}"
+            if additional_requirements:
+                combined_description += f"\n\nADDITIONAL REQUIREMENTS: {additional_requirements}"
+            
+            edge_case_result = self.edge_case_validator.validate_edge_cases(
+                existing_workflow_json, 
+                combined_description
+            )
+            
+            if not edge_case_result.is_valid:
+                metrics.finish(success=False, error_message=f"Edge case validation failed: {'; '.join(edge_case_result.errors)}")
+                
+                iteration_logger.error(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected")
+                iteration_logger.info(f"Edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
+                
+                # Log specific edge case errors
+                for error in edge_case_result.errors:
+                    iteration_logger.error(f"Edge case error [ID: {metrics.operation_id}]: {error}")
+                
+                # Log edge case suggestions
+                if edge_case_result.suggestions:
+                    iteration_logger.info(f"Edge case suggestions [ID: {metrics.operation_id}]: {'; '.join(edge_case_result.suggestions)}")
+                
+                performance_logger.info(f"Iterate operation failed due to edge case validation", extra=metrics.to_dict())
+                return existing_workflow_json
+            
+            # Log edge case warnings and performance metrics
+            if edge_case_result.warnings:
+                iteration_logger.warning(f"Edge case warnings [ID: {metrics.operation_id}]: {'; '.join(edge_case_result.warnings)}")
+            
+            if edge_case_result.edge_cases_detected:
+                iteration_logger.info(f"Non-critical edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
+            
+            # Add edge case metrics to our tracking
+            edge_case_time = time.time() - edge_case_start
+            metrics.validation_time += edge_case_time
+            
+            iteration_logger.info(f"Edge case validation completed [ID: {metrics.operation_id}]", extra={
+                'operation_id': metrics.operation_id,
+                'edge_case_time': edge_case_time,
+                'edge_cases_detected': len(edge_case_result.edge_cases_detected),
+                'warnings_count': len(edge_case_result.warnings),
+                'performance_metrics': edge_case_result.performance_metrics
+            })
+            
+        except Exception as e:
+            edge_case_time = time.time() - edge_case_start
+            metrics.validation_time += edge_case_time
+            iteration_logger.warning(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}")
+            # Continue with normal processing if edge case validation fails
+
+        try:
+            # Parse existing workflow with enhanced error handling
+            try:
+                existing_workflow = json.loads(existing_workflow_json)
+                metrics.nodes_before = len(existing_workflow.get('nodes', []))
+            except json.JSONDecodeError as e:
+                error_detail = self.error_handler.create_json_error_guidance(e, {
+                    'operation_id': metrics.operation_id,
+                    'operation_type': 'iterate_workflow'
+                })
+                metrics.finish(success=False, error_message=error_detail.message)
+                
+                iteration_logger.error(f"JSON parsing failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+                if error_detail.fix_suggestions:
+                    iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
+                
+                performance_logger.error(f"Iterate operation failed due to JSON parsing", extra=metrics.to_dict())
+                return existing_workflow_json
             
             iteration_logger.info(f"Parsed workflow for iteration [ID: {metrics.operation_id}]", extra={
                 'operation_id': metrics.operation_id,
@@ -619,25 +878,45 @@ class N8NBuilder:
                 'combined_description_length': len(combined_description)
             })
 
-            # Get workflow iteration suggestions using modify_workflow method
+            # Get workflow iteration suggestions using modify_workflow method with enhanced error handling
             iteration_start = time.time()
-            iterated_workflow_json = self.modify_workflow(
-                existing_workflow_json, 
-                combined_description, 
-                workflow_id
-            )
-            iteration_time = time.time() - iteration_start
-            
-            # Parse the iterated workflow to get metrics
             try:
-                iterated_workflow = json.loads(iterated_workflow_json)
-                metrics.nodes_after = len(iterated_workflow.get('nodes', []))
-            except:
+                iterated_workflow_json = self.modify_workflow(
+                    existing_workflow_json, 
+                    combined_description, 
+                    workflow_id
+                )
+                iteration_time = time.time() - iteration_start
+                
+                # Parse the iterated workflow to get metrics
+                try:
+                    iterated_workflow = json.loads(iterated_workflow_json)
+                    metrics.nodes_after = len(iterated_workflow.get('nodes', []))
+                except json.JSONDecodeError:
+                    metrics.nodes_after = metrics.nodes_before
+                    iteration_logger.warning(f"Could not parse iterated workflow JSON [ID: {metrics.operation_id}]")
+                
+            except Exception as e:
+                error_detail = self.error_handler.categorize_error(e, {
+                    'operation_id': metrics.operation_id,
+                    'operation_type': 'iteration_modification',
+                    'workflow_id': workflow_id
+                })
+                
+                iteration_logger.error(f"Iteration modification failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+                if error_detail.fix_suggestions:
+                    iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
+                
+                # Return original workflow on iteration failure
+                iterated_workflow_json = existing_workflow_json
+                iteration_time = time.time() - iteration_start
                 metrics.nodes_after = metrics.nodes_before
             
             # Check if iteration actually resulted in changes
             if iterated_workflow_json == existing_workflow_json:
                 iteration_logger.warning(f"Workflow iteration did not result in changes [ID: {metrics.operation_id}]")
+                iteration_logger.info(f"Iteration guidance [ID: {metrics.operation_id}]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.")
             else:
                 iteration_logger.info(f"Workflow iteration resulted in changes [ID: {metrics.operation_id}]", extra={
                     'operation_id': metrics.operation_id,
@@ -645,17 +924,21 @@ class N8NBuilder:
                 })
 
             # Track this specific iteration
-            self._track_workflow_iteration(
-                workflow_id, 
-                existing_workflow_json, 
-                iterated_workflow_json,
-                f"ITERATION - Feedback: {feedback_from_testing[:50]}{'...' if len(feedback_from_testing) > 50 else ''}"
-            )
-            
-            iteration_logger.info(f"Iteration tracked in history [ID: {metrics.operation_id}]", extra={
-                'operation_id': metrics.operation_id,
-                'workflow_id': workflow_id
-            })
+            try:
+                self._track_workflow_iteration(
+                    workflow_id, 
+                    existing_workflow_json, 
+                    iterated_workflow_json,
+                    f"ITERATION - Feedback: {feedback_from_testing[:50]}{'...' if len(feedback_from_testing) > 50 else ''}"
+                )
+                
+                iteration_logger.info(f"Iteration tracked in history [ID: {metrics.operation_id}]", extra={
+                    'operation_id': metrics.operation_id,
+                    'workflow_id': workflow_id
+                })
+                
+            except Exception as e:
+                iteration_logger.warning(f"Failed to track iteration [ID: {metrics.operation_id}]: {str(e)}")
 
             # Finalize metrics and log performance
             metrics.finish(success=True)
@@ -673,17 +956,21 @@ class N8NBuilder:
             return iterated_workflow_json
             
         except Exception as e:
-            error_msg = f"Error iterating workflow: {str(e)}"
-            metrics.finish(success=False, error_message=error_msg)
-            
-            iteration_logger.error(f"Workflow iteration failed [ID: {metrics.operation_id}]", extra={
+            error_detail = self.error_handler.categorize_error(e, {
                 'operation_id': metrics.operation_id,
-                'error': str(e),
-                'duration': metrics.duration_seconds
+                'operation_type': 'iterate_workflow',
+                'workflow_id': workflow_id
             })
             
+            metrics.finish(success=False, error_message=error_detail.message)
+            
+            iteration_logger.error(f"Workflow iteration failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
+            if error_detail.fix_suggestions:
+                iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
+            
             performance_logger.error(f"Workflow iteration failed", extra=metrics.to_dict())
-            logger.error(error_msg)
+            logger.error(f"Workflow iteration failed: {error_detail.title} - {error_detail.message}")
             return existing_workflow_json
 
     def _validate_modify_inputs(self, existing_workflow_json: str, modification_description: str, workflow_id: Optional[str] = None) -> Optional[str]:
@@ -743,7 +1030,30 @@ class N8NBuilder:
         return None
 
     def _analyze_workflow(self, workflow: Dict[str, Any]) -> Dict[str, Any]:
-        """Analyze a workflow structure to understand its components and flow."""
+        """Analyze a workflow structure to understand its components and flow with performance optimization."""
+        # Convert workflow to JSON string for performance optimization
+        workflow_json = json.dumps(workflow)
+        
+        # Use performance optimizer for large workflows
+        try:
+            result, perf_metrics = self.performance_optimizer.optimize_workflow_processing(
+                workflow_json, 
+                'analyze'
+            )
+            
+            # Log performance metrics for analysis operations
+            if perf_metrics.optimizations_applied:
+                logger.info(f"Workflow analysis used optimizations: {', '.join(perf_metrics.optimizations_applied)}")
+            
+            # If performance optimizer returned results, use them
+            if result and isinstance(result, dict) and 'analysis_type' in result:
+                return result
+            
+        except Exception as e:
+            logger.warning(f"Performance optimization failed for workflow analysis: {str(e)}")
+            # Fall back to standard analysis
+        
+        # Standard analysis implementation (fallback)
         analysis = {
             "node_count": len(workflow.get("nodes", [])),
             "node_types": [],
@@ -751,7 +1061,8 @@ class N8NBuilder:
             "triggers": [],
             "actions": [],
             "data_flow": [],
-            "potential_issues": []
+            "potential_issues": [],
+            "analysis_type": "standard"
         }
         
         # Analyze nodes
@@ -767,14 +1078,18 @@ class N8NBuilder:
         
         # Analyze data flow
         for source_node, connections in analysis["connections"].items():
-            for connection_type, targets in connections.items():
-                for target_list in targets:
-                    for target in target_list:
-                        analysis["data_flow"].append({
-                            "from": source_node,
-                            "to": target.get("node"),
-                            "type": connection_type
-                        })
+            if isinstance(connections, dict):
+                for connection_type, targets in connections.items():
+                    if isinstance(targets, list):
+                        for target_list in targets:
+                            if isinstance(target_list, list):
+                                for target in target_list:
+                                    if isinstance(target, dict):
+                                        analysis["data_flow"].append({
+                                            "from": source_node,
+                                            "to": target.get("node"),
+                                            "type": connection_type
+                                        })
         
         return analysis
 
