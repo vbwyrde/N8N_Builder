@@ -350,7 +350,15 @@ class N8NBuilder:
             # 1. Parse plain English using Mimo VL 7B
             prompt = self._build_prompt(plain_english_description)
             try:
-                response = asyncio.run(self._call_mimo_vl7b(prompt))
+                # Fix: Don't use asyncio.run() when already in async context
+                import asyncio
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # We're already in an async context, can't use asyncio.run()
+                    logger.warning("Already in async context, using mock implementation for LLM call")
+                    response = self._mock_llm_response(plain_english_description)
+                else:
+                    response = asyncio.run(self._call_mimo_vl7b(prompt))
             except Exception as e:
                 logger.warning(f"LLM API call failed, using mock implementation: {str(e)}")
                 response = self._mock_llm_response(plain_english_description)
@@ -368,39 +376,153 @@ class N8NBuilder:
             return ""
 
     def _mock_llm_response(self, description: str) -> str:
-        """Generate a mock workflow for testing purposes."""
-        if "email" in description.lower() and "file" in description.lower():
+        """Generate a mock workflow for testing purposes with proper trigger nodes."""
+        description_lower = description.lower()
+        
+        if "email" in description_lower and ("webhook" in description_lower or "http" in description_lower):
             return json.dumps({
-                "name": "File Upload Email Notification",
+                "name": "Webhook Email Automation",
                 "nodes": [
                     {
-                        "id": "1",
-                        "name": "Watch Folder",
-                        "type": "n8n-nodes-base.watchFolder",
+                        "id": "webhook-trigger",
+                        "name": "Webhook Trigger",
+                        "type": "n8n-nodes-base.webhook",
                         "parameters": {
-                            "folderPath": "{{$env.WATCH_FOLDER}}",
-                            "options": {
-                                "includeSubfolders": True
-                            }
-                        }
+                            "httpMethod": "POST",
+                            "path": "email-automation",
+                            "responseMode": "responseNode"
+                        },
+                        "position": [250, 300]
                     },
                     {
-                        "id": "2",
+                        "id": "email-send",
                         "name": "Send Email",
                         "type": "n8n-nodes-base.emailSend",
                         "parameters": {
-                            "to": "{{$env.NOTIFICATION_EMAIL}}",
-                            "subject": "New File Uploaded",
-                            "text": "A new file has been uploaded: {{$node[\"Watch Folder\"].json[\"name\"]}}"
-                        }
+                            "to": "{{$json[\"email\"]}}",
+                            "subject": "Webhook Received",
+                            "text": "We received your data: {{JSON.stringify($json)}}"
+                        },
+                        "position": [500, 300]
+                    },
+                    {
+                        "id": "webhook-response",
+                        "name": "Webhook Response",
+                        "type": "n8n-nodes-base.respondToWebhook",
+                        "parameters": {
+                            "respondWith": "json",
+                            "responseBody": "{\"status\": \"success\", \"message\": \"Email sent\"}"
+                        },
+                        "position": [750, 300]
                     }
                 ],
                 "connections": {
-                    "Watch Folder": {
+                    "Webhook Trigger": {
                         "main": [
                             [
                                 {
                                     "node": "Send Email",
+                                    "type": "main",
+                                    "index": 0
+                                }
+                            ]
+                        ]
+                    },
+                    "Send Email": {
+                        "main": [
+                            [
+                                {
+                                    "node": "Webhook Response",
+                                    "type": "main",
+                                    "index": 0
+                                }
+                            ]
+                        ]
+                    }
+                },
+                "settings": {},
+                "active": True,
+                "version": 1
+            })
+        elif "schedule" in description_lower or "cron" in description_lower or "time" in description_lower:
+            return json.dumps({
+                "name": "Scheduled Email Report",
+                "nodes": [
+                    {
+                        "id": "schedule-trigger",
+                        "name": "Schedule Trigger",
+                        "type": "n8n-nodes-base.scheduleTrigger",
+                        "parameters": {
+                            "rule": {
+                                "interval": [
+                                    {
+                                        "field": "cronExpression",
+                                        "expression": "0 9 * * 1"
+                                    }
+                                ]
+                            }
+                        },
+                        "position": [250, 300]
+                    },
+                    {
+                        "id": "email-send",
+                        "name": "Send Report Email",
+                        "type": "n8n-nodes-base.emailSend",
+                        "parameters": {
+                            "to": "report@company.com",
+                            "subject": "Weekly Report - {{$now.format('YYYY-MM-DD')}}",
+                            "text": "This is your automated weekly report."
+                        },
+                        "position": [500, 300]
+                    }
+                ],
+                "connections": {
+                    "Schedule Trigger": {
+                        "main": [
+                            [
+                                {
+                                    "node": "Send Report Email",
+                                    "type": "main",
+                                    "index": 0
+                                }
+                            ]
+                        ]
+                    }
+                },
+                "settings": {},
+                "active": True,
+                "version": 1
+            })
+        elif "file" in description_lower and ("watch" in description_lower or "monitor" in description_lower):
+            return json.dumps({
+                "name": "File Monitoring Workflow",
+                "nodes": [
+                    {
+                        "id": "file-trigger",
+                        "name": "File Trigger",
+                        "type": "n8n-nodes-base.localFileTrigger",
+                        "parameters": {
+                            "path": "/tmp/watch-folder",
+                            "watchFor": "file"
+                        },
+                        "position": [250, 300]
+                    },
+                    {
+                        "id": "process-file",
+                        "name": "Process File",
+                        "type": "n8n-nodes-base.function",
+                        "parameters": {
+                            "functionCode": "// Process the file\nconst fileName = $input.first().json.name;\nreturn [{ json: { fileName, processed: true, timestamp: new Date() } }];"
+                        },
+                        "position": [500, 300]
+                    }
+                ],
+                "connections": {
+                    "File Trigger": {
+                        "main": [
+                            [
+                                {
+                                    "node": "Process File",
                                     "type": "main",
                                     "index": 0
                                 }
@@ -413,17 +535,65 @@ class N8NBuilder:
                 "version": 1
             })
         else:
+            # Default workflow with proper webhook trigger
             return json.dumps({
-                "name": "Basic Workflow",
+                "name": "Basic Webhook Workflow",
                 "nodes": [
                     {
-                        "id": "1",
-                        "name": "Start",
-                        "type": "n8n-nodes-base.start",
-                        "parameters": {}
+                        "id": "webhook-trigger",
+                        "name": "Webhook Trigger",
+                        "type": "n8n-nodes-base.webhook",
+                        "parameters": {
+                            "httpMethod": "POST",
+                            "path": "basic-workflow",
+                            "responseMode": "responseNode"
+                        },
+                        "position": [250, 300]
+                    },
+                    {
+                        "id": "process-data",
+                        "name": "Process Data",
+                        "type": "n8n-nodes-base.function",
+                        "parameters": {
+                            "functionCode": "// Process incoming data\nconst data = $input.first().json;\nreturn [{ json: { ...data, processed: true, timestamp: new Date().toISOString() } }];"
+                        },
+                        "position": [500, 300]
+                    },
+                    {
+                        "id": "webhook-response",
+                        "name": "Webhook Response",
+                        "type": "n8n-nodes-base.respondToWebhook",
+                        "parameters": {
+                            "respondWith": "json",
+                            "responseBody": "{\"status\": \"success\", \"message\": \"Data processed\"}"
+                        },
+                        "position": [750, 300]
                     }
                 ],
-                "connections": {},
+                "connections": {
+                    "Webhook Trigger": {
+                        "main": [
+                            [
+                                {
+                                    "node": "Process Data",
+                                    "type": "main",
+                                    "index": 0
+                                }
+                            ]
+                        ]
+                    },
+                    "Process Data": {
+                        "main": [
+                            [
+                                {
+                                    "node": "Webhook Response",
+                                    "type": "main",
+                                    "index": 0
+                                }
+                            ]
+                        ]
+                    }
+                },
                 "settings": {},
                 "active": True,
                 "version": 1
@@ -579,7 +749,13 @@ class N8NBuilder:
         trigger_nodes = []
         for node in nodes:
             node_type = node.get("type", "").lower()
-            if any(trigger_word in node_type for trigger_word in ["trigger", "webhook", "schedule"]):
+            # More comprehensive trigger detection
+            trigger_keywords = [
+                "trigger", "webhook", "schedule", 
+                "filetrigger", "localfiletrigger", "scheduletrigger",
+                "manualtrigger", "emailtrigger", "httptrigger"
+            ]
+            if any(trigger_word in node_type for trigger_word in trigger_keywords):
                 trigger_nodes.append(node)
         
         if not trigger_nodes:

@@ -6,7 +6,7 @@ import signal
 import psutil
 import logging
 from typing import List
-from main import app
+from n8n_builder.app import app
 from llm_integration import LLMClient
 
 # Configure logging
@@ -16,23 +16,49 @@ logger = logging.getLogger(__name__)
 def kill_processes_on_ports(ports: List[int]) -> None:
     """Kill any processes running on the specified ports."""
     for port in ports:
-        for proc in psutil.process_iter(['pid', 'name', 'connections']):
-            try:
-                for conn in proc.connections():
-                    if conn.laddr.port == port:
-                        logger.info(f"Killing process {proc.pid} ({proc.name()}) using port {port}")
-                        if sys.platform == 'win32':
-                            os.kill(proc.pid, signal.SIGTERM)
-                        else:
-                            proc.terminate()
-                        proc.wait(timeout=3)
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
-                pass
+        try:
+            for proc in psutil.process_iter(['pid', 'name', 'connections']):
+                try:
+                    # Skip system processes (PID 0, 4, etc.)
+                    if proc.info['pid'] in [0, 4]:
+                        continue
+                    
+                    # Check if process has connections
+                    connections = proc.connections() if proc.info['connections'] is not None else []
+                    
+                    for conn in connections:
+                        if hasattr(conn, 'laddr') and conn.laddr.port == port:
+                            logger.info(f"Killing process {proc.info['pid']} ({proc.info['name']}) using port {port}")
+                            try:
+                                if sys.platform == 'win32':
+                                    proc.terminate()
+                                else:
+                                    proc.terminate()
+                                
+                                # Wait for process to terminate
+                                proc.wait(timeout=3)
+                                logger.info(f"Successfully terminated process {proc.info['pid']}")
+                            except (psutil.TimeoutExpired, psutil.AccessDenied) as e:
+                                logger.warning(f"Could not terminate process {proc.info['pid']}: {e}")
+                            except Exception as e:
+                                logger.warning(f"Error terminating process {proc.info['pid']}: {e}")
+                            
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                    # Process no longer exists or we don't have permission
+                    continue
+                except Exception as e:
+                    logger.warning(f"Error checking process connections: {e}")
+                    continue
+                    
+        except Exception as e:
+            logger.warning(f"Error scanning processes for port {port}: {e}")
+            continue
 
 async def cleanup():
     """Cleanup resources before shutdown."""
     # Close the LLM client
-    await app.state.llm_client.close()
+    if hasattr(app.state, 'llm_client'):
+        await app.state.llm_client.close()
 
 async def main():
     # Kill any existing processes on our ports
@@ -48,7 +74,7 @@ async def main():
     
     # Start the FastAPI server
     config = uvicorn.Config(
-        "main:app",
+        "n8n_builder.app:app",
         host="127.0.0.1",
         port=8002,
         log_level="info",

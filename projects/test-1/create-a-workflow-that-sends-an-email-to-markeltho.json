@@ -1,0 +1,71 @@
+{
+  "name": "Basic Webhook Workflow",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "basic-workflow",
+        "responseMode": "responseNode"
+      },
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "id": "process-data",
+      "name": "Process Data",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "// Process incoming data\nconst data = $input.first().json;\nreturn [{ json: { ...data, processed: true, timestamp: new Date().toISOString() } }];"
+      },
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"success\", \"message\": \"Data processed\"}"
+      },
+      "position": [
+        750,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Process Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Data": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": true,
+  "version": 1
+}
