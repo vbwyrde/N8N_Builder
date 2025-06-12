@@ -821,6 +821,306 @@ class FileSystemUtilities:
             self.logger.error(f"Failed to cleanup old versions for {workflow_filename}: {str(e)}")
             return 0
     
+    def get_version_info(self, project_name: str, workflow_filename: str, version_filename: str) -> Dict[str, Any]:
+        """
+        Get detailed information about a specific workflow version.
+        
+        Args:
+            project_name: Name of the project
+            workflow_filename: Name of the main workflow file
+            version_filename: Name of the version file
+            
+        Returns:
+            Dictionary with version information
+        """
+        try:
+            if not self.project_manager.project_exists(project_name):
+                raise ValueError(f"Project '{project_name}' does not exist")
+            
+            project_path = self.project_manager.projects_root / project_name
+            version_path = project_path / version_filename
+            
+            if not version_path.exists():
+                raise ValueError(f"Version file '{version_filename}' not found")
+            
+            # Extract timestamp from filename
+            import re
+            timestamp_match = re.search(r'(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})', version_filename)
+            timestamp_str = timestamp_match.group(1) if timestamp_match else "unknown"
+            
+            # Get file stats
+            file_stats = version_path.stat()
+            
+            # Read workflow data for analysis
+            try:
+                with open(version_path, 'r', encoding='utf-8') as f:
+                    workflow_data = json.load(f)
+                
+                node_count = len(workflow_data.get('nodes', []))
+                workflow_name = workflow_data.get('name', 'Unknown')
+                tags = workflow_data.get('tags', [])
+            except Exception as e:
+                self.logger.warning(f"Failed to analyze workflow data in version {version_filename}: {str(e)}")
+                node_count = 0
+                workflow_name = "Unknown"
+                tags = []
+            
+            return {
+                'filename': version_filename,
+                'timestamp': timestamp_str,
+                'created_date': datetime.fromtimestamp(file_stats.st_ctime).isoformat(),
+                'modified_date': datetime.fromtimestamp(file_stats.st_mtime).isoformat(),
+                'file_size': file_stats.st_size,
+                'file_size_mb': round(file_stats.st_size / (1024 * 1024), 3),
+                'workflow_name': workflow_name,
+                'node_count': node_count,
+                'tags': tags,
+                'is_backup': True
+            }
+            
+        except Exception as e:
+            error_msg = f"Failed to get version info for {version_filename}: {str(e)}"
+            self.logger.error(error_msg)
+            if isinstance(e, ValueError):
+                raise
+            else:
+                raise RuntimeError(error_msg)
+    
+    def restore_workflow_version(self, project_name: str, workflow_filename: str, 
+                               version_filename: str, create_backup: bool = True) -> bool:
+        """
+        Restore a workflow from a specific version.
+        
+        Args:
+            project_name: Name of the project
+            workflow_filename: Name of the main workflow file
+            version_filename: Name of the version file to restore from
+            create_backup: Whether to create a backup of current version before restoring
+            
+        Returns:
+            True if restoration was successful
+        """
+        try:
+            if not self.project_manager.project_exists(project_name):
+                raise ValueError(f"Project '{project_name}' does not exist")
+            
+            project_path = self.project_manager.projects_root / project_name
+            version_path = project_path / version_filename
+            workflow_path = project_path / workflow_filename
+            
+            if not version_path.exists():
+                raise ValueError(f"Version file '{version_filename}' not found")
+            
+            # Read version data
+            with open(version_path, 'r', encoding='utf-8') as f:
+                version_data = json.load(f)
+            
+            # Validate the version data
+            validation_errors = self.validate_workflow_json(version_data)
+            if validation_errors:
+                raise ValueError(f"Version file contains invalid workflow data: {'; '.join(validation_errors)}")
+            
+            # Create backup of current version if requested and file exists
+            if create_backup and workflow_path.exists():
+                backup_filename = self._create_workflow_backup(project_name, workflow_filename)
+                self.logger.info(f"Created backup before restoration: {backup_filename}")
+            
+            # Write the version data to the main workflow file
+            success = self.write_workflow_file(project_name, workflow_filename, version_data, create_backup=False)
+            
+            if success:
+                self.logger.info(f"Successfully restored workflow '{workflow_filename}' from version '{version_filename}'")
+                return True
+            else:
+                raise RuntimeError("Failed to write restored workflow data")
+            
+        except Exception as e:
+            error_msg = f"Failed to restore workflow from version {version_filename}: {str(e)}"
+            self.logger.error(error_msg)
+            if isinstance(e, ValueError):
+                raise
+            else:
+                raise RuntimeError(error_msg)
+    
+    def compare_workflow_versions(self, project_name: str, workflow_filename: str, 
+                                version1: str, version2: str) -> Dict[str, Any]:
+        """
+        Compare two workflow versions and return differences.
+        
+        Args:
+            project_name: Name of the project
+            workflow_filename: Name of the main workflow file
+            version1: First version filename (or 'current' for main file)
+            version2: Second version filename (or 'current' for main file)
+            
+        Returns:
+            Dictionary with comparison results
+        """
+        try:
+            if not self.project_manager.project_exists(project_name):
+                raise ValueError(f"Project '{project_name}' does not exist")
+            
+            project_path = self.project_manager.projects_root / project_name
+            
+            # Read first version
+            if version1 == 'current':
+                version1_path = project_path / workflow_filename
+                version1_label = 'Current Version'
+            else:
+                version1_path = project_path / version1
+                version1_label = version1
+            
+            # Read second version
+            if version2 == 'current':
+                version2_path = project_path / workflow_filename
+                version2_label = 'Current Version'
+            else:
+                version2_path = project_path / version2
+                version2_label = version2
+            
+            if not version1_path.exists():
+                raise ValueError(f"Version file '{version1}' not found")
+            if not version2_path.exists():
+                raise ValueError(f"Version file '{version2}' not found")
+            
+            # Read workflow data
+            with open(version1_path, 'r', encoding='utf-8') as f:
+                data1 = json.load(f)
+            with open(version2_path, 'r', encoding='utf-8') as f:
+                data2 = json.load(f)
+            
+            # Compare basic properties
+            comparison = {
+                'version1': {
+                    'label': version1_label,
+                    'filename': version1,
+                    'name': data1.get('name', 'Unknown'),
+                    'node_count': len(data1.get('nodes', [])),
+                    'tags': data1.get('tags', []),
+                    'active': data1.get('active', False)
+                },
+                'version2': {
+                    'label': version2_label,
+                    'filename': version2,
+                    'name': data2.get('name', 'Unknown'),
+                    'node_count': len(data2.get('nodes', [])),
+                    'tags': data2.get('tags', []),
+                    'active': data2.get('active', False)
+                },
+                'differences': {
+                    'name_changed': data1.get('name') != data2.get('name'),
+                    'node_count_changed': len(data1.get('nodes', [])) != len(data2.get('nodes', [])),
+                    'tags_changed': set(data1.get('tags', [])) != set(data2.get('tags', [])),
+                    'active_changed': data1.get('active', False) != data2.get('active', False),
+                    'nodes_changed': data1.get('nodes', []) != data2.get('nodes', []),
+                    'connections_changed': data1.get('connections', {}) != data2.get('connections', {}),
+                    'settings_changed': data1.get('settings', {}) != data2.get('settings', {})
+                },
+                'summary': {
+                    'has_changes': False,
+                    'change_count': 0,
+                    'major_changes': [],
+                    'minor_changes': []
+                }
+            }
+            
+            # Analyze changes
+            major_changes = []
+            minor_changes = []
+            
+            if comparison['differences']['name_changed']:
+                minor_changes.append(f"Name changed from '{data1.get('name')}' to '{data2.get('name')}'")
+            
+            if comparison['differences']['node_count_changed']:
+                node_diff = len(data2.get('nodes', [])) - len(data1.get('nodes', []))
+                if node_diff > 0:
+                    major_changes.append(f"Added {node_diff} node(s)")
+                else:
+                    major_changes.append(f"Removed {abs(node_diff)} node(s)")
+            
+            if comparison['differences']['tags_changed']:
+                tags1 = set(data1.get('tags', []))
+                tags2 = set(data2.get('tags', []))
+                added_tags = tags2 - tags1
+                removed_tags = tags1 - tags2
+                if added_tags:
+                    minor_changes.append(f"Added tags: {', '.join(added_tags)}")
+                if removed_tags:
+                    minor_changes.append(f"Removed tags: {', '.join(removed_tags)}")
+            
+            if comparison['differences']['active_changed']:
+                status = "activated" if data2.get('active', False) else "deactivated"
+                minor_changes.append(f"Workflow {status}")
+            
+            if comparison['differences']['nodes_changed']:
+                major_changes.append("Node configuration changed")
+            
+            if comparison['differences']['connections_changed']:
+                major_changes.append("Node connections changed")
+            
+            if comparison['differences']['settings_changed']:
+                minor_changes.append("Workflow settings changed")
+            
+            comparison['summary']['major_changes'] = major_changes
+            comparison['summary']['minor_changes'] = minor_changes
+            comparison['summary']['change_count'] = len(major_changes) + len(minor_changes)
+            comparison['summary']['has_changes'] = comparison['summary']['change_count'] > 0
+            
+            return comparison
+            
+        except Exception as e:
+            error_msg = f"Failed to compare workflow versions: {str(e)}"
+            self.logger.error(error_msg)
+            if isinstance(e, ValueError):
+                raise
+            else:
+                raise RuntimeError(error_msg)
+    
+    def delete_workflow_version(self, project_name: str, workflow_filename: str, 
+                              version_filename: str, confirm: bool = False) -> bool:
+        """
+        Delete a specific workflow version.
+        
+        Args:
+            project_name: Name of the project
+            workflow_filename: Name of the main workflow file
+            version_filename: Name of the version file to delete
+            confirm: Confirmation flag to prevent accidental deletion
+            
+        Returns:
+            True if deletion was successful
+        """
+        if not confirm:
+            raise ValueError("Version deletion requires explicit confirmation")
+        
+        try:
+            if not self.project_manager.project_exists(project_name):
+                raise ValueError(f"Project '{project_name}' does not exist")
+            
+            project_path = self.project_manager.projects_root / project_name
+            version_path = project_path / version_filename
+            
+            if not version_path.exists():
+                raise ValueError(f"Version file '{version_filename}' not found")
+            
+            # Verify it's actually a backup file
+            if not self.project_manager._is_backup_file(version_filename):
+                raise ValueError(f"File '{version_filename}' is not a valid backup file")
+            
+            # Delete the version file
+            version_path.unlink()
+            
+            self.logger.info(f"Successfully deleted version '{version_filename}' for workflow '{workflow_filename}'")
+            return True
+            
+        except Exception as e:
+            error_msg = f"Failed to delete version {version_filename}: {str(e)}"
+            self.logger.error(error_msg)
+            if isinstance(e, ValueError):
+                raise
+            else:
+                raise RuntimeError(error_msg)
+    
     def copy_workflow(self, source_project: str, source_workflow: str,
                      dest_project: str, dest_workflow: str, 
                      overwrite: bool = False) -> bool:

@@ -111,6 +111,31 @@ class ProjectStatsResponse(BaseModel):
     largest_project: Optional[str]
     most_recent_project: Optional[str]
 
+# Version Management Models
+class VersionInfoResponse(BaseModel):
+    filename: str
+    timestamp: str
+    created_date: str
+    modified_date: str
+    file_size: int
+    file_size_mb: float
+    workflow_name: str
+    node_count: int
+    tags: List[str]
+    is_backup: bool
+
+class VersionComparisonResponse(BaseModel):
+    version1: Dict[str, Any]
+    version2: Dict[str, Any]
+    differences: Dict[str, bool]
+    summary: Dict[str, Any]
+
+class VersionRestoreRequest(BaseModel):
+    create_backup: Optional[bool] = True
+
+class VersionCleanupRequest(BaseModel):
+    keep_versions: Optional[int] = 10
+
 @app.get("/")
 async def root():
     """Serve the main UI page."""
@@ -586,4 +611,415 @@ async def get_workflow_feedback(workflow_id: str):
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "timestamp": datetime.now().isoformat()} 
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
+# ============================================================================
+# PROJECT MANAGEMENT API ENDPOINTS
+# Task 2.0.3: Project API endpoints
+# ============================================================================
+
+@app.get("/projects", response_model=List[ProjectResponse])
+async def list_projects():
+    """List all projects."""
+    try:
+        projects = project_manager.list_projects(refresh_cache=True)
+        
+        # Convert ProjectInfo objects to ProjectResponse format
+        project_responses = []
+        for project_info in projects:
+            project_responses.append(ProjectResponse(
+                name=project_info.name,
+                path=str(project_info.path),
+                description=project_info.description,
+                created_date=project_info.created_date.isoformat(),
+                last_modified=project_info.last_modified.isoformat(),
+                workflow_count=project_info.workflow_count,
+                workflows=project_info.workflows,
+                settings=project_info.settings
+            ))
+        
+        return project_responses
+        
+    except Exception as e:
+        logger.error(f"Failed to list projects: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to list projects: {str(e)}")
+
+@app.get("/projects/stats", response_model=ProjectStatsResponse)
+async def get_project_stats():
+    """Get comprehensive project statistics."""
+    try:
+        stats = project_manager.get_project_stats()
+        
+        return ProjectStatsResponse(
+            total_projects=stats['total_projects'],
+            total_workflows=stats['total_workflows'],
+            projects_root=stats['projects_root'],
+            average_workflows_per_project=stats['average_workflows_per_project'],
+            project_names=stats['project_names'],
+            largest_project=stats['largest_project'],
+            most_recent_project=stats['most_recent_project']
+        )
+        
+    except Exception as e:
+        logger.error(f"Failed to get project stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get project stats: {str(e)}")
+
+@app.post("/projects/{name}", response_model=ProjectResponse)
+async def create_project(name: str, request: ProjectCreateRequest):
+    """Create a new project."""
+    try:
+        # Prioritize request body name, but fall back to URL path if not provided
+        project_name = request.name if request.name is not None else name
+        
+        # Validate project name
+        if not project_name or not project_name.strip():
+            raise HTTPException(status_code=400, detail="Project name cannot be empty")
+        
+        project_info = project_manager.create_project(
+            name=project_name,
+            description=request.description or "",
+            initial_workflows=request.initial_workflows
+        )
+        
+        return ProjectResponse(
+            name=project_info.name,
+            path=str(project_info.path),
+            description=project_info.description,
+            created_date=project_info.created_date.isoformat(),
+            last_modified=project_info.last_modified.isoformat(),
+            workflow_count=project_info.workflow_count,
+            workflows=project_info.workflows,
+            settings=project_info.settings
+        )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to create project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to create project: {str(e)}")
+
+@app.get("/projects/{name}", response_model=ProjectResponse)
+async def get_project(name: str):
+    """Get project details and workflow list."""
+    try:
+        project_info = project_manager.get_project_info(name)
+        
+        if not project_info:
+            raise HTTPException(status_code=404, detail=f"Project '{name}' not found")
+        
+        return ProjectResponse(
+            name=project_info.name,
+            path=str(project_info.path),
+            description=project_info.description,
+            created_date=project_info.created_date.isoformat(),
+            last_modified=project_info.last_modified.isoformat(),
+            workflow_count=project_info.workflow_count,
+            workflows=project_info.workflows,
+            settings=project_info.settings
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to get project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get project: {str(e)}")
+
+@app.get("/projects/{name}/workflows", response_model=List[str])
+async def list_project_workflows(name: str):
+    """List workflows in a project."""
+    try:
+        if not project_manager.project_exists(name):
+            raise HTTPException(status_code=404, detail=f"Project '{name}' not found")
+        
+        workflows = project_manager.list_project_workflows(name)
+        return workflows
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to list workflows for project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to list workflows: {str(e)}")
+
+@app.get("/projects/{name}/workflows/{filename}", response_model=WorkflowFileResponse)
+async def get_workflow_file(name: str, filename: str):
+    """Get a specific workflow file."""
+    try:
+        # Read workflow file
+        workflow_data = filesystem_utils.read_workflow_file(name, filename)
+        
+        # Get workflow info for metadata
+        workflow_info = filesystem_utils.get_workflow_info(name, filename)
+        
+        return WorkflowFileResponse(
+            filename=filename,
+            project_name=name,
+            workflow_data=workflow_data,
+            file_size=workflow_info.file_size,
+            last_modified=workflow_info.last_modified.isoformat()
+        )
+        
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Failed to get workflow '{filename}' from project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get workflow: {str(e)}")
+
+@app.put("/projects/{name}/workflows/{filename}")
+async def save_workflow_file(name: str, filename: str, request: WorkflowFileRequest):
+    """Save a workflow file to a project."""
+    try:
+        # Validate workflow data
+        validation_errors = filesystem_utils.validate_workflow_json(request.workflow_data)
+        if validation_errors:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Invalid workflow JSON: {'; '.join(validation_errors)}"
+            )
+        
+        # Write workflow file
+        success = filesystem_utils.write_workflow_file(
+            name, 
+            filename, 
+            request.workflow_data,
+            create_backup=request.create_backup
+        )
+        
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to save workflow file")
+        
+        # Get updated workflow info
+        workflow_info = filesystem_utils.get_workflow_info(name, filename)
+        
+        return {
+            "message": "Workflow saved successfully",
+            "filename": filename,
+            "project_name": name,
+            "file_size": workflow_info.file_size,
+            "backup_created": request.create_backup,
+            "last_modified": workflow_info.last_modified.isoformat()
+        }
+        
+    except ValueError as e:
+        if "does not exist" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to save workflow '{filename}' to project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to save workflow: {str(e)}")
+
+@app.delete("/projects/{name}")
+async def delete_project(name: str, confirm: bool = False):
+    """Delete a project and all its contents."""
+    try:
+        if not confirm:
+            raise HTTPException(
+                status_code=400, 
+                detail="Project deletion requires explicit confirmation. Add ?confirm=true to the request."
+            )
+        
+        success = project_manager.delete_project(name, confirm=True)
+        
+        if not success:
+            raise HTTPException(status_code=404, detail=f"Project '{name}' not found")
+        
+        return {"message": f"Project '{name}' deleted successfully"}
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete project: {str(e)}")
+
+# ============================================================================
+# VERSION MANAGEMENT API ENDPOINTS
+# Task 2.0.4: Smart file versioning system
+# ============================================================================
+
+@app.get("/projects/{name}/workflows/{filename}/versions", response_model=List[str])
+async def list_workflow_versions(name: str, filename: str):
+    """List all versions of a workflow file."""
+    try:
+        if not project_manager.project_exists(name):
+            raise HTTPException(status_code=404, detail=f"Project '{name}' not found")
+        
+        versions = filesystem_utils.list_workflow_versions(name, filename)
+        return versions
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to list versions for workflow '{filename}' in project '{name}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to list workflow versions: {str(e)}")
+
+@app.get("/projects/{name}/workflows/{filename}/versions/{version_filename}", response_model=VersionInfoResponse)
+async def get_workflow_version_info(name: str, filename: str, version_filename: str):
+    """Get detailed information about a specific workflow version."""
+    try:
+        version_info = filesystem_utils.get_version_info(name, filename, version_filename)
+        
+        return VersionInfoResponse(
+            filename=version_info['filename'],
+            timestamp=version_info['timestamp'],
+            created_date=version_info['created_date'],
+            modified_date=version_info['modified_date'],
+            file_size=version_info['file_size'],
+            file_size_mb=version_info['file_size_mb'],
+            workflow_name=version_info['workflow_name'],
+            node_count=version_info['node_count'],
+            tags=version_info['tags'],
+            is_backup=version_info['is_backup']
+        )
+        
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Failed to get version info for '{version_filename}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get version info: {str(e)}")
+
+@app.get("/projects/{name}/workflows/{filename}/versions/{version_filename}/content")
+async def get_workflow_version_content(name: str, filename: str, version_filename: str):
+    """Get the content of a specific workflow version."""
+    try:
+        if not project_manager.project_exists(name):
+            raise HTTPException(status_code=404, detail=f"Project '{name}' not found")
+        
+        project_path = project_manager.projects_root / name
+        version_path = project_path / version_filename
+        
+        if not version_path.exists():
+            raise HTTPException(status_code=404, detail=f"Version file '{version_filename}' not found")
+        
+        # Read and return the version content
+        import json
+        with open(version_path, 'r', encoding='utf-8') as f:
+            version_data = json.load(f)
+        
+        return {
+            "filename": version_filename,
+            "project_name": name,
+            "workflow_data": version_data,
+            "is_version": True
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to get version content for '{version_filename}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get version content: {str(e)}")
+
+@app.post("/projects/{name}/workflows/{filename}/versions/{version_filename}/restore")
+async def restore_workflow_version(name: str, filename: str, version_filename: str, request: VersionRestoreRequest):
+    """Restore a workflow from a specific version."""
+    try:
+        success = filesystem_utils.restore_workflow_version(
+            name, 
+            filename, 
+            version_filename,
+            create_backup=request.create_backup
+        )
+        
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to restore workflow version")
+        
+        return {
+            "message": f"Successfully restored workflow '{filename}' from version '{version_filename}'",
+            "project_name": name,
+            "workflow_filename": filename,
+            "restored_from": version_filename,
+            "backup_created": request.create_backup
+        }
+        
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Failed to restore workflow from version '{version_filename}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to restore workflow version: {str(e)}")
+
+@app.get("/projects/{name}/workflows/{filename}/compare/{version1}/{version2}", response_model=VersionComparisonResponse)
+async def compare_workflow_versions(name: str, filename: str, version1: str, version2: str):
+    """Compare two workflow versions."""
+    try:
+        comparison = filesystem_utils.compare_workflow_versions(name, filename, version1, version2)
+        
+        return VersionComparisonResponse(
+            version1=comparison['version1'],
+            version2=comparison['version2'],
+            differences=comparison['differences'],
+            summary=comparison['summary']
+        )
+        
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Failed to compare workflow versions: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to compare workflow versions: {str(e)}")
+
+@app.delete("/projects/{name}/workflows/{filename}/versions/{version_filename}")
+async def delete_workflow_version(name: str, filename: str, version_filename: str, confirm: bool = False):
+    """Delete a specific workflow version."""
+    try:
+        if not confirm:
+            raise HTTPException(
+                status_code=400, 
+                detail="Version deletion requires explicit confirmation. Add ?confirm=true to the request."
+            )
+        
+        success = filesystem_utils.delete_workflow_version(name, filename, version_filename, confirm=True)
+        
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to delete workflow version")
+        
+        return {
+            "message": f"Successfully deleted version '{version_filename}' for workflow '{filename}'",
+            "project_name": name,
+            "workflow_filename": filename,
+            "deleted_version": version_filename
+        }
+        
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete version '{version_filename}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete workflow version: {str(e)}")
+
+@app.post("/projects/{name}/workflows/{filename}/cleanup-versions")
+async def cleanup_workflow_versions(name: str, filename: str, request: VersionCleanupRequest):
+    """Clean up old versions of a workflow, keeping only the specified number."""
+    try:
+        deleted_count = filesystem_utils.cleanup_old_versions(name, filename, request.keep_versions)
+        
+        return {
+            "message": f"Cleaned up old versions for workflow '{filename}'",
+            "project_name": name,
+            "workflow_filename": filename,
+            "versions_deleted": deleted_count,
+            "versions_kept": request.keep_versions
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to cleanup versions for workflow '{filename}': {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to cleanup workflow versions: {str(e)}") 
