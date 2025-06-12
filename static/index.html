@@ -3,1136 +3,1199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N8N Builder - Project-Based Workflow Iteration</title>
+    <title>N8N Workflow Builder</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
             min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         
-        .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            text-align: center;
-            color: white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        /* Proper Glassmorphism Effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         }
         
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
-        
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 30px;
-            height: calc(100vh - 160px);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
         
         .sidebar {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(226, 232, 240, 0.6);
+            min-height: 100vh;
+            padding: 1.5rem;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* High Contrast Text */
+        .text-primary-dark {
+            color: #1e293b !important;
+        }
+        
+        .text-secondary-dark {
+            color: #475569 !important;
+        }
+        
+        .section-header {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Clean Form Controls */
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            color: #1e293b;
+        }
+        
+        .form-text {
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Project and Workflow Lists */
+        .list-container {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 200px;
             overflow-y: auto;
         }
         
-        .main-panel {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        .section-title {
-            font-size: 1.4em;
-            font-weight: 600;
-            margin: 0 0 15px 0;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 8px;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+        .list-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
             cursor: pointer;
-            font-size: 14px;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item:hover {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .list-item.selected {
+            background: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            color: #1e40af;
             font-weight: 500;
-            transition: all 0.3s ease;
-            margin: 5px 0;
-            width: 100%;
         }
         
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        .list-item .item-icon {
+            color: #6b7280;
+            margin-right: 0.5rem;
         }
         
-        .btn:disabled {
-            background: #bdc3c7;
+        .list-item.selected .item-icon {
+            color: #3b82f6;
+        }
+        
+        .list-item .item-count {
+            color: #9ca3af;
+            font-size: 0.8rem;
+            float: right;
+        }
+        
+        /* Clean Buttons */
+        .btn-clean {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-clean:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            color: #1f2937;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-clean:disabled {
+            background: #f3f4f6;
+            border-color: #e5e7eb;
+            color: #9ca3af;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
         
-        .btn-secondary {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-        }
-        
-        .btn-secondary:hover:not(:disabled) {
-            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-        
-        .btn-danger:hover:not(:disabled) {
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-        }
-        
-        .input-group {
-            margin: 15px 0;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #34495e;
-        }
-        
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ecf0f1;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-        }
-        
-        .input-group input:focus, .input-group select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .textarea-group {
-            margin: 20px 0;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .textarea-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 1.1em;
-        }
-        
-        .textarea-group textarea {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #ecf0f1;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: inherit;
-            resize: none;
-            transition: border-color 0.3s ease;
-            min-height: 150px;
-        }
-        
-        .textarea-group textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .project-list {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 2px solid #ecf0f1;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-        
-        .project-item, .workflow-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ecf0f1;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .project-item:hover, .workflow-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .project-item.active, .workflow-item.active {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+        .btn-primary-clean {
+            background: #3b82f6;
+            border: 1px solid #2563eb;
             color: white;
         }
         
-        .workflow-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid #ecf0f1;
-            border-radius: 8px;
-            margin: 10px 0;
+        .btn-primary-clean:hover {
+            background: #2563eb;
+            border-color: #1d4ed8;
+            color: white;
         }
         
-        .status-indicator {
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
+        .btn-danger-clean {
+            background: #ef4444;
+            border: 1px solid #dc2626;
+            color: white;
+        }
+        
+        .btn-danger-clean:hover {
+            background: #dc2626;
+            border-color: #b91c1c;
+            color: white;
+        }
+        
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .nav-tabs .nav-link {
+            background: transparent;
+            border: none;
+            color: #64748b;
             font-weight: 500;
-            text-align: center;
-            margin: 10px 0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            margin-right: 0.25rem;
         }
         
-        .status-info {
-            background: #d5f4e6;
-            color: #27ae60;
-            border: 1px solid #27ae60;
+        .nav-tabs .nav-link.active {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid white;
+            color: #1e293b;
         }
         
-        .status-warning {
-            background: #fef5e7;
-            color: #f39c12;
-            border: 1px solid #f39c12;
+        .nav-tabs .nav-link:hover:not(.active) {
+            background: rgba(248, 250, 252, 0.8);
+            color: #475569;
         }
         
-        .status-error {
-            background: #fadbd8;
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
+        .tab-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            padding: 2rem;
         }
         
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #7f8c8d;
-        }
-        
-        .loading.show {
-            display: block;
-        }
-        
-        .loading::after {
-            content: "...";
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-        
-        @keyframes dots {
-            0%, 20% { content: "."; }
-            40% { content: ".."; }
-            60% { content: "..."; }
-            80%, 100% { content: ""; }
-        }
-        
-        .result-panel {
-            background: #a4c4e4;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-        }
-        
-        .result-panel.show {
-            display: block;
-        }
-        
-        .result-panel pre {
-            margin: 0;
+        /* JSON Viewer - High Contrast */
+        .json-viewer {
+            background: white !important;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #111827 !important;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
             white-space: pre-wrap;
             word-wrap: break-word;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            line-height: 1.4;
+            overflow-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
-        .version-info {
-            background: #e8f4f8;
-            border: 1px solid #3498db;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 13px;
+        .json-viewer:empty {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            color: #6b7280;
+            text-align: center;
+            padding: 3rem;
+            font-family: inherit;
         }
         
-        .current-context {
-            background: #f0f8ff;
-            border: 2px solid #3498db;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-        
-        .current-context h4 {
-            margin: 0 0 10px 0;
-            color: #2980b9;
-        }
-        
-        .current-context p {
-            margin: 5px 0;
-            color: #34495e;
-            font-size: 14px;
-        }
-        
-        .error-message {
-            background: #fadbd8;
-            color: #c0392b;
-            border: 2px solid #e74c3c;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
+        /* Loading States */
+        .loading {
             display: none;
+            margin-top: 1rem;
         }
         
-        .error-message.show {
-            display: block;
+        .loading .spinner-border {
+            color: #3b82f6;
         }
         
-        .success-message {
-            background: #d5f4e6;
-            color: #27ae60;
-            border: 2px solid #2ecc71;
+        /* Stats Card */
+        .stats-card {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
             border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            display: none;
+            padding: 1rem;
+            margin-top: 1rem;
         }
         
-        .success-message.show {
-            display: block;
+        .stats-card .stat-number {
+            font-weight: 700;
+            color: #1e40af;
         }
         
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr;
-                height: auto;
-            }
-            
+        .stats-card .stat-label {
+            color: #475569;
+            font-size: 0.875rem;
+        }
+        
+        /* Modal Improvements */
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        /* Scrollbar Styling */
+        .list-container::-webkit-scrollbar, .json-viewer::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .list-container::-webkit-scrollbar-track, .json-viewer::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        .list-container::-webkit-scrollbar-thumb, .json-viewer::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        .list-container::-webkit-scrollbar-thumb:hover, .json-viewer::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Search Input */
+        .search-input {
+            position: relative;
+        }
+        
+        .search-input .bi-search {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            pointer-events: none;
+        }
+        
+        .search-input input {
+            padding-left: 2.5rem;
+        }
+        
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #6b7280;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
             .sidebar {
-                order: 2;
+                min-height: auto;
+                padding: 1rem;
             }
             
-            .main-panel {
-                order: 1;
+            .tab-content {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>N8N Builder</h1>
-        <p>Project-Based Workflow Iteration System</p>
-    </div>
-    
-    <div class="container">
-        <!-- Sidebar: Project Management -->
-        <div class="sidebar">
-            <!-- Project Management Section -->
-            <div class="section-title">Projects</div>
-            <div class="input-group">
-                <label for="newProjectName">Create New Project:</label>
-                <input type="text" id="newProjectName" placeholder="Enter project name...">
-                <button class="btn" onclick="createProject()">Create Project</button>
-            </div>
-            
-            <div class="project-list" id="projectList">
-                <div class="loading" id="projectsLoading">Loading projects</div>
-            </div>
-            
-            <button class="btn btn-secondary" onclick="refreshProjects()">Refresh Projects</button>
-            <button class="btn btn-danger" onclick="deleteCurrentProject()" id="deleteProjectBtn" disabled>Delete Project</button>
-            
-            <!-- Workflow Management Section -->
-            <div class="section-title" style="margin-top: 30px;">Workflows</div>
-            <div class="workflow-list" id="workflowList">
-                <div class="status-info">Select a project first</div>
-            </div>
-            
-            <button class="btn btn-secondary" onclick="refreshWorkflows()" id="refreshWorkflowsBtn" disabled>Refresh Workflows</button>
-            
-            <!-- Current Context -->
-            <div class="current-context" id="currentContext" style="display: none;">
-                <h4>Current Selection</h4>
-                <p id="contextProject">Project: None</p>
-                <p id="contextWorkflow">Workflow: None</p>
-            </div>
-        </div>
-        
-        <!-- Main Panel: Workflow Iteration -->
-        <div class="main-panel">
-            <div class="section-title">Workflow Iteration</div>
-            
-            <!-- Status Messages -->
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
-            
-            <!-- Iteration Input -->
-            <div class="textarea-group" id="iterationSection">
-                <label for="iterationDescription">Describe the changes you want to make to your workflow:</label>
-                <textarea id="iterationDescription" placeholder="Example: Add error handling when email fails, or add parallel processing for bulk operations, or switch from Webhook to Schedule trigger..."></textarea>
-            </div>
-            
-            <!-- First Workflow Generation Section (shown when project has no workflows) -->
-            <div class="textarea-group" id="firstWorkflowSection" style="display: none;">
-                <label for="firstWorkflowDescription">Describe your first workflow:</label>
-                <textarea id="firstWorkflowDescription" placeholder="Example: Create an email automation workflow that triggers when a webhook receives customer data, validates the email address, and sends a welcome email using Gmail..."></textarea>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div style="display: flex; gap: 15px; margin: 20px 0;">
-                <!-- Iteration Buttons -->
-                <div id="iterationButtons" style="display: flex; gap: 15px; flex: 1;">
-                    <button class="btn" onclick="iterateWorkflow()" id="iterateBtn" disabled style="flex: 1;">Iterate Workflow</button>
-                    <button class="btn btn-secondary" onclick="loadWorkflowContent()" id="loadWorkflowBtn" disabled>Load Workflow</button>
-                    <button class="btn btn-secondary" onclick="saveWorkflow()" id="saveWorkflowBtn" disabled>Save Workflow</button>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h4 class="text-primary-dark mb-4">
+                    <i class="bi bi-diagram-3"></i> N8N Builder
+                </h4>
+                
+                <!-- Project Management -->
+                <div class="section-header">
+                    <i class="bi bi-folder2"></i>
+                    Projects
                 </div>
                 
-                <!-- First Workflow Generation Buttons -->
-                <div id="firstWorkflowButtons" style="display: none; gap: 15px; flex: 1;">
-                    <button class="btn" onclick="generateFirstWorkflow()" id="generateFirstBtn" disabled style="flex: 1;">Generate First Workflow</button>
-                    <button class="btn btn-secondary" onclick="cancelFirstWorkflow()" id="cancelFirstBtn">Cancel</button>
+                <!-- Project Search -->
+                <div class="search-input mb-2">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" id="projectSearch" 
+                           placeholder="Search projects..." autocomplete="off">
+                </div>
+                
+                <!-- Project List -->
+                <div class="list-container mb-3" id="projectListContainer">
+                    <div class="empty-state">
+                        <i class="bi bi-folder"></i>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+                
+                <!-- Project Actions -->
+                <div class="d-flex gap-2 mb-4">
+                    <button class="btn btn-clean btn-sm flex-fill" id="newProjectBtn">
+                        <i class="bi bi-plus"></i> New
+                    </button>
+                    <button class="btn btn-clean btn-sm flex-fill" id="deleteProjectBtn" disabled>
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+                
+                <!-- Workflow Management -->
+                <div class="section-header">
+                    <i class="bi bi-diagram-2"></i>
+                    Workflows
+                </div>
+                
+                <!-- Workflow Search -->
+                <div class="search-input mb-2">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" id="workflowSearch" 
+                           placeholder="Search workflows..." autocomplete="off" disabled>
+                </div>
+                
+                <!-- Workflow List -->
+                <div class="list-container mb-3" id="workflowListContainer">
+                    <div class="empty-state">
+                        <i class="bi bi-diagram-2"></i>
+                        <p>Select a project first</p>
+                    </div>
+                </div>
+                
+                <!-- Workflow Actions -->
+                <div class="d-flex gap-2 mb-4">
+                    <button class="btn btn-clean btn-sm flex-fill" id="loadWorkflowBtn" disabled>
+                        <i class="bi bi-upload"></i> Load
+                    </button>
+                    <button class="btn btn-clean btn-sm flex-fill" id="saveWorkflowBtn" disabled>
+                        <i class="bi bi-download"></i> Save
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-card">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="stat-number" id="projectCount">0</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="workflowCount">0</div>
+                            <div class="stat-label">Workflows</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Add Workflow Button (shown when project is selected but no workflow is being created) -->
-            <div id="addWorkflowSection" style="display: none; margin: 20px 0;">
-                <button class="btn" onclick="startFirstWorkflow()" id="addWorkflowBtn" style="width: 100%;">+ Generate New Workflow</button>
-            </div>
-            
-            <!-- Loading Indicator -->
-            <div class="loading" id="iterationLoading">Processing workflow iteration</div>
-            
-            <!-- Version Information -->
-            <div class="version-info" id="versionInfo" style="display: none;"></div>
-            
-            <!-- Results Panel -->
-            <div class="result-panel" id="resultPanel">
-                <pre id="resultContent"></pre>
+            <!-- Main Content -->
+            <div class="col-md-9 p-4">
+                <div class="glass-panel p-4">
+                    <h2 class="text-primary-dark mb-4">N8N Workflow Builder</h2>
+                    
+                    <!-- Tabbed Interface -->
+                    <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="generation-tab" data-bs-toggle="tab" data-bs-target="#generation" type="button" role="tab">
+                                <i class="bi bi-magic"></i> Generate
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="viewer-tab" data-bs-toggle="tab" data-bs-target="#viewer" type="button" role="tab">
+                                <i class="bi bi-eye"></i> Workflow Viewer
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab">
+                                <i class="bi bi-list-check"></i> Results
+                            </button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="mainTabContent">
+                        <!-- Generation Tab -->
+                        <div class="tab-pane fade show active" id="generation" role="tabpanel">
+                            <form id="workflowForm">
+                                <div class="mb-3">
+                                    <label for="workflowName" class="form-label text-secondary-dark">Workflow Name</label>
+                                    <input type="text" class="form-control" id="workflowName" 
+                                           placeholder="Enter a descriptive name for your workflow..." required>
+                                    <div class="form-text">This will be used to identify and save your workflow.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label text-secondary-dark">Workflow Description</label>
+                                    <textarea class="form-control" id="description" rows="4" 
+                                            placeholder="Describe what you want this workflow to do..." required></textarea>
+                                    <div class="form-text">Detailed instructions for the AI to generate your workflow.</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary-clean btn-lg">
+                                        <i class="bi bi-magic"></i> Generate Workflow
+                                    </button>
+                                    <button type="button" class="btn btn-clean btn-lg" id="quickSaveBtn" disabled>
+                                        <i class="bi bi-floppy"></i> Quick Save
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="loading">
+                                <div class="d-flex align-items-center">
+                                    <div class="spinner-border me-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span class="text-secondary-dark">Generating workflow...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Workflow Viewer Tab -->
+                        <div class="tab-pane fade" id="viewer" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="text-primary-dark mb-0">Workflow Structure</h5>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-clean btn-sm" id="formatJsonBtn">
+                                        <i class="bi bi-code"></i> Format
+                                    </button>
+                                    <button class="btn btn-clean btn-sm" id="validateJsonBtn">
+                                        <i class="bi bi-check-circle"></i> Validate
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="workflowViewer" class="json-viewer">
+                                <div class="empty-state">
+                                    <i class="bi bi-diagram-3"></i>
+                                    <p>No workflow loaded. Generate or load a workflow to view its structure.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Tab -->
+                        <div class="tab-pane fade" id="results" role="tabpanel">
+                            <h5 class="text-primary-dark mb-3">Generation Results</h5>
+                            <div id="result" class="json-viewer">
+                                <div class="empty-state">
+                                    <i class="bi bi-list-check"></i>
+                                    <p>Results will appear here after generating a workflow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- New Project Modal -->
+    <div class="modal fade" id="newProjectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-dark">
+                        <i class="bi bi-folder-plus"></i> Create New Project
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newProjectForm">
+                        <div class="mb-3">
+                            <label for="projectName" class="form-label">Project Name</label>
+                            <input type="text" class="form-control" id="projectName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-clean" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-clean" id="createProjectBtn">
+                        <i class="bi bi-plus"></i> Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Global state management
-        let currentProject = null;
+        // State management
         let currentWorkflow = null;
-        let currentWorkflowContent = null;
-        
-        const API_BASE_URL = window.location.origin;
+        let currentProject = null;
+        let selectedWorkflow = null;
+        let currentWorkflowName = null;
+        let projects = [];
+        let workflows = [];
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('N8N Builder Project Interface Initialized');
-            refreshProjects();
+            loadProjects();
+            setupEventListeners();
+            setupKeyboardNavigation();
         });
         
-        // Utility Functions
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
+        // Event listeners setup
+        function setupEventListeners() {
+            // Project management
+            document.getElementById('projectSearch').addEventListener('input', filterProjects);
+            document.getElementById('newProjectBtn').addEventListener('click', showNewProjectModal);
+            document.getElementById('deleteProjectBtn').addEventListener('click', handleDeleteProject);
             
-            errorDiv.textContent = message;
-            errorDiv.classList.add('show');
-            successDiv.classList.remove('show');
+            // Workflow management
+            document.getElementById('workflowSearch').addEventListener('input', filterWorkflows);
+            document.getElementById('loadWorkflowBtn').addEventListener('click', handleLoadWorkflow);
+            document.getElementById('saveWorkflowBtn').addEventListener('click', handleSaveWorkflow);
+            document.getElementById('quickSaveBtn').addEventListener('click', handleQuickSave);
             
-            setTimeout(() => {
-                errorDiv.classList.remove('show');
-            }, 10000);
+            // Form validation and quick save enablement
+            document.getElementById('workflowName').addEventListener('input', updateQuickSaveState);
+            document.getElementById('description').addEventListener('input', updateQuickSaveState);
+            
+            // Main form
+            document.getElementById('workflowForm').addEventListener('submit', handleWorkflowGeneration);
+            
+            // Modal actions
+            document.getElementById('createProjectBtn').addEventListener('click', handleCreateProject);
+            
+            // Viewer actions
+            document.getElementById('formatJsonBtn').addEventListener('click', formatWorkflowJson);
+            document.getElementById('validateJsonBtn').addEventListener('click', validateWorkflowJson);
         }
         
-        function showSuccess(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
+        // Keyboard navigation setup
+        function setupKeyboardNavigation() {
+            // Global keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case 'n':
+                            e.preventDefault();
+                            showNewProjectModal();
+                            break;
+                        case 's':
+                            e.preventDefault();
+                            if (currentWorkflow) handleSaveWorkflow();
+                            break;
+                        case 'Enter':
+                            e.preventDefault();
+                            if (document.getElementById('description').value) {
+                                document.getElementById('workflowForm').dispatchEvent(new Event('submit'));
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+        
+        // Load projects from API
+        async function loadProjects() {
+            try {
+                const response = await fetch('/projects');
+                projects = await response.json();
+                updateProjectList();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                showToast('Error loading projects', 'error');
+                showEmptyState('projectListContainer', 'folder', 'Failed to load projects');
+            }
+        }
+        
+        // Load workflows for current project
+        async function loadWorkflows() {
+            if (!currentProject) return;
             
-            successDiv.textContent = message;
-            successDiv.classList.add('show');
-            errorDiv.classList.remove('show');
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows`);
+                workflows = await response.json();
+                updateWorkflowList();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading workflows:', error);
+                showToast('Error loading workflows', 'error');
+                showEmptyState('workflowListContainer', 'diagram-2', 'Failed to load workflows');
+            }
+        }
+        
+        // Update project list
+        function updateProjectList() {
+            const container = document.getElementById('projectListContainer');
+            
+            if (projects.length === 0) {
+                showEmptyState('projectListContainer', 'folder', 'No projects found');
+                return;
+            }
+            
+            container.innerHTML = '';
+            projects.forEach(project => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.dataset.project = project.name;
+                item.innerHTML = `
+                    <i class="bi bi-folder item-icon"></i>
+                    <span class="item-name">${escapeHtml(project.name)}</span>
+                    <span class="item-count">${project.workflow_count}</span>
+                `;
+                item.addEventListener('click', () => selectProject(project.name));
+                container.appendChild(item);
+            });
+        }
+        
+        // Update workflow list
+        function updateWorkflowList() {
+            const container = document.getElementById('workflowListContainer');
+            
+            if (!currentProject) {
+                showEmptyState('workflowListContainer', 'diagram-2', 'Select a project first');
+                return;
+            }
+            
+            if (workflows.length === 0) {
+                showEmptyState('workflowListContainer', 'diagram-2', 'No workflows found');
+                return;
+            }
+            
+            container.innerHTML = '';
+            workflows.forEach(workflow => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.dataset.workflow = workflow;
+                item.innerHTML = `
+                    <i class="bi bi-lightning item-icon"></i>
+                    <span class="item-name" title="${escapeHtml(workflow)}">${escapeHtml(workflow)}</span>
+                `;
+                item.addEventListener('click', () => selectWorkflow(workflow));
+                container.appendChild(item);
+            });
+        }
+        
+        // Show empty state
+        function showEmptyState(containerId, icon, message) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="bi bi-${icon}"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+        
+        // Select project
+        function selectProject(projectName) {
+            // Update selection state
+            currentProject = projectName;
+            selectedWorkflow = null;
+            
+            // Update UI
+            document.querySelectorAll('#projectListContainer .list-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.project === projectName);
+            });
+            
+            // Clear workflow selection
+            document.querySelectorAll('#workflowListContainer .list-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Enable/disable buttons
+            document.getElementById('deleteProjectBtn').disabled = false;
+            document.getElementById('workflowSearch').disabled = false;
+            document.getElementById('loadWorkflowBtn').disabled = true;
+            document.getElementById('saveWorkflowBtn').disabled = false;
+            
+            // Load workflows
+            loadWorkflows();
+        }
+        
+        // Select workflow
+        function selectWorkflow(workflowName) {
+            selectedWorkflow = workflowName;
+            
+            // Update UI
+            document.querySelectorAll('#workflowListContainer .list-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.workflow === workflowName);
+            });
+            
+            // Enable load button
+            document.getElementById('loadWorkflowBtn').disabled = false;
+        }
+        
+        // Filter projects based on search
+        function filterProjects() {
+            const searchTerm = document.getElementById('projectSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#projectListContainer .list-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.item-name').textContent.toLowerCase();
+                item.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        // Filter workflows based on search
+        function filterWorkflows() {
+            const searchTerm = document.getElementById('workflowSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#workflowListContainer .list-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.item-name').textContent.toLowerCase();
+                item.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        // Show new project modal
+        function showNewProjectModal() {
+            const modal = new bootstrap.Modal(document.getElementById('newProjectModal'));
+            modal.show();
+        }
+        
+        // Handle create project
+        async function handleCreateProject() {
+            const name = document.getElementById('projectName').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+            
+            if (!name) {
+                showToast('Project name is required', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(name)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        description: description
+                    }),
+                });
+                
+                if (response.ok) {
+                    showToast('Project created successfully', 'success');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('newProjectModal'));
+                    modal.hide();
+                    document.getElementById('newProjectForm').reset();
+                    loadProjects();
+                } else {
+                    const error = await response.json();
+                    showToast(error.detail || 'Error creating project', 'error');
+                }
+            } catch (error) {
+                console.error('Error creating project:', error);
+                showToast('Error creating project', 'error');
+            }
+        }
+        
+        // Handle delete project
+        async function handleDeleteProject() {
+            if (!currentProject) return;
+            
+            if (confirm(`Are you sure you want to delete project "${currentProject}"?`)) {
+                try {
+                    const response = await fetch(`/projects/${encodeURIComponent(currentProject)}?confirm=true`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        showToast('Project deleted successfully', 'success');
+                        currentProject = null;
+                        selectedWorkflow = null;
+                        document.getElementById('deleteProjectBtn').disabled = true;
+                        document.getElementById('workflowSearch').disabled = true;
+                        document.getElementById('loadWorkflowBtn').disabled = true;
+                        document.getElementById('saveWorkflowBtn').disabled = true;
+                        loadProjects();
+                        showEmptyState('workflowListContainer', 'diagram-2', 'Select a project first');
+                    } else {
+                        const error = await response.json();
+                        showToast(error.detail || 'Error deleting project', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting project:', error);
+                    showToast('Error deleting project', 'error');
+                }
+            }
+        }
+        
+        // Handle load workflow
+        async function handleLoadWorkflow() {
+            if (!currentProject || !selectedWorkflow) {
+                showToast('Please select a project and workflow', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(selectedWorkflow)}`);
+                const workflowData = await response.json();
+                
+                currentWorkflow = workflowData.workflow_data;
+                currentWorkflowName = selectedWorkflow.replace(/\.json$/, ''); // Remove .json extension
+                
+                // Populate the workflow name field
+                document.getElementById('workflowName').value = currentWorkflowName;
+                
+                updateWorkflowViewer(currentWorkflow);
+                updateQuickSaveState();
+                showToast('Workflow loaded successfully', 'success');
+                
+                // Switch to viewer tab
+                const viewerTab = new bootstrap.Tab(document.getElementById('viewer-tab'));
+                viewerTab.show();
+            } catch (error) {
+                console.error('Error loading workflow:', error);
+                showToast('Error loading workflow', 'error');
+            }
+        }
+        
+        // Handle save workflow
+        async function handleSaveWorkflow() {
+            if (!currentWorkflow) {
+                showToast('No workflow to save', 'error');
+                return;
+            }
+            
+            if (!currentProject) {
+                showToast('Please select a project first', 'error');
+                return;
+            }
+            
+            // Try to use the current workflow name, or prompt for a new one
+            let workflowName = currentWorkflowName || document.getElementById('workflowName').value.trim();
+            
+            if (!workflowName) {
+                workflowName = prompt('Enter workflow name:');
+                if (!workflowName) return;
+            }
+            
+            await saveWorkflowWithName(workflowName);
+        }
+        
+        // Handle workflow generation
+        async function handleWorkflowGeneration(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('workflowName').value.trim();
+            const description = document.getElementById('description').value;
+            const loading = document.querySelector('.loading');
+            const result = document.getElementById('result');
+            
+            if (!name) {
+                showToast('Please enter a workflow name', 'error');
+                return;
+            }
+            
+            if (!description.trim()) {
+                showToast('Please enter a workflow description', 'error');
+                return;
+            }
+            
+            // Store the workflow name for later use
+            currentWorkflowName = name;
+            
+            loading.style.display = 'block';
+            result.innerHTML = '<div class="empty-state"><div class="spinner-border text-primary"></div><p>Generating workflow...</p></div>';
+            
+            // Switch to results tab
+            const resultsTab = new bootstrap.Tab(document.getElementById('results-tab'));
+            resultsTab.show();
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        description: description
+                    }),
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const reader = response.body.getReader();
+                let workflowData = null;
+                let errorMessage = null;
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const text = new TextDecoder().decode(value);
+                    const events = text.split('\n').filter(Boolean);
+                    
+                    for (const event of events) {
+                        try {
+                            // Handle server-sent event format: "data: {JSON}"
+                            let jsonData;
+                            if (event.startsWith('data: ')) {
+                                jsonData = event.substring(6); // Remove "data: " prefix
+                            } else if (event.trim()) {
+                                jsonData = event; // Fallback for direct JSON
+                            } else {
+                                continue; // Skip empty lines
+                            }
+                            
+                            const data = JSON.parse(jsonData);
+                            console.log('Received event:', data); // Debug logging
+                            
+                            if (data.type === 'WORKFLOW_GENERATED') {
+                                workflowData = data.data;
+                                console.log('Workflow data received:', workflowData); // Debug logging
+                            } else if (data.type === 'RUN_ERROR') {
+                                errorMessage = data.error;
+                                console.log('Error received:', errorMessage); // Debug logging
+                            }
+                        } catch (parseError) {
+                            console.warn('Could not parse event:', event, 'Error:', parseError);
+                        }
+                    }
+                }
+                
+                if (errorMessage) {
+                    console.error('Server returned error:', errorMessage);
+                    throw new Error(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
+                }
+                
+                if (workflowData) {
+                    console.log('Processing workflow data:', workflowData);
+                    let parsedJson;
+                    try {
+                        // Handle both string and object workflow data
+                        if (typeof workflowData.workflow_json === 'string') {
+                            parsedJson = JSON.parse(workflowData.workflow_json);
+                        } else {
+                            parsedJson = workflowData.workflow_json;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing workflow JSON:', e);
+                        console.log('Raw workflow data:', workflowData);
+                        // Fallback: try to use the data as-is
+                        parsedJson = workflowData.workflow_json || workflowData;
+                    }
+                    
+                    console.log('Final parsed workflow:', parsedJson);
+                    currentWorkflow = parsedJson;
+                    const formattedJson = JSON.stringify(parsedJson, null, 2);
+                    result.innerHTML = formattedJson;
+                    updateWorkflowViewer(parsedJson);
+                    updateQuickSaveState();
+                    showToast(`Workflow "${name}" generated successfully`, 'success');
+                } else {
+                    console.error('No workflow data found in server response');
+                    console.log('All events received during processing - check browser console for details');
+                    throw new Error('No workflow data received from the server');
+                }
+            } catch (error) {
+                console.error('Error generating workflow:', error);
+                const errorMsg = error.message || 'Unknown error occurred';
+                result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>Check the console for more details.</small></div>`;
+                showToast(`Error generating workflow: ${errorMsg}`, 'error');
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        // Update workflow viewer
+        function updateWorkflowViewer(workflow) {
+            const viewer = document.getElementById('workflowViewer');
+            const formattedJson = JSON.stringify(workflow, null, 2);
+            viewer.innerHTML = formattedJson;
+        }
+        
+        // Format JSON in viewer
+        function formatWorkflowJson() {
+            if (!currentWorkflow) {
+                showToast('No workflow to format', 'error');
+                return;
+            }
+            updateWorkflowViewer(currentWorkflow);
+            showToast('JSON formatted', 'success');
+        }
+        
+        // Validate JSON in viewer
+        function validateWorkflowJson() {
+            if (!currentWorkflow) {
+                showToast('No workflow to validate', 'error');
+                return;
+            }
+            
+            try {
+                JSON.parse(JSON.stringify(currentWorkflow));
+                showToast('Workflow JSON is valid', 'success');
+            } catch (error) {
+                showToast('Invalid JSON format', 'error');
+            }
+        }
+        
+        // Update stats
+        function updateStats() {
+            document.getElementById('projectCount').textContent = projects.length;
+            document.getElementById('workflowCount').textContent = workflows.length;
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const alertClass = type === 'error' ? 'alert-danger' : 
+                              type === 'success' ? 'alert-success' : 'alert-info';
+            
+            const toast = document.createElement('div');
+            toast.className = `alert ${alertClass} alert-dismissible fade show`;
+            toast.style.cssText = 'min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            toastContainer.appendChild(toast);
             
             setTimeout(() => {
-                successDiv.classList.remove('show');
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
             }, 5000);
         }
         
-        function updateCurrentContext() {
-            const contextDiv = document.getElementById('currentContext');
-            const projectSpan = document.getElementById('contextProject');
-            const workflowSpan = document.getElementById('contextWorkflow');
-            
-            projectSpan.textContent = `Project: ${currentProject || 'None'}`;
-            workflowSpan.textContent = `Workflow: ${currentWorkflow || 'None'}`;
-            
-            if (currentProject) {
-                contextDiv.style.display = 'block';
-            } else {
-                contextDiv.style.display = 'none';
-            }
-            
-            // Update button states
-            updateButtonStates();
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
         
-        function updateButtonStates() {
-            const deleteProjectBtn = document.getElementById('deleteProjectBtn');
-            const refreshWorkflowsBtn = document.getElementById('refreshWorkflowsBtn');
-            const iterateBtn = document.getElementById('iterateBtn');
-            const loadWorkflowBtn = document.getElementById('loadWorkflowBtn');
-            const saveWorkflowBtn = document.getElementById('saveWorkflowBtn');
-            const generateFirstBtn = document.getElementById('generateFirstBtn');
+        // Update quick save button state
+        function updateQuickSaveState() {
+            const name = document.getElementById('workflowName').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const quickSaveBtn = document.getElementById('quickSaveBtn');
             
-            deleteProjectBtn.disabled = !currentProject;
-            refreshWorkflowsBtn.disabled = !currentProject;
-            loadWorkflowBtn.disabled = !currentProject || !currentWorkflow;
-            saveWorkflowBtn.disabled = !currentProject || !currentWorkflow || !currentWorkflowContent;
-            iterateBtn.disabled = !currentProject || !currentWorkflow || !currentWorkflowContent;
-            generateFirstBtn.disabled = !currentProject;
-            
-            // Update UI sections based on project and workflow state
-            updateUIVisibility();
+            // Enable quick save if we have a workflow, a name, and a selected project
+            quickSaveBtn.disabled = !(currentWorkflow && name && currentProject);
         }
         
-        function updateUIVisibility() {
-            const iterationSection = document.getElementById('iterationSection');
-            const firstWorkflowSection = document.getElementById('firstWorkflowSection');
-            const iterationButtons = document.getElementById('iterationButtons');
-            const firstWorkflowButtons = document.getElementById('firstWorkflowButtons');
-            const addWorkflowSection = document.getElementById('addWorkflowSection');
-            const versionInfo = document.getElementById('versionInfo');
+        // Handle quick save
+        async function handleQuickSave() {
+            const name = document.getElementById('workflowName').value.trim();
             
-            if (!currentProject) {
-                // No project selected - hide everything
-                iterationSection.style.display = 'none';
-                firstWorkflowSection.style.display = 'none';
-                iterationButtons.style.display = 'none';
-                firstWorkflowButtons.style.display = 'none';
-                addWorkflowSection.style.display = 'none';
-                versionInfo.style.display = 'none';
-            } else if (currentProject && !currentWorkflow) {
-                // Project selected but no workflow - show add workflow button
-                iterationSection.style.display = 'none';
-                firstWorkflowSection.style.display = 'none';
-                iterationButtons.style.display = 'none';
-                firstWorkflowButtons.style.display = 'none';
-                addWorkflowSection.style.display = 'block';
-                versionInfo.style.display = 'none';
-            } else if (currentProject && currentWorkflow && currentWorkflowContent) {
-                // Project and workflow selected - show iteration interface
-                iterationSection.style.display = 'flex';
-                firstWorkflowSection.style.display = 'none';
-                iterationButtons.style.display = 'flex';
-                firstWorkflowButtons.style.display = 'none';
-                addWorkflowSection.style.display = 'none';
-                versionInfo.style.display = 'block';
-            }
-        }
-        
-        // Project Management Functions
-        async function refreshProjects() {
-            const loadingDiv = document.getElementById('projectsLoading');
-            const projectList = document.getElementById('projectList');
-            
-            loadingDiv.style.display = 'block';
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/projects`);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const projects = await response.json();
-                
-                projectList.innerHTML = '';
-                
-                if (projects.length === 0) {
-                    projectList.innerHTML = '<div class="status-info">No projects found. Create your first project!</div>';
-                } else {
-                    projects.forEach(project => {
-                        const projectDiv = document.createElement('div');
-                        projectDiv.classList.add('project-item');
-                        if (project.name === currentProject) {
-                            projectDiv.classList.add('active');
-                        }
-                        
-                        projectDiv.innerHTML = `
-                            <div>
-                                <strong>${project.name}</strong>
-                                <div style="font-size: 12px; color: #7f8c8d;">${project.workflow_count} workflows</div>
-                            </div>
-                        `;
-                        
-                        projectDiv.onclick = () => selectProject(project.name);
-                        projectList.appendChild(projectDiv);
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading projects:', error);
-                showError(`Failed to load projects: ${error.message}`);
-                projectList.innerHTML = '<div class="status-error">Failed to load projects</div>';
-            } finally {
-                loadingDiv.style.display = 'none';
-            }
-        }
-        
-        async function createProject() {
-            const projectName = document.getElementById('newProjectName').value.trim();
-            
-            if (!projectName) {
-                showError('Please enter a project name');
+            if (!currentWorkflow || !currentProject || !name) {
+                showToast('Cannot save: missing workflow, project, or name', 'error');
                 return;
             }
             
-            try {
-                const response = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(projectName)}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: projectName,
-                        description: `Project created for ${projectName}`,
-                        initial_workflows: []
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ detail: 'Failed to create project' }));
-                    throw new Error(errorData.detail || 'Failed to create project');
-                }
-                
-                const project = await response.json();
-                showSuccess(`Project "${project.name}" created successfully!`);
-                
-                document.getElementById('newProjectName').value = '';
-                refreshProjects();
-                selectProject(project.name);
-            } catch (error) {
-                console.error('Error creating project:', error);
-                showError(`Failed to create project: ${error.message}`);
-            }
+            await saveWorkflowWithName(name);
         }
         
-        async function selectProject(projectName) {
-            currentProject = projectName;
-            currentWorkflow = null;
-            currentWorkflowContent = null;
-            
-            updateCurrentContext();
-            refreshWorkflows();
-            
-            // Update project list UI
-            document.querySelectorAll('.project-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.project-item').forEach(item => {
-                if (item.textContent.includes(projectName)) {
-                    item.classList.add('active');
-                }
-            });
-        }
-        
-        async function deleteCurrentProject() {
-            if (!currentProject) return;
-            
-            if (!confirm(`Are you sure you want to delete project "${currentProject}"? This cannot be undone.`)) {
+        // Save workflow with given name
+        async function saveWorkflowWithName(workflowName) {
+            if (!currentWorkflow || !currentProject) {
+                showToast('No workflow to save or no project selected', 'error');
                 return;
             }
             
-            try {
-                const response = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(currentProject)}`, {
-                    method: 'DELETE'
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ detail: 'Failed to delete project' }));
-                    throw new Error(errorData.detail || 'Failed to delete project');
-                }
-                
-                showSuccess(`Project "${currentProject}" deleted successfully`);
-                currentProject = null;
-                currentWorkflow = null;
-                currentWorkflowContent = null;
-                
-                updateCurrentContext();
-                refreshProjects();
-                
-                const workflowList = document.getElementById('workflowList');
-                workflowList.innerHTML = '<div class="status-info">Select a project first</div>';
-            } catch (error) {
-                console.error('Error deleting project:', error);
-                showError(`Failed to delete project: ${error.message}`);
-            }
-        }
-        
-        // Workflow Management Functions
-        async function refreshWorkflows() {
-            if (!currentProject) {
-                const workflowList = document.getElementById('workflowList');
-                workflowList.innerHTML = '<div class="status-info">Select a project first</div>';
-                return;
-            }
-            
-            const workflowList = document.getElementById('workflowList');
-            workflowList.innerHTML = '<div class="loading">Loading workflows</div>';
+            // Ensure the filename has .json extension
+            const filename = workflowName.endsWith('.json') ? workflowName : `${workflowName}.json`;
             
             try {
-                const response = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(currentProject)}/workflows`);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const workflows = await response.json();
-                
-                workflowList.innerHTML = '';
-                
-                if (workflows.length === 0) {
-                    workflowList.innerHTML = '<div class="status-warning">No workflows found. Create your first workflow by iterating!</div>';
-                } else {
-                    workflows.forEach(workflowName => {
-                        const workflowDiv = document.createElement('div');
-                        workflowDiv.classList.add('workflow-item');
-                        if (workflowName === currentWorkflow) {
-                            workflowDiv.classList.add('active');
-                        }
-                        
-                        workflowDiv.innerHTML = `
-                            <div>
-                                <strong>${workflowName}</strong>
-                                <div style="font-size: 12px; color: #7f8c8d;">Click to select</div>
-                            </div>
-                        `;
-                        
-                        workflowDiv.onclick = () => selectWorkflow(workflowName);
-                        workflowList.appendChild(workflowDiv);
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading workflows:', error);
-                showError(`Failed to load workflows: ${error.message}`);
-                workflowList.innerHTML = '<div class="status-error">Failed to load workflows</div>';
-            }
-        }
-        
-        function selectWorkflow(workflowName) {
-            currentWorkflow = workflowName;
-            currentWorkflowContent = null;
-            
-            updateCurrentContext();
-            
-            // Update workflow list UI
-            document.querySelectorAll('.workflow-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.workflow-item').forEach(item => {
-                if (item.textContent.includes(workflowName)) {
-                    item.classList.add('active');
-                }
-            });
-            
-            // Auto-load workflow content
-            loadWorkflowContent();
-        }
-        
-        async function loadWorkflowContent() {
-            if (!currentProject || !currentWorkflow) {
-                showError('Please select a project and workflow first');
-                return;
-            }
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(currentWorkflow)}`);
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error('Workflow file not found');
-                    }
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const workflowData = await response.json();
-                currentWorkflowContent = workflowData.workflow_data;
-                
-                showSuccess(`Workflow "${currentWorkflow}" loaded successfully`);
-                updateButtonStates();
-                
-                // Show current workflow info
-                const versionInfo = document.getElementById('versionInfo');
-                versionInfo.innerHTML = `
-                    <strong>Loaded Workflow:</strong> ${currentWorkflow}<br>
-                    <strong>Project:</strong> ${currentProject}<br>
-                    <strong>Nodes:</strong> ${currentWorkflowContent.nodes ? currentWorkflowContent.nodes.length : 0}<br>
-                    <strong>Connections:</strong> ${currentWorkflowContent.connections ? Object.keys(currentWorkflowContent.connections).length : 0}
-                `;
-                versionInfo.style.display = 'block';
-                
-            } catch (error) {
-                console.error('Error loading workflow:', error);
-                showError(`Failed to load workflow: ${error.message}`);
-            }
-        }
-        
-        async function saveWorkflow() {
-            if (!currentProject || !currentWorkflow || !currentWorkflowContent) {
-                showError('No workflow content to save');
-                return;
-            }
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(currentWorkflow)}`, {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(filename)}`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        workflow_data: currentWorkflowContent,
-                        create_backup: true
-                    })
+                        workflow_data: currentWorkflow
+                    }),
                 });
                 
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ detail: 'Failed to save workflow' }));
-                    throw new Error(errorData.detail || 'Failed to save workflow');
+                if (response.ok) {
+                    currentWorkflowName = workflowName;
+                    showToast(`Workflow "${workflowName}" saved successfully`, 'success');
+                    loadWorkflows();
+                    updateQuickSaveState();
+                } else {
+                    const error = await response.json();
+                    showToast(error.detail || 'Error saving workflow', 'error');
                 }
-                
-                const result = await response.json();
-                showSuccess(`Workflow saved successfully! ${result.backup_created ? 'Previous version backed up.' : ''}`);
-                
             } catch (error) {
                 console.error('Error saving workflow:', error);
-                showError(`Failed to save workflow: ${error.message}`);
-            }
-        }
-        
-        // Workflow Iteration Function
-        async function iterateWorkflow() {
-            const description = document.getElementById('iterationDescription').value.trim();
-            
-            if (!description) {
-                showError('Please describe the changes you want to make');
-                return;
-            }
-            
-            if (!currentProject || !currentWorkflow || !currentWorkflowContent) {
-                showError('Please select a project and load a workflow first');
-                return;
-            }
-            
-            const iterateBtn = document.getElementById('iterateBtn');
-            const loadingDiv = document.getElementById('iterationLoading');
-            const resultPanel = document.getElementById('resultPanel');
-            const resultContent = document.getElementById('resultContent');
-            
-            iterateBtn.disabled = true;
-            loadingDiv.classList.add('show');
-            resultPanel.classList.remove('show');
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/iterate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'text/event-stream'
-                    },
-                    body: JSON.stringify({
-                        workflow_id: `${currentProject}-${currentWorkflow}`,
-                        existing_workflow_json: JSON.stringify(currentWorkflowContent),
-                        feedback_from_testing: description,
-                        additional_requirements: `Project: ${currentProject}, Workflow: ${currentWorkflow}`
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ detail: 'Failed to iterate workflow' }));
-                    throw new Error(errorData.detail || 'Failed to iterate workflow');
-                }
-                
-                // Handle streaming response
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let buffer = '';
-                let finalWorkflow = null;
-                
-                resultPanel.classList.add('show');
-                resultContent.textContent = 'Processing workflow iteration...\n';
-                
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    
-                    buffer += decoder.decode(value, { stream: true });
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop(); // Keep the incomplete line in buffer
-                    
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            try {
-                                const data = JSON.parse(line.slice(6));
-                                
-                                if (data.type === 'progress') {
-                                    resultContent.textContent += `${data.message}\n`;
-                                } else if (data.type === 'error') {
-                                    resultContent.textContent += `ERROR: ${data.message}\n`;
-                                } else if (data.type === 'workflow') {
-                                    finalWorkflow = data.workflow;
-                                    resultContent.textContent += 'Workflow iteration completed successfully!\n';
-                                    resultContent.textContent += JSON.stringify(finalWorkflow, null, 2);
-                                } else if (data.type === 'WORKFLOW_ITERATED' && data.data) {
-                                    // Handle the actual API response structure
-                                    try {
-                                        finalWorkflow = JSON.parse(data.data.workflow_json);
-                                        resultContent.textContent += 'Workflow iteration completed successfully!\n';
-                                        resultContent.textContent += JSON.stringify(finalWorkflow, null, 2);
-                                    } catch (e) {
-                                        resultContent.textContent += `Workflow iteration completed!\nResponse: ${JSON.stringify(data.data, null, 2)}\n`;
-                                    }
-                                }
-                                
-                                // Auto-scroll to bottom
-                                resultPanel.scrollTop = resultPanel.scrollHeight;
-                            } catch (e) {
-                                console.warn('Failed to parse SSE data:', line);
-                            }
-                        }
-                    }
-                }
-                
-                if (finalWorkflow) {
-                    currentWorkflowContent = finalWorkflow;
-                    showSuccess('Workflow iteration completed! The updated workflow is now loaded.');
-                    
-                    // Update version info
-                    const versionInfo = document.getElementById('versionInfo');
-                    versionInfo.innerHTML = `
-                        <strong>Updated Workflow:</strong> ${currentWorkflow}<br>
-                        <strong>Project:</strong> ${currentProject}<br>
-                        <strong>Nodes:</strong> ${finalWorkflow.nodes ? finalWorkflow.nodes.length : 0}<br>
-                        <strong>Connections:</strong> ${finalWorkflow.connections ? Object.keys(finalWorkflow.connections).length : 0}<br>
-                        <strong>Status:</strong> <span style="color: #27ae60;">Ready to save</span>
-                    `;
-                    
-                    // Clear the iteration description
-                    document.getElementById('iterationDescription').value = '';
-                } else {
-                    throw new Error('No updated workflow received');
-                }
-                
-            } catch (error) {
-                console.error('Error iterating workflow:', error);
-                showError(`Failed to iterate workflow: ${error.message}`);
-                resultContent.textContent += `\nERROR: ${error.message}`;
-            } finally {
-                iterateBtn.disabled = false;
-                loadingDiv.classList.remove('show');
-                updateButtonStates();
-            }
-        }
-        
-        // First Workflow Generation Functions
-        function startFirstWorkflow() {
-            const iterationSection = document.getElementById('iterationSection');
-            const firstWorkflowSection = document.getElementById('firstWorkflowSection');
-            const iterationButtons = document.getElementById('iterationButtons');
-            const firstWorkflowButtons = document.getElementById('firstWorkflowButtons');
-            const addWorkflowSection = document.getElementById('addWorkflowSection');
-            
-            // Show first workflow generation interface
-            iterationSection.style.display = 'none';
-            firstWorkflowSection.style.display = 'flex';
-            iterationButtons.style.display = 'none';
-            firstWorkflowButtons.style.display = 'flex';
-            addWorkflowSection.style.display = 'none';
-            
-            // Focus on the description textarea
-            document.getElementById('firstWorkflowDescription').focus();
-        }
-        
-        function cancelFirstWorkflow() {
-            // Clear the description and return to normal state
-            document.getElementById('firstWorkflowDescription').value = '';
-            updateUIVisibility();
-        }
-        
-        async function generateFirstWorkflow() {
-            const description = document.getElementById('firstWorkflowDescription').value.trim();
-            
-            if (!description) {
-                showError('Please describe your first workflow');
-                return;
-            }
-            
-            if (!currentProject) {
-                showError('Please select a project first');
-                return;
-            }
-            
-            const generateFirstBtn = document.getElementById('generateFirstBtn');
-            const loadingDiv = document.getElementById('iterationLoading');
-            const resultPanel = document.getElementById('resultPanel');
-            const resultContent = document.getElementById('resultContent');
-            
-            generateFirstBtn.disabled = true;
-            loadingDiv.classList.add('show');
-            resultPanel.classList.remove('show');
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/generate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'text/event-stream'
-                    },
-                    body: JSON.stringify({
-                        description: description
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ detail: 'Failed to generate workflow' }));
-                    throw new Error(errorData.detail || 'Failed to generate workflow');
-                }
-                
-                // Handle streaming response
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let buffer = '';
-                let finalWorkflow = null;
-                
-                resultPanel.classList.add('show');
-                resultContent.textContent = 'Generating your first workflow...\n';
-                
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    
-                    buffer += decoder.decode(value, { stream: true });
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop(); // Keep the incomplete line in buffer
-                    
-                    for (const line of lines) {
-                        if (line.trim() && !line.startsWith('data: ')) {
-                            // Handle non-SSE responses (raw JSON)
-                            try {
-                                const data = JSON.parse(line);
-                                if (data.workflow_json) {
-                                    finalWorkflow = JSON.parse(data.workflow_json);
-                                    resultContent.textContent += 'Workflow generation completed successfully!\n';
-                                    resultContent.textContent += JSON.stringify(finalWorkflow, null, 2);
-                                }
-                            } catch (e) {
-                                // Continue parsing
-                            }
-                        } else if (line.startsWith('data: ')) {
-                            try {
-                                const data = JSON.parse(line.slice(6));
-                                
-                                if (data.type === 'WORKFLOW_GENERATED' && data.data) {
-                                    finalWorkflow = JSON.parse(data.data.workflow_json);
-                                    resultContent.textContent += 'Workflow generation completed successfully!\n';
-                                    resultContent.textContent += JSON.stringify(finalWorkflow, null, 2);
-                                } else if (data.type === 'progress') {
-                                    resultContent.textContent += `${data.message}\n`;
-                                } else if (data.type === 'error') {
-                                    resultContent.textContent += `ERROR: ${data.message}\n`;
-                                }
-                                
-                                // Auto-scroll to bottom
-                                resultPanel.scrollTop = resultPanel.scrollHeight;
-                            } catch (e) {
-                                console.warn('Failed to parse SSE data:', line);
-                            }
-                        }
-                    }
-                }
-                
-                if (finalWorkflow) {
-                    // Generate a workflow filename
-                    const workflowName = description.toLowerCase()
-                        .replace(/[^a-z0-9\s]/g, '')
-                        .replace(/\s+/g, '-')
-                        .substring(0, 50) + '.json';
-                    
-                    // Save the workflow to the project
-                    const saveResponse = await fetch(`${API_BASE_URL}/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(workflowName)}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            workflow_data: finalWorkflow,
-                            create_backup: false
-                        })
-                    });
-                    
-                    if (saveResponse.ok) {
-                        currentWorkflow = workflowName;
-                        currentWorkflowContent = finalWorkflow;
-                        
-                        showSuccess(`First workflow "${workflowName}" created and saved successfully!`);
-                        
-                        // Clear the description and refresh the UI
-                        document.getElementById('firstWorkflowDescription').value = '';
-                        refreshWorkflows();
-                        updateUIVisibility();
-                        
-                        // Show workflow info
-                        const versionInfo = document.getElementById('versionInfo');
-                        versionInfo.innerHTML = `
-                            <strong>Generated Workflow:</strong> ${workflowName}<br>
-                            <strong>Project:</strong> ${currentProject}<br>
-                            <strong>Nodes:</strong> ${finalWorkflow.nodes ? finalWorkflow.nodes.length : 0}<br>
-                            <strong>Connections:</strong> ${finalWorkflow.connections ? Object.keys(finalWorkflow.connections).length : 0}<br>
-                            <strong>Status:</strong> <span style="color: #27ae60;">Ready for iteration</span>
-                        `;
-                        versionInfo.style.display = 'block';
-                    } else {
-                        throw new Error('Failed to save generated workflow');
-                    }
-                } else {
-                    throw new Error('No workflow was generated');
-                }
-                
-            } catch (error) {
-                console.error('Error generating first workflow:', error);
-                showError(`Failed to generate workflow: ${error.message}`);
-                resultContent.textContent += `\nERROR: ${error.message}`;
-            } finally {
-                generateFirstBtn.disabled = false;
-                loadingDiv.classList.remove('show');
-                updateButtonStates();
+                showToast('Error saving workflow', 'error');
             }
         }
     </script>

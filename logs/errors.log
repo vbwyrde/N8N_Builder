@@ -1,0 +1,8 @@
+2025-06-12 01:59:28,804 - n8n_builder.retry - ERROR - [execute_with_retry:470] - All retry attempts exhausted [ID: llm_call_1749707964722]
+2025-06-12 01:59:28,804 - n8n_builder.retry - ERROR - [execute_with_retry:470] - All retry attempts exhausted [ID: llm_call_1749707964722]
+2025-06-12 01:59:28,804 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 01:59:28,804 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 01:59:28,804 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 4
+2025-06-12 01:59:28,804 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 4
+2025-06-12 01:59:28,811 - n8n_builder.n8n_builder - ERROR - [_log_validation_errors:825] - Modified workflow failed validation, returning original
+2025-06-12 01:59:28,811 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Generated workflow failed validation

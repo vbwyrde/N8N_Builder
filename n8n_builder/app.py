@@ -11,6 +11,7 @@ from datetime import datetime
 import os
 import logging
 from pathlib import Path
+import random
 
 from .n8n_builder import N8NBuilder
 from .validators import BaseWorkflowValidator, ValidationResult
@@ -152,10 +153,13 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 logger.debug("Mounted static files directory")
 
 async def generate_workflow_events(request: WorkflowRequest):
-    """Generate events for workflow creation process."""
+    """Generate events for workflow creation process with enhanced error handling and logging."""
     workflow_id = str(uuid.uuid4())
     thread_id = request.thread_id or str(uuid.uuid4())
     run_id = request.run_id or str(uuid.uuid4())
+    
+    # Log the start of workflow generation
+    logger.info(f"Workflow generation started - ID: {workflow_id}, Description: {request.description[:100]}...")
     
     # Start event
     yield "data: " + json.dumps({
@@ -167,11 +171,66 @@ async def generate_workflow_events(request: WorkflowRequest):
     }) + "\n\n"
     
     try:
+        # Pre-validate input description
+        yield "data: " + json.dumps({
+            "type": "VALIDATION_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Validating workflow description..."
+        }) + "\n\n"
+        
+        # Validate description using existing error handler
+        if not request.description or not request.description.strip():
+            logger.error(f"Empty workflow description provided for workflow {workflow_id}")
+            yield "data: " + json.dumps({
+                "type": "VALIDATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": "input_validation",
+                    "severity": "error",
+                    "title": "Empty Description",
+                    "message": "Workflow description cannot be empty",
+                    "user_guidance": "Please provide a clear description of the workflow you want to create",
+                    "fix_suggestions": ["Add a detailed description of what the workflow should do"]
+                }
+            }) + "\n\n"
+            return
+        
+        # Validation passed
+        logger.info(f"Input validation passed for workflow {workflow_id}")
+        yield "data: " + json.dumps({
+            "type": "VALIDATION_COMPLETED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Input validation completed successfully"
+        }) + "\n\n"
+        
+        # Processing started
+        yield "data: " + json.dumps({
+            "type": "PROCESSING_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Generating workflow..."
+        }) + "\n\n"
+        
         # Generate workflow
+        logger.info(f"Starting workflow generation process for {workflow_id}")
         workflow_json = workflow_builder.generate_workflow(request.description)
+        logger.info(f"Workflow generation completed for {workflow_id}")
         
         # Validate workflow
+        logger.info(f"Validating generated workflow for {workflow_id}")
         validation_result = workflow_validator.validate_workflow(workflow_json)
+        logger.info(f"Workflow validation completed for {workflow_id} - Valid: {validation_result.is_valid}")
         
         # Create response
         response = WorkflowResponse(
@@ -192,6 +251,7 @@ async def generate_workflow_events(request: WorkflowRequest):
         }) + "\n\n"
         
         # Finish event
+        logger.info(f"Workflow generation finished successfully for {workflow_id}")
         yield "data: " + json.dumps({
             "type": "RUN_FINISHED",
             "workflow_id": workflow_id,
@@ -202,14 +262,56 @@ async def generate_workflow_events(request: WorkflowRequest):
         }) + "\n\n"
         
     except Exception as e:
-        # Error event
+        # Generate unique error ID for tracking
+        error_id = f"err_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
+        
+        # Log comprehensive error information
+        logger.error(f"Workflow generation failed - Error ID: {error_id}")
+        logger.error(f"Workflow ID: {workflow_id}")
+        logger.error(f"Thread ID: {thread_id}")
+        logger.error(f"Run ID: {run_id}")
+        logger.error(f"Description: {request.description}")
+        logger.error(f"Error Type: {type(e).__name__}")
+        logger.error(f"Error Message: {str(e)}")
+        logger.error(f"Full Error Details:", exc_info=True)
+        
+        # Enhanced error handling using existing error handler
+        error_detail = error_handler.categorize_error(e, {
+            'workflow_id': workflow_id,
+            'thread_id': thread_id,
+            'run_id': run_id,
+            'operation_type': 'api_generate_workflow',
+            'description': request.description,
+            'error_id': error_id
+        })
+        
+        # Log the categorized error details
+        logger.error(f"Categorized Error - Title: {error_detail.title}")
+        logger.error(f"Category: {error_detail.category.value}")
+        logger.error(f"Severity: {error_detail.severity.value}")
+        logger.error(f"User Guidance: {error_detail.user_guidance}")
+        if error_detail.fix_suggestions:
+            logger.error(f"Fix Suggestions: {'; '.join(error_detail.fix_suggestions)}")
+        if error_detail.technical_details:
+            logger.error(f"Technical Details: {error_detail.technical_details}")
+        
+        # Error event with detailed information
         yield "data: " + json.dumps({
             "type": "RUN_ERROR",
             "workflow_id": workflow_id,
             "thread_id": thread_id,
             "run_id": run_id,
             "timestamp": datetime.now().isoformat(),
-            "error": str(e)
+            "error_id": error_id,
+            "error": {
+                "category": error_detail.category.value,
+                "severity": error_detail.severity.value,
+                "title": error_detail.title,
+                "message": error_detail.message,
+                "user_guidance": error_detail.user_guidance,
+                "fix_suggestions": error_detail.fix_suggestions,
+                "technical_details": error_detail.technical_details
+            }
         }) + "\n\n"
 
 @app.post("/generate")

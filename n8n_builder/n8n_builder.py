@@ -8,6 +8,8 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from pathlib import Path
+import concurrent.futures
+import threading
 
 from .config import config
 from .error_handler import EnhancedErrorHandler, ErrorDetail, ValidationError as EValidationError
@@ -350,14 +352,41 @@ class N8NBuilder:
             # 1. Parse plain English using Mimo VL 7B
             prompt = self._build_prompt(plain_english_description)
             try:
-                # Fix: Don't use asyncio.run() when already in async context
+                # Try to call the LLM, handling async context properly
                 import asyncio
                 loop = asyncio.get_event_loop()
                 if loop.is_running():
-                    # We're already in an async context, can't use asyncio.run()
-                    logger.warning("Already in async context, using mock implementation for LLM call")
-                    response = self._mock_llm_response(plain_english_description)
+                    # We're in an async context, so we need to use await or create a task
+                    # For now, let's try to actually call the LLM and handle the connection error
+                    logger.info("In async context, attempting LLM call with proper async handling")
+                    try:
+                        # Create a new event loop in a thread to avoid "already running" issue
+                        import concurrent.futures
+                        import threading
+                        
+                        def call_llm_sync():
+                            # Create a new event loop for this thread
+                            new_loop = asyncio.new_event_loop()
+                            asyncio.set_event_loop(new_loop)
+                            try:
+                                return new_loop.run_until_complete(self._call_mimo_vl7b(prompt))
+                            finally:
+                                new_loop.close()
+                        
+                        # Run the LLM call in a separate thread with its own event loop
+                        with concurrent.futures.ThreadPoolExecutor() as executor:
+                            future = executor.submit(call_llm_sync)
+                            response = future.result(timeout=60)  # 60 second timeout
+                        
+                        logger.info("LLM call successful")
+                        
+                    except Exception as llm_error:
+                        logger.warning(f"LLM API call failed: {str(llm_error)}")
+                        logger.info("Falling back to mock implementation")
+                        response = self._mock_llm_response(plain_english_description)
                 else:
+                    # Not in async context, can use asyncio.run normally
+                    logger.info("Not in async context, using asyncio.run")
                     response = asyncio.run(self._call_mimo_vl7b(prompt))
             except Exception as e:
                 logger.warning(f"LLM API call failed, using mock implementation: {str(e)}")
