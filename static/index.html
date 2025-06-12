@@ -257,7 +257,7 @@
         }
         
         .result-panel {
-            background: #f8f9fa;
+            background: #a4c4e4;
             border: 2px solid #e9ecef;
             border-radius: 10px;
             padding: 20px;
@@ -784,7 +784,7 @@
                 }
                 
                 const workflowData = await response.json();
-                currentWorkflowContent = workflowData.workflow;
+                currentWorkflowContent = workflowData.workflow_data;
                 
                 showSuccess(`Workflow "${currentWorkflow}" loaded successfully`);
                 updateButtonStates();
@@ -817,7 +817,10 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(currentWorkflowContent)
+                    body: JSON.stringify({
+                        workflow_data: currentWorkflowContent,
+                        create_backup: true
+                    })
                 });
                 
                 if (!response.ok) {
