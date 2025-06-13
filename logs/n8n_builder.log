@@ -292,3 +292,1139 @@
 2025-06-12 01:59:28,811 - n8n_builder.app - INFO - [generate_workflow_events:231] - Validating generated workflow for e1563a4c-2bec-49ce-ba9d-65d6356f1532
 2025-06-12 01:59:28,811 - n8n_builder.app - INFO - [generate_workflow_events:233] - Workflow validation completed for e1563a4c-2bec-49ce-ba9d-65d6356f1532 - Valid: False
 2025-06-12 01:59:28,811 - n8n_builder.app - INFO - [generate_workflow_events:254] - Workflow generation finished successfully for e1563a4c-2bec-49ce-ba9d-65d6356f1532
+2025-06-12 13:02:08,394 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:02:08,464 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:02:08,464 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:02:08,473 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:02:08,473 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:02:08,630 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:02:08,630 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:02:08,630 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:02:08,630 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:02:08,630 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:02:08,630 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:02:08,630 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:02:08,630 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:02:08,630 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:02:08,630 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:02:09,068 - llm_integration - INFO - [__init__:33] - LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:02:13,868 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:02:13,868 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:02:45,909 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:02:45,909 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:02:45,910 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:02:45,910 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:06:27,367 - n8n_builder.app - INFO - [generate_workflow_events:162] - Workflow generation started - ID: cd4b036b-af2d-481a-b616-afbc14fdeed7, Description: add an email feature to send an email to ElthosRPG@Elthos.com when a file with the word Elthos in th...
+2025-06-12 13:06:27,368 - n8n_builder.app - INFO - [generate_workflow_events:205] - Input validation passed for workflow cd4b036b-af2d-481a-b616-afbc14fdeed7
+2025-06-12 13:06:27,368 - n8n_builder.app - INFO - [generate_workflow_events:226] - Starting workflow generation process for cd4b036b-af2d-481a-b616-afbc14fdeed7
+2025-06-12 13:06:27,368 - n8n_builder.n8n_builder - INFO - [generate_workflow:361] - In async context, attempting LLM call with proper async handling
+2025-06-12 13:06:27,369 - n8n_builder.retry - INFO - [execute_with_retry:375] - Starting retry operation [ID: llm_call_1749747987369]
+2025-06-12 13:06:27,369 - n8n_builder.retry - INFO - [execute_with_retry:375] - Starting retry operation [ID: llm_call_1749747987369]
+2025-06-12 13:06:27,369 - n8n_builder.retry - INFO - [execute_with_retry:406] - Attempt 1/3 [ID: llm_call_1749747987369]
+2025-06-12 13:06:27,369 - n8n_builder.retry - INFO - [execute_with_retry:406] - Attempt 1/3 [ID: llm_call_1749747987369]
+2025-06-12 13:06:27,370 - n8n_builder.llm - INFO - [_execute_llm_call:2125] - Executing LLM API call
+2025-06-12 13:06:27,370 - n8n_builder.llm - INFO - [_execute_llm_call:2125] - Executing LLM API call
+2025-06-12 13:06:46,461 - httpx - INFO - [_send_single_request:1729] - HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-12 13:06:46,462 - n8n_builder.llm - INFO - [_execute_llm_call:2160] - LLM call successful
+2025-06-12 13:06:46,462 - n8n_builder.llm - INFO - [_execute_llm_call:2160] - LLM call successful
+2025-06-12 13:06:46,463 - n8n_builder.n8n_builder - INFO - [_execute_llm_call:2166] - Successfully received response from LLM
+2025-06-12 13:06:46,463 - n8n_builder.retry - INFO - [execute_with_retry:428] - Operation successful on attempt 1 [ID: llm_call_1749747987369]
+2025-06-12 13:06:46,463 - n8n_builder.retry - INFO - [execute_with_retry:428] - Operation successful on attempt 1 [ID: llm_call_1749747987369]
+2025-06-12 13:06:46,463 - n8n_builder.n8n_builder - INFO - [generate_workflow:381] - LLM call successful
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 15
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 15
+2025-06-12 13:06:46,464 - n8n_builder.n8n_builder - ERROR - [_log_validation_errors:825] - Modified workflow failed validation, returning original
+2025-06-12 13:06:46,465 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Generated workflow failed validation
+2025-06-12 13:06:46,465 - n8n_builder.app - INFO - [generate_workflow_events:228] - Workflow generation completed for cd4b036b-af2d-481a-b616-afbc14fdeed7
+2025-06-12 13:06:46,465 - n8n_builder.app - INFO - [generate_workflow_events:231] - Validating generated workflow for cd4b036b-af2d-481a-b616-afbc14fdeed7
+2025-06-12 13:06:46,465 - n8n_builder.app - INFO - [generate_workflow_events:233] - Workflow validation completed for cd4b036b-af2d-481a-b616-afbc14fdeed7 - Valid: False
+2025-06-12 13:06:46,466 - n8n_builder.app - INFO - [generate_workflow_events:254] - Workflow generation finished successfully for cd4b036b-af2d-481a-b616-afbc14fdeed7
+2025-06-12 13:09:23,946 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:09:24,004 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:09:24,004 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:09:24,004 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:09:24,004 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:09:24,192 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:09:24,192 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:09:24,193 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:09:24,193 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:09:24,194 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:09:24,194 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:09:24,194 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:09:24,194 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:09:24,195 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:09:24,195 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:09:24,195 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:09:24,195 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:09:36,176 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:09:36,176 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:09:44,202 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:09:44,202 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:09:44,202 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:09:44,202 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:10:31,646 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: a65806b1]
+2025-06-12 13:10:31,646 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: a65806b1]
+2025-06-12 13:10:31,646 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: a65806b1]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:10:31,646 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: a65806b1]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: a65806b1]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: a65806b1]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: a65806b1]
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: a65806b1]
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: a65806b1]
+2025-06-12 13:10:31,647 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: a65806b1]
+2025-06-12 13:10:31,649 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749748231647]
+2025-06-12 13:10:31,649 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: result_cached
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: a65806b1]
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: a65806b1]
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: a65806b1]
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: a65806b1]
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: 5caf5996]
+2025-06-12 13:10:31,649 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: 5caf5996]
+2025-06-12 13:10:31,650 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: 5caf5996]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:10:31,650 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: 5caf5996]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: 5caf5996]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: 5caf5996]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: 5caf5996]
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: 5caf5996]
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: 5caf5996]
+2025-06-12 13:10:31,650 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: 5caf5996]
+2025-06-12 13:10:31,652 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749748231650]
+2025-06-12 13:10:31,652 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: cache_hit
+2025-06-12 13:10:31,652 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: 5caf5996]
+2025-06-12 13:10:31,652 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: 5caf5996]
+2025-06-12 13:10:31,652 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 5caf5996]: Missing Required Field
+2025-06-12 13:10:31,652 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 5caf5996]: Missing Required Field
+2025-06-12 13:10:31,652 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: 5caf5996]: Please add the 'triggers' field to your workflow JSON.
+2025-06-12 13:10:31,652 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: 5caf5996]: Please add the 'triggers' field to your workflow JSON.
+2025-06-12 13:10:31,653 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: 5caf5996]: Add the 'triggers' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 13:10:31,653 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: 5caf5996]: Add the 'triggers' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 13:10:31,653 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:10:31,653 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:10:31,653 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'triggers' is missing from the workflow
+2025-06-12 13:10:31,653 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: a65806b1]
+2025-06-12 13:10:31,653 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: a65806b1]
+2025-06-12 13:10:31,653 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: a65806b1]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 13:10:31,653 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: a65806b1]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 13:10:31,654 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 13:10:31,654 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 13:10:31,654 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 13:10:31,654 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 13:10:31,654 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:10:31,654 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:10:31,654 - n8n_builder.n8n_builder - ERROR - [_track_workflow_iteration:1868] - Error tracking workflow iteration: 'dict' object has no attribute 'append'
+2025-06-12 13:10:31,654 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: a65806b1]
+2025-06-12 13:10:31,654 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: a65806b1]
+2025-06-12 13:10:31,655 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 13:10:31,655 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 13:10:31,655 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: a65806b1]
+2025-06-12 13:10:31,655 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: a65806b1]
+2025-06-12 13:10:31,655 - n8n_builder.n8n_builder - INFO - [iterate_workflow:1374] - Workflow iteration completed successfully
+2025-06-12 13:11:08,800 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:11:08,867 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:11:08,867 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:11:08,869 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:11:08,869 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:11:09,039 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:11:09,039 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:11:09,039 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:11:09,039 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:11:09,039 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:11:09,039 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:11:09,039 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:11:09,039 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:11:09,039 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:11:09,039 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:13:36,035 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:13:36,087 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,087 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,109 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:36,109 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:36,265 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,265 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,266 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,266 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,267 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:13:36,267 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,268 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:36,268 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:36,269 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:13:36,269 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:13:36,488 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:13:36,549 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,549 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,559 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:36,559 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:36,722 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,722 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,722 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,722 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:36,723 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:13:36,723 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,723 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:36,723 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:36,723 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:13:36,723 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:13:36,924 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:13:36,983 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,983 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:36,988 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:36,988 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:37,160 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,160 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,160 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,160 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,160 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:13:37,160 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,160 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:37,160 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:37,160 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:13:37,160 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:13:37,342 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:13:37,396 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:37,396 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:13:37,400 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:37,400 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:13:37,556 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,556 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,556 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,556 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:13:37,556 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:13:37,556 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,556 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:37,556 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:13:37,556 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:13:37,556 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:14:00,363 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:14:00,367 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:14:00,429 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:14:00,429 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:14:00,429 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:14:00,429 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:14:00,432 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:14:00,432 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:14:00,432 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:14:00,432 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:14:00,588 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,588 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,588 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,588 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,588 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:14:00,588 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,588 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:14:00,588 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:14:00,588 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:14:00,588 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:14:00,616 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,616 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,617 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,617 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:14:00,618 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:14:00,618 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:14:00,618 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,618 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,619 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:14:00,619 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:14:00,619 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:14:00,619 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:16:00,973 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:16:01,023 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:16:01,023 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:16:01,038 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:16:01,038 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:16:01,209 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:16:01,209 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:16:01,209 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:16:01,209 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:16:01,210 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:16:01,211 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:16:01,211 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:16:01,211 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:16:01,211 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:16:01,212 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:16:01,212 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:16:01,212 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:16:09,867 - n8n_builder.app - INFO - [generate_workflow_events:162] - Workflow generation started - ID: 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9, Description: Send an email when a file is added...
+2025-06-12 13:16:09,867 - n8n_builder.app - INFO - [generate_workflow_events:205] - Input validation passed for workflow 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9
+2025-06-12 13:16:09,867 - n8n_builder.app - INFO - [generate_workflow_events:226] - Starting workflow generation process for 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9
+2025-06-12 13:16:09,867 - n8n_builder.n8n_builder - INFO - [generate_workflow:361] - In async context, attempting LLM call with proper async handling
+2025-06-12 13:16:09,867 - n8n_builder.retry - INFO - [execute_with_retry:375] - Starting retry operation [ID: llm_call_1749748569867]
+2025-06-12 13:16:09,867 - n8n_builder.retry - INFO - [execute_with_retry:375] - Starting retry operation [ID: llm_call_1749748569867]
+2025-06-12 13:16:09,867 - n8n_builder.retry - INFO - [execute_with_retry:406] - Attempt 1/3 [ID: llm_call_1749748569867]
+2025-06-12 13:16:09,867 - n8n_builder.retry - INFO - [execute_with_retry:406] - Attempt 1/3 [ID: llm_call_1749748569867]
+2025-06-12 13:16:09,867 - n8n_builder.llm - INFO - [_execute_llm_call:2166] - Executing LLM API call
+2025-06-12 13:16:09,867 - n8n_builder.llm - INFO - [_execute_llm_call:2166] - Executing LLM API call
+2025-06-12 13:16:36,176 - httpx - INFO - [_send_single_request:1729] - HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-12 13:16:36,176 - n8n_builder.llm - INFO - [_execute_llm_call:2201] - LLM call successful
+2025-06-12 13:16:36,176 - n8n_builder.llm - INFO - [_execute_llm_call:2201] - LLM call successful
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - INFO - [_execute_llm_call:2207] - Successfully received response from LLM
+2025-06-12 13:16:36,176 - n8n_builder.retry - INFO - [execute_with_retry:428] - Operation successful on attempt 1 [ID: llm_call_1749748569867]
+2025-06-12 13:16:36,176 - n8n_builder.retry - INFO - [execute_with_retry:428] - Operation successful on attempt 1 [ID: llm_call_1749748569867]
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - INFO - [generate_workflow:381] - LLM call successful
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - ERROR - [_map_to_workflow_structure:2401] - Error extracting JSON from response: Extra data: line 18 column 1 (char 245)
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Could not extract valid workflow JSON from response
+2025-06-12 13:16:36,176 - n8n_builder.app - INFO - [generate_workflow_events:228] - Workflow generation completed for 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9
+2025-06-12 13:16:36,176 - n8n_builder.app - INFO - [generate_workflow_events:231] - Validating generated workflow for 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9
+2025-06-12 13:16:36,176 - n8n_builder.app - INFO - [generate_workflow_events:233] - Workflow validation completed for 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9 - Valid: False
+2025-06-12 13:16:36,176 - n8n_builder.app - INFO - [generate_workflow_events:254] - Workflow generation finished successfully for 660bd7bc-0fc5-4fd7-a1e7-e68afba28ee9
+2025-06-12 13:20:23,091 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:23,109 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:23,139 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:23,153 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,153 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,164 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,164 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,174 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,174 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,183 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,183 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,203 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,203 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:23,212 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,212 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:23,327 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,327 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,328 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,328 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,329 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:23,329 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,329 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,329 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,330 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,330 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,330 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:23,330 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:23,361 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,361 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,362 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,362 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,363 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:23,363 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,363 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,363 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,364 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,364 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,364 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:23,364 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:23,373 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,373 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,374 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,374 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:23,375 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:23,375 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:23,375 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,375 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,376 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,376 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:23,376 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:23,376 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:24,273 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:24,307 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:24,340 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,340 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,350 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,350 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,355 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:24,375 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,375 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,386 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,386 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,414 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,414 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:24,424 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,424 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:24,521 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,521 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,522 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,522 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,522 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:24,523 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,523 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,523 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,524 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:24,524 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:24,550 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,550 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,550 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,550 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,551 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:24,551 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:24,551 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,551 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,551 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,552 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,552 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:24,552 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:24,582 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,582 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,582 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,582 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:24,583 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:24,584 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,584 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,584 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:24,585 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,585 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:24,585 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:24,585 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:35,507 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:35,528 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:35,545 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:35,569 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,569 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,580 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,580 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,594 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,594 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,604 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,604 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,611 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,611 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:35,620 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,620 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:35,742 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,742 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,743 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,743 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,744 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:35,744 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:35,744 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,744 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,744 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,745 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,745 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:35,745 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:35,782 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,782 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,782 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,782 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,783 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:35,783 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,784 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,784 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,784 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:35,784 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:35,791 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,791 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,792 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,792 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:35,793 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:35,793 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:35,793 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,793 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,793 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:35,793 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,793 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:35,794 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,794 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:35,794 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,794 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:35,794 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:35,794 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:39,470 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:39,519 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:39,530 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,530 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,540 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,540 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,578 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,578 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,588 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,588 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,704 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,704 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,704 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,704 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,705 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:39,705 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,706 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,706 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,706 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:39,706 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:39,719 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:39,783 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,783 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,784 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,784 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,785 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:39,785 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:39,785 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,785 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,785 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,785 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,785 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,786 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,786 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,786 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,786 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,786 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:39,786 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:39,799 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,799 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:39,808 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,808 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:39,974 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,974 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,974 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,974 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:39,975 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:39,976 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,976 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,976 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:39,977 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,977 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:39,977 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:39,977 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:40,351 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:40,377 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:40,414 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,414 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,424 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,424 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,439 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,439 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,449 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,449 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,561 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:40,603 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,603 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,603 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,603 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,604 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:40,605 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,605 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,605 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,606 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,606 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,606 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:40,606 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:40,625 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,625 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:40,634 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,634 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,634 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,634 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,635 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:40,635 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,635 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:40,635 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,636 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,636 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,636 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:40,637 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:40,790 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,790 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,790 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,790 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:40,791 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:40,792 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,792 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,792 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:40,793 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,793 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:40,793 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:40,793 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:50,003 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:50,014 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:50,075 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,075 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,085 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,085 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,086 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,086 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,095 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:50,097 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,097 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,151 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,151 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:50,161 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,161 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:50,259 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,259 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,260 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,260 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,261 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:50,262 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,262 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,262 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,263 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:50,263 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:50,267 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,267 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,268 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,268 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,269 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:50,269 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:50,269 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,269 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,269 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,270 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,270 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:50,270 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:50,326 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,326 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,326 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,326 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:50,327 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:50,327 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:50,327 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,327 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,328 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,328 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:50,328 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:50,328 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:53,977 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:54,004 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:54,033 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,033 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,043 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,043 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,062 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,062 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,072 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,072 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,204 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,204 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,204 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,204 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,205 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:54,205 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:54,205 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,205 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,207 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,207 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,207 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:54,207 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:54,231 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,231 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,231 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,231 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,232 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:54,232 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,233 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,233 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,233 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:54,233 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:54,455 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:54,515 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,515 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,525 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,525 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,685 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,685 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,685 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,685 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:54,687 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:54,687 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:54,687 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,687 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,687 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:54,687 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,687 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:54,688 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,688 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:54,688 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,688 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:54,688 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:54,688 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:54,868 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:54,869 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:54,935 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,935 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,947 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,947 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,939 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,939 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:54,951 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:54,951 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:55,125 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,125 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,125 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,125 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,126 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,126 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,126 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,126 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,126 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:55,126 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,127 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,127 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,127 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,127 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,128 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,128 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:55,128 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,128 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,128 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:55,128 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:20:55,328 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:20:55,382 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:55,382 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:20:55,392 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:55,392 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:20:55,551 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,551 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,551 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,551 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:20:55,553 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:20:55,553 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:20:55,553 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,553 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,553 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,554 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:20:55,554 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:20:55,554 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:53:36,060 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:53:36,124 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:53:36,124 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:53:36,134 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:53:36,134 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:53:36,305 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:53:36,305 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:53:36,305 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:53:36,305 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:53:36,306 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:53:36,307 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:53:36,307 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:53:36,307 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:53:36,308 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:53:36,308 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:53:36,308 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:53:36,308 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:55:16,965 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 13:55:17,020 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:55:17,020 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 13:55:17,035 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:55:17,035 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 13:55:17,160 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:55:17,160 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:55:17,160 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:55:17,160 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 13:55:17,160 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:55:17,160 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:55:17,175 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:55:17,175 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 13:55:17,176 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 13:55:17,176 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 13:55:17,568 - llm_integration - INFO - [__init__:33] - LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 13:55:25,279 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:55:25,279 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 13:55:32,878 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:55:32,878 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:55:32,879 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:55:32,879 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 13:55:53,434 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: 8773a11f]
+2025-06-12 13:55:53,434 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: 8773a11f]
+2025-06-12 13:55:53,435 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: 8773a11f]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'process-data' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:55:53,435 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: 8773a11f]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'process-data' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:55:53,435 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: 8773a11f]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:55:53,435 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: 8773a11f]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:55:53,436 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: 8773a11f]
+2025-06-12 13:55:53,436 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: 8773a11f]
+2025-06-12 13:55:53,436 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: 8773a11f]
+2025-06-12 13:55:53,436 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: 8773a11f]
+2025-06-12 13:55:53,437 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749750953436]
+2025-06-12 13:55:53,437 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: result_cached
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: 8773a11f]
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: 8773a11f]
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: 8773a11f]
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: 8773a11f]
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: 48b61e9e]
+2025-06-12 13:55:53,437 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: 48b61e9e]
+2025-06-12 13:55:53,438 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: 48b61e9e]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'process-data' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:55:53,438 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: 48b61e9e]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'process-data' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: 48b61e9e]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: 48b61e9e]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: 48b61e9e]
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: 48b61e9e]
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: 48b61e9e]
+2025-06-12 13:55:53,438 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: 48b61e9e]
+2025-06-12 13:55:53,440 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749750953438]
+2025-06-12 13:55:53,440 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: cache_hit
+2025-06-12 13:55:53,440 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: 48b61e9e]
+2025-06-12 13:55:53,440 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: 48b61e9e]
+2025-06-12 13:55:53,440 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 48b61e9e]: Missing Required Field
+2025-06-12 13:55:53,440 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 48b61e9e]: Missing Required Field
+2025-06-12 13:55:53,440 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: 48b61e9e]: Please add the 'triggers' field to your workflow JSON.
+2025-06-12 13:55:53,440 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: 48b61e9e]: Please add the 'triggers' field to your workflow JSON.
+2025-06-12 13:55:53,441 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: 48b61e9e]: Add the 'triggers' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 13:55:53,441 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: 48b61e9e]: Add the 'triggers' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 13:55:53,441 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:55:53,441 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:55:53,441 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'triggers' is missing from the workflow
+2025-06-12 13:55:53,441 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: 8773a11f]
+2025-06-12 13:55:53,441 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: 8773a11f]
+2025-06-12 13:55:53,441 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: 8773a11f]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 13:55:53,441 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: 8773a11f]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 13:55:53,442 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 13:55:53,442 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 13:55:53,442 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 13:55:53,442 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 13:55:53,442 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:55:53,442 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:55:53,442 - n8n_builder.n8n_builder - ERROR - [_track_workflow_iteration:1868] - Error tracking workflow iteration: 'dict' object has no attribute 'append'
+2025-06-12 13:55:53,442 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: 8773a11f]
+2025-06-12 13:55:53,442 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: 8773a11f]
+2025-06-12 13:55:53,443 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 13:55:53,443 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 13:55:53,443 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: 8773a11f]
+2025-06-12 13:55:53,443 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: 8773a11f]
+2025-06-12 13:55:53,443 - n8n_builder.n8n_builder - INFO - [iterate_workflow:1374] - Workflow iteration completed successfully
+2025-06-12 14:19:56,613 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 14:19:56,678 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 14:19:56,678 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 14:19:56,693 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 14:19:56,693 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 14:19:56,817 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 14:19:56,817 - n8n_builder.project - INFO - [_ensure_projects_root:127] - Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 14:19:56,817 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 14:19:56,817 - n8n_builder.project - INFO - [__init__:121] - Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+2025-06-12 14:19:56,832 - n8n_builder.n8n_builder - INFO - [__init__:116] - N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 14:19:56,832 - n8n_builder.n8n_builder - INFO - [__init__:127] - Performance optimizer initialized for large workflow processing
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [configure_endpoint:295] - Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 14:19:56,832 - n8n_builder.n8n_builder - INFO - [_setup_retry_configurations:224] - Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: mock_response
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: simplified_response
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 14:19:56,832 - n8n_builder.retry - INFO - [register_fallback_strategy:285] - Registered fallback strategy: basic_workflow
+2025-06-12 14:19:56,832 - n8n_builder.n8n_builder - INFO - [_register_fallback_strategies:246] - Registered 3 fallback strategies for LLM failures
+2025-06-12 14:19:56,832 - n8n_builder.n8n_builder - INFO - [__init__:133] - Enhanced retry manager initialized with intelligent failure handling
+2025-06-12 14:19:57,191 - llm_integration - INFO - [__init__:33] - LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+2025-06-12 14:20:52,383 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 14:20:52,383 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 14:20:59,524 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 14:20:59,524 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 14:20:59,525 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 14:20:59,525 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow test-workflow.json from project test-1
+2025-06-12 14:21:42,863 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: 6b2d62f9]
+2025-06-12 14:21:42,863 - n8n_builder.iteration - INFO - [iterate_workflow:1117] - Starting workflow iteration [ID: 6b2d62f9]
+2025-06-12 14:21:42,864 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: 6b2d62f9]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'webhook-trigger' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 14:21:42,864 - n8n_builder.iteration - WARNING - [iterate_workflow:1228] - Edge case warnings [ID: 6b2d62f9]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'webhook-trigger' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: 6b2d62f9]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1231] - Non-critical edge cases detected [ID: 6b2d62f9]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1237] - Edge case validation completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: 6b2d62f9]
+2025-06-12 14:21:42,864 - n8n_builder.iteration - INFO - [iterate_workflow:1271] - Parsed workflow for iteration [ID: 6b2d62f9]
+2025-06-12 14:21:42,866 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749752502865]
+2025-06-12 14:21:42,866 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: result_cached
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [iterate_workflow:1282] - Workflow analysis for iteration completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: 6b2d62f9]
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [iterate_workflow:1295] - Built iteration prompt [ID: 6b2d62f9]
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: dd3a4332]
+2025-06-12 14:21:42,866 - n8n_builder.iteration - INFO - [modify_workflow:855] - Starting workflow modification [ID: dd3a4332]
+2025-06-12 14:21:42,867 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: dd3a4332]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'webhook-trigger' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 14:21:42,867 - n8n_builder.iteration - WARNING - [modify_workflow:921] - Edge case warnings [ID: dd3a4332]: Node 2 uses unknown type 'n8n-nodes-base.respondToWebhook' - may not be supported; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Orphaned node detected: 'webhook-trigger' has no connections; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: dd3a4332]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:924] - Non-critical edge cases detected [ID: dd3a4332]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: dd3a4332]
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:930] - Edge case validation completed [ID: dd3a4332]
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: dd3a4332]
+2025-06-12 14:21:42,867 - n8n_builder.iteration - INFO - [modify_workflow:949] - Parsed existing workflow [ID: dd3a4332]
+2025-06-12 14:21:42,869 - n8n_builder.performance_optimizer - INFO - [_log_performance_summary:435] - Performance Summary [ID: analyze_1749752502868]
+2025-06-12 14:21:42,869 - n8n_builder.n8n_builder - INFO - [_analyze_workflow:1465] - Workflow analysis used optimizations: cache_hit
+2025-06-12 14:21:42,869 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: dd3a4332]
+2025-06-12 14:21:42,869 - n8n_builder.iteration - INFO - [modify_workflow:979] - Workflow analysis completed [ID: dd3a4332]
+2025-06-12 14:21:42,869 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: dd3a4332]: Missing Required Field
+2025-06-12 14:21:42,869 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: dd3a4332]: Missing Required Field
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: dd3a4332]: Please add the 'data_flow' field to your workflow JSON.
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [modify_workflow:1100] - User guidance [ID: dd3a4332]: Please add the 'data_flow' field to your workflow JSON.
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: dd3a4332]: Add the 'data_flow' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [modify_workflow:1102] - Fix suggestions [ID: dd3a4332]: Add the 'data_flow' field to your workflow; Check the workflow structure documentation; Verify all required fields are present
+2025-06-12 14:21:42,870 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 14:21:42,870 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 14:21:42,870 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'data_flow' is missing from the workflow
+2025-06-12 14:21:42,870 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: 6b2d62f9]
+2025-06-12 14:21:42,870 - n8n_builder.iteration - WARNING - [iterate_workflow:1337] - Workflow iteration did not result in changes [ID: 6b2d62f9]
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: 6b2d62f9]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 14:21:42,870 - n8n_builder.iteration - INFO - [iterate_workflow:1338] - Iteration guidance [ID: 6b2d62f9]: This might indicate that your feedback was unclear or the workflow is already optimal. Try providing more specific feedback about what needs to change.
+2025-06-12 14:21:42,871 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 14:21:42,871 - n8n_builder.diff - INFO - [compare_workflows:244] - Starting workflow comparison
+2025-06-12 14:21:42,871 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 14:21:42,871 - n8n_builder.diff - INFO - [compare_workflows:293] - Workflow comparison completed
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [_track_workflow_iteration:1843] - Iteration tracked
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [_track_workflow_iteration:1843] - Iteration tracked
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: 6b2d62f9]
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [iterate_workflow:1354] - Iteration tracked in history [ID: 6b2d62f9]
+2025-06-12 14:21:42,871 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 14:21:42,871 - n8n_builder.performance - INFO - [iterate_workflow:1364] - Workflow iteration completed successfully
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,871 - n8n_builder.iteration - INFO - [iterate_workflow:1366] - Workflow iteration completed [ID: 6b2d62f9]
+2025-06-12 14:21:42,871 - n8n_builder.n8n_builder - INFO - [iterate_workflow:1374] - Workflow iteration completed successfully
+2025-06-12 21:50:39,477 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow create-a-workflow-that-sends-an-email-to-markeltho.json from project test-1
+2025-06-12 21:50:39,477 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow create-a-workflow-that-sends-an-email-to-markeltho.json from project test-1
+2025-06-12 21:50:39,479 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow create-a-workflow-that-sends-an-email-to-markeltho.json from project test-1
+2025-06-12 21:50:39,479 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow create-a-workflow-that-sends-an-email-to-markeltho.json from project test-1
+2025-06-12 21:51:45,465 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 21:51:45,465 - n8n_builder.project - INFO - [_refresh_project_cache:398] - Refreshed project cache: 1 projects found
+2025-06-12 21:51:45,466 - n8n_builder.filesystem - INFO - [write_workflow_file:702] - Successfully wrote workflow Test1 Workflow A.json to project test-1
+2025-06-12 21:51:45,466 - n8n_builder.filesystem - INFO - [write_workflow_file:702] - Successfully wrote workflow Test1 Workflow A.json to project test-1
+2025-06-12 21:51:45,467 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 21:51:45,467 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 21:51:53,635 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 21:51:53,635 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 21:51:53,636 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 21:51:53,636 - n8n_builder.filesystem - INFO - [read_workflow_file:644] - Successfully read workflow Test1 Workflow A.json from project test-1
+2025-06-12 22:29:28,227 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-12 22:29:28,371 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 22:29:28,371 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-12 22:29:28,372 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-12 22:29:28,372 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-12 22:29:28,613] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-12 22:29:28,613] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-12 22:29:28,613] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-12 22:29:28,613] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-12 22:29:28,613] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-12 22:29:28,613] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-12 22:29:28,613] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-12 22:29:28,613] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-12 22:29:28,613] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-12 22:29:28,613] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-12 22:29:28,613] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-12 22:29:28,613] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-12 22:29:28,629] INFO n8n_builder.validation: [INFO] Validation logger test.
+[2025-06-12 22:29:28,629] WARNING n8n_builder.validation: [WARNING] Validation logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.validation: [ERROR] Validation logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.validation: [CRITICAL] Validation logger test.
+[2025-06-12 22:29:28,629] INFO n8n_builder.retry: [INFO] Retry logger test.
+[2025-06-12 22:29:28,629] WARNING n8n_builder.retry: [WARNING] Retry logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.retry: [ERROR] Retry logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.retry: [CRITICAL] Retry logger test.
+[2025-06-12 22:29:28,629] INFO n8n_builder.diff: [INFO] Diff logger test.
+[2025-06-12 22:29:28,629] WARNING n8n_builder.diff: [WARNING] Diff logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.diff: [ERROR] Diff logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.diff: [CRITICAL] Diff logger test.
+[2025-06-12 22:29:28,629] INFO n8n_builder.error: [INFO] Error logger test.
+[2025-06-12 22:29:28,629] WARNING n8n_builder.error: [WARNING] Error logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.error: [ERROR] Error logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.error: [CRITICAL] Error logger test.
+[2025-06-12 22:33:34,648] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\scripts\projects
+[2025-06-12 22:33:34,648] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\scripts\projects
+[2025-06-12 22:33:34,648] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-12 22:33:34,648] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-12 22:33:34,648] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-12 22:33:34,648] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-12 22:33:34,648] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-12 22:33:34,648] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-12 22:33:34,663] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-12 22:33:34,663] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-12 22:33:34,663] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-12 22:33:34,663] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-12 22:33:34,676] INFO n8n_builder.validation: [INFO] Validation logger test.
+[2025-06-12 22:33:34,677] WARNING n8n_builder.validation: [WARNING] Validation logger test.
+[2025-06-12 22:33:34,677] ERROR n8n_builder.validation: [ERROR] Validation logger test.
+[2025-06-12 22:33:34,677] CRITICAL n8n_builder.validation: [CRITICAL] Validation logger test.
+[2025-06-12 22:33:34,678] INFO n8n_builder.retry: [INFO] Retry logger test.
+[2025-06-12 22:33:34,678] WARNING n8n_builder.retry: [WARNING] Retry logger test.
+[2025-06-12 22:33:34,678] ERROR n8n_builder.retry: [ERROR] Retry logger test.
+[2025-06-12 22:33:34,679] CRITICAL n8n_builder.retry: [CRITICAL] Retry logger test.
+[2025-06-12 22:33:34,679] INFO n8n_builder.diff: [INFO] Diff logger test.
+[2025-06-12 22:33:34,679] WARNING n8n_builder.diff: [WARNING] Diff logger test.
+[2025-06-12 22:33:34,680] ERROR n8n_builder.diff: [ERROR] Diff logger test.
+[2025-06-12 22:33:34,680] CRITICAL n8n_builder.diff: [CRITICAL] Diff logger test.
+[2025-06-12 22:33:34,680] INFO n8n_builder.error: [INFO] Error logger test.
+[2025-06-12 22:33:34,680] WARNING n8n_builder.error: [WARNING] Error logger test.
+[2025-06-12 22:33:34,681] ERROR n8n_builder.error: [ERROR] Error logger test.
+[2025-06-12 22:33:34,681] CRITICAL n8n_builder.error: [CRITICAL] Error logger test.

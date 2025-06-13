@@ -199,7 +199,7 @@ class ProjectManager:
             if project_path.exists():
                 raise ValueError(f"Project '{sanitized_name}' already exists")
             
-            project_logger.info(f"Creating new project: {sanitized_name}")
+            project_logger.info(f"Creating new project: {sanitized_name}", extra={'project_name': sanitized_name, 'operation': 'create_project'})
             
             # Create project directory
             project_path.mkdir(parents=True)
@@ -226,20 +226,20 @@ class ProjectManager:
             # Update cache
             self._project_cache[sanitized_name] = project_info
             
-            project_logger.info(f"Successfully created project '{sanitized_name}' at {project_path}")
+            project_logger.info(f"Successfully created project '{sanitized_name}' at {project_path}", extra={'project_name': sanitized_name, 'operation': 'create_project'})
             
             return project_info
             
         except Exception as e:
             error_msg = f"Failed to create project '{name}': {str(e)}"
-            project_logger.error(error_msg)
+            project_logger.error(error_msg, extra={'project_name': name, 'operation': 'create_project'})
             
             # Cleanup on failure
             try:
                 if 'project_path' in locals() and project_path.exists():
                     shutil.rmtree(project_path)
             except Exception as cleanup_error:
-                project_logger.error(f"Failed to cleanup failed project creation: {cleanup_error}")
+                project_logger.error(f"Failed to cleanup failed project creation: {cleanup_error}", extra={'project_name': name, 'operation': 'create_project'})
             
             if isinstance(e, ValueError):
                 raise
@@ -300,9 +300,9 @@ This section will be updated automatically as workflows are modified through N8N
         readme_path = project_info.path / "README.md"
         try:
             readme_path.write_text(readme_content, encoding='utf-8')
-            project_logger.info(f"Generated README for project {project_info.name}")
+            project_logger.info(f"Generated README for project {project_info.name}", extra={'project_name': project_info.name, 'operation': 'generate_readme'})
         except Exception as e:
-            project_logger.error(f"Failed to generate README for project {project_info.name}: {str(e)}")
+            project_logger.error(f"Failed to generate README for project {project_info.name}: {str(e)}", extra={'project_name': project_info.name, 'operation': 'generate_readme'})
             raise RuntimeError(f"Failed to generate README: {str(e)}")
     
     def _generate_workflow_list_for_readme(self, project_info: ProjectInfo) -> str:
@@ -355,9 +355,9 @@ This section will be updated automatically as workflows are modified through N8N
         
         try:
             filepath.write_text(json.dumps(placeholder_workflow, indent=2), encoding='utf-8')
-            project_logger.info(f"Created placeholder workflow {filename} in project {project_info.name}")
+            project_logger.info(f"Created placeholder workflow {filename} in project {project_info.name}", extra={'project_name': project_info.name, 'operation': 'create_placeholder_workflow'})
         except Exception as e:
-            project_logger.error(f"Failed to create placeholder workflow {filename}: {str(e)}")
+            project_logger.error(f"Failed to create placeholder workflow {filename}: {str(e)}", extra={'project_name': project_info.name, 'operation': 'create_placeholder_workflow'})
             raise RuntimeError(f"Failed to create placeholder workflow: {str(e)}")
     
     def list_projects(self, refresh_cache: bool = False) -> List[ProjectInfo]:
@@ -391,14 +391,14 @@ This section will be updated automatically as workflows are modified through N8N
                         project_info = self._load_project_info(item.name)
                         self._project_cache[item.name] = project_info
                     except Exception as e:
-                        project_logger.warning(f"Failed to load project info for {item.name}: {str(e)}")
+                        project_logger.warning(f"Failed to load project info for {item.name}: {str(e)}", extra={'project_name': item.name, 'operation': 'refresh_project_cache'})
                         continue
             
             self._cache_valid = True
-            project_logger.info(f"Refreshed project cache: {len(self._project_cache)} projects found")
+            project_logger.info(f"Refreshed project cache: {len(self._project_cache)} projects found", extra={'project_name': None, 'operation': 'refresh_project_cache'})
             
         except Exception as e:
-            project_logger.error(f"Failed to refresh project cache: {str(e)}")
+            project_logger.error(f"Failed to refresh project cache: {str(e)}", extra={'project_name': None, 'operation': 'refresh_project_cache'})
             self._cache_valid = False
     
     def _load_project_info(self, project_name: str) -> ProjectInfo:
@@ -437,7 +437,7 @@ This section will be updated automatically as workflows are modified through N8N
                         description = line.strip()
                         break
             except Exception as e:
-                project_logger.warning(f"Failed to read README for project {project_name}: {str(e)}")
+                project_logger.warning(f"Failed to read README for project {project_name}: {str(e)}", extra={'project_name': project_name, 'operation': 'load_project_info'})
         
         return ProjectInfo(
             name=project_name,
@@ -465,7 +465,7 @@ This section will be updated automatically as workflows are modified through N8N
             
             return self._load_project_info(project_name)
         except Exception as e:
-            project_logger.error(f"Failed to get project info for {project_name}: {str(e)}")
+            project_logger.error(f"Failed to get project info for {project_name}: {str(e)}", extra={'project_name': project_name, 'operation': 'get_project_info'})
             return None
     
     def list_project_workflows(self, project_name: str) -> List[str]:
@@ -495,7 +495,7 @@ This section will be updated automatically as workflows are modified through N8N
             return workflows
             
         except Exception as e:
-            project_logger.error(f"Failed to list workflows for project {project_name}: {str(e)}")
+            project_logger.error(f"Failed to list workflows for project {project_name}: {str(e)}", extra={'project_name': project_name, 'operation': 'list_project_workflows'})
             return []
     
     def _is_backup_file(self, filename: str) -> bool:
@@ -547,7 +547,7 @@ This section will be updated automatically as workflows are modified through N8N
         project_path = self.projects_root / project_name
         
         if not project_path.exists():
-            project_logger.warning(f"Project {project_name} does not exist")
+            project_logger.warning(f"Project {project_name} does not exist", extra={'project_name': project_name, 'operation': 'delete_project'})
             return False
         
         try:
@@ -557,12 +557,12 @@ This section will be updated automatically as workflows are modified through N8N
             if project_name in self._project_cache:
                 del self._project_cache[project_name]
             
-            project_logger.info(f"Successfully deleted project {project_name}")
+            project_logger.info(f"Successfully deleted project {project_name}", extra={'project_name': project_name, 'operation': 'delete_project'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to delete project {project_name}: {str(e)}"
-            project_logger.error(error_msg)
+            project_logger.error(error_msg, extra={'project_name': project_name, 'operation': 'delete_project'})
             raise RuntimeError(error_msg)
     
     def get_project_stats(self) -> Dict[str, Any]:
@@ -641,16 +641,16 @@ class FileSystemUtilities:
             workflow_content = workflow_path.read_text(encoding='utf-8')
             workflow_data = json.loads(workflow_content)
             
-            self.logger.info(f"Successfully read workflow {workflow_filename} from project {project_name}")
+            self.logger.info(f"Successfully read workflow {workflow_filename} from project {project_name}", extra={'project_name': project_name, 'operation': 'read_workflow_file'})
             return workflow_data
             
         except json.JSONDecodeError as e:
             error_msg = f"Invalid JSON in workflow file '{workflow_filename}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'read_workflow_file'})
             raise RuntimeError(error_msg)
         except Exception as e:
             error_msg = f"Failed to read workflow '{workflow_filename}' from project '{project_name}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'read_workflow_file'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -699,12 +699,12 @@ class FileSystemUtilities:
                 # Refresh project cache to include new workflow
                 self.project_manager._refresh_project_cache()
             
-            self.logger.info(f"Successfully wrote workflow {workflow_filename} to project {project_name}")
+            self.logger.info(f"Successfully wrote workflow {workflow_filename} to project {project_name}", extra={'project_name': project_name, 'operation': 'write_workflow_file'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to write workflow '{workflow_filename}' to project '{project_name}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'write_workflow_file'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -745,7 +745,7 @@ class FileSystemUtilities:
         import shutil
         shutil.copy2(workflow_path, backup_path)
         
-        self.logger.info(f"Created backup: {backup_filename}")
+        self.logger.info(f"Created backup: {backup_filename}", extra={'project_name': project_name, 'operation': 'create_workflow_backup'})
         return backup_filename
     
     def list_workflow_versions(self, project_name: str, workflow_filename: str) -> List[str]:
@@ -780,7 +780,7 @@ class FileSystemUtilities:
             return [filename for filename, _ in backup_files]
             
         except Exception as e:
-            self.logger.error(f"Failed to list workflow versions for {workflow_filename}: {str(e)}")
+            self.logger.error(f"Failed to list workflow versions for {workflow_filename}: {str(e)}", extra={'project_name': project_name, 'operation': 'list_workflow_versions'})
             return []
     
     def cleanup_old_versions(self, project_name: str, workflow_filename: str, 
@@ -811,14 +811,14 @@ class FileSystemUtilities:
                 try:
                     file_path.unlink()
                     deleted_count += 1
-                    self.logger.info(f"Deleted old version: {filename}")
+                    self.logger.info(f"Deleted old version: {filename}", extra={'project_name': project_name, 'operation': 'cleanup_old_versions'})
                 except Exception as e:
-                    self.logger.warning(f"Failed to delete old version {filename}: {str(e)}")
+                    self.logger.warning(f"Failed to delete old version {filename}: {str(e)}", extra={'project_name': project_name, 'operation': 'cleanup_old_versions'})
             
             return deleted_count
             
         except Exception as e:
-            self.logger.error(f"Failed to cleanup old versions for {workflow_filename}: {str(e)}")
+            self.logger.error(f"Failed to cleanup old versions for {workflow_filename}: {str(e)}", extra={'project_name': project_name, 'operation': 'cleanup_old_versions'})
             return 0
     
     def get_version_info(self, project_name: str, workflow_filename: str, version_filename: str) -> Dict[str, Any]:
@@ -860,7 +860,7 @@ class FileSystemUtilities:
                 workflow_name = workflow_data.get('name', 'Unknown')
                 tags = workflow_data.get('tags', [])
             except Exception as e:
-                self.logger.warning(f"Failed to analyze workflow data in version {version_filename}: {str(e)}")
+                self.logger.warning(f"Failed to analyze workflow data in version {version_filename}: {str(e)}", extra={'project_name': project_name, 'operation': 'get_version_info'})
                 node_count = 0
                 workflow_name = "Unknown"
                 tags = []
@@ -880,7 +880,7 @@ class FileSystemUtilities:
             
         except Exception as e:
             error_msg = f"Failed to get version info for {version_filename}: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'get_version_info'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -923,20 +923,20 @@ class FileSystemUtilities:
             # Create backup of current version if requested and file exists
             if create_backup and workflow_path.exists():
                 backup_filename = self._create_workflow_backup(project_name, workflow_filename)
-                self.logger.info(f"Created backup before restoration: {backup_filename}")
+                self.logger.info(f"Created backup before restoration: {backup_filename}", extra={'project_name': project_name, 'operation': 'restore_workflow_version'})
             
             # Write the version data to the main workflow file
             success = self.write_workflow_file(project_name, workflow_filename, version_data, create_backup=False)
             
             if success:
-                self.logger.info(f"Successfully restored workflow '{workflow_filename}' from version '{version_filename}'")
+                self.logger.info(f"Successfully restored workflow '{workflow_filename}' from version '{version_filename}'", extra={'project_name': project_name, 'operation': 'restore_workflow_version'})
                 return True
             else:
                 raise RuntimeError("Failed to write restored workflow data")
             
         except Exception as e:
             error_msg = f"Failed to restore workflow from version {version_filename}: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'restore_workflow_version'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1070,7 +1070,7 @@ class FileSystemUtilities:
             
         except Exception as e:
             error_msg = f"Failed to compare workflow versions: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'compare_workflow_versions'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1110,12 +1110,12 @@ class FileSystemUtilities:
             # Delete the version file
             version_path.unlink()
             
-            self.logger.info(f"Successfully deleted version '{version_filename}' for workflow '{workflow_filename}'")
+            self.logger.info(f"Successfully deleted version '{version_filename}' for workflow '{workflow_filename}'", extra={'project_name': project_name, 'operation': 'delete_workflow_version'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to delete version {version_filename}: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'delete_workflow_version'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1159,12 +1159,12 @@ class FileSystemUtilities:
             # Write to destination
             self.write_workflow_file(dest_project, dest_workflow, workflow_data, create_backup=overwrite)
             
-            self.logger.info(f"Successfully copied workflow from {source_project}/{source_workflow} to {dest_project}/{dest_workflow}")
+            self.logger.info(f"Successfully copied workflow from {source_project}/{source_workflow} to {dest_project}/{dest_workflow}", extra={'project_name': dest_project, 'operation': 'copy_workflow'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to copy workflow: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': dest_project, 'operation': 'copy_workflow'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1193,12 +1193,12 @@ class FileSystemUtilities:
             # Delete source
             self.delete_workflow_file(source_project, source_workflow, confirm=True)
             
-            self.logger.info(f"Successfully moved workflow from {source_project}/{source_workflow} to {dest_project}/{dest_workflow}")
+            self.logger.info(f"Successfully moved workflow from {source_project}/{source_workflow} to {dest_project}/{dest_workflow}", extra={'project_name': dest_project, 'operation': 'move_workflow'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to move workflow: {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': dest_project, 'operation': 'move_workflow'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1240,17 +1240,17 @@ class FileSystemUtilities:
                     workflow_data['name'] = new_filename.replace('.json', '')
                     self.write_workflow_file(project_name, new_filename, workflow_data, create_backup=False)
             except Exception as e:
-                self.logger.warning(f"Failed to update workflow name in JSON: {str(e)}")
+                self.logger.warning(f"Failed to update workflow name in JSON: {str(e)}", extra={'project_name': project_name, 'operation': 'rename_workflow'})
             
             # Refresh project cache
             self.project_manager._refresh_project_cache()
             
-            self.logger.info(f"Successfully renamed workflow from {old_filename} to {new_filename}")
+            self.logger.info(f"Successfully renamed workflow from {old_filename} to {new_filename}", extra={'project_name': project_name, 'operation': 'rename_workflow'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to rename workflow '{old_filename}' to '{new_filename}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'rename_workflow'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1281,7 +1281,7 @@ class FileSystemUtilities:
             workflow_path = project_path / workflow_filename
             
             if not workflow_path.exists():
-                self.logger.warning(f"Workflow file {workflow_filename} does not exist")
+                self.logger.warning(f"Workflow file {workflow_filename} does not exist", extra={'project_name': project_name, 'operation': 'delete_workflow_file'})
                 return False
             
             # Delete the main workflow file
@@ -1294,19 +1294,19 @@ class FileSystemUtilities:
                     version_path = project_path / version_file
                     try:
                         version_path.unlink()
-                        self.logger.info(f"Deleted backup: {version_file}")
+                        self.logger.info(f"Deleted backup: {version_file}", extra={'project_name': project_name, 'operation': 'delete_workflow_file'})
                     except Exception as e:
-                        self.logger.warning(f"Failed to delete backup {version_file}: {str(e)}")
+                        self.logger.warning(f"Failed to delete backup {version_file}: {str(e)}", extra={'project_name': project_name, 'operation': 'delete_workflow_file'})
             
             # Refresh project cache
             self.project_manager._refresh_project_cache()
             
-            self.logger.info(f"Successfully deleted workflow {workflow_filename} from project {project_name}")
+            self.logger.info(f"Successfully deleted workflow {workflow_filename} from project {project_name}", extra={'project_name': project_name, 'operation': 'delete_workflow_file'})
             return True
             
         except Exception as e:
             error_msg = f"Failed to delete workflow '{workflow_filename}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'delete_workflow_file'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1371,7 +1371,7 @@ class FileSystemUtilities:
             
         except Exception as e:
             error_msg = f"Failed to get workflow info for '{workflow_filename}': {str(e)}"
-            self.logger.error(error_msg)
+            self.logger.error(error_msg, extra={'project_name': project_name, 'operation': 'get_workflow_info'})
             if isinstance(e, ValueError):
                 raise
             else:
@@ -1469,7 +1469,7 @@ class FileSystemUtilities:
                                 'project': project_info.name
                             }
                     except Exception as e:
-                        self.logger.warning(f"Failed to get info for {workflow_filename}: {str(e)}")
+                        self.logger.warning(f"Failed to get info for {workflow_filename}: {str(e)}", extra={'project_name': project_info.name, 'operation': 'get_file_system_stats'})
                         continue
             
             stats = {
@@ -1486,7 +1486,7 @@ class FileSystemUtilities:
             return stats
             
         except Exception as e:
-            self.logger.error(f"Failed to get file system stats: {str(e)}")
+            self.logger.error(f"Failed to get file system stats: {str(e)}", extra={'project_name': None, 'operation': 'get_file_system_stats'})
             return {'error': str(e)}
 
 # Global file system utilities instance

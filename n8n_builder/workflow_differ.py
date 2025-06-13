@@ -6,7 +6,7 @@ Task 1.1.7: Implement basic workflow diffing/comparison
 """
 
 import json
-import logging
+from .logging_config import get_logger
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Set, Tuple, Union
 from dataclasses import dataclass, field
@@ -14,8 +14,8 @@ from enum import Enum
 import hashlib
 import difflib
 
-logger = logging.getLogger(__name__)
-diff_logger = logging.getLogger('n8n_builder.diff')
+logger = get_logger(__name__)
+diff_logger = get_logger('n8n_builder.diff')
 
 class ChangeType(Enum):
     """Types of changes that can occur in workflows."""
@@ -211,7 +211,7 @@ class WorkflowDiffer:
             return hashlib.sha256(normalized_json.encode('utf-8')).hexdigest()[:16]
             
         except Exception as e:
-            diff_logger.error(f"Error computing workflow hash: {str(e)}")
+            diff_logger.exception(f"Error computing workflow hash: {str(e)}", extra={'operation': 'compute_workflow_hash'})
             return hashlib.sha256(workflow_json.encode('utf-8')).hexdigest()[:16]
     
     def compare_workflows(self, 
@@ -301,7 +301,7 @@ class WorkflowDiffer:
             
         except Exception as e:
             error_msg = f"Error comparing workflows: {str(e)}"
-            diff_logger.error(error_msg)
+            diff_logger.exception(error_msg, extra={'operation': 'compare_workflows', 'original_hash': original_hash, 'modified_hash': modified_hash})
             
             # Return error diff
             workflow_diff.has_changes = False

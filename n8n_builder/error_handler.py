@@ -67,23 +67,24 @@ class EnhancedErrorHandler:
         """Categorize an error and provide user-friendly guidance."""
         error_str = str(error).lower()
         error_type = type(error).__name__
-        
+        context = context or {}
+        logger.exception(f"Categorizing error: {error_type} - {error_str}", extra={'operation_id': context.get('operation_id', 'unknown'), 'error_type': error_type})
         # Check for specific error patterns
         for pattern, handler in self.error_patterns.items():
             if pattern in error_str or pattern in error_type.lower():
-                return handler(error, context or {})
-        
+                return handler(error, context)
         # Default fallback
-        return self._create_generic_error(error, context or {})
+        return self._create_generic_error(error, context)
     
-    def validate_workflow_input(self, workflow_json: str) -> List[ValidationError]:
+    def validate_workflow_input(self, workflow_json: str, context: Optional[Dict[str, Any]] = None) -> List[ValidationError]:
         """Validate workflow input with detailed feedback."""
         errors = []
-        
+        context = context or {}
         # Check if it's valid JSON
         try:
             workflow = json.loads(workflow_json)
         except json.JSONDecodeError as e:
+            logger.error("Invalid JSON format in workflow input", extra={'operation_id': context.get('operation_id', 'unknown'), 'field': 'workflow_json', 'error_type': 'JSONDecodeError'})
             errors.append(ValidationError(
                 field="workflow_json",
                 issue="Invalid JSON format",
@@ -93,16 +94,15 @@ class EnhancedErrorHandler:
                 example='{"name": "My Workflow", "nodes": [], "connections": {}}'
             ))
             return errors
-        
         # Validate required fields
         required_fields = {
             'name': 'string',
             'nodes': 'array',
             'connections': 'object'
         }
-        
         for field, expected_type in required_fields.items():
             if field not in workflow:
+                logger.error(f"Missing required field: {field}", extra={'operation_id': context.get('operation_id', 'unknown'), 'field': field, 'error_type': 'MissingField'})
                 errors.append(ValidationError(
                     field=field,
                     issue=f"Missing required field '{field}'",
@@ -115,6 +115,7 @@ class EnhancedErrorHandler:
                 # Check type
                 actual_type = self._get_json_type(workflow[field])
                 if actual_type != expected_type:
+                    logger.error(f"Wrong type for field: {field}", extra={'operation_id': context.get('operation_id', 'unknown'), 'field': field, 'error_type': 'TypeError'})
                     errors.append(ValidationError(
                         field=field,
                         issue=f"Wrong type for field '{field}'",
@@ -123,15 +124,14 @@ class EnhancedErrorHandler:
                         fix_instruction=f"Change '{field}' to be a {expected_type}",
                         example=self._get_field_example(field)
                     ))
-        
         # Validate nodes structure
         if 'nodes' in workflow and isinstance(workflow['nodes'], list):
             errors.extend(self._validate_nodes_structure(workflow['nodes']))
-        
         # Validate connections structure
         if 'connections' in workflow and isinstance(workflow['connections'], dict):
             errors.extend(self._validate_connections_structure(workflow['connections'], workflow.get('nodes', [])))
-        
+        if errors:
+            logger.error(f"Workflow input validation failed with {len(errors)} errors", extra={'operation_id': context.get('operation_id', 'unknown'), 'error_type': 'ValidationError'})
         return errors
     
     def validate_modification_description(self, description: str) -> List[ValidationError]:

@@ -683,3 +683,49 @@ projects/
 - **Integration Ready**: Complete API layer for future integrations
 
 **🎉 MILESTONE ACHIEVED**: N8N Builder Version 2.0 - Project-Based Workflow Iteration System is now complete and production-ready! 
+
+# NEXT UPDATES - 6/12/2025
+
+## 📋 Logging Improvement Task List
+
+### Overview
+
+To ensure our logging methodology adheres to best practices, we need to implement the following tasks:
+
+### Tasks
+
+1. **Define Centralized Logging Configuration**
+   - Create a `logging_config.py` file to define log formats, handlers, and rotation policies.
+   - Use `logging.config.dictConfig` to load the configuration.
+
+2. **Enhance Logging Context**
+   - Ensure all log messages include relevant context (e.g., operation IDs, user IDs).
+   - Use structured logging (e.g., JSON format) for easier parsing and analysis.
+
+3. **Improve Exception Logging**
+   - Use `logger.exception()` instead of `logger.error()` when logging exceptions to automatically include the stack trace.
+   - Ensure all exceptions are logged with sufficient context.
+
+4. **Log Performance Metrics**
+   - Log performance metrics (e.g., response times, memory usage) consistently across all operations.
+   - Use a standardized format for performance logs.
+
+5. **Review and Update Existing Logs**
+   - Review existing log messages to ensure they are clear, descriptive, and include relevant context.
+   - Update any logs that do not meet the new standards.
+
+6. **Test Logging Configuration**
+   - Test the logging configuration to ensure logs are written correctly and rotated as expected.
+   - Verify that logs are easily accessible and readable.
+
+7. **Document Logging Best Practices**
+   - Update the documentation to include the new logging best practices and configuration details.
+   - Provide examples of how to use the logging system effectively.
+
+### Expected Outcomes
+
+- **Consistent Logging**: All logs will follow a consistent format and include relevant context.
+- **Improved Debugging**: Easier tracing and debugging of issues with enhanced log messages.
+- **Better Performance Monitoring**: Consistent logging of performance metrics for monitoring and optimization.
+
+---

@@ -3,7 +3,11 @@ from pydantic import BaseModel
 import json
 import re
 import sys
+import logging
+import time
 from collections import defaultdict, deque
+
+validation_logger = logging.getLogger('n8n_builder.validation')
 
 class ValidationResult(BaseModel):
     is_valid: bool
@@ -29,9 +33,17 @@ class EdgeCaseValidator:
         self.max_description_length = 50000  # Maximum description length
         self.max_node_name_length = 200  # Maximum node name length
         self.known_node_types = self._initialize_known_node_types()
+        validation_logger.info("EdgeCaseValidator initialized with size limits and node type validation")
     
     def validate_edge_cases(self, workflow_json: str, description: str = "") -> EdgeCaseValidationResult:
         """Comprehensive edge case validation."""
+        validation_id = f"edge_case_validation_{int(time.time() * 1000)}"
+        validation_logger.info(f"Starting edge case validation [ID: {validation_id}]", extra={
+            'validation_id': validation_id,
+            'workflow_size': len(workflow_json.encode('utf-8')),
+            'description_length': len(description)
+        })
+        
         errors = []
         warnings = []
         suggestions = []
@@ -39,7 +51,6 @@ class EdgeCaseValidator:
         performance_metrics = {}
         
         # Track validation performance
-        import time
         start_time = time.time()
         
         try:
@@ -49,8 +60,13 @@ class EdgeCaseValidator:
             warnings.extend(size_warnings)
             performance_metrics.update(size_metrics)
             
-            # If size validation fails, don't proceed with JSON parsing
             if size_errors:
+                validation_logger.warning(f"Size validation failed [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'errors': size_errors,
+                    'warnings': size_warnings,
+                    'metrics': size_metrics
+                })
                 edge_cases_detected.append("workflow_size_exceeded")
                 return EdgeCaseValidationResult(
                     is_valid=False,
@@ -65,6 +81,10 @@ class EdgeCaseValidator:
             try:
                 workflow = json.loads(workflow_json)
             except json.JSONDecodeError as e:
+                validation_logger.exception(f"JSON parsing failed [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'error': str(e)
+                })
                 errors.append(f"JSON parsing failed: {str(e)}")
                 edge_cases_detected.append("json_parse_error")
                 return EdgeCaseValidationResult(
@@ -81,6 +101,11 @@ class EdgeCaseValidator:
             errors.extend(empty_errors)
             warnings.extend(empty_warnings)
             if empty_errors:
+                validation_logger.warning(f"Empty workflow detected [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'errors': empty_errors,
+                    'warnings': empty_warnings
+                })
                 edge_cases_detected.append("empty_workflow")
             
             # 4. Node-related Edge Cases
@@ -89,6 +114,13 @@ class EdgeCaseValidator:
                 errors.extend(node_errors)
                 warnings.extend(node_warnings)
                 edge_cases_detected.extend(node_edge_cases)
+                if node_errors or node_warnings:
+                    validation_logger.warning(f"Node validation issues [ID: {validation_id}]", extra={
+                        'validation_id': validation_id,
+                        'errors': node_errors,
+                        'warnings': node_warnings,
+                        'edge_cases': node_edge_cases
+                    })
             
             # 5. Connection Edge Cases
             if 'connections' in workflow and 'nodes' in workflow:
@@ -98,6 +130,13 @@ class EdgeCaseValidator:
                 errors.extend(conn_errors)
                 warnings.extend(conn_warnings)
                 edge_cases_detected.extend(conn_edge_cases)
+                if conn_errors or conn_warnings:
+                    validation_logger.warning(f"Connection validation issues [ID: {validation_id}]", extra={
+                        'validation_id': validation_id,
+                        'errors': conn_errors,
+                        'warnings': conn_warnings,
+                        'edge_cases': conn_edge_cases
+                    })
             
             # 6. Workflow Structure Edge Cases
             if 'nodes' in workflow and 'connections' in workflow:
@@ -107,12 +146,24 @@ class EdgeCaseValidator:
                 errors.extend(struct_errors)
                 warnings.extend(struct_warnings)
                 edge_cases_detected.extend(struct_edge_cases)
+                if struct_errors or struct_warnings:
+                    validation_logger.warning(f"Structure validation issues [ID: {validation_id}]", extra={
+                        'validation_id': validation_id,
+                        'errors': struct_errors,
+                        'warnings': struct_warnings,
+                        'edge_cases': struct_edge_cases
+                    })
             
             # 7. Input Description Edge Cases
             desc_errors, desc_warnings = self._validate_description_edge_cases(description)
             errors.extend(desc_errors)
             warnings.extend(desc_warnings)
             if desc_errors or desc_warnings:
+                validation_logger.warning(f"Description validation issues [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'errors': desc_errors,
+                    'warnings': desc_warnings
+                })
                 edge_cases_detected.append("description_edge_case")
             
             # 8. Generate suggestions based on detected edge cases
@@ -121,6 +172,15 @@ class EdgeCaseValidator:
             # Final performance metrics
             performance_metrics['total_validation_time'] = time.time() - start_time
             performance_metrics['edge_cases_count'] = len(edge_cases_detected)
+            
+            validation_logger.info(f"Edge case validation completed [ID: {validation_id}]", extra={
+                'validation_id': validation_id,
+                'is_valid': len(errors) == 0,
+                'error_count': len(errors),
+                'warning_count': len(warnings),
+                'edge_cases_count': len(edge_cases_detected),
+                'validation_time': performance_metrics['total_validation_time']
+            })
             
             return EdgeCaseValidationResult(
                 is_valid=len(errors) == 0,
@@ -132,6 +192,10 @@ class EdgeCaseValidator:
             )
             
         except Exception as e:
+            validation_logger.exception(f"Unexpected validation error [ID: {validation_id}]", extra={
+                'validation_id': validation_id,
+                'error': str(e)
+            })
             errors.append(f"Unexpected validation error: {str(e)}")
             edge_cases_detected.append("validation_system_error")
             return EdgeCaseValidationResult(
@@ -531,31 +595,85 @@ class BaseWorkflowValidator:
     
     def validate_workflow(self, workflow_json: str) -> ValidationResult:
         """Validate a workflow JSON string."""
+        validation_id = f"workflow_validation_{int(time.time() * 1000)}"
+        validation_logger.info(f"Starting workflow validation [ID: {validation_id}]", extra={
+            'validation_id': validation_id,
+            'workflow_size': len(workflow_json.encode('utf-8'))
+        })
+        
+        errors = []
+        warnings = []
+        suggestions = []
+        
         try:
-            # Basic JSON validation
-            workflow = json.loads(workflow_json)
-            
-            errors = []
-            warnings = []
-            suggestions = []
+            # Parse workflow JSON
+            try:
+                workflow = json.loads(workflow_json)
+            except json.JSONDecodeError as e:
+                validation_logger.exception(f"JSON parsing failed [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'error': str(e)
+                })
+                errors.append(f"Invalid JSON: {str(e)}")
+                return ValidationResult(
+                    is_valid=False,
+                    errors=errors,
+                    warnings=warnings,
+                    suggestions=suggestions
+                )
             
             # Validate basic structure
             if not self._validate_basic_structure(workflow, errors):
-                return ValidationResult(is_valid=False, errors=errors, warnings=warnings, suggestions=suggestions)
+                validation_logger.warning(f"Basic structure validation failed [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'errors': errors
+                })
+                return ValidationResult(
+                    is_valid=False,
+                    errors=errors,
+                    warnings=warnings,
+                    suggestions=suggestions
+                )
             
             # Validate nodes
-            node_errors = self._validate_nodes(workflow.get('nodes', []))
-            errors.extend(node_errors)
+            if 'nodes' in workflow:
+                node_errors = self._validate_nodes(workflow['nodes'])
+                if node_errors:
+                    validation_logger.warning(f"Node validation failed [ID: {validation_id}]", extra={
+                        'validation_id': validation_id,
+                        'errors': node_errors
+                    })
+                    errors.extend(node_errors)
             
             # Validate connections
-            connection_errors = self._validate_connections(workflow.get('connections', {}))
-            errors.extend(connection_errors)
+            if 'connections' in workflow:
+                conn_errors = self._validate_connections(workflow['connections'])
+                if conn_errors:
+                    validation_logger.warning(f"Connection validation failed [ID: {validation_id}]", extra={
+                        'validation_id': validation_id,
+                        'errors': conn_errors
+                    })
+                    errors.extend(conn_errors)
             
-            # Check for best practices
-            warnings.extend(self._check_best_practices(workflow))
+            # Check best practices
+            best_practice_warnings = self._check_best_practices(workflow)
+            if best_practice_warnings:
+                validation_logger.info(f"Best practice warnings [ID: {validation_id}]", extra={
+                    'validation_id': validation_id,
+                    'warnings': best_practice_warnings
+                })
+                warnings.extend(best_practice_warnings)
             
             # Generate suggestions
             suggestions.extend(self._generate_suggestions(workflow))
+            
+            validation_logger.info(f"Workflow validation completed [ID: {validation_id}]", extra={
+                'validation_id': validation_id,
+                'is_valid': len(errors) == 0,
+                'error_count': len(errors),
+                'warning_count': len(warnings),
+                'suggestion_count': len(suggestions)
+            })
             
             return ValidationResult(
                 is_valid=len(errors) == 0,
@@ -564,19 +682,17 @@ class BaseWorkflowValidator:
                 suggestions=suggestions
             )
             
-        except json.JSONDecodeError as e:
-            return ValidationResult(
-                is_valid=False,
-                errors=[f"Invalid JSON: {str(e)}"],
-                warnings=[],
-                suggestions=[]
-            )
         except Exception as e:
+            validation_logger.exception(f"Unexpected validation error [ID: {validation_id}]", extra={
+                'validation_id': validation_id,
+                'error': str(e)
+            })
+            errors.append(f"Unexpected validation error: {str(e)}")
             return ValidationResult(
                 is_valid=False,
-                errors=[f"Validation error: {str(e)}"],
-                warnings=[],
-                suggestions=[]
+                errors=errors,
+                warnings=warnings,
+                suggestions=suggestions
             )
     
     def _validate_basic_structure(self, workflow: Dict[str, Any], errors: List[str]) -> bool:

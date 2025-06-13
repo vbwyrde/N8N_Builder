@@ -451,7 +451,7 @@ class RetryManager:
                 metrics.add_attempt(attempt_record)
                 circuit_breaker.record_failure()
                 
-                retry_logger.warning(f"Attempt {attempt} failed [ID: {operation_id}]", extra={
+                retry_logger.exception(f"Attempt {attempt} failed [ID: {operation_id}]", extra={
                     'operation_id': operation_id,
                     'attempt': attempt,
                     'error_type': type(e).__name__,
@@ -502,7 +502,12 @@ class RetryManager:
                 if result is not None:
                     return result, strategy_name
             except Exception as e:
-                retry_logger.warning(f"Fallback strategy {strategy_name} failed [ID: {operation_id}]: {str(e)}")
+                retry_logger.exception(f"Fallback strategy {strategy_name} failed [ID: {operation_id}]", extra={
+                    'operation_id': operation_id,
+                    'strategy_name': strategy_name,
+                    'error_type': type(e).__name__,
+                    'error_message': str(e)[:200]
+                })
                 continue
         
         return None

@@ -17,6 +17,10 @@ from .validators import EdgeCaseValidator, EdgeCaseValidationResult
 from .performance_optimizer import performance_optimizer, PerformanceMetrics
 from .retry_manager import retry_manager, RetryConfig, RetryStrategy, FailureType
 from .workflow_differ import workflow_differ, WorkflowDiff
+from logging_config import setup_logging
+
+# Initialize logging configuration
+setup_logging()
 
 # Configure enhanced logging for iteration operations
 logging.basicConfig(
@@ -113,8 +117,8 @@ class N8NBuilder:
         self.workflow_patterns: Dict[str, WorkflowPattern] = {}
         self.feedback_log: List[WorkflowFeedback] = []
         self.llm_config = config.mimo_llm
-        logger.info(f"N8N Builder LLM Config: endpoint={self.llm_config.endpoint}, is_local={self.llm_config.is_local}, model={self.llm_config.model}")
-        self.iteration_history = {}
+        logger.info(f"N8N Builder LLM Config: endpoint={self.llm_config.endpoint}, is_local={self.llm_config.is_local}, model={self.llm_config.model}", extra={'operation_id': 'init'})
+        self.iteration_history = []
         
         # Initialize enhanced error handling
         self.error_handler = EnhancedErrorHandler()
@@ -124,19 +128,19 @@ class N8NBuilder:
         
         # Initialize performance optimizer (global instance)
         self.performance_optimizer = performance_optimizer
-        logger.info("Performance optimizer initialized for large workflow processing")
+        logger.info("Performance optimizer initialized for large workflow processing", extra={'operation_id': 'init'})
         
         # Initialize enhanced retry logic with fallback strategies
         self.retry_manager = retry_manager
         self._setup_retry_configurations()
         self._register_fallback_strategies()
-        logger.info("Enhanced retry manager initialized with intelligent failure handling")
+        logger.info("Enhanced retry manager initialized with intelligent failure handling", extra={'operation_id': 'init'})
         
         try:
             self.initialize_builder()
         except Exception as e:
             error_detail = self.error_handler.categorize_error(e, {"context": "initialization"})
-            logger.error(f"Error initializing N8N Builder: {error_detail.title} - {error_detail.message}")
+            logger.exception(f"Error initializing N8N Builder: {error_detail.title} - {error_detail.message}", extra={'operation_id': 'init'})
             if error_detail.fix_suggestions:
                 logger.info(f"Suggestions: {'; '.join(error_detail.fix_suggestions)}")
 
@@ -401,7 +405,7 @@ class N8NBuilder:
             else:
                 raise ValueError("Generated workflow failed validation")
         except Exception as e:
-            logger.error(f"Error generating workflow: {str(e)}")
+            logger.exception(f"Error generating workflow: {str(e)}", extra={'operation_id': 'generate'})
             return ""
 
     def _mock_llm_response(self, description: str) -> str:
@@ -815,8 +819,8 @@ class N8NBuilder:
     def _log_validation_errors(self, validation_errors: List[str]) -> bool:
         """Log validation errors with detailed information."""
         if validation_errors:
-            validation_logger.error(f"Workflow validation error: {validation_errors[0]}")
-            validation_logger.error(f"Total validation errors: {len(validation_errors)}")
+            validation_logger.error(f"Workflow validation error: {validation_errors[0]}", extra={'operation_id': 'validate'})
+            validation_logger.error(f"Total validation errors: {len(validation_errors)}", extra={'operation_id': 'validate'})
             
             # Log all errors in detail
             for i, error in enumerate(validation_errors, 1):
@@ -852,11 +856,7 @@ class N8NBuilder:
             workflow_id=workflow_id or "unknown"
         )
         
-        iteration_logger.info(f"Starting workflow modification [ID: {metrics.operation_id}]", extra={
-            'operation_id': metrics.operation_id,
-            'workflow_id': metrics.workflow_id,
-            'modification_description': modification_description[:100] + '...' if len(modification_description) > 100 else modification_description
-        })
+        iteration_logger.info(f"Starting workflow modification [ID: {metrics.operation_id}]", extra={'operation_id': metrics.operation_id})
         
         # Enhanced input validation with detailed feedback
         validation_start = time.time()
@@ -867,7 +867,7 @@ class N8NBuilder:
             validation_error_detail = self.error_handler.create_validation_error_summary(workflow_validation_errors)
             metrics.finish(success=False, error_message=validation_error_detail.message)
             
-            iteration_logger.error(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}")
+            iteration_logger.exception(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}", extra={'operation_id': metrics.operation_id})
             iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {validation_error_detail.user_guidance}")
             if validation_error_detail.fix_suggestions:
                 iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(validation_error_detail.fix_suggestions)}")
@@ -881,7 +881,7 @@ class N8NBuilder:
             description_error_detail = self.error_handler.create_validation_error_summary(description_validation_errors)
             metrics.finish(success=False, error_message=description_error_detail.message)
             
-            iteration_logger.error(f"Description validation failed [ID: {metrics.operation_id}]: {description_error_detail.title}")
+            iteration_logger.exception(f"Description validation failed [ID: {metrics.operation_id}]: {description_error_detail.title}", extra={'operation_id': metrics.operation_id})
             iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {description_error_detail.user_guidance}")
             if description_error_detail.fix_suggestions:
                 iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(description_error_detail.fix_suggestions)}")
@@ -902,7 +902,7 @@ class N8NBuilder:
             if not edge_case_result.is_valid:
                 metrics.finish(success=False, error_message=f"Edge case validation failed: {'; '.join(edge_case_result.errors)}")
                 
-                iteration_logger.error(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected")
+                iteration_logger.exception(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected", extra={'operation_id': metrics.operation_id})
                 iteration_logger.info(f"Edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
                 
                 # Log specific edge case errors
@@ -938,7 +938,7 @@ class N8NBuilder:
         except Exception as e:
             edge_case_time = time.time() - edge_case_start
             metrics.validation_time += edge_case_time
-            iteration_logger.warning(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}")
+            iteration_logger.exception(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}", extra={'operation_id': metrics.operation_id})
             # Continue with normal processing if edge case validation fails
 
         try:
@@ -966,7 +966,7 @@ class N8NBuilder:
                     ]
                 )
                 metrics.finish(success=False, error_message=error_detail.message)
-                iteration_logger.error(f"Workflow structure validation failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.exception(f"Workflow structure validation failed [ID: {metrics.operation_id}]: {error_detail.title}", extra={'operation_id': metrics.operation_id})
                 iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
                 performance_logger.info(f"Modify operation failed", extra=metrics.to_dict())
                 return existing_workflow_json
@@ -1096,7 +1096,7 @@ class N8NBuilder:
             
             metrics.finish(success=False, error_message=error_detail.message)
             
-            iteration_logger.error(f"Workflow modification failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.exception(f"Workflow modification failed [ID: {metrics.operation_id}]: {error_detail.title}", extra={'operation_id': metrics.operation_id})
             iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
             if error_detail.fix_suggestions:
                 iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
@@ -1149,7 +1149,7 @@ class N8NBuilder:
             validation_error_detail = self.error_handler.create_validation_error_summary(workflow_validation_errors)
             metrics.finish(success=False, error_message=validation_error_detail.message)
             
-            iteration_logger.error(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}")
+            iteration_logger.exception(f"Workflow validation failed [ID: {metrics.operation_id}]: {validation_error_detail.title}", extra={'operation_id': metrics.operation_id})
             iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {validation_error_detail.user_guidance}")
             if validation_error_detail.fix_suggestions:
                 iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(validation_error_detail.fix_suggestions)}")
@@ -1209,7 +1209,7 @@ class N8NBuilder:
             if not edge_case_result.is_valid:
                 metrics.finish(success=False, error_message=f"Edge case validation failed: {'; '.join(edge_case_result.errors)}")
                 
-                iteration_logger.error(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected")
+                iteration_logger.exception(f"Edge case validation failed [ID: {metrics.operation_id}]: {len(edge_case_result.errors)} errors detected", extra={'operation_id': metrics.operation_id})
                 iteration_logger.info(f"Edge cases detected [ID: {metrics.operation_id}]: {', '.join(edge_case_result.edge_cases_detected)}")
                 
                 # Log specific edge case errors
@@ -1245,7 +1245,7 @@ class N8NBuilder:
         except Exception as e:
             edge_case_time = time.time() - edge_case_start
             metrics.validation_time += edge_case_time
-            iteration_logger.warning(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}")
+            iteration_logger.exception(f"Edge case validation encountered an error [ID: {metrics.operation_id}]: {str(e)}", extra={'operation_id': metrics.operation_id})
             # Continue with normal processing if edge case validation fails
 
         try:
@@ -1322,7 +1322,7 @@ class N8NBuilder:
                     'workflow_id': workflow_id
                 })
                 
-                iteration_logger.error(f"Iteration modification failed [ID: {metrics.operation_id}]: {error_detail.title}")
+                iteration_logger.exception(f"Iteration modification failed [ID: {metrics.operation_id}]: {error_detail.title}", extra={'operation_id': metrics.operation_id})
                 iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
                 if error_detail.fix_suggestions:
                     iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
@@ -1383,7 +1383,7 @@ class N8NBuilder:
             
             metrics.finish(success=False, error_message=error_detail.message)
             
-            iteration_logger.error(f"Workflow iteration failed [ID: {metrics.operation_id}]: {error_detail.title}")
+            iteration_logger.exception(f"Workflow iteration failed [ID: {metrics.operation_id}]: {error_detail.title}", extra={'operation_id': metrics.operation_id})
             iteration_logger.info(f"User guidance [ID: {metrics.operation_id}]: {error_detail.user_guidance}")
             if error_detail.fix_suggestions:
                 iteration_logger.info(f"Fix suggestions [ID: {metrics.operation_id}]: {'; '.join(error_detail.fix_suggestions)}")
@@ -1522,8 +1522,8 @@ IMPORTANT: Respond ONLY with valid JSON modification instructions. Do not includ
 EXISTING WORKFLOW ANALYSIS:
 - Node count: {analysis['node_count']}
 - Node types: {', '.join(analysis['node_types'])}
-- Triggers: {len(analysis['triggers'])}
-- Actions: {len(analysis['actions'])}
+- Triggers: {len(analysis.get('triggers', []))}
+- Actions: {len(analysis.get('actions', []))}
 - Data flow connections: {len(analysis['data_flow'])}
 
 CURRENT WORKFLOW JSON:
@@ -2080,13 +2080,54 @@ CRITICAL: Return ONLY the JSON array, no other text, no thinking tags, no explan
 
 {description}
 
-The workflow should:
-1. Use appropriate n8n nodes for the task
-2. Follow n8n best practices
-3. Include proper error handling
-4. Be well-documented with comments
+IMPORTANT: You must return a valid n8n workflow JSON with this EXACT structure:
 
-Return only the workflow JSON, no additional text or explanation."""
+{{
+  "name": "Workflow Name Here",
+  "nodes": [
+    {{
+      "id": "unique-node-id",
+      "name": "Human Readable Node Name",
+      "type": "n8n-nodes-base.nodetype",
+      "parameters": {{
+        "param1": "value1",
+        "param2": "value2"
+      }},
+      "position": [x, y]
+    }}
+  ],
+  "connections": {{
+    "Node Name": {{
+      "main": [
+        [
+          {{
+            "node": "Target Node Name",
+            "type": "main",
+            "index": 0
+          }}
+        ]
+      ]
+    }}
+  }},
+  "settings": {{}},
+  "active": true,
+  "version": 1
+}}
+
+Common n8n node types:
+- n8n-nodes-base.webhook (for HTTP triggers)
+- n8n-nodes-base.emailSend (for sending emails)
+- n8n-nodes-base.function (for custom JavaScript code)
+- n8n-nodes-base.httpRequest (for making HTTP requests)
+- n8n-nodes-base.schedule (for time-based triggers)
+- n8n-nodes-base.fileSystem (for file operations)
+
+Requirements:
+1. Include ALL required fields: name, nodes, connections, settings, active, version
+2. Use proper n8n node types from the list above
+3. Create logical connections between nodes
+4. Position nodes with reasonable x,y coordinates (start at 250,300 and space by 250 pixels)
+5. Return ONLY the JSON, no additional text or explanation"""
 
     async def _call_mimo_vl7b(self, prompt: str, max_retries: int = 3) -> str:
         """Call the Mimo VL 7B API with enhanced retry logic and intelligent failure handling."""
@@ -2164,6 +2205,10 @@ Return only the workflow JSON, no additional text or explanation."""
                 
                 logger.debug(f"LLM Response (first 200 chars): {content[:200]}...")
                 logger.info("Successfully received response from LLM")
+                
+                # Add debug logging for JSON parsing issues
+                logger.debug(f"Full LLM Response: {content}")
+                
                 return content.strip()
         else:
             if not self.llm_config.api_key:
@@ -2256,6 +2301,10 @@ Return only the workflow JSON, no additional text or explanation."""
                         
                         logger.debug(f"LLM Response (first 200 chars): {content[:200]}...")
                         logger.info("Successfully received response from original LLM implementation")
+                        
+                        # Add debug logging for JSON parsing issues
+                        logger.debug(f"Full Original LLM Response: {content}")
+                        
                         return content.strip()
                 else:
                     if not self.llm_config.api_key:
@@ -2341,24 +2390,35 @@ Return only the workflow JSON, no additional text or explanation."""
         raise ValueError(error_message)
 
     def _map_to_workflow_structure(self, response: str) -> str:
-        """Map the LLM response to n8n workflow structure."""
+        """Map the LLM response to n8n workflow structure with robust JSON extraction."""
         try:
-            # Try to parse the response as JSON
+            # First try to parse the response directly as JSON
             workflow = json.loads(response)
             return json.dumps(workflow, indent=2)
         except json.JSONDecodeError:
-            # If the response isn't valid JSON, try to extract JSON from the text
-            try:
-                # Look for JSON-like content between curly braces
-                start = response.find('{')
-                end = response.rfind('}') + 1
-                if start >= 0 and end > start:
-                    json_str = response[start:end]
-                    workflow = json.loads(json_str)
-                    return json.dumps(workflow, indent=2)
-            except Exception as e:
-                logger.error(f"Error extracting JSON from response: {str(e)}")
+            # If direct parsing fails, use the robust JSON extraction logic
+            logger.info("Direct JSON parsing failed, attempting to extract JSON from response")
+            
+            # Use the existing robust JSON extraction method
+            extracted_json = self._extract_json_from_response(response)
+            
+            if not extracted_json:
+                logger.error("Could not extract valid JSON from LLM response")
+                logger.debug(f"Failed response (first 500 chars): {response[:500]}...")
                 raise ValueError("Could not extract valid workflow JSON from response")
+            
+            try:
+                # Parse the extracted JSON
+                workflow = json.loads(extracted_json)
+                logger.info("Successfully extracted and parsed JSON from LLM response")
+                return json.dumps(workflow, indent=2)
+            except json.JSONDecodeError as e:
+                logger.error(f"Extracted JSON is still invalid: {str(e)}")
+                logger.debug(f"Extracted JSON: {extracted_json[:200]}...")
+                raise ValueError("Extracted JSON from response is not valid")
+        except Exception as e:
+            logger.error(f"Unexpected error in workflow structure mapping: {str(e)}")
+            raise ValueError(f"Could not map response to workflow structure: {str(e)}")
 
     def _save_feedback_log(self) -> None:
         """Save the feedback log to a file."""

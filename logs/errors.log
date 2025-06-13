@@ -6,3 +6,48 @@
 2025-06-12 01:59:28,804 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 4
 2025-06-12 01:59:28,811 - n8n_builder.n8n_builder - ERROR - [_log_validation_errors:825] - Modified workflow failed validation, returning original
 2025-06-12 01:59:28,811 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Generated workflow failed validation
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:818] - Workflow validation error: Missing required field: name
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 15
+2025-06-12 13:06:46,464 - n8n_builder.validation - ERROR - [_log_validation_errors:819] - Total validation errors: 15
+2025-06-12 13:06:46,464 - n8n_builder.n8n_builder - ERROR - [_log_validation_errors:825] - Modified workflow failed validation, returning original
+2025-06-12 13:06:46,465 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Generated workflow failed validation
+2025-06-12 13:10:31,652 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 5caf5996]: Missing Required Field
+2025-06-12 13:10:31,652 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 5caf5996]: Missing Required Field
+2025-06-12 13:10:31,653 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:10:31,653 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:10:31,653 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'triggers' is missing from the workflow
+2025-06-12 13:10:31,654 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:10:31,654 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:10:31,654 - n8n_builder.n8n_builder - ERROR - [_track_workflow_iteration:1868] - Error tracking workflow iteration: 'dict' object has no attribute 'append'
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - ERROR - [_map_to_workflow_structure:2401] - Error extracting JSON from response: Extra data: line 18 column 1 (char 245)
+2025-06-12 13:16:36,176 - n8n_builder.n8n_builder - ERROR - [generate_workflow:404] - Error generating workflow: Could not extract valid workflow JSON from response
+2025-06-12 13:55:53,440 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 48b61e9e]: Missing Required Field
+2025-06-12 13:55:53,440 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: 48b61e9e]: Missing Required Field
+2025-06-12 13:55:53,441 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:55:53,441 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 13:55:53,441 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'triggers' is missing from the workflow
+2025-06-12 13:55:53,442 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:55:53,442 - n8n_builder.iteration - ERROR - [_track_workflow_iteration:1864] - Failed to track iteration
+2025-06-12 13:55:53,442 - n8n_builder.n8n_builder - ERROR - [_track_workflow_iteration:1868] - Error tracking workflow iteration: 'dict' object has no attribute 'append'
+2025-06-12 14:21:42,869 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: dd3a4332]: Missing Required Field
+2025-06-12 14:21:42,869 - n8n_builder.iteration - ERROR - [modify_workflow:1099] - Workflow modification failed [ID: dd3a4332]: Missing Required Field
+2025-06-12 14:21:42,870 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 14:21:42,870 - n8n_builder.performance - ERROR - [modify_workflow:1104] - Workflow modification failed
+2025-06-12 14:21:42,870 - n8n_builder.n8n_builder - ERROR - [modify_workflow:1105] - Workflow modification failed: Missing Required Field - Required field 'data_flow' is missing from the workflow
+[2025-06-12 22:29:28,629] ERROR n8n_builder.validation: [ERROR] Validation logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.validation: [CRITICAL] Validation logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.retry: [ERROR] Retry logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.retry: [CRITICAL] Retry logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.diff: [ERROR] Diff logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.diff: [CRITICAL] Diff logger test.
+[2025-06-12 22:29:28,629] ERROR n8n_builder.error: [ERROR] Error logger test.
+[2025-06-12 22:29:28,629] CRITICAL n8n_builder.error: [CRITICAL] Error logger test.
+[2025-06-12 22:33:34,677] ERROR n8n_builder.validation: [ERROR] Validation logger test.
+[2025-06-12 22:33:34,677] CRITICAL n8n_builder.validation: [CRITICAL] Validation logger test.
+[2025-06-12 22:33:34,678] ERROR n8n_builder.retry: [ERROR] Retry logger test.
+[2025-06-12 22:33:34,679] CRITICAL n8n_builder.retry: [CRITICAL] Retry logger test.
+[2025-06-12 22:33:34,680] ERROR n8n_builder.diff: [ERROR] Diff logger test.
+[2025-06-12 22:33:34,680] CRITICAL n8n_builder.diff: [CRITICAL] Diff logger test.
+[2025-06-12 22:33:34,681] ERROR n8n_builder.error: [ERROR] Error logger test.
+[2025-06-12 22:33:34,681] CRITICAL n8n_builder.error: [CRITICAL] Error logger test.

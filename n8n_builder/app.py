@@ -18,16 +18,6 @@ from .validators import BaseWorkflowValidator, ValidationResult
 from .error_handler import EnhancedErrorHandler, ErrorDetail
 from .project_manager import project_manager, filesystem_utils, ProjectInfo, WorkflowInfo
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
-# Get the static directory path - point to root level static directory
-static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
-logger.debug(f"Static directory path: {static_dir}")
-logger.debug(f"Static directory exists: {os.path.exists(static_dir)}")
-logger.debug(f"Static directory contents: {os.listdir(static_dir) if os.path.exists(static_dir) else 'Directory not found'}")
-
 # Create FastAPI app
 app = FastAPI(title="N8N Workflow Builder API")
 
@@ -44,6 +34,14 @@ app.add_middleware(
 workflow_builder = N8NBuilder()
 workflow_validator = BaseWorkflowValidator()
 error_handler = EnhancedErrorHandler()
+
+logger = logging.getLogger(__name__)
+
+# Get the static directory path - point to root level static directory
+static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+logger.debug(f"Static directory path: {static_dir}")
+logger.debug(f"Static directory exists: {os.path.exists(static_dir)}")
+logger.debug(f"Static directory contents: {os.listdir(static_dir) if os.path.exists(static_dir) else 'Directory not found'}")
 
 class WorkflowRequest(BaseModel):
     description: str
@@ -159,7 +157,7 @@ async def generate_workflow_events(request: WorkflowRequest):
     run_id = request.run_id or str(uuid.uuid4())
     
     # Log the start of workflow generation
-    logger.info(f"Workflow generation started - ID: {workflow_id}, Description: {request.description[:100]}...")
+    logger.info("Workflow generation started", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
     
     # Start event
     yield "data: " + json.dumps({
@@ -183,7 +181,7 @@ async def generate_workflow_events(request: WorkflowRequest):
         
         # Validate description using existing error handler
         if not request.description or not request.description.strip():
-            logger.error(f"Empty workflow description provided for workflow {workflow_id}")
+            logger.error("Empty workflow description provided", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
             yield "data: " + json.dumps({
                 "type": "VALIDATION_ERROR",
                 "workflow_id": workflow_id,
@@ -202,7 +200,7 @@ async def generate_workflow_events(request: WorkflowRequest):
             return
         
         # Validation passed
-        logger.info(f"Input validation passed for workflow {workflow_id}")
+        logger.info("Input validation passed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
         yield "data: " + json.dumps({
             "type": "VALIDATION_COMPLETED",
             "workflow_id": workflow_id,
@@ -223,14 +221,14 @@ async def generate_workflow_events(request: WorkflowRequest):
         }) + "\n\n"
         
         # Generate workflow
-        logger.info(f"Starting workflow generation process for {workflow_id}")
+        logger.info("Starting workflow generation process", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
         workflow_json = workflow_builder.generate_workflow(request.description)
-        logger.info(f"Workflow generation completed for {workflow_id}")
+        logger.info("Workflow generation completed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
         
         # Validate workflow
-        logger.info(f"Validating generated workflow for {workflow_id}")
+        logger.info("Validating generated workflow", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
         validation_result = workflow_validator.validate_workflow(workflow_json)
-        logger.info(f"Workflow validation completed for {workflow_id} - Valid: {validation_result.is_valid}")
+        logger.info("Workflow validation completed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'valid': validation_result.is_valid})
         
         # Create response
         response = WorkflowResponse(
@@ -251,7 +249,7 @@ async def generate_workflow_events(request: WorkflowRequest):
         }) + "\n\n"
         
         # Finish event
-        logger.info(f"Workflow generation finished successfully for {workflow_id}")
+        logger.info("Workflow generation finished successfully", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
         yield "data: " + json.dumps({
             "type": "RUN_FINISHED",
             "workflow_id": workflow_id,
@@ -266,14 +264,10 @@ async def generate_workflow_events(request: WorkflowRequest):
         error_id = f"err_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
         
         # Log comprehensive error information
-        logger.error(f"Workflow generation failed - Error ID: {error_id}")
-        logger.error(f"Workflow ID: {workflow_id}")
-        logger.error(f"Thread ID: {thread_id}")
-        logger.error(f"Run ID: {run_id}")
-        logger.error(f"Description: {request.description}")
+        logger.error("Workflow generation failed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'error_id': error_id})
         logger.error(f"Error Type: {type(e).__name__}")
         logger.error(f"Error Message: {str(e)}")
-        logger.error(f"Full Error Details:", exc_info=True)
+        logger.exception("Full Error Details")
         
         # Enhanced error handling using existing error handler
         error_detail = error_handler.categorize_error(e, {
@@ -286,14 +280,14 @@ async def generate_workflow_events(request: WorkflowRequest):
         })
         
         # Log the categorized error details
-        logger.error(f"Categorized Error - Title: {error_detail.title}")
-        logger.error(f"Category: {error_detail.category.value}")
-        logger.error(f"Severity: {error_detail.severity.value}")
-        logger.error(f"User Guidance: {error_detail.user_guidance}")
+        logger.error("Categorized Error", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'title': error_detail.title})
+        logger.error("Category", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'category': error_detail.category.value})
+        logger.error("Severity", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'severity': error_detail.severity.value})
+        logger.error("User Guidance", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'user_guidance': error_detail.user_guidance})
         if error_detail.fix_suggestions:
-            logger.error(f"Fix Suggestions: {'; '.join(error_detail.fix_suggestions)}")
+            logger.error("Fix Suggestions", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'fix_suggestions': '; '.join(error_detail.fix_suggestions)})
         if error_detail.technical_details:
-            logger.error(f"Technical Details: {error_detail.technical_details}")
+            logger.error("Technical Details", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'technical_details': error_detail.technical_details})
         
         # Error event with detailed information
         yield "data: " + json.dumps({
@@ -743,7 +737,7 @@ async def list_projects():
         return project_responses
         
     except Exception as e:
-        logger.error(f"Failed to list projects: {str(e)}")
+        logger.error("Failed to list projects", extra={'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to list projects: {str(e)}")
 
 @app.get("/projects/stats", response_model=ProjectStatsResponse)
@@ -763,7 +757,7 @@ async def get_project_stats():
         )
         
     except Exception as e:
-        logger.error(f"Failed to get project stats: {str(e)}")
+        logger.error("Failed to get project stats", extra={'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to get project stats: {str(e)}")
 
 @app.post("/projects/{name}", response_model=ProjectResponse)
@@ -799,7 +793,7 @@ async def create_project(name: str, request: ProjectCreateRequest):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to create project '{name}': {str(e)}")
+        logger.error("Failed to create project", extra={'project_name': name, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to create project: {str(e)}")
 
 @app.get("/projects/{name}", response_model=ProjectResponse)
@@ -825,7 +819,7 @@ async def get_project(name: str):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to get project '{name}': {str(e)}")
+        logger.error("Failed to get project", extra={'project_name': name, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to get project: {str(e)}")
 
 @app.get("/projects/{name}/workflows", response_model=List[str])
@@ -841,7 +835,7 @@ async def list_project_workflows(name: str):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to list workflows for project '{name}': {str(e)}")
+        logger.error("Failed to list workflows for project", extra={'project_name': name, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to list workflows: {str(e)}")
 
 @app.get("/projects/{name}/workflows/{filename}", response_model=WorkflowFileResponse)
@@ -868,7 +862,7 @@ async def get_workflow_file(name: str, filename: str):
         else:
             raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Failed to get workflow '{filename}' from project '{name}': {str(e)}")
+        logger.error("Failed to get workflow", extra={'workflow_name': name, 'workflow_filename': filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to get workflow: {str(e)}")
 
 @app.put("/projects/{name}/workflows/{filename}")
@@ -914,7 +908,7 @@ async def save_workflow_file(name: str, filename: str, request: WorkflowFileRequ
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to save workflow '{filename}' to project '{name}': {str(e)}")
+        logger.error("Failed to save workflow", extra={'workflow_name': name, 'workflow_filename': filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to save workflow: {str(e)}")
 
 @app.delete("/projects/{name}")
@@ -939,7 +933,7 @@ async def delete_project(name: str, confirm: bool = False):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to delete project '{name}': {str(e)}")
+        logger.error("Failed to delete project", extra={'project_name': name, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to delete project: {str(e)}")
 
 # ============================================================================
@@ -960,7 +954,7 @@ async def list_workflow_versions(name: str, filename: str):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to list versions for workflow '{filename}' in project '{name}': {str(e)}")
+        logger.error("Failed to list versions for workflow", extra={'workflow_name': name, 'workflow_filename': filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to list workflow versions: {str(e)}")
 
 @app.get("/projects/{name}/workflows/{filename}/versions/{version_filename}", response_model=VersionInfoResponse)
@@ -988,7 +982,7 @@ async def get_workflow_version_info(name: str, filename: str, version_filename: 
         else:
             raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Failed to get version info for '{version_filename}': {str(e)}")
+        logger.error("Failed to get version info", extra={'workflow_name': name, 'workflow_filename': filename, 'version_filename': version_filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to get version info: {str(e)}")
 
 @app.get("/projects/{name}/workflows/{filename}/versions/{version_filename}/content")
@@ -1019,7 +1013,7 @@ async def get_workflow_version_content(name: str, filename: str, version_filenam
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to get version content for '{version_filename}': {str(e)}")
+        logger.error("Failed to get version content", extra={'workflow_name': name, 'workflow_filename': filename, 'version_filename': version_filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to get version content: {str(e)}")
 
 @app.post("/projects/{name}/workflows/{filename}/versions/{version_filename}/restore")
@@ -1050,7 +1044,7 @@ async def restore_workflow_version(name: str, filename: str, version_filename: s
         else:
             raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Failed to restore workflow from version '{version_filename}': {str(e)}")
+        logger.error("Failed to restore workflow from version", extra={'workflow_name': name, 'workflow_filename': filename, 'version_filename': version_filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to restore workflow version: {str(e)}")
 
 @app.get("/projects/{name}/workflows/{filename}/compare/{version1}/{version2}", response_model=VersionComparisonResponse)
@@ -1072,7 +1066,7 @@ async def compare_workflow_versions(name: str, filename: str, version1: str, ver
         else:
             raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Failed to compare workflow versions: {str(e)}")
+        logger.error("Failed to compare workflow versions", extra={'workflow_name': name, 'workflow_filename': filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to compare workflow versions: {str(e)}")
 
 @app.delete("/projects/{name}/workflows/{filename}/versions/{version_filename}")
@@ -1105,7 +1099,7 @@ async def delete_workflow_version(name: str, filename: str, version_filename: st
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to delete version '{version_filename}': {str(e)}")
+        logger.error("Failed to delete version", extra={'workflow_name': name, 'workflow_filename': filename, 'version_filename': version_filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to delete workflow version: {str(e)}")
 
 @app.post("/projects/{name}/workflows/{filename}/cleanup-versions")
@@ -1123,5 +1117,5 @@ async def cleanup_workflow_versions(name: str, filename: str, request: VersionCl
         }
         
     except Exception as e:
-        logger.error(f"Failed to cleanup versions for workflow '{filename}': {str(e)}")
+        logger.error("Failed to cleanup versions for workflow", extra={'workflow_name': name, 'workflow_filename': filename, 'error': str(e)})
         raise HTTPException(status_code=500, detail=f"Failed to cleanup workflow versions: {str(e)}") 

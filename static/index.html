@@ -501,8 +501,8 @@
                                     <div class="form-text">Detailed instructions for the AI to generate your workflow.</div>
                                 </div>
                                 <div class="d-flex gap-2">
-                                    <button type="submit" class="btn btn-primary-clean btn-lg">
-                                        <i class="bi bi-magic"></i> Generate Workflow
+                                    <button type="submit" class="btn btn-primary-clean btn-lg" id="generateBtn">
+                                        <i class="bi bi-magic"></i> <span id="generateBtnText">Generate Workflow</span>
                                     </button>
                                     <button type="button" class="btn btn-clean btn-lg" id="quickSaveBtn" disabled>
                                         <i class="bi bi-floppy"></i> Quick Save
@@ -609,6 +609,7 @@
             loadProjects();
             setupEventListeners();
             setupKeyboardNavigation();
+            updateGenerateButtonState(); // Initialize button state
         });
         
         // Event listeners setup
@@ -757,11 +758,27 @@
             `;
         }
         
+        // Clear current workflow and update UI
+        function clearCurrentWorkflow() {
+            currentWorkflow = null;
+            currentWorkflowName = null;
+            updateGenerateButtonState();
+            
+            // Clear the workflow viewer
+            const viewer = document.getElementById('workflowViewer');
+            viewer.innerHTML = '<div class="empty-state"><i class="bi bi-diagram-3"></i><p>No workflow loaded. Generate or load a workflow to view its structure.</p></div>';
+            
+            // Clear the results
+            const result = document.getElementById('result');
+            result.innerHTML = '<div class="empty-state"><i class="bi bi-list-check"></i><p>Results will appear here after generating a workflow.</p></div>';
+        }
+        
         // Select project
         function selectProject(projectName) {
             // Update selection state
             currentProject = projectName;
             selectedWorkflow = null;
+            clearCurrentWorkflow(); // Clear current workflow when switching projects
             
             // Update UI
             document.querySelectorAll('#projectListContainer .list-item').forEach(item => {
@@ -876,6 +893,7 @@
                         showToast('Project deleted successfully', 'success');
                         currentProject = null;
                         selectedWorkflow = null;
+                        clearCurrentWorkflow(); // Clear current workflow when project is deleted
                         document.getElementById('deleteProjectBtn').disabled = true;
                         document.getElementById('workflowSearch').disabled = true;
                         document.getElementById('loadWorkflowBtn').disabled = true;
@@ -890,6 +908,28 @@
                     console.error('Error deleting project:', error);
                     showToast('Error deleting project', 'error');
                 }
+            }
+        }
+        
+        // Update generate button state based on whether a workflow is loaded
+        function updateGenerateButtonState() {
+            const generateBtn = document.getElementById('generateBtn');
+            const generateBtnText = document.getElementById('generateBtnText');
+            const generateBtnIcon = generateBtn.querySelector('i');
+            const descriptionTextarea = document.getElementById('description');
+            
+            if (currentWorkflow) {
+                // Workflow is loaded - show iteration mode
+                generateBtnText.textContent = 'Update Workflow';
+                generateBtnIcon.className = 'bi bi-arrow-repeat';
+                generateBtn.title = 'Update the loaded workflow with your changes';
+                descriptionTextarea.placeholder = 'Describe the changes you want to make to the loaded workflow (e.g., "Add email notification when task fails", "Include error handling", "Add a database save step")...';
+            } else {
+                // No workflow loaded - show generation mode
+                generateBtnText.textContent = 'Generate Workflow';
+                generateBtnIcon.className = 'bi bi-magic';
+                generateBtn.title = 'Generate a new workflow from your description';
+                descriptionTextarea.placeholder = 'Describe what you want this workflow to do...';
             }
         }
         
@@ -912,6 +952,7 @@
                 
                 updateWorkflowViewer(currentWorkflow);
                 updateQuickSaveState();
+                updateGenerateButtonState(); // Update button state when workflow is loaded
                 showToast('Workflow loaded successfully', 'success');
                 
                 // Switch to viewer tab
@@ -946,7 +987,7 @@
             await saveWorkflowWithName(workflowName);
         }
         
-        // Handle workflow generation
+        // Handle workflow generation or iteration
         async function handleWorkflowGeneration(e) {
             e.preventDefault();
             
@@ -965,25 +1006,44 @@
                 return;
             }
             
+            // Determine if we're generating a new workflow or iterating on existing one
+            const isIteration = currentWorkflow !== null;
+            const operation = isIteration ? 'iteration' : 'generation';
+            const endpoint = isIteration ? '/iterate' : '/generate';
+            
             // Store the workflow name for later use
             currentWorkflowName = name;
             
             loading.style.display = 'block';
-            result.innerHTML = '<div class="empty-state"><div class="spinner-border text-primary"></div><p>Generating workflow...</p></div>';
+            result.innerHTML = `<div class="empty-state"><div class="spinner-border text-primary"></div><p>${isIteration ? 'Updating' : 'Generating'} workflow...</p></div>`;
             
             // Switch to results tab
             const resultsTab = new bootstrap.Tab(document.getElementById('results-tab'));
             resultsTab.show();
             
             try {
-                const response = await fetch('/generate', {
+                let requestBody;
+                if (isIteration) {
+                    // For iteration, we need the existing workflow and feedback
+                    requestBody = {
+                        workflow_id: currentWorkflowName || 'workflow_' + Date.now(),
+                        existing_workflow_json: JSON.stringify(currentWorkflow),
+                        feedback_from_testing: description,
+                        additional_requirements: ""
+                    };
+                } else {
+                    // For generation, we just need the description
+                    requestBody = {
+                        description: description
+                    };
+                }
+                
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
-                        description: description
-                    }),
+                    body: JSON.stringify(requestBody),
                 });
                 
                 if (!response.ok) {
@@ -1016,10 +1076,11 @@
                             const data = JSON.parse(jsonData);
                             console.log('Received event:', data); // Debug logging
                             
-                            if (data.type === 'WORKFLOW_GENERATED') {
+                            // Handle different event types for both generation and iteration
+                            if (data.type === 'WORKFLOW_GENERATED' || data.type === 'WORKFLOW_MODIFIED') {
                                 workflowData = data.data;
                                 console.log('Workflow data received:', workflowData); // Debug logging
-                            } else if (data.type === 'RUN_ERROR') {
+                            } else if (data.type === 'RUN_ERROR' || data.type === 'MODIFICATION_ERROR' || data.type === 'ITERATION_ERROR') {
                                 errorMessage = data.error;
                                 console.log('Error received:', errorMessage); // Debug logging
                             }
@@ -1057,17 +1118,18 @@
                     result.innerHTML = formattedJson;
                     updateWorkflowViewer(parsedJson);
                     updateQuickSaveState();
-                    showToast(`Workflow "${name}" generated successfully`, 'success');
+                    updateGenerateButtonState(); // Update button state after operation
+                    showToast(`Workflow "${name}" ${isIteration ? 'updated' : 'generated'} successfully`, 'success');
                 } else {
                     console.error('No workflow data found in server response');
                     console.log('All events received during processing - check browser console for details');
                     throw new Error('No workflow data received from the server');
                 }
             } catch (error) {
-                console.error('Error generating workflow:', error);
+                console.error(`Error ${operation} workflow:`, error);
                 const errorMsg = error.message || 'Unknown error occurred';
                 result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>Check the console for more details.</small></div>`;
-                showToast(`Error generating workflow: ${errorMsg}`, 'error');
+                showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
             } finally {
                 loading.style.display = 'none';
             }

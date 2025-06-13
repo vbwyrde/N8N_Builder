@@ -432,13 +432,7 @@ class PerformanceOptimizer:
     
     def _log_performance_summary(self, metrics: PerformanceMetrics):
         """Log performance summary with optimization recommendations."""
-        logger.info(f"Performance Summary [ID: {metrics.operation_id}]", extra={
-            'operation_type': metrics.operation_type,
-            'duration': metrics.duration,
-            'memory_usage_mb': metrics.memory_after_mb,
-            'optimizations_applied': len(metrics.optimizations_applied),
-            'cache_hit_rate': metrics.cache_hit_rate
-        })
+        logger.info("Performance summary", extra=metrics.to_dict())
         
         # Log optimization recommendations
         if metrics.duration > 30:
@@ -465,6 +459,7 @@ class PerformanceOptimizer:
             if cached_result is not None:
                 metrics.cache_hits += 1
                 metrics.optimizations_applied.append("cache_hit")
+                logger.debug("Cache hit", extra={'operation_id': operation_id, 'operation_type': operation})
                 return cached_result, metrics
             
             metrics.cache_misses += 1
@@ -489,6 +484,9 @@ class PerformanceOptimizer:
             
             return result, metrics
             
+        except Exception as e:
+            logger.exception("Error during optimization", extra={'operation_id': operation_id, 'operation_type': operation})
+            raise
         finally:
             self.finish_performance_tracking(operation_id)
     
