@@ -196,6 +196,44 @@ classDiagram
 
 ---
 
+## 🗺️ Codebase Process Flow Mapping
+
+### What is ProcessFlow.MD?
+
+`ProcessFlow.MD` is an automatically generated, comprehensive map of the entire codebase. It provides:
+- A summary of all modules, classes, functions, and imports
+- Per-module breakdowns (including docstrings, inheritance, constants, globals)
+- Function call graphs and exception flow
+- Markers for FastAPI endpoints and CLI entry points
+- Third-party dependencies per module
+- A Mermaid diagram for visualizing top-level function calls
+
+This document is invaluable for debugging, onboarding, and understanding the architecture at a glance. It is especially useful for both human developers and AI assistants, as it eliminates the need for repeated codebase searches.
+
+### How to Generate or Update ProcessFlow.MD
+
+1. **Ensure you have Python 3.8+ installed.**
+2. **Run the process flow script:**
+   ```bash
+   python Scripts/generate_process_flow.py
+   ```
+   This will scan the entire project and regenerate `ProcessFlow.MD` in the project root.
+3. **Review the output:**
+   - The file will include module summaries, per-module details, call graphs, and more.
+   - Keep this file up-to-date after major refactors or before onboarding new contributors.
+
+### When to Update
+- After adding, removing, or refactoring modules/classes/functions
+- Before major debugging or architectural reviews
+- Before onboarding new team members or AI assistants
+
+### Why Keep It Updated?
+- Saves time for both humans and AI by providing a single source of truth for code structure and flow
+- Reduces repeated codebase scanning and search
+- Makes debugging, refactoring, and onboarding much more efficient
+
+---
+
 ## 🔧 Component Deep Dive
 
 ### Core Components
@@ -366,6 +404,45 @@ graph LR
 - **Average Response Time**: Time from request to result
 - **LLM Response Quality**: Accuracy of AI-generated workflows
 - **User Satisfaction**: Based on feedback collection
+
+---
+
+## 📝 Logging and Error Handling
+
+### Overview
+
+N8N Builder uses a comprehensive logging system to capture both process flow and error details. This logging is crucial for debugging, performance monitoring, and ensuring smooth collaboration with AI editors like Cursor.
+
+### Logging Levels
+
+- **DEBUG**: Detailed information for debugging
+- **INFO**: General operational information
+- **WARNING**: Indicates a potential issue
+- **ERROR**: Indicates a failure in the operation
+- **CRITICAL**: Indicates a critical failure that may lead to system shutdown
+
+### Logging Configuration
+
+Logs are written to the `logs/` directory, with separate files for each major component (e.g., `n8n_builder.validation.log`, `n8n_builder.retry.log`, `n8n_builder.diff.log`).
+
+**Centralized Error Log:**
+- All logs at `ERROR` or `CRITICAL` level from any logger are also written to a dedicated `errors.log` file in the same directory.
+- This means errors will appear both in their module-specific log and in `errors.log`, but only errors and critical logs are in `errors.log`.
+- This makes it easy to quickly scan for errors across the entire system, while still having full context in the module logs.
+
+This separation allows for easier filtering and analysis of issues, and ensures that error triage is fast and reliable.
+
+### Why Logging Matters for AI Editors
+
+- **Contextual Understanding**: AI editors like Cursor rely on logs to understand the state and history of the codebase, making it easier to provide accurate suggestions and fixes.
+- **Error Tracing**: Detailed logs help AI editors trace errors back to their source, enabling more precise debugging and resolution.
+- **Performance Insights**: Logs provide insights into performance bottlenecks, helping AI editors suggest optimizations.
+
+### Best Practices
+
+- **Keep Logs Updated**: Regularly review and update logs to ensure they reflect the current state of the application.
+- **Use Descriptive Messages**: Log messages should be clear and descriptive, providing context for both humans and AI.
+- **Monitor Log Levels**: Adjust log levels based on the environment (e.g., DEBUG for development, INFO for production).
 
 ---
 
