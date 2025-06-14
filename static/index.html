@@ -1363,6 +1363,10 @@
         // Check LLM service availability
         async function checkLLMStatus() {
             console.log('Checking LLM status...');
+            
+            // Show checking state immediately
+            updateLLMStatus({ status: 'checking' });
+            
             try {
                 const response = await fetch('/llm/health');
                 console.log('LLM health response received:', response.status);
@@ -1375,7 +1379,7 @@
                 console.error('Error checking LLM status:', error);
                 updateLLMStatus({
                     status: 'error',
-                    error: 'Failed to check LLM service status'
+                    error: 'Failed to check LLM service status - network or server error'
                 });
                 return false;
             }
@@ -1396,24 +1400,85 @@
                 console.log('Setting status to available');
                 statusIndicator.className += ' status-available';
                 statusIndicator.innerHTML = '<i class="bi bi-check-circle-fill"></i> AI Service Ready';
-                statusIndicator.title = `LLM: ${status.llm_model} (${status.is_local ? 'Local' : 'External'})`;
+                statusIndicator.title = `LLM: ${status.llm_model} (${status.is_local ? 'Local' : 'External'}) - Response time: ${status.response_time_ms}ms`;
                 
                 // Enable generation buttons
                 generateBtn.disabled = false;
                 
-            } else {
-                console.log('Setting status to unavailable, status:', status.status);
+            } else if (status.status === 'no_model_loaded') {
+                console.log('Setting status to no_model_loaded');
                 statusIndicator.className += ' status-unavailable';
-                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> AI Service Unavailable';
-                statusIndicator.title = status.error || 'LLM service is not responding';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> No Model Loaded';
+                statusIndicator.title = status.error || 'LLM service is running but no model is loaded';
                 
                 // Disable generation buttons
                 generateBtn.disabled = true;
                 
-                // Show informative message (only once on page load, not for manual refreshes)
-                if (status.status !== 'error') {
-                    const errorDetails = status.error || 'The AI service is not currently available';
-                    showToast(`AI Service Unavailable: ${errorDetails}. Generation features are disabled until service is restored.`, 'warning');
+                // Show specific message for no model loaded
+                const suggestion = status.suggestion || 'Load a model in your LLM service interface';
+                showToast(`No Model Loaded: ${status.error || 'LLM service is running but no model is loaded'}. ${suggestion}`, 'warning');
+                
+            } else if (status.status === 'service_error') {
+                console.log('Setting status to service_error');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> AI Service Error';
+                statusIndicator.title = status.error || 'LLM service encountered an error';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show service error message
+                const suggestion = status.suggestion || 'Check your LLM service logs';
+                showToast(`AI Service Error: ${status.error || 'LLM service error'}. ${suggestion}`, 'error');
+                
+            } else if (status.status === 'timeout') {
+                console.log('Setting status to timeout');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-clock-fill"></i> AI Service Timeout';
+                statusIndicator.title = status.error || 'LLM service timed out - may be slow or overloaded';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show timeout-specific message
+                showToast(`AI Service Timeout: ${status.error || 'LLM service is not responding within expected time'}. Please check if your LLM service is running and responsive.`, 'warning');
+                
+            } else if (status.status === 'unavailable') {
+                console.log('Setting status to unavailable');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-x-circle-fill"></i> AI Service Unavailable';
+                statusIndicator.title = status.error || 'LLM service is not available';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show unavailable-specific message
+                const suggestion = status.suggestion || 'Please start your LLM service and refresh';
+                showToast(`AI Service Unavailable: ${status.error || 'LLM service is not running'}. ${suggestion}`, 'error');
+                
+            } else if (status.status === 'checking') {
+                console.log('Setting status to checking');
+                statusIndicator.className += ' status-checking';
+                statusIndicator.innerHTML = '<i class="bi bi-arrow-clockwise spin"></i> Checking AI Service...';
+                statusIndicator.title = 'Checking LLM service availability...';
+                
+                // Disable generation buttons while checking
+                generateBtn.disabled = true;
+                
+            } else {
+                // Unknown status or error
+                console.log('Setting status to error/unknown, status:', status.status);
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> AI Service Error';
+                statusIndicator.title = status.error || 'Unknown LLM service status';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Only show error toast for actual errors, not manual refreshes
+                if (status.status === 'error') {
+                    const errorDetails = status.error || 'Unknown error checking LLM service';
+                    showToast(`AI Service Error: ${errorDetails}`, 'error');
                 }
             }
         }

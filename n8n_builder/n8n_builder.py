@@ -2640,21 +2640,50 @@ Requirements:
                     else:
                         raise ValueError(f"Cannot connect to LLM service - it may have crashed or be unavailable. Original error: {error_msg}")
                 except httpx.HTTPStatusError as e:
-                    # Enhanced error message for HTTP errors
-                    if e.response.status_code == 500:
+                    # Enhanced error message for HTTP errors - check response body for specific errors
+                    error_detail = None
+                    try:
+                        error_detail = e.response.json()
+                    except:
                         try:
-                            error_detail = e.response.json()
-                            if "crashed" in str(error_detail).lower() or "exit code" in str(error_detail).lower():
-                                raise ValueError(f"LLM model crashed with server error (500). Error details: {error_detail}")
+                            error_detail = e.response.text
                         except:
-                            pass
-                        raise ValueError(f"LLM service internal error (500) - the model may have crashed. HTTP error: {e}")
+                            error_detail = None
+                    
+                    # Check for specific "no model loaded" errors in response body
+                    if error_detail:
+                        error_str = str(error_detail).lower()
+                        if any(phrase in error_str for phrase in [
+                            "no models loaded", "model_not_found", "model not found", 
+                            "please load a model", "no model is currently loaded"
+                        ]):
+                            raise ValueError(f"No models loaded. Please load a model in your LLM service (e.g., LM Studio). Server response: {error_detail}")
+                    
+                    # Handle specific HTTP status codes
+                    if e.response.status_code == 400:
+                        if error_detail:
+                            raise ValueError(f"LLM service bad request (400) - {error_detail}")
+                        else:
+                            raise ValueError(f"LLM service bad request (400) - check your request format. HTTP error: {e}")
+                    elif e.response.status_code == 404:
+                        if error_detail:
+                            raise ValueError(f"LLM service endpoint not found (404) - {error_detail}")
+                        else:
+                            raise ValueError(f"LLM service endpoint not found (404) - check your endpoint URL. HTTP error: {e}")
+                    elif e.response.status_code == 500:
+                        if error_detail and ("crashed" in str(error_detail).lower() or "exit code" in str(error_detail).lower()):
+                            raise ValueError(f"LLM model crashed with server error (500). Error details: {error_detail}")
+                        else:
+                            raise ValueError(f"LLM service internal error (500) - the model may have crashed. HTTP error: {e}")
                     elif e.response.status_code == 502:
                         raise ValueError(f"LLM service gateway error (502) - the service may be down or crashed. HTTP error: {e}")
                     elif e.response.status_code == 503:
                         raise ValueError(f"LLM service unavailable (503) - the service may be overloaded or crashed. HTTP error: {e}")
                     else:
-                        raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+                        if error_detail:
+                            raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {error_detail}")
+                        else:
+                            raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
                 except httpx.TimeoutException as e:
                     raise ValueError(f"LLM service timeout - the service may be unresponsive or crashed. Timeout error: {e}")
                 except Exception as e:

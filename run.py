@@ -7,7 +7,6 @@ import psutil
 import logging
 from typing import List
 from n8n_builder.app import app
-from llm_integration import LLMClient
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -54,23 +53,9 @@ def kill_processes_on_ports(ports: List[int]) -> None:
             logger.warning(f"Error scanning processes for port {port}: {e}")
             continue
 
-async def cleanup():
-    """Cleanup resources before shutdown."""
-    # Close the LLM client
-    if hasattr(app.state, 'llm_client'):
-        await app.state.llm_client.close()
-
 async def main():
     # Kill any existing processes on our ports
     kill_processes_on_ports([8002, 8080])
-    
-    # Store the LLM client in the app state
-    app.state.llm_client = LLMClient()
-    
-    # Register cleanup on shutdown
-    @app.on_event("shutdown")
-    async def shutdown_event():
-        await cleanup()
     
     # Start the FastAPI server
     config = uvicorn.Config(

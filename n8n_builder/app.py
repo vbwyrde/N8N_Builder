@@ -1033,7 +1033,7 @@ async def health_check():
 
 @app.get("/llm/health")
 async def llm_health_check():
-    """Check if the LLM service is available and responding."""
+    """Check if the LLM service is available and responding with a loaded model."""
     try:
         # Test LLM availability with a simple prompt
         test_prompt = "Return exactly this JSON: {\"test\": \"ok\"}"
@@ -1048,14 +1048,15 @@ async def llm_health_check():
         
         response_time = time.time() - start_time
         
-        # If we get here, LLM is responding
+        # If we get here, LLM is responding with a loaded model
         return {
             "status": "available",
             "llm_endpoint": workflow_builder.llm_config.endpoint,
             "llm_model": workflow_builder.llm_config.model,
             "is_local": workflow_builder.llm_config.is_local,
             "timestamp": datetime.now().isoformat(),
-            "response_time_ms": round(response_time * 1000, 2)
+            "response_time_ms": round(response_time * 1000, 2),
+            "test_response_preview": result[:100] if result else "No response content"
         }
         
     except asyncio.TimeoutError:
@@ -1065,17 +1066,65 @@ async def llm_health_check():
             "llm_model": workflow_builder.llm_config.model,
             "is_local": workflow_builder.llm_config.is_local,
             "timestamp": datetime.now().isoformat(),
-            "error": "LLM service did not respond within 30 seconds"
+            "error": "LLM service did not respond within 30 seconds - may be processing or overloaded"
         }
     except Exception as e:
-        return {
-            "status": "unavailable",
-            "llm_endpoint": workflow_builder.llm_config.endpoint,
-            "llm_model": workflow_builder.llm_config.model,
-            "is_local": workflow_builder.llm_config.is_local,
-            "timestamp": datetime.now().isoformat(),
-            "error": str(e)
-        }
+        error_message = str(e).lower()
+        
+        # Check for specific "no model loaded" errors
+        if any(phrase in error_message for phrase in [
+            "no models loaded", "model_not_found", "model not found", 
+            "please load a model", "no model is currently loaded"
+        ]):
+            return {
+                "status": "no_model_loaded",
+                "llm_endpoint": workflow_builder.llm_config.endpoint,
+                "llm_model": workflow_builder.llm_config.model,
+                "is_local": workflow_builder.llm_config.is_local,
+                "timestamp": datetime.now().isoformat(),
+                "error": "LLM service is running but no model is loaded. Please load a model in your LLM service (e.g., LM Studio).",
+                "suggestion": "Load a model in your LLM service interface or use the appropriate load command"
+            }
+        
+        # Check for connection issues
+        elif any(phrase in error_message for phrase in [
+            "connection refused", "connection reset", "cannot connect"
+        ]):
+            return {
+                "status": "unavailable",
+                "llm_endpoint": workflow_builder.llm_config.endpoint,
+                "llm_model": workflow_builder.llm_config.model,
+                "is_local": workflow_builder.llm_config.is_local,
+                "timestamp": datetime.now().isoformat(),
+                "error": "Cannot connect to LLM service - service may not be running",
+                "suggestion": "Start your LLM service (e.g., LM Studio) and ensure it's listening on the configured port"
+            }
+        
+        # Check for service errors
+        elif any(phrase in error_message for phrase in [
+            "internal error", "server error", "service error", "http 500"
+        ]):
+            return {
+                "status": "service_error",
+                "llm_endpoint": workflow_builder.llm_config.endpoint,
+                "llm_model": workflow_builder.llm_config.model,
+                "is_local": workflow_builder.llm_config.is_local,
+                "timestamp": datetime.now().isoformat(),
+                "error": "LLM service encountered an internal error",
+                "suggestion": "Check your LLM service logs and restart if necessary"
+            }
+        
+        # Generic unavailable status for other errors
+        else:
+            return {
+                "status": "unavailable",
+                "llm_endpoint": workflow_builder.llm_config.endpoint,
+                "llm_model": workflow_builder.llm_config.model,
+                "is_local": workflow_builder.llm_config.is_local,
+                "timestamp": datetime.now().isoformat(),
+                "error": str(e),
+                "suggestion": "Check your LLM service status and configuration"
+            }
 
 async def check_llm_availability():
     """Helper function to check if LLM is available before generation."""
