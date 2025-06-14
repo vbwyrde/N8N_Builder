@@ -7,6 +7,11 @@ class EventType(Enum):
     WORKFLOW_STARTED = "workflow.started"
     WORKFLOW_COMPLETED = "workflow.completed"
     WORKFLOW_FAILED = "workflow.failed"
+    WORKFLOW_ERROR = "workflow.error"
+    WORKFLOW_VALIDATION_STARTED = "workflow.validation.started"
+    WORKFLOW_VALIDATION_COMPLETED = "workflow.validation.completed"
+    WORKFLOW_VALIDATION_FAILED = "workflow.validation.failed"
+    WORKFLOW_PROCESSING = "workflow.processing"
     STEP_STARTED = "step.started"
     STEP_COMPLETED = "step.completed"
     STEP_FAILED = "step.failed"
@@ -19,6 +24,7 @@ class EventType(Enum):
     RESOURCE_WARNING = "resource.warning"
     RESOURCE_LIMIT_REACHED = "resource.limit_reached"
     SECURITY_ALERT = "security.alert"
+    USER_ACTION = "user.action"
 
 class EventPriority(Enum):
     """Priority levels for events."""
@@ -71,18 +77,24 @@ class WorkflowEvent(Event):
         type: EventType,
         workflow_id: str,
         status: str,
+        data: Optional[Dict[str, Any]] = None,
         progress: Optional[float] = None,
         error_message: Optional[str] = None,
         priority: EventPriority = EventPriority.NORMAL,
+        source: Optional[str] = None,
         timestamp: Optional[datetime] = None
     ):
-        data = {
+        event_data = {
             'workflow_id': workflow_id,
             'status': status,
             'progress': progress,
             'error_message': error_message
         }
-        super().__init__(type, data, priority, 'workflow', timestamp)
+        # Merge additional data if provided
+        if data:
+            event_data.update(data)
+        
+        super().__init__(type, event_data, priority, source or 'workflow', timestamp)
 
 class AgentEvent(Event):
     """Event specific to agent operations."""

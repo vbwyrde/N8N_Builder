@@ -224,3 +224,371 @@ NoneType: None
 [2025-06-13 21:19:29,543] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
 [2025-06-13 21:19:29,544] ERROR n8n_builder.validation: Total validation errors: 1
 [2025-06-13 21:19:29,545] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 21:24:53,941] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749864239473]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2387, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-13 21:24:55,224] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749864239473]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2387, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 21:24:57,629] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749864239473]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2387, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 21:24:57,629] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749864239473]
+[2025-06-13 21:24:57,638] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Email Fallback
+[2025-06-13 21:24:57,638] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 21:24:57,638] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 21:28:22,957] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-13 21:28:22,957] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 21:28:22,957] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 22:28:22,254] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749868047102]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2405, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-13 22:28:23,604] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749868047102]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2405, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 22:28:26,005] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749868047102]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2405, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 22:28:26,005] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749868047102]
+[2025-06-13 22:28:26,005] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Email Fallback
+[2025-06-13 22:28:26,005] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 22:28:26,005] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:11:18,082] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749870623505]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2455, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2480, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (400): Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-13 23:11:19,394] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749870623505]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2455, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2480, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:11:21,738] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749870623505]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2455, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2480, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:11:21,738] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749870623505]
+[2025-06-13 23:11:21,747] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Email Fallback
+[2025-06-13 23:11:21,747] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:11:21,747] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:16:40,879] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749870943928]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2476, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2501, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (400): Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-13 23:16:42,224] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749870943928]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2476, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2501, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:16:44,644] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749870943928]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2476, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2501, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:16:44,644] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749870943928]
+[2025-06-13 23:16:44,652] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Email Fallback
+[2025-06-13 23:16:44,652] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:16:44,652] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:22:02,993] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Send Email, Webhook Response
+[2025-06-13 23:22:02,995] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:22:02,995] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:30:21,136] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-13 23:30:21,136] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:30:21,136] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:40:22,646] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-13 23:40:22,647] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:40:22,647] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:40:45,930] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Send Email, Webhook Response
+[2025-06-13 23:40:45,930] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:40:45,930] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:40:48,801] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749872393124]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2529, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2554, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (400): Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-13 23:40:50,160] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749872393124]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2529, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2554, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:40:52,584] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749872393124]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2529, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2554, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-13 23:40:52,586] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749872393124]
+[2025-06-13 23:40:52,586] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-13 23:40:52,586] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:40:52,586] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:46:29,023] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Send Email, Webhook Response
+[2025-06-13 23:46:29,024] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:46:29,024] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 23:51:15,244] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-13 23:51:15,244] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 23:51:15,244] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 00:01:57,151] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-14 00:01:57,151] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 00:01:57,151] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 00:13:11,826] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-14 00:13:11,826] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 00:13:11,826] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 00:13:23,988] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-14 00:13:23,988] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 00:13:23,988] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 00:16:17,488] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749874522779]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2593, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2618, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (400): Client error '400 Bad Request' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+[2025-06-14 00:16:18,785] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1749874522779]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2593, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2618, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-14 00:16:21,082] ERROR n8n_builder.retry: Attempt 3 failed [ID: llm_call_1749874522779]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2593, in _execute_llm_call
+    response.raise_for_status()
+  File "C:\Users\mabramsR\anaconda3\Lib\site-packages\httpx\_models.py", line 758, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2618, in _execute_llm_call
+    raise ValueError(f"LLM service HTTP error ({e.response.status_code}): {e}")
+ValueError: LLM service HTTP error (404): Client error '404 Not Found' for url 'http://localhost:1234/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+[2025-06-14 00:16:21,082] ERROR n8n_builder.retry: All retry attempts exhausted [ID: llm_call_1749874522779]
+[2025-06-14 00:16:21,093] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-14 00:16:21,093] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 00:16:21,093] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 08:20:28,629] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-14 08:20:28,629] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 08:20:28,629] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 08:30:29,617] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Send Email, Webhook Response
+[2025-06-14 08:30:29,617] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 08:30:29,617] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 08:31:29,901] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Send Email
+[2025-06-14 08:31:29,901] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 08:31:29,901] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 08:32:23,708] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-14 08:32:23,708] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-14 08:32:23,708] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-14 08:35:39,082] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1749904483265]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2680, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens

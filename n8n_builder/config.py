@@ -60,7 +60,7 @@ class LLMConfig(BaseModel):
     api_key: Optional[str] = None
     model: str
     temperature: float = 0.7
-    max_tokens: int = 2000
+    max_tokens: int = 4000
     timeout: int = 30
     headers: Dict[str, str] = {}
     is_local: bool = False
@@ -99,7 +99,7 @@ class Config:
             api_key=None if is_local_mimo else os.getenv("MIMO_API_KEY"),
             model=model,
             temperature=float(os.getenv("MIMO_TEMPERATURE", "0.7")),
-            max_tokens=int(os.getenv("MIMO_MAX_TOKENS", "2000")),
+            max_tokens=int(os.getenv("MIMO_MAX_TOKENS", "4000")),
             timeout=int(os.getenv("MIMO_TIMEOUT", "30")),
             is_local=is_local_mimo
         )
