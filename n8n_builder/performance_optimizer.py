@@ -573,12 +573,27 @@ class PerformanceOptimizer:
     
     def _standard_analysis(self, workflow: Dict[str, Any]) -> Dict[str, Any]:
         """Standard analysis implementation."""
-        # This would call the existing _analyze_workflow method
-        # Placeholder for now - in real implementation, this would call the actual analysis
+        # Reconstruct data_flow from connections if possible
+        connections = workflow.get("connections", {})
+        data_flow = []
+        for source_node, connection_data in connections.items():
+            if isinstance(connection_data, dict):
+                for connection_type, targets in connection_data.items():
+                    if isinstance(targets, list):
+                        for target_list in targets:
+                            if isinstance(target_list, list):
+                                for target in target_list:
+                                    if isinstance(target, dict):
+                                        data_flow.append({
+                                            "from": source_node,
+                                            "to": target.get("node"),
+                                            "type": connection_type
+                                        })
         return {
             "node_count": len(workflow.get("nodes", [])),
             "node_types": [node.get("type", "unknown") for node in workflow.get("nodes", [])],
-            "connections": workflow.get("connections", {}),
+            "connections": connections,
+            "data_flow": data_flow,
             "analysis_type": "standard"
         }
     

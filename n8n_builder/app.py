@@ -12,6 +12,7 @@ import os
 import logging
 from pathlib import Path
 import random
+import time
 
 from .n8n_builder import N8NBuilder
 from .validators import BaseWorkflowValidator, ValidationResult
@@ -208,6 +209,52 @@ async def generate_workflow_events(request: WorkflowRequest):
             "run_id": run_id,
             "timestamp": datetime.now().isoformat(),
             "message": "Input validation completed successfully"
+        }) + "\n\n"
+        
+        # Check LLM availability before proceeding
+        yield "data: " + json.dumps({
+            "type": "LLM_CHECK_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Checking LLM service availability..."
+        }) + "\n\n"
+        
+        is_available, availability_error = await check_llm_availability()
+        if not is_available:
+            logger.error("LLM unavailable for workflow generation", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'error': availability_error})
+            yield "data: " + json.dumps({
+                "type": "LLM_UNAVAILABLE",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": "llm_service",
+                    "severity": "error",
+                    "title": "LLM Service Unavailable",
+                    "message": availability_error,
+                    "user_guidance": "The AI service is currently unavailable or taking longer than expected. Local LLMs may need more time for complex requests. Please save your work and try again in a few minutes.",
+                    "fix_suggestions": [
+                        "Wait a few minutes and try again - local LLMs can be slower than cloud services",
+                        "Check that your local LLM service (e.g., LM Studio) is running and not overloaded",
+                        "Verify your system has sufficient resources (CPU/GPU/RAM) for the LLM",
+                        "Consider simplifying your request if it's very complex",
+                        "Check your internet connection if using external LLM"
+                    ]
+                }
+            }) + "\n\n"
+            return
+        
+        logger.info("LLM availability confirmed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
+        yield "data: " + json.dumps({
+            "type": "LLM_AVAILABLE",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "LLM service is available and ready"
         }) + "\n\n"
         
         # Processing started
@@ -414,6 +461,52 @@ async def modify_workflow_events(request: WorkflowModificationRequest):
             "message": "Input validation completed successfully"
         }) + "\n\n"
         
+        # Check LLM availability before proceeding
+        yield "data: " + json.dumps({
+            "type": "LLM_CHECK_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Checking LLM service availability..."
+        }) + "\n\n"
+        
+        is_available, availability_error = await check_llm_availability()
+        if not is_available:
+            logger.error("LLM unavailable for workflow modification", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'error': availability_error})
+            yield "data: " + json.dumps({
+                "type": "LLM_UNAVAILABLE",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": "llm_service",
+                    "severity": "error",
+                    "title": "LLM Service Unavailable",
+                    "message": availability_error,
+                    "user_guidance": "The AI service is currently unavailable or taking longer than expected. Local LLMs may need more time for complex workflow modifications. Your existing workflow data has been preserved. Please try again in a few minutes.",
+                    "fix_suggestions": [
+                        "Wait a few minutes and try again - local LLMs can be slower than cloud services",
+                        "Check that your local LLM service (e.g., LM Studio) is running and not overloaded",
+                        "Verify your system has sufficient resources (CPU/GPU/RAM) for the LLM",
+                        "Consider breaking complex modifications into smaller steps",
+                        "Check your internet connection if using external LLM"
+                    ]
+                }
+            }) + "\n\n"
+            return
+        
+        logger.info("LLM availability confirmed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
+        yield "data: " + json.dumps({
+            "type": "LLM_AVAILABLE",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "LLM service is available and ready"
+        }) + "\n\n"
+        
         # Processing started
         yield "data: " + json.dumps({
             "type": "PROCESSING_STARTED",
@@ -609,6 +702,52 @@ async def iterate_workflow_events(request: WorkflowIterationRequest):
             "message": "Input validation completed successfully"
         }) + "\n\n"
         
+        # Check LLM availability before proceeding
+        yield "data: " + json.dumps({
+            "type": "LLM_CHECK_STARTED",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "Checking LLM service availability..."
+        }) + "\n\n"
+        
+        is_available, availability_error = await check_llm_availability()
+        if not is_available:
+            logger.error("LLM unavailable for workflow iteration", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id, 'error': availability_error})
+            yield "data: " + json.dumps({
+                "type": "LLM_UNAVAILABLE",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "error": {
+                    "category": "llm_service",
+                    "severity": "error",
+                    "title": "LLM Service Unavailable",
+                    "message": availability_error,
+                    "user_guidance": "The AI service is currently unavailable or taking longer than expected. Local LLMs may need more time for complex workflow modifications. Your workflow data and feedback have been preserved. Please try again in a few minutes.",
+                    "fix_suggestions": [
+                        "Wait a few minutes and try again - local LLMs can be slower than cloud services",
+                        "Check that your local LLM service (e.g., LM Studio) is running and not overloaded",
+                        "Verify your system has sufficient resources (CPU/GPU/RAM) for the LLM",
+                        "Consider breaking complex modifications into smaller steps",
+                        "Check your internet connection if using external LLM"
+                    ]
+                }
+            }) + "\n\n"
+            return
+        
+        logger.info("LLM availability confirmed", extra={'workflow_id': workflow_id, 'thread_id': thread_id, 'run_id': run_id})
+        yield "data: " + json.dumps({
+            "type": "LLM_AVAILABLE",
+            "workflow_id": workflow_id,
+            "thread_id": thread_id,
+            "run_id": run_id,
+            "timestamp": datetime.now().isoformat(),
+            "message": "LLM service is available and ready"
+        }) + "\n\n"
+        
         # Processing started
         yield "data: " + json.dumps({
             "type": "PROCESSING_STARTED",
@@ -706,8 +845,78 @@ async def get_workflow_feedback(workflow_id: str):
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+    """Check the health of the API."""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "version": "1.0.0"
+    }
+
+@app.get("/llm/health")
+async def llm_health_check():
+    """Check if the LLM service is available and responding."""
+    try:
+        # Test LLM availability with a simple prompt
+        test_prompt = "Return exactly this JSON: {\"test\": \"ok\"}"
+        
+        # Try to call the LLM with a longer timeout for local LLMs
+        start_time = time.time()
+        
+        result = await asyncio.wait_for(
+            workflow_builder._execute_llm_call(test_prompt),
+            timeout=30.0  # Increased to 30 seconds for local LLMs
+        )
+        
+        response_time = time.time() - start_time
+        
+        # If we get here, LLM is responding
+        return {
+            "status": "available",
+            "llm_endpoint": workflow_builder.llm_config.endpoint,
+            "llm_model": workflow_builder.llm_config.model,
+            "is_local": workflow_builder.llm_config.is_local,
+            "timestamp": datetime.now().isoformat(),
+            "response_time_ms": round(response_time * 1000, 2)
+        }
+        
+    except asyncio.TimeoutError:
+        return {
+            "status": "timeout",
+            "llm_endpoint": workflow_builder.llm_config.endpoint,
+            "llm_model": workflow_builder.llm_config.model,
+            "is_local": workflow_builder.llm_config.is_local,
+            "timestamp": datetime.now().isoformat(),
+            "error": "LLM service did not respond within 30 seconds"
+        }
+    except Exception as e:
+        return {
+            "status": "unavailable",
+            "llm_endpoint": workflow_builder.llm_config.endpoint,
+            "llm_model": workflow_builder.llm_config.model,
+            "is_local": workflow_builder.llm_config.is_local,
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e)
+        }
+
+async def check_llm_availability():
+    """Helper function to check if LLM is available before generation."""
+    try:
+        test_prompt = "Return exactly this JSON: {\"test\": \"ok\"}"
+        start_time = time.time()
+        
+        await asyncio.wait_for(
+            workflow_builder._execute_llm_call(test_prompt),
+            timeout=45.0  # Increased to 45 seconds for local LLMs with complex workflow prompts
+        )
+        
+        response_time = time.time() - start_time
+        logger.info(f"LLM availability check completed in {response_time:.2f} seconds")
+        
+        return True, None
+    except asyncio.TimeoutError:
+        return False, "LLM service is not responding (timeout after 45 seconds). Local LLMs may need more time for complex requests. Please try again in a few minutes."
+    except Exception as e:
+        return False, f"LLM service is currently unavailable: {str(e)}. Please try again in a few minutes."
 
 # ============================================================================
 # PROJECT MANAGEMENT API ENDPOINTS

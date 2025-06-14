@@ -1399,6 +1399,7 @@ class FileSystemUtilities:
                     errors.append(f"Field '{field}' must be a list or dict")
             
             # Validate nodes if present
+            node_ids = set()
             if 'nodes' in workflow_data:
                 nodes = workflow_data['nodes']
                 if isinstance(nodes, list):
@@ -1406,18 +1407,51 @@ class FileSystemUtilities:
                         if not isinstance(node, dict):
                             errors.append(f"Node {i} must be a dictionary")
                             continue
-                        
                         # Check for required node fields
                         node_required = ['id', 'name', 'type']
                         for field in node_required:
                             if field not in node:
                                 errors.append(f"Node {i} missing required field: '{field}'")
+                        node_id = node.get('id')
+                        if node_id:
+                            node_ids.add(node_id)
+            
+            # DEBUG LOGGING
+            self.logger.debug(f"[VALIDATION DEBUG] Node IDs: {node_ids}")
             
             # Validate connections if present
             if 'connections' in workflow_data:
                 connections = workflow_data['connections']
                 if not isinstance(connections, dict):
                     errors.append("Connections must be a dictionary")
+                else:
+                    # Check that all connection keys are valid node IDs
+                    for source_id, connection_data in connections.items():
+                        if source_id not in node_ids:
+                            self.logger.debug(f"[VALIDATION DEBUG] Connection key '{source_id}' is not a valid node ID. node_ids={node_ids}")
+                            errors.append(f"Connection references non-existent node '{source_id}'")
+                        if not isinstance(connection_data, dict):
+                            errors.append(f"Invalid connection data structure for node '{source_id}'")
+                            continue
+                        for connection_type, targets in connection_data.items():
+                            if not isinstance(targets, list):
+                                errors.append(f"Invalid targets structure for node '{source_id}'")
+                                continue
+                            for target_list in targets:
+                                if not isinstance(target_list, list):
+                                    errors.append(f"Invalid target list structure for node '{source_id}'")
+                                    continue
+                                for target in target_list:
+                                    if not isinstance(target, dict):
+                                        errors.append(f"Invalid target structure for node '{source_id}'")
+                                        continue
+                                    target_node = target.get('node')
+                                    if not target_node:
+                                        errors.append(f"Missing target node in connection from '{source_id}'")
+                                        continue
+                                    if target_node not in node_ids:
+                                        self.logger.debug(f"[VALIDATION DEBUG] Connection from '{source_id}' references non-existent target node '{target_node}'. node_ids={node_ids}")
+                                        errors.append(f"Connection references non-existent node '{target_node}'")
             
             # Check for common optional fields
             optional_fields = {

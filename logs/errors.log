@@ -51,3 +51,176 @@
 [2025-06-12 22:33:34,680] CRITICAL n8n_builder.diff: [CRITICAL] Diff logger test.
 [2025-06-12 22:33:34,681] ERROR n8n_builder.error: [ERROR] Error logger test.
 [2025-06-12 22:33:34,681] CRITICAL n8n_builder.error: [CRITICAL] Error logger test.
+[2025-06-12 22:40:37,180] ERROR n8n_builder.error_handler: Categorizing error: KeyError - 'data_flow'
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-12 22:40:37,182] ERROR n8n_builder.iteration: Workflow modification failed [ID: ef47c3b4]: Missing Required Field
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-12 22:40:37,184] ERROR n8n_builder.performance: Workflow modification failed
+[2025-06-12 22:40:37,185] ERROR n8n_builder.n8n_builder: Workflow modification failed: Missing Required Field - Required field 'data_flow' is missing from the workflow
+[2025-06-12 23:32:35,899] ERROR n8n_builder.error_handler: Categorizing error: KeyError - 'data_flow'
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-12 23:32:35,902] ERROR n8n_builder.iteration: Workflow modification failed [ID: 5fad256c]: Missing Required Field
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-12 23:32:35,903] ERROR n8n_builder.performance: Workflow modification failed
+[2025-06-12 23:32:35,904] ERROR n8n_builder.n8n_builder: Workflow modification failed: Missing Required Field - Required field 'data_flow' is missing from the workflow
+[2025-06-12 23:34:56,563] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-12 23:39:01,141] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-12 23:40:14,162] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-12 23:41:12,099] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-12 23:43:07,505] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 15:41:59,396] ERROR n8n_builder.error_handler: Categorizing error: KeyError - 'data_flow'
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-13 15:41:59,398] ERROR n8n_builder.iteration: Workflow modification failed [ID: 90794dcf]: Missing Required Field
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 988, in modify_workflow
+    prompt = self._build_modification_prompt(existing_workflow, analysis, modification_description)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1527, in _build_modification_prompt
+    - Data flow connections: {len(analysis['data_flow'])}
+                                  ~~~~~~~~^^^^^^^^^^^^^
+KeyError: 'data_flow'
+[2025-06-13 15:41:59,399] ERROR n8n_builder.performance: Workflow modification failed
+[2025-06-13 15:41:59,400] ERROR n8n_builder.n8n_builder: Workflow modification failed: Missing Required Field - Required field 'data_flow' is missing from the workflow
+[2025-06-13 15:43:41,849] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:02:48,981] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:04:51,245] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:05:56,668] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:06:54,787] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:07:46,292] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:08:50,413] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:10:14,628] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:11:16,732] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:22:21,938] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:24:18,321] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:27:40,232] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:30:16,430] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:33:36,479] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 17:36:37,526] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 18:28:29,794] ERROR n8n_builder.error_handler: Workflow input validation failed with 2 errors
+[2025-06-13 18:32:57,155] ERROR n8n_builder.llm: LLM call failed [ID: aa09794a]: AI Service Error
+[2025-06-13 18:32:57,160] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response, Email Fallback
+[2025-06-13 18:32:57,160] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 18:32:57,161] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 19:04:20,422] ERROR n8n_builder.llm: LLM call failed [ID: 44fe9dba]: AI Service Error
+[2025-06-13 19:04:20,422] ERROR n8n_builder.error_handler: Categorizing error: RuntimeError - llm service unavailable: the ai service encountered an error while processing your request
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1031, in modify_workflow
+    modifications_response = asyncio.run(self._call_mimo_vl7b(prompt))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\asyncio\runners.py", line 186, in run
+    raise RuntimeError(
+RuntimeError: asyncio.run() cannot be called from a running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1056, in modify_workflow
+    raise RuntimeError(f"LLM service unavailable: {error_detail.message}")
+RuntimeError: LLM service unavailable: The AI service encountered an error while processing your request
+[2025-06-13 19:04:20,429] ERROR n8n_builder.iteration: Workflow modification failed [ID: 44fe9dba]: Unexpected Error
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1031, in modify_workflow
+    modifications_response = asyncio.run(self._call_mimo_vl7b(prompt))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\asyncio\runners.py", line 186, in run
+    raise RuntimeError(
+RuntimeError: asyncio.run() cannot be called from a running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1056, in modify_workflow
+    raise RuntimeError(f"LLM service unavailable: {error_detail.message}")
+RuntimeError: LLM service unavailable: The AI service encountered an error while processing your request
+[2025-06-13 19:04:20,431] ERROR n8n_builder.performance: Workflow modification failed
+[2025-06-13 19:04:20,431] ERROR n8n_builder.n8n_builder: Workflow modification failed: Unexpected Error - An unexpected error occurred while processing your request
+[2025-06-13 19:08:13,671] ERROR n8n_builder.error_handler: Workflow input validation failed with 1 errors
+[2025-06-13 19:13:54,859] ERROR n8n_builder.iteration: Feedback quality validation failed [ID: 3b04fafb]: Workflow Validation Failed
+[2025-06-13 19:23:02,691] ERROR n8n_builder.iteration: Feedback quality validation failed [ID: 3ab37471]: Workflow Validation Failed
+[2025-06-13 19:30:34,319] ERROR n8n_builder.app: LLM unavailable for workflow iteration
+[2025-06-13 19:36:09,559] ERROR n8n_builder.llm: LLM call failed [ID: f939c6b2]: AI Service Error
+[2025-06-13 19:36:09,559] ERROR n8n_builder.error_handler: Categorizing error: RuntimeError - llm service unavailable: the ai service encountered an error while processing your request
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1031, in modify_workflow
+    modifications_response = asyncio.run(self._call_mimo_vl7b(prompt))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\asyncio\runners.py", line 186, in run
+    raise RuntimeError(
+RuntimeError: asyncio.run() cannot be called from a running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1056, in modify_workflow
+    raise RuntimeError(f"LLM service unavailable: {error_detail.message}")
+RuntimeError: LLM service unavailable: The AI service encountered an error while processing your request
+[2025-06-13 19:36:09,559] ERROR n8n_builder.iteration: Workflow modification failed [ID: f939c6b2]: Unexpected Error
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1031, in modify_workflow
+    modifications_response = asyncio.run(self._call_mimo_vl7b(prompt))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\asyncio\runners.py", line 186, in run
+    raise RuntimeError(
+RuntimeError: asyncio.run() cannot be called from a running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 1056, in modify_workflow
+    raise RuntimeError(f"LLM service unavailable: {error_detail.message}")
+RuntimeError: LLM service unavailable: The AI service encountered an error while processing your request
+[2025-06-13 19:36:09,566] ERROR n8n_builder.performance: Workflow modification failed
+[2025-06-13 19:36:09,566] ERROR n8n_builder.n8n_builder: Workflow modification failed: Unexpected Error - An unexpected error occurred while processing your request
+[2025-06-13 19:41:51,442] ERROR n8n_builder.error_handler: Workflow input validation failed with 1 errors
+[2025-06-13 19:41:51,442] ERROR n8n_builder.iteration: Workflow validation failed [ID: 777c521c]: Workflow Validation Failed
+NoneType: None
+[2025-06-13 19:45:57,148] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Trigger, Send Email
+[2025-06-13 19:45:57,149] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 19:45:57,150] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 19:48:23,769] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Send Email Completion, Webhook Response
+[2025-06-13 19:48:23,769] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 19:48:23,778] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 20:48:27,276] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-13 20:48:27,276] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 20:48:27,276] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 21:08:17,194] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-13 21:08:17,195] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 21:08:17,195] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-13 21:19:29,543] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): Webhook Response
+[2025-06-13 21:19:29,544] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-13 21:19:29,545] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original

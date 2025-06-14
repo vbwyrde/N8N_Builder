@@ -372,6 +372,44 @@
                 padding: 1rem;
             }
         }
+        
+        /* LLM Status Indicator */
+        .llm-status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: help;
+            border: 1px solid transparent;
+        }
+        
+        .llm-status-indicator.status-available {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+        
+        .llm-status-indicator.status-unavailable {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+        
+        .llm-status-indicator.status-checking {
+            background: #fef3c7;
+            color: #d97706;
+            border-color: #fed7aa;
+        }
+        
+        .llm-status-indicator .spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -463,7 +501,12 @@
             <!-- Main Content -->
             <div class="col-md-9 p-4">
                 <div class="glass-panel p-4">
-                    <h2 class="text-primary-dark mb-4">N8N Workflow Builder</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-primary-dark mb-0">N8N Workflow Builder</h2>
+                        <div id="llmStatusIndicator" class="llm-status-indicator status-checking">
+                            <i class="bi bi-hourglass-split spin"></i> Checking AI Service...
+                        </div>
+                    </div>
                     
                     <!-- Tabbed Interface -->
                     <ul class="nav nav-tabs" id="mainTabs" role="tablist">
@@ -609,7 +652,9 @@
             loadProjects();
             setupEventListeners();
             setupKeyboardNavigation();
-            updateGenerateButtonState(); // Initialize button state
+            updateGenerateButtonState();
+            updateQuickSaveState();
+            checkLLMStatus(); // Check LLM availability on load
         });
         
         // Event listeners setup
@@ -1077,12 +1122,29 @@
                             console.log('Received event:', data); // Debug logging
                             
                             // Handle different event types for both generation and iteration
-                            if (data.type === 'WORKFLOW_GENERATED' || data.type === 'WORKFLOW_MODIFIED') {
-                                workflowData = data.data;
-                                console.log('Workflow data received:', workflowData); // Debug logging
+                            if (data.type === 'WORKFLOW_GENERATED' || data.type === 'WORKFLOW_MODIFIED' || data.type === 'WORKFLOW_ITERATED') {
+                                if (data.data && data.data.workflow_json) {
+                                    workflowData = data.data;
+                                    console.log('Workflow data received:', workflowData); // Debug logging
+                                } else {
+                                    console.warn('Received workflow event but data is missing or malformed:', data);
+                                }
                             } else if (data.type === 'RUN_ERROR' || data.type === 'MODIFICATION_ERROR' || data.type === 'ITERATION_ERROR') {
                                 errorMessage = data.error;
                                 console.log('Error received:', errorMessage); // Debug logging
+                            } else if (data.type === 'VALIDATION_ERROR') {
+                                errorMessage = data.error;
+                                console.log('Validation error received:', errorMessage); // Debug logging
+                            } else if (data.type === 'LLM_UNAVAILABLE') {
+                                // Handle LLM unavailability - preserve user data and show informative message
+                                errorMessage = data.error;
+                                console.log('LLM unavailable:', errorMessage); // Debug logging
+                            } else if (data.type === 'LLM_CHECK_STARTED') {
+                                console.log('LLM availability check started:', data.message); // Debug logging
+                            } else if (data.type === 'LLM_AVAILABLE') {
+                                console.log('LLM available:', data.message); // Debug logging
+                            } else if (data.type === 'RUN_FINISHED' || data.type === 'MODIFICATION_FINISHED' || data.type === 'ITERATION_FINISHED') {
+                                console.log('Operation completed successfully:', data); // Debug logging
                             }
                         } catch (parseError) {
                             console.warn('Could not parse event:', event, 'Error:', parseError);
@@ -1095,7 +1157,7 @@
                     throw new Error(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
                 }
                 
-                if (workflowData) {
+                if (workflowData && workflowData.workflow_json) {
                     console.log('Processing workflow data:', workflowData);
                     let parsedJson;
                     try {
@@ -1105,23 +1167,60 @@
                         } else {
                             parsedJson = workflowData.workflow_json;
                         }
+                        
+                        // Validate the parsed JSON has the required structure
+                        if (!parsedJson || typeof parsedJson !== 'object') {
+                            throw new Error('Invalid workflow data structure');
+                        }
+
+                        // Ensure node IDs in connections match node IDs in nodes array
+                        if (parsedJson.nodes && parsedJson.connections) {
+                            const nodeIds = new Set(parsedJson.nodes.map(node => node.id));
+                            const nodeNames = new Map(parsedJson.nodes.map(node => [node.name, node.id]));
+                            
+                            // Create a new connections object with corrected node IDs
+                            const correctedConnections = {};
+                            
+                            for (const [sourceNode, connectionData] of Object.entries(parsedJson.connections)) {
+                                // Try to find the correct node ID for the source node
+                                const sourceNodeId = nodeIds.has(sourceNode) ? sourceNode : nodeNames.get(sourceNode);
+                                
+                                if (sourceNodeId) {
+                                    correctedConnections[sourceNodeId] = connectionData;
+                                    
+                                    // Update target node IDs in the connections
+                                    if (connectionData.main) {
+                                        connectionData.main = connectionData.main.map(targetList => 
+                                            targetList.map(target => {
+                                                const targetNodeId = nodeIds.has(target.node) ? target.node : nodeNames.get(target.node);
+                                                return {
+                                                    ...target,
+                                                    node: targetNodeId || target.node
+                                                };
+                                            })
+                                        );
+                                    }
+                                }
+                            }
+                            
+                            parsedJson.connections = correctedConnections;
+                        }
+                        
+                        console.log('Final parsed workflow:', parsedJson);
+                        currentWorkflow = parsedJson;
+                        const formattedJson = JSON.stringify(parsedJson, null, 2);
+                        result.innerHTML = formattedJson;
+                        updateWorkflowViewer(parsedJson);
+                        updateQuickSaveState();
+                        updateGenerateButtonState(); // Update button state after operation
+                        showToast(`Workflow "${name}" ${isIteration ? 'updated' : 'generated'} successfully`, 'success');
                     } catch (e) {
-                        console.error('Error parsing workflow JSON:', e);
+                        console.error('Error processing workflow data:', e);
                         console.log('Raw workflow data:', workflowData);
-                        // Fallback: try to use the data as-is
-                        parsedJson = workflowData.workflow_json || workflowData;
+                        throw new Error('Failed to process workflow data: ' + e.message);
                     }
-                    
-                    console.log('Final parsed workflow:', parsedJson);
-                    currentWorkflow = parsedJson;
-                    const formattedJson = JSON.stringify(parsedJson, null, 2);
-                    result.innerHTML = formattedJson;
-                    updateWorkflowViewer(parsedJson);
-                    updateQuickSaveState();
-                    updateGenerateButtonState(); // Update button state after operation
-                    showToast(`Workflow "${name}" ${isIteration ? 'updated' : 'generated'} successfully`, 'success');
                 } else {
-                    console.error('No workflow data found in server response');
+                    console.error('No valid workflow data found in server response');
                     console.log('All events received during processing - check browser console for details');
                     throw new Error('No workflow data received from the server');
                 }
@@ -1258,6 +1357,74 @@
             } catch (error) {
                 console.error('Error saving workflow:', error);
                 showToast('Error saving workflow', 'error');
+            }
+        }
+        
+        // Check LLM service availability
+        async function checkLLMStatus() {
+            console.log('Checking LLM status...');
+            try {
+                const response = await fetch('/llm/health');
+                console.log('LLM health response received:', response.status);
+                const status = await response.json();
+                console.log('LLM status data:', status);
+                
+                updateLLMStatus(status);
+                return status.status === 'available';
+            } catch (error) {
+                console.error('Error checking LLM status:', error);
+                updateLLMStatus({
+                    status: 'error',
+                    error: 'Failed to check LLM service status'
+                });
+                return false;
+            }
+        }
+        
+        // Update UI based on LLM status
+        function updateLLMStatus(status) {
+            console.log('Updating LLM status UI with:', status);
+            const statusIndicator = document.getElementById('llmStatusIndicator');
+            const generateBtn = document.getElementById('generateBtn');
+            console.log('Status indicator element:', statusIndicator);
+            console.log('Generate button element:', generateBtn);
+            
+            // Remove existing status classes
+            statusIndicator.className = 'llm-status-indicator';
+            
+            if (status.status === 'available') {
+                console.log('Setting status to available');
+                statusIndicator.className += ' status-available';
+                statusIndicator.innerHTML = '<i class="bi bi-check-circle-fill"></i> AI Service Ready';
+                statusIndicator.title = `LLM: ${status.llm_model} (${status.is_local ? 'Local' : 'External'})`;
+                
+                // Enable generation buttons
+                generateBtn.disabled = false;
+                
+            } else {
+                console.log('Setting status to unavailable, status:', status.status);
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> AI Service Unavailable';
+                statusIndicator.title = status.error || 'LLM service is not responding';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show informative message (only once on page load, not for manual refreshes)
+                if (status.status !== 'error') {
+                    const errorDetails = status.error || 'The AI service is not currently available';
+                    showToast(`AI Service Unavailable: ${errorDetails}. Generation features are disabled until service is restored.`, 'warning');
+                }
+            }
+        }
+        
+        // Refresh LLM status manually
+        async function refreshLLMStatus() {
+            const isAvailable = await checkLLMStatus();
+            if (isAvailable) {
+                showToast('AI service is now available', 'success');
+            } else {
+                showToast('AI service is still unavailable', 'warning');
             }
         }
     </script>

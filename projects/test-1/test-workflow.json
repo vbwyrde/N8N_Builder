@@ -30,9 +30,9 @@
     {
       "id": "webhook-response",
       "name": "Webhook Response",
-      "type": "n8n-nodes-base.respondToWebhook",
+      "type": "n8n-nodes-base.httpResponse",
       "parameters": {
-        "respondWith": "json",
+        "responseMode": "json",
         "responseBody": "{\"status\": \"success\", \"message\": \"Data processed\"}"
       },
       "position": [
@@ -65,6 +65,18 @@
       ]
     }
   },
+  "data_flow": [
+    {
+      "from": "Webhook Trigger",
+      "to": "Process Data",
+      "type": "main"
+    },
+    {
+      "from": "Process Data",
+      "to": "Webhook Response",
+      "type": "main"
+    }
+  ],
   "settings": {},
   "active": true,
   "version": 1
