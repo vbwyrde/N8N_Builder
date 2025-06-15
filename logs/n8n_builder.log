@@ -5110,3 +5110,111 @@ ValueError: LLM response was truncated due to token limit - increase max_tokens
 [2025-06-14 09:46:57,287] INFO n8n_builder.project: Refreshed project cache: 1 projects found
 [2025-06-14 09:46:57,289] INFO n8n_builder.llm: Executing LLM API call
 [2025-06-14 09:46:57,554] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-14 09:58:11,009] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-14 09:58:11,020] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 09:58:11,308] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-14 09:58:41,842] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-14 09:58:41,843] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 09:58:50,260] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-14 09:58:50,262] INFO n8n_builder.llm: LLM call successful
+[2025-06-14 09:58:50,262] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-14 09:59:02,198] INFO n8n_builder.filesystem: Successfully read workflow test-workflow.json from project test-1
+[2025-06-14 09:59:02,198] INFO n8n_builder.filesystem: Successfully read workflow test-workflow.json from project test-1
+[2025-06-14 10:00:45,437] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 10:00:48,398] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-14 10:00:48,398] INFO n8n_builder.llm: LLM call successful
+[2025-06-14 10:00:48,398] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-14 10:00:48,398] INFO n8n_builder.app: LLM availability check completed in 2.96 seconds
+[2025-06-14 10:00:48,398] INFO n8n_builder.app: LLM availability confirmed
+[2025-06-14 10:00:48,398] INFO n8n_builder.iteration: Starting workflow iteration [ID: 2630d6c0]
+[2025-06-14 10:00:48,413] INFO n8n_builder.iteration: TESTING: Bypassing feedback validation to test LLM functionality [ID: 2630d6c0]
+[2025-06-14 10:00:48,413] INFO n8n_builder.validation: Starting edge case validation [ID: edge_case_validation_1749909648413]
+[2025-06-14 10:00:48,413] WARNING n8n_builder.validation: Node validation issues [ID: edge_case_validation_1749909648413]
+[2025-06-14 10:00:48,413] WARNING n8n_builder.validation: Structure validation issues [ID: edge_case_validation_1749909648413]
+[2025-06-14 10:00:48,413] INFO n8n_builder.validation: Edge case validation completed [ID: edge_case_validation_1749909648413]
+[2025-06-14 10:00:48,413] WARNING n8n_builder.iteration: Edge case warnings [ID: 2630d6c0]: Node 2 uses unknown type 'n8n-nodes-base.httpResponse' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'webhook-response' cannot be reached from trigger nodes; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+[2025-06-14 10:00:48,413] INFO n8n_builder.iteration: Non-critical edge cases detected [ID: 2630d6c0]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes, unreachable_nodes
+[2025-06-14 10:00:48,413] INFO n8n_builder.iteration: Edge case validation completed [ID: 2630d6c0]
+[2025-06-14 10:00:48,413] INFO n8n_builder.iteration: Parsed workflow for iteration [ID: 2630d6c0]
+[2025-06-14 10:00:48,418] INFO n8n_builder.performance_optimizer: Performance summary
+[2025-06-14 10:00:48,418] INFO n8n_builder.n8n_builder: Workflow analysis used optimizations: result_cached
+[2025-06-14 10:00:48,418] INFO n8n_builder.iteration: Workflow analysis for iteration completed [ID: 2630d6c0]
+[2025-06-14 10:00:48,418] INFO n8n_builder.iteration: Built iteration prompt [ID: 2630d6c0]
+[2025-06-14 10:00:48,419] INFO n8n_builder.iteration: Starting workflow modification [ID: 0ba7126f]
+[2025-06-14 10:00:48,419] INFO n8n_builder.validation: Starting edge case validation [ID: edge_case_validation_1749909648419]
+[2025-06-14 10:00:48,419] WARNING n8n_builder.validation: Node validation issues [ID: edge_case_validation_1749909648419]
+[2025-06-14 10:00:48,419] WARNING n8n_builder.validation: Structure validation issues [ID: edge_case_validation_1749909648419]
+[2025-06-14 10:00:48,420] INFO n8n_builder.validation: Edge case validation completed [ID: edge_case_validation_1749909648419]
+[2025-06-14 10:00:48,421] WARNING n8n_builder.iteration: Edge case warnings [ID: 0ba7126f]: Node 2 uses unknown type 'n8n-nodes-base.httpResponse' - may not be supported; Orphaned node detected: 'webhook-trigger' has no connections; Orphaned node detected: 'process-data' has no connections; Orphaned node detected: 'webhook-response' has no connections; Unreachable node detected: 'webhook-response' cannot be reached from trigger nodes; Unreachable node detected: 'process-data' cannot be reached from trigger nodes
+[2025-06-14 10:00:48,421] INFO n8n_builder.iteration: Non-critical edge cases detected [ID: 0ba7126f]: unknown_node_type, orphaned_nodes, orphaned_nodes, orphaned_nodes, unreachable_nodes, unreachable_nodes
+[2025-06-14 10:00:48,421] INFO n8n_builder.iteration: Edge case validation completed [ID: 0ba7126f]
+[2025-06-14 10:00:48,421] INFO n8n_builder.iteration: Parsed existing workflow [ID: 0ba7126f]
+[2025-06-14 10:00:48,423] INFO n8n_builder.performance_optimizer: Performance summary
+[2025-06-14 10:00:48,423] INFO n8n_builder.n8n_builder: Workflow analysis used optimizations: cache_hit
+[2025-06-14 10:00:48,423] INFO n8n_builder.iteration: Workflow analysis completed [ID: 0ba7126f]
+[2025-06-14 10:00:48,423] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for modification
+[2025-06-14 10:00:48,424] INFO n8n_builder.retry: Starting retry operation [ID: llm_call_1749909648424]
+[2025-06-14 10:00:48,424] INFO n8n_builder.retry: Attempt 1/3 [ID: llm_call_1749909648424]
+[2025-06-14 10:00:48,424] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 10:01:28,849] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-14 10:01:28,850] INFO n8n_builder.llm: LLM call successful
+[2025-06-14 10:01:28,850] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-14 10:01:28,850] INFO n8n_builder.retry: Operation successful on attempt 1 [ID: llm_call_1749909648424]
+[2025-06-14 10:01:28,851] INFO n8n_builder.n8n_builder: LLM modification call successful
+[2025-06-14 10:01:28,852] INFO n8n_builder.llm: LLM response received [ID: 0ba7126f]
+[2025-06-14 10:01:28,852] INFO n8n_builder.n8n_builder: Raw LLM response for modifications: length=11623
+[2025-06-14 10:01:28,852] INFO n8n_builder.n8n_builder: Parsed 5 modification instructions
+[2025-06-14 10:01:28,852] INFO n8n_builder.n8n_builder: Applying 5 valid modifications
+[2025-06-14 10:01:28,853] INFO n8n_builder.n8n_builder: Conflict resolution: 5 -> 5 modifications
+[2025-06-14 10:01:28,853] INFO n8n_builder.n8n_builder: Added node: Connect to SQL Server
+[2025-06-14 10:01:28,853] INFO n8n_builder.n8n_builder: Added node: Run SQL Query
+[2025-06-14 10:01:28,853] INFO n8n_builder.n8n_builder: Modified connection: Process Data -> Webhook Response changed to Process Data -> Connect to SQL Server
+[2025-06-14 10:01:28,854] INFO n8n_builder.n8n_builder: Modified connection
+[2025-06-14 10:01:28,854] INFO n8n_builder.n8n_builder: Added connection: Connect to SQL Server -> Run SQL Query (type: main)
+[2025-06-14 10:01:28,854] INFO n8n_builder.n8n_builder: Added connection: sql-connect -> sql-query
+[2025-06-14 10:01:28,854] INFO n8n_builder.n8n_builder: Added connection: Run SQL Query -> Webhook Response (type: main)
+[2025-06-14 10:01:28,854] INFO n8n_builder.n8n_builder: Added connection: sql-query -> webhook-response
+[2025-06-14 10:01:28,855] INFO n8n_builder.n8n_builder: Successfully applied 5 modifications
+[2025-06-14 10:01:28,855] INFO n8n_builder.iteration: Modifications applied [ID: 0ba7126f]
+[2025-06-14 10:01:28,855] INFO n8n_builder.diff: Starting workflow comparison
+[2025-06-14 10:01:28,856] INFO n8n_builder.diff: Workflow comparison completed
+[2025-06-14 10:01:28,856] INFO n8n_builder.iteration: Iteration tracked
+[2025-06-14 10:01:28,856] INFO n8n_builder.iteration: Nodes added to workflow
+[2025-06-14 10:01:28,856] INFO n8n_builder.iteration: Workflow connections modified
+[2025-06-14 10:01:28,857] INFO n8n_builder.iteration: Iteration tracked [ID: 0ba7126f]
+[2025-06-14 10:01:28,857] INFO n8n_builder.performance: Workflow modification completed successfully
+[2025-06-14 10:01:28,857] INFO n8n_builder.iteration: Workflow modification completed [ID: 0ba7126f]
+[2025-06-14 10:01:28,857] INFO n8n_builder.n8n_builder: Workflow modification completed successfully
+[2025-06-14 10:01:28,858] INFO n8n_builder.iteration: Workflow iteration resulted in changes [ID: 2630d6c0]
+[2025-06-14 10:01:28,858] INFO n8n_builder.diff: Returning cached diff result for workflows
+[2025-06-14 10:01:28,858] INFO n8n_builder.iteration: Iteration tracked
+[2025-06-14 10:01:28,858] INFO n8n_builder.iteration: Nodes added to workflow
+[2025-06-14 10:01:28,859] INFO n8n_builder.iteration: Workflow connections modified
+[2025-06-14 10:01:28,859] INFO n8n_builder.iteration: Iteration tracked in history [ID: 2630d6c0]
+[2025-06-14 10:01:28,859] INFO n8n_builder.performance: Workflow iteration completed successfully
+[2025-06-14 10:01:28,859] INFO n8n_builder.iteration: Workflow iteration completed [ID: 2630d6c0]
+[2025-06-14 10:01:28,859] INFO n8n_builder.n8n_builder: Workflow iteration completed successfully
+[2025-06-14 10:01:28,860] INFO n8n_builder.validation: Starting workflow validation [ID: workflow_validation_1749909688860]
+[2025-06-14 10:01:28,860] INFO n8n_builder.validation: Best practice warnings [ID: workflow_validation_1749909688860]
+[2025-06-14 10:01:28,860] INFO n8n_builder.validation: Workflow validation completed [ID: workflow_validation_1749909688860]
+[2025-06-14 10:23:49,219] INFO n8n_builder.filesystem: Created backup: test-workflow_2025-06-14_10-23-49.json
+[2025-06-14 10:23:49,219] INFO n8n_builder.filesystem: Successfully wrote workflow test-workflow.json to project test-1
+[2025-06-14 10:23:49,220] INFO n8n_builder.filesystem: Successfully read workflow test-workflow.json from project test-1
+[2025-06-14 10:23:56,365] INFO n8n_builder.filesystem: Created backup: test-workflow_2025-06-14_10-23-56.json
+[2025-06-14 10:23:56,365] INFO n8n_builder.filesystem: Successfully wrote workflow test-workflow.json to project test-1
+[2025-06-14 10:23:56,365] INFO n8n_builder.filesystem: Successfully read workflow test-workflow.json from project test-1
+[2025-06-14 12:27:45,635] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-14 12:27:45,637] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 12:27:45,910] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-14 12:27:59,009] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-14 12:27:59,010] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-14 12:27:59,281] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-15 00:27:16,152] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-15 00:27:16,152] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-15 00:27:16,412] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-15 00:27:50,094] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-15 00:27:50,094] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-15 00:27:50,347] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-15 00:28:02,476] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-15 00:28:02,478] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-15 00:28:02,741] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"

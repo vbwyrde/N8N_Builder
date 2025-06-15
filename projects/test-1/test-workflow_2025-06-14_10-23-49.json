@@ -39,73 +39,25 @@
         750,
         300
       ]
-    },
-    {
-      "id": "sql-connect",
-      "name": "Connect to SQL Server",
-      "type": "database.sqlServer.connect",
-      "parameters": {
-        "host": "localhost",
-        "username": "Marka",
-        "password": "xyz824"
-      },
-      "position": [
-        600,
-        300
-      ]
-    },
-    {
-      "id": "sql-query",
-      "name": "Run SQL Query",
-      "type": "database.sqlServer.query",
-      "parameters": {
-        "query": "SELECT * FROM ElthosRPG.dbo.Table1"
-      },
-      "position": [
-        800,
-        300
-      ]
     }
   ],
   "connections": {
-    "webhook-trigger": {
+    "Webhook Trigger": {
       "main": [
         [
           {
-            "node": "process-data",
+            "node": "Process Data",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "process-data": {
+    "Process Data": {
       "main": [
         [
           {
-            "node": "sql-connect",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "sql-connect": {
-      "main": [
-        [
-          {
-            "node": "sql-query",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "sql-query": {
-      "main": [
-        [
-          {
-            "node": "webhook-response",
+            "node": "Webhook Response",
             "type": "main",
             "index": 0
           }
