@@ -187,8 +187,37 @@ class ProjectAnalyzer:
                         if pot_file in self.files_info:
                             self.usage_map[pot_file].add(file_path)
 
+    def find_dynamic_imports(self) -> Set[str]:
+        """Scan all Python files for dynamic import patterns and return referenced module/file names."""
+        dynamic_imports = set()
+        patterns = [
+            r"__import__\(['\"]([a-zA-Z0-9_\.]+)['\"]\)",
+            r"importlib\.import_module\(['\"]([a-zA-Z0-9_\.]+)['\"]\)",
+            r"importlib\.util\.spec_from_file_location\(['\"]([a-zA-Z0-9_\.]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\)",
+            r"exec\(open\(['\"]([^'\"]+\.py)['\"]\).read\(\)\)",
+            r"runpy\.run_module\(['\"]([a-zA-Z0-9_\.]+)['\"]\)",
+            r"runpy\.run_path\(['\"]([^'\"]+\.py)['\"]\)",
+        ]
+        for file_path, info in self.files_info.items():
+            if info['extension'] == '.py':
+                try:
+                    with open(info['path'], 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    for pattern in patterns:
+                        for match in re.findall(pattern, content):
+                            # Some patterns return tuples, some strings
+                            if isinstance(match, tuple):
+                                for m in match:
+                                    if m:
+                                        dynamic_imports.add(m)
+                            else:
+                                dynamic_imports.add(match)
+                except Exception as e:
+                    print(f"Error scanning for dynamic imports in {file_path}: {e}")
+        return dynamic_imports
+
     def identify_obsolete_files(self):
-        """Identify files that appear to be obsolete."""
+        """Identify files that appear to be obsolete, now including dynamic imports."""
         print("🗑️  Identifying obsolete files...")
         
         # Files that are never imported or referenced
@@ -204,9 +233,9 @@ class ProjectAnalyzer:
         for file_path, imports in self.imports_map.items():
             for imp in imports:
                 potential_files = [
-                    f"{imp.replace('.', '/')}.py",
+                    f"{imp.replace('.', '/')}\.py",
                     f"{imp.replace('.', '/')}" + "/__init__.py",
-                    f"n8n_builder/{imp.replace('.', '/')}.py"
+                    f"n8n_builder/{imp.replace('.', '/')}\.py"
                 ]
                 for pot_file in potential_files:
                     if pot_file in all_files:
@@ -233,6 +262,22 @@ class ProjectAnalyzer:
                     used_files.add(file_path)
                     break
         
+        # --- DYNAMIC IMPORTS ---
+        dynamic_imports = self.find_dynamic_imports()
+        dynamic_used_files = set()
+        for dyn in dynamic_imports:
+            # Try to match module or file to a file in the project
+            py_path = dyn.replace('.', '/') + '.py'
+            if py_path in all_files:
+                dynamic_used_files.add(py_path)
+            elif dyn in all_files:
+                dynamic_used_files.add(dyn)
+        if dynamic_used_files:
+            print(f"🔎 Detected dynamic imports: {dynamic_used_files}")
+        used_files.update(dynamic_used_files)
+        self.dynamic_imports = list(dynamic_used_files)
+        # --- END DYNAMIC IMPORTS ---
+        
         # Files that might be obsolete
         potentially_obsolete = all_files - used_files
         
@@ -243,15 +288,12 @@ class ProjectAnalyzer:
                 try:
                     with open(self.files_info[file_path]['path'], 'r', encoding='utf-8') as f:
                         content = f.read()
-                    
                     if 'if __name__ == "__main__"' in content:
                         used_files.add(file_path)  # Standalone script
                     elif 'def main(' in content:
                         used_files.add(file_path)  # Has main function
-                        
                 except Exception:
                     pass
-        
         self.obsolete_files = all_files - used_files
 
     def find_duplicates(self):
@@ -348,6 +390,12 @@ class ProjectAnalyzer:
             print(f"\n📦 LARGE FILES (>100KB):")
             for file_path, info in sorted(large_files, key=lambda x: x[1]['size'], reverse=True):
                 print(f"   📄 {file_path}: {info['size']:,} bytes ({info['size']/1024/1024:.2f} MB)")
+        
+        # Add dynamic imports to the report
+        if hasattr(self, 'dynamic_imports') and self.dynamic_imports:
+            print(f"\n🔎 DYNAMIC IMPORTS DETECTED (not marked obsolete):")
+            for dyn in self.dynamic_imports:
+                print(f"   - {dyn}")
         
         # Cleanup recommendations
         print(f"\n🧹 CLEANUP RECOMMENDATIONS:")
