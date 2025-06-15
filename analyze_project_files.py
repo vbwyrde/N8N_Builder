@@ -160,6 +160,8 @@ class ProjectAnalyzer:
                     
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
+        # Build normalized to original path mapping
+        self.normalized_to_original = {self.normalize_path(k): k for k in self.files_info.keys()}
 
     def analyze_dependencies(self):
         """Analyze file dependencies and usage."""
@@ -216,36 +218,66 @@ class ProjectAnalyzer:
                     print(f"Error scanning for dynamic imports in {file_path}: {e}")
         return dynamic_imports
 
+    def resolve_import_to_path(self, importing_file: str, import_name: str) -> str:
+        """Resolve an import (including relative) to a file path in the project."""
+        # Handle relative imports (e.g., from .config import config)
+        if import_name.startswith('.'):
+            # Get the directory of the importing file
+            base_dir = str(Path(importing_file).parent)
+            # Remove leading dots and join
+            rel_import = import_name.lstrip('.')
+            if rel_import:
+                resolved = os.path.normpath(os.path.join(base_dir, rel_import.replace('.', '/')) + '.py')
+            else:
+                # 'from . import something' means the __init__.py in the same dir
+                resolved = os.path.normpath(os.path.join(base_dir, '__init__.py'))
+            return resolved
+        # Absolute import
+        return import_name.replace('.', '/') + '.py'
+
+    def normalize_path(self, path: str) -> str:
+        """Normalize a file path to POSIX style and lower case for comparison."""
+        return str(Path(path).as_posix()).lower()
+
     def identify_obsolete_files(self):
-        """Identify files that appear to be obsolete, now including dynamic imports."""
+        """Identify files that appear to be obsolete, now including dynamic imports and improved relative import handling."""
         print("🗑️  Identifying obsolete files...")
         
         # Files that are never imported or referenced
-        all_files = set(self.files_info.keys())
+        all_files = set(self.normalize_path(f) for f in self.files_info.keys())
         used_files = set()
+        debug_obsolete = {}
         
         # Mark entry points as used
-        for file_path in all_files:
+        for file_path in self.files_info.keys():
             if self.files_info[file_path]['is_entry_point']:
-                used_files.add(file_path)
+                used_files.add(self.normalize_path(file_path))
         
         # Mark files that are imported or referenced
         for file_path, imports in self.imports_map.items():
+            norm_file_path = self.normalize_path(file_path)
             for imp in imports:
+                # Try both relative and absolute resolution
+                resolved_path = self.normalize_path(self.resolve_import_to_path(file_path, imp))
+                if resolved_path in all_files:
+                    used_files.add(resolved_path)
+                # Also try the old logic for safety
                 potential_files = [
-                    f"{imp.replace('.', '/')}\.py",
+                    f"{imp.replace('.', '/')}.py",
                     f"{imp.replace('.', '/')}" + "/__init__.py",
-                    f"n8n_builder/{imp.replace('.', '/')}\.py"
+                    f"n8n_builder/{imp.replace('.', '/')}.py"
                 ]
                 for pot_file in potential_files:
-                    if pot_file in all_files:
-                        used_files.add(pot_file)
+                    norm_pot_file = self.normalize_path(pot_file)
+                    if norm_pot_file in all_files:
+                        used_files.add(norm_pot_file)
         
         # Mark files referenced by usage_map
         for file_path, references in self.usage_map.items():
-            used_files.update(references)
+            for ref in references:
+                used_files.add(self.normalize_path(ref))
             if references:  # If file references others, it's probably used
-                used_files.add(file_path)
+                used_files.add(self.normalize_path(file_path))
         
         # Special cases - files that are used but might not show up in imports
         special_cases = {
@@ -255,38 +287,57 @@ class ProjectAnalyzer:
             'README.md',  # Documentation
             'Documentation/',  # Documentation files
         }
-        
-        for file_path in all_files:
+        for file_path in self.files_info.keys():
+            norm_file_path = self.normalize_path(file_path)
             for special in special_cases:
-                if special in file_path:
-                    used_files.add(file_path)
+                if special.lower() in norm_file_path:
+                    used_files.add(norm_file_path)
                     break
         
         # --- DYNAMIC IMPORTS ---
         dynamic_imports = self.find_dynamic_imports()
         dynamic_used_files = set()
         for dyn in dynamic_imports:
-            # Try to match module or file to a file in the project
-            py_path = dyn.replace('.', '/') + '.py'
+            py_path = self.normalize_path(dyn.replace('.', '/') + '.py')
             if py_path in all_files:
                 dynamic_used_files.add(py_path)
-            elif dyn in all_files:
-                dynamic_used_files.add(dyn)
+            else:
+                norm_dyn = self.normalize_path(dyn)
+                if norm_dyn in all_files:
+                    dynamic_used_files.add(norm_dyn)
         if dynamic_used_files:
             print(f"🔎 Detected dynamic imports: {dynamic_used_files}")
         used_files.update(dynamic_used_files)
         self.dynamic_imports = list(dynamic_used_files)
         # --- END DYNAMIC IMPORTS ---
         
+        # --- CRITICAL FILES WHITELIST ---
+        critical_files = {
+            'n8n_builder/config.py',
+            'n8n_builder/settings.py',
+            'n8n_builder/__init__.py',
+            'config.py',
+            'settings.py',
+        }
+        norm_critical_files = set(self.normalize_path(f) for f in critical_files)
+        for crit in norm_critical_files:
+            if crit in all_files:
+                used_files.add(crit)
+        # --- END CRITICAL FILES WHITELIST ---
+        
         # Files that might be obsolete
         potentially_obsolete = all_files - used_files
         
         # Additional analysis for Python files
         for file_path in potentially_obsolete:
-            if self.files_info[file_path]['extension'] == '.py':
-                # Check if it's a standalone script or has main block
+            orig_file_path = None
+            for k in self.files_info.keys():
+                if self.normalize_path(k) == file_path:
+                    orig_file_path = k
+                    break
+            if orig_file_path and self.files_info[orig_file_path]['extension'] == '.py':
                 try:
-                    with open(self.files_info[file_path]['path'], 'r', encoding='utf-8') as f:
+                    with open(self.files_info[orig_file_path]['path'], 'r', encoding='utf-8') as f:
                         content = f.read()
                     if 'if __name__ == "__main__"' in content:
                         used_files.add(file_path)  # Standalone script
@@ -295,6 +346,24 @@ class ProjectAnalyzer:
                 except Exception:
                     pass
         self.obsolete_files = all_files - used_files
+        # Debug output for why files are marked obsolete
+        for file_path in self.obsolete_files:
+            reasons = []
+            if file_path in norm_critical_files:
+                reasons.append('Critical file (whitelisted)')
+            orig_file_path = None
+            for k in self.files_info.keys():
+                if self.normalize_path(k) == file_path:
+                    orig_file_path = k
+                    break
+            if orig_file_path and self.files_info[orig_file_path]['is_entry_point']:
+                reasons.append('Entry point')
+            if file_path in dynamic_used_files:
+                reasons.append('Dynamically imported')
+            if not reasons:
+                reasons.append('Not imported, referenced, or whitelisted')
+            debug_obsolete[file_path] = reasons
+        self.debug_obsolete = debug_obsolete
 
     def find_duplicates(self):
         """Find duplicate files by content."""
@@ -336,8 +405,10 @@ class ProjectAnalyzer:
             for file_hash, files in self.duplicates.items():
                 print(f"\n   Hash: {file_hash[:8]}...")
                 for file_path in files:
-                    size = self.files_info[file_path]['size']
-                    modified = self.files_info[file_path]['modified']
+                    orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                    info = self.files_info[orig_path]
+                    size = info['size']
+                    modified = info['modified']
                     print(f"     📄 {file_path} ({size:,} bytes, modified: {modified.strftime('%Y-%m-%d %H:%M')})")
                 
                 # Recommend which to keep
@@ -349,6 +420,8 @@ class ProjectAnalyzer:
                 
                 for file_path in files:
                     if file_path != recommended[0]:
+                        orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                        size = self.files_info[orig_path]['size']
                         print(f"     ❌ CONSIDER REMOVING: {file_path}")
         else:
             print(f"\n🔄 DUPLICATE FILES: None found")
@@ -366,7 +439,8 @@ class ProjectAnalyzer:
             for dir_name, files in sorted(obsolete_by_dir.items()):
                 print(f"\n   📁 {dir_name}/")
                 for file_path in files:
-                    info = self.files_info[file_path]
+                    orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                    info = self.files_info[orig_path]
                     print(f"     ❓ {Path(file_path).name} ({info['size']:,} bytes, {info['extension']})")
                     
                     # Provide reasoning
@@ -396,6 +470,11 @@ class ProjectAnalyzer:
             print(f"\n🔎 DYNAMIC IMPORTS DETECTED (not marked obsolete):")
             for dyn in self.dynamic_imports:
                 print(f"   - {dyn}")
+        # Add debug output for obsolete files
+        if hasattr(self, 'debug_obsolete'):
+            print(f"\n🛑 DEBUG: Why files are marked obsolete:")
+            for file_path, reasons in self.debug_obsolete.items():
+                print(f"   {file_path}: {', '.join(reasons)}")
         
         # Cleanup recommendations
         print(f"\n🧹 CLEANUP RECOMMENDATIONS:")
@@ -407,10 +486,10 @@ class ProjectAnalyzer:
                 files_with_info = [(f, self.files_info[f]) for f in files]
                 recommended = max(files_with_info, 
                                 key=lambda x: (x[1]['is_entry_point'], x[1]['modified']))
-                
                 for file_path in files:
                     if file_path != recommended[0]:
-                        size = self.files_info[file_path]['size']
+                        orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                        size = self.files_info[orig_path]['size']
                         total_duplicate_waste += size
                         print(f"      rm \"{file_path}\"  # Saves {size:,} bytes")
         
@@ -418,7 +497,8 @@ class ProjectAnalyzer:
         if self.obsolete_files:
             print(f"\n   2. REMOVE OBSOLETE FILES:")
             for file_path in sorted(self.obsolete_files):
-                size = self.files_info[file_path]['size']
+                orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                size = self.files_info[orig_path]['size']
                 total_obsolete_waste += size
                 print(f"      rm \"{file_path}\"  # Saves {size:,} bytes")
         
@@ -550,7 +630,8 @@ class ProjectAnalyzer:
                                 key=lambda x: (x[1]['is_entry_point'], x[1]['modified']))
                 
                 for file_path in files:
-                    info = self.files_info[file_path]
+                    orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                    info = self.files_info[orig_path]
                     size = info['size']
                     modified = info['modified'].strftime('%Y-%m-%d %H:%M')
                     
@@ -586,7 +667,8 @@ class ProjectAnalyzer:
                 md_content.append("|------|------|-----------|--------|")
                 
                 for file_path in files:
-                    info = self.files_info[file_path]
+                    orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                    info = self.files_info[orig_path]
                     filename = Path(file_path).name
                     
                     if info['extension'] == '.py':
@@ -635,7 +717,8 @@ class ProjectAnalyzer:
                 
                 for file_path in files:
                     if file_path != recommended[0]:
-                        size = self.files_info[file_path]['size']
+                        orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                        size = self.files_info[orig_path]['size']
                         total_duplicate_waste += size
                         
                         # Convert forward slashes to backslashes for Windows
@@ -653,7 +736,8 @@ class ProjectAnalyzer:
             md_content.append("REM Move potentially obsolete files to archive")
             
             for file_path in sorted(self.obsolete_files):
-                size = self.files_info[file_path]['size']
+                orig_path = self.normalized_to_original.get(self.normalize_path(file_path), file_path)
+                size = self.files_info[orig_path]['size']
                 total_obsolete_waste += size
                 
                 # Convert forward slashes to backslashes for Windows
