@@ -19,3 +19,25 @@
 [2025-06-15 16:36:37,141] INFO n8n_builder.project: Refreshed project cache: 1 projects found
 [2025-06-15 16:36:37,143] INFO n8n_builder.llm: Executing LLM API call
 [2025-06-15 16:36:37,407] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
+[2025-06-15 16:57:47,105] INFO n8n_builder.app: N8N Builder system stopped successfully
+2025-06-15 16:57:54,016 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-15 16:57:54,091 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-15 16:57:54,091 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-15 16:57:54,091 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-15 16:57:54,091 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-15 16:57:54,241] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-15 16:57:54,242] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-15 16:57:54,242] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-15 16:57:54,243] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-15 16:57:54,243] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-15 16:57:54,243] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-15 16:57:54,243] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-15 16:57:54,243] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-15 16:57:54,244] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-15 16:57:54,244] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-15 16:57:54,244] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-15 16:57:54,244] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-15 16:57:54,513] INFO n8n_builder.app: N8N Builder system started successfully
+[2025-06-15 17:04:19,778] INFO n8n_builder.project: Refreshed project cache: 1 projects found
+[2025-06-15 17:04:19,779] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-15 17:04:20,053] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 404 Not Found"
