@@ -1,0 +1,63 @@
+{
+  "agent": {
+    "name": "test_n8n_workflow_builder",
+    "capabilities": {
+      "workflow_generation": true,
+      "workflow_modification": true,
+      "workflow_iteration": true,
+      "streaming_responses": true,
+      "llm_integration": true,
+      "ag_ui_protocol": true
+    },
+    "max_concurrent_workflows": 3,
+    "timeout": 60
+  },
+  "security": {
+    "enable_authentication": false,
+    "jwt_secret": "test_secret_key_for_testing_only",
+    "token_expiry": 3600,
+    "allowed_origins": ["http://localhost:3000", "http://localhost:8000"],
+    "rate_limiting": {
+      "enabled": false,
+      "requests_per_minute": 100
+    }
+  },
+  "error_recovery": {
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "circuit_breaker": {
+      "failure_threshold": 5,
+      "recovery_timeout": 30,
+      "half_open_max_calls": 3
+    },
+    "fallback_strategies": ["retry", "circuit_breaker", "graceful_degradation"]
+  },
+  "monitoring": {
+    "enabled": true,
+    "metrics_collection": true,
+    "health_check_interval": 30,
+    "log_level": "DEBUG",
+    "performance_tracking": true
+  },
+  "resource_limits": {
+    "max_memory_mb": 512,
+    "max_cpu_percent": 50,
+    "max_concurrent_requests": 10,
+    "request_timeout": 30
+  },
+  "ag_ui": {
+    "protocol_version": "0.1.0",
+    "event_buffer_size": 1000,
+    "streaming_enabled": true,
+    "state_management": true,
+    "tool_calling": true
+  },
+  "llm": {
+    "endpoint": "http://localhost:1234/v1/chat/completions",
+    "model": "test-model",
+    "temperature": 0.7,
+    "max_tokens": 2000,
+    "timeout": 30,
+    "is_local": true
+  }
+}

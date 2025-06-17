@@ -1,244 +1,235 @@
+"""
+Agent Integration Manager for N8N Builder.
+
+This module provides the integration layer between the AG-UI protocol
+and the N8N Builder agent system.
+"""
+
 import logging
 import asyncio
 import time
-from typing import Dict, Any, List, Optional, Set
+from typing import Dict, Any, List, Optional, Set, Callable, Awaitable
 from enum import Enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
-from ..base_agent import BaseAgent, AgentConfig, AgentResult
-from ..orchestrator_agent import OrchestratorAgent
-from ..workflow_generator_agent import WorkflowGeneratorAgent
-from ..validation_agent import ValidationAgent
-from ..workflow_executor_agent import WorkflowExecutorAgent
-from ..error_recovery_agent import ErrorRecoveryAgent
-from ..workflow_optimizer_agent import WorkflowOptimizerAgent
-from ..workflow_documentation_agent import WorkflowDocumentationAgent
-from ..workflow_testing_agent import WorkflowTestingAgent
-from .message_broker import MessageBroker
-from .state_manager import StateManager
+import uuid
+
 from .message_protocol import (
+    Message,
     MessageType,
     WorkflowRequest,
     WorkflowResponse,
-    StatusUpdate,
-    ErrorMessage
+    StatusUpdate
 )
 from .event_types import (
     EventType,
-    EventPriority,
     Event,
     WorkflowEvent,
-    AgentEvent,
-    ResourceEvent,
-    SystemEvent
+    WorkflowEventType,
+    EventPriority
 )
-from .event_stream_manager import EventStreamManager
-from .ui_controller import AgentUIController
-from .security import SecurityManager, PermissionLevel, SecurityError, AuthenticationError, AuthorizationError, ValidationError, RateLimitError
-from .error_recovery import ErrorRecoveryManager, CircuitState
-from .monitoring import MonitoringManager, MetricType, HealthStatus
-from functools import total_ordering
+from .message_broker import MessageBroker
+from .state_manager import StateManager
 
-@total_ordering
-class WorkflowPriority(Enum):
-    """Priority levels for workflow processing."""
-    LOW = 0
-    NORMAL = 1
-    HIGH = 2
-    CRITICAL = 3
-    
-    def __lt__(self, other):
-        if self.__class__ is other.__class__:
-            return self.value < other.value
-        return NotImplemented
-
-@dataclass
-class WorkflowTask:
-    """Represents a workflow task with priority and metadata."""
-    workflow_id: str
-    priority: WorkflowPriority
-    workflow_data: Dict[str, Any]
-    created_at: datetime
-    status: str = 'pending'
-    assigned_agent: Optional[str] = None
-    retry_count: int = 0
-    max_retries: int = 3
-    dependencies: Set[str] = None
+from ..base_agent import (
+    BaseAgent,
+    AgentConfig,
+    AgentResult,
+    OrchestratorAgent,
+    WorkflowGeneratorAgent,
+    ValidationAgent,
+    WorkflowExecutorAgent,
+    ErrorRecoveryAgent,
+    WorkflowOptimizerAgent,
+    WorkflowDocumentationAgent,
+    WorkflowTestingAgent
+)
 
 class AgentIntegrationManager:
-    """Manages integration and coordination between different agents in the system."""
+    """
+    Manages the integration between AG-UI protocol and N8N Builder agents.
     
-    def __init__(self, config: AgentConfig, state_file: Optional[str] = None):
-        self.logger = logging.getLogger(__name__)
+    This class is responsible for:
+    1. Creating and managing agent instances
+    2. Routing messages between AG-UI and agents
+    3. Managing workflow state
+    4. Handling events from agents and publishing to AG-UI
+    """
+    
+    def __init__(self, config: AgentConfig):
         self.config = config
+        self.logger = logging.getLogger(__name__)
+        
+        # Initialize core components
+        self.message_broker = MessageBroker()
+        self.state_manager = StateManager()
+        
+        # Initialize agent registry
         self.agents: Dict[str, BaseAgent] = {}
-        self.agent_states: Dict[str, Dict[str, Any]] = {}
+        self.orchestrator: Optional[OrchestratorAgent] = None
+        
+        # Initialize event stream
+        self.event_handlers: Dict[EventType, List[Callable[[Event], Awaitable[None]]]] = {}
+        
+        # Track active workflows
         self.active_workflows: Dict[str, Dict[str, Any]] = {}
         
-        # Initialize message broker and state manager
-        self.message_broker = MessageBroker()
-        self.state_manager = StateManager(state_file)
-        self.event_stream_manager = EventStreamManager()
-        self.ui_controller = AgentUIController(self.event_stream_manager)
-        self.security_manager = SecurityManager(config.get('security', {}))
-        self.error_recovery_manager = ErrorRecoveryManager(config.get('error_recovery', {}))
-        self.monitoring_manager = MonitoringManager(config.get('monitoring', {}))
+        # Setup is_running flag for clean shutdown
+        self.is_running = False
+        self._shutdown_event = asyncio.Event()
+    
+    async def start(self) -> None:
+        """Start the integration manager and initialize all components."""
+        self.logger.info("Starting Agent Integration Manager")
+        self.is_running = True
         
-        # Initialize parallel processing components
-        self.workflow_queue: Dict[WorkflowPriority, List[WorkflowTask]] = {
-            priority: [] for priority in WorkflowPriority
+        # Initialize message broker
+        await self.message_broker.start()
+        
+        # Initialize state manager
+        await self.state_manager.initialize()
+        
+        # Create and initialize agents
+        await self._initialize_agents()
+        
+        # Register message handlers
+        self._register_message_handlers()
+        
+        self.logger.info("Agent Integration Manager started successfully")
+    
+    async def _initialize_agents(self) -> None:
+        """Initialize all agent instances."""
+        # Create orchestrator agent
+        orchestrator_config = AgentConfig(
+            name="workflow_orchestrator",
+            capabilities=self.config.capabilities,
+            parameters=self.config.parameters
+        )
+        self.orchestrator = OrchestratorAgent(orchestrator_config)
+        await self.orchestrator.initialize()
+        self.agents["orchestrator"] = self.orchestrator
+        
+        # Create and register other agents
+        agent_types = {
+            "generator": WorkflowGeneratorAgent,
+            "validator": ValidationAgent,
+            "executor": WorkflowExecutorAgent,
+            "error_recovery": ErrorRecoveryAgent,
+            "optimizer": WorkflowOptimizerAgent,
+            "documenter": WorkflowDocumentationAgent,
+            "tester": WorkflowTestingAgent
         }
-        self.workflow_tasks: Dict[str, WorkflowTask] = {}
-        self.processing_semaphore = asyncio.Semaphore(config.get('max_concurrent_workflows', 5))
-        self.resource_limits = config.get('resource_limits', {})
-        self.current_resources = {agent: 0 for agent in self.resource_limits}
         
-        self.logger.info("Initializing AgentIntegrationManager")
+        for agent_type, agent_class in agent_types.items():
+            agent_config = AgentConfig(
+                name=f"workflow_{agent_type}",
+                capabilities=self.config.capabilities,
+                parameters=self.config.parameters
+            )
+            agent = agent_class(agent_config)
+            await agent.initialize()
+            self.agents[agent_type] = agent
+            
+            # Register with orchestrator
+            if self.orchestrator:
+                await self.orchestrator.register_agent(agent_type, agent)
+            
+            # Register state change handler
+            agent.register_event_handler("state_changed", 
+                lambda data, agent=agent, agent_type=agent_type: 
+                    self._handle_agent_state_change(agent, agent_type, data)
+            )
+    
+    async def _handle_agent_state_change(self, agent: BaseAgent, agent_type: str, data: Dict[str, Any]) -> None:
+        """Handle state changes from agents and publish events."""
+        old_state = data.get("old_state")
+        new_state = data.get("new_state")
         
-        # Initialize all agents
-        self._initialize_agents()
+        event = AgentEvent(
+            event_type=EventType.AGENT_STATE_CHANGED,
+            timestamp=datetime.now(),
+            source=agent_type,
+            agent_id=agent.agent_id,
+            agent_name=agent.config.name,
+            old_state=str(old_state) if old_state else None,
+            new_state=str(new_state) if new_state else None
+        )
         
-        # Start background tasks
-        self._start_background_tasks()
+        await self.publish_event(event)
     
-    def _initialize_agents(self):
-        """Initialize all required agents with their configurations."""
-        try:
-            # Create agent instances
-            self.agents = {
-                'orchestrator': OrchestratorAgent(self.config),
-                'generator': WorkflowGeneratorAgent(self.config),
-                'validator': ValidationAgent(self.config),
-                'executor': WorkflowExecutorAgent(self.config),
-                'recovery': ErrorRecoveryAgent(self.config),
-                'optimizer': WorkflowOptimizerAgent(self.config),
-                'documentation': WorkflowDocumentationAgent(self.config),
-                'testing': WorkflowTestingAgent(self.config)
-            }
-            
-            # Initialize agent states
-            for agent_name in self.agents:
-                self.agent_states[agent_name] = {
-                    'status': 'initialized',
-                    'last_activity': None,
-                    'error_count': 0,
-                    'success_count': 0
-                }
-            
-            self.logger.info("All agents initialized successfully")
-            
-        except Exception as e:
-            self.logger.error(f"Error initializing agents: {str(e)}")
-            raise
+    def _register_message_handlers(self) -> None:
+        """Register message handlers for the message broker."""
+        self.message_broker.register_handler(
+            MessageType.WORKFLOW_REQUEST,
+            self._handle_workflow_request
+        )
+        self.message_broker.register_handler(
+            MessageType.STATUS_UPDATE,
+            self._handle_status_update
+        )
+        self.message_broker.register_handler(
+            MessageType.ERROR,
+            self._handle_error
+        )
     
-    async def start(self):
-        """Start the integration manager and all its components."""
+    async def _handle_workflow_request(self, message: WorkflowRequest) -> None:
+        """Handle incoming workflow requests."""
         try:
-            # Start message broker
-            await self.message_broker.start()
-            
-            # Start event stream manager
-            await self.event_stream_manager.start()
-            
-            # Start UI controller
-            await self.ui_controller.start()
-            
-            # Start monitoring manager
-            await self.monitoring_manager.start()
-            
-            # Register all agents with message broker
-            for agent_name in self.agents:
-                self.message_broker.register_agent(agent_name)
-                # Subscribe to relevant message types
-                self.message_broker.subscribe(agent_name, MessageType.WORKFLOW_REQUEST)
-                self.message_broker.subscribe(agent_name, MessageType.STATUS_UPDATE)
-                self.message_broker.subscribe(agent_name, MessageType.ERROR)
-            
-            # Register message handlers
-            for agent_name, agent in self.agents.items():
-                self.message_broker.register_handler(
-                    agent_name,
-                    MessageType.WORKFLOW_REQUEST,
-                    self._handle_workflow_request
-                )
-            
-            # Emit system started event
-            await self._emit_system_event(
-                EventType.SYSTEM_STARTED,
-                "system",
-                "started",
-                {"agents": list(self.agents.keys())}
-            )
-            
-            # Record startup metrics
-            await self.monitoring_manager.record_metric(
-                'system.startup',
-                1,
-                MetricType.COUNTER,
-                {'type': 'system'}
-            )
-            
-            self.logger.info("AgentIntegrationManager started successfully")
-            
+            # Forward the request to the orchestrator
+            if self.orchestrator:
+                await self.orchestrator.process(message.content['workflow_data'])
         except Exception as e:
-            self.logger.error(f"Error starting AgentIntegrationManager: {str(e)}")
-            raise
+            self.logger.error(f"Error handling workflow request: {str(e)}")
+            await self._handle_error(message, str(e))
     
-    async def stop(self):
-        """Stop the integration manager and all its components."""
+    async def _handle_status_update(self, message: StatusUpdate) -> None:
+        """Handle status updates from agents."""
         try:
-            # Emit system stopping event
-            await self._emit_system_event(
-                EventType.SYSTEM_STOPPED,
-                "system",
-                "stopping",
-                {"active_workflows": len(self.active_workflows)}
-            )
-            
-            # Stop UI controller
-            await self.ui_controller.stop()
-            
-            # Stop monitoring manager
-            await self.monitoring_manager.stop()
-            
-            # Cancel background tasks
-            if hasattr(self, 'workflow_processor'):
-                self.workflow_processor.cancel()
-            if hasattr(self, 'resource_monitor'):
-                self.resource_monitor.cancel()
-            
-            # Wait for tasks to complete
-            try:
-                await asyncio.gather(
-                    self.workflow_processor,
-                    self.resource_monitor,
-                    return_exceptions=True
-                )
-            except asyncio.CancelledError:
-                pass
-            
-            # Stop message broker
-            await self.message_broker.stop()
-            
-            # Stop event stream manager
-            await self.event_stream_manager.stop()
-            
-            # Close state manager
-            await self.state_manager.close()
-            
-            # Close all agents
-            for agent in self.agents.values():
-                await agent.close()
-            
-            # Clear workflow queues and tasks
-            self.workflow_queue.clear()
-            self.workflow_tasks.clear()
-            
-            self.logger.info("AgentIntegrationManager stopped successfully")
-            
+            # Forward the status update to the orchestrator
+            if self.orchestrator:
+                await self.orchestrator.handle_status_update(message)
         except Exception as e:
-            self.logger.error(f"Error stopping AgentIntegrationManager: {str(e)}")
-            raise
+            self.logger.error(f"Error handling status update: {str(e)}")
+            await self._handle_error(message, str(e))
+    
+    async def _handle_error(self, message: Message, error: str) -> None:
+        """Handle errors from agents."""
+        error_message = ErrorMessage(
+            sender=message.sender,
+            recipient=message.recipient,
+            error=error,
+            error_type='agent_error',
+            details={'message_id': message.message_id},
+            correlation_id=message.correlation_id,
+            parent_message_id=message.message_id
+        )
+        await self.message_broker.publish(error_message)
+    
+    async def stop(self) -> None:
+        """Stop the integration manager and clean up resources."""
+        self.logger.info("Stopping Agent Integration Manager")
+        self.is_running = False
+        self._shutdown_event.set()
+        
+        # Cancel background tasks
+        await self._cancel_background_tasks()
+        
+        # Close message broker
+        await self.message_broker.stop()
+        
+        # Close state manager
+        await self.state_manager.close()
+        
+        # Close all agents
+        for agent in self.agents.values():
+            await agent.close()
+        
+        self.logger.info("Agent Integration Manager stopped successfully")
+    
+    async def _cancel_background_tasks(self) -> None:
+        """Cancel all background tasks."""
+        for agent in self.agents.values():
+            await agent.cancel_background_tasks()
     
     async def process_workflow(self, workflow_data: Dict[str, Any], token: Optional[str] = None) -> AgentResult:
         """Process a workflow through the agent pipeline."""

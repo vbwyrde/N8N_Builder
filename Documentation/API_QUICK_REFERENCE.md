@@ -1,10 +1,51 @@
 # N8N Builder API - Quick Reference
 
-**Base URL:** `http://localhost:8002`
+**Standard API:** `http://localhost:8002`
+**AG-UI Protocol:** `http://localhost:8003`
 
 ---
 
-## 🚀 **Quick Start**
+## 🤖 **AG-UI Protocol Quick Start**
+
+### **1. Generate Workflow with AG-UI**
+```bash
+curl -X POST "http://localhost:8003/run-agent" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "thread_id": "thread-123",
+    "run_id": "run-456",
+    "forwarded_props": {},
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create a workflow that sends email notifications for new files"
+      }
+    ],
+    "context": [
+      {
+        "description": "Workflow generation request",
+        "value": "email notification workflow"
+      }
+    ],
+    "tools": [],
+    "state": null
+  }' \
+  --no-buffer
+```
+
+### **2. Check AG-UI Server Health**
+```bash
+curl -X GET "http://localhost:8003/health"
+```
+
+### **3. Get AG-UI Server Status**
+```bash
+curl -X GET "http://localhost:8003/status"
+```
+
+---
+
+## 🚀 **Standard API Quick Start**
 
 ### **1. Generate New Workflow**
 ```bash
@@ -58,7 +99,72 @@ curl -X GET "http://localhost:8002/iterations/my-workflow-123"
 
 ---
 
-## 📋 **Common Request Bodies**
+## 🤖 **AG-UI Request Bodies**
+
+### **Basic AG-UI Workflow Generation:**
+```json
+{
+  "thread_id": "optional-thread-id",
+  "run_id": "optional-run-id",
+  "forwarded_props": {},
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate a workflow that processes CSV files and sends results via email"
+    }
+  ],
+  "context": [
+    {
+      "description": "Workflow type",
+      "value": "data_processing"
+    },
+    {
+      "description": "Output format",
+      "value": "email_notification"
+    }
+  ],
+  "tools": [],
+  "state": null
+}
+```
+
+### **AG-UI with Workflow Modification Context:**
+```json
+{
+  "thread_id": "thread-123",
+  "run_id": "run-456",
+  "forwarded_props": {},
+  "messages": [
+    {
+      "role": "user",
+      "content": "Modify the existing workflow to add error handling"
+    }
+  ],
+  "context": [
+    {
+      "description": "Operation type",
+      "value": "workflow_modification"
+    },
+    {
+      "description": "Existing workflow",
+      "value": "{\"name\": \"Email Workflow\", \"nodes\": [...]}"
+    },
+    {
+      "description": "Modification request",
+      "value": "Add error handling for SMTP failures"
+    }
+  ],
+  "tools": [],
+  "state": {
+    "current_workflow": "email-workflow-v1",
+    "modification_history": ["initial_creation", "email_validation_added"]
+  }
+}
+```
+
+---
+
+## 📋 **Standard API Request Bodies**
 
 ### **Basic Modification:**
 ```json
@@ -89,9 +195,43 @@ curl -X GET "http://localhost:8002/iterations/my-workflow-123"
 
 ---
 
-## 🔄 **Response Events (SSE)**
+## 🤖 **AG-UI Response Events**
 
-All workflow endpoints return **Server-Sent Events (SSE)** with enhanced event types:
+AG-UI endpoints return structured event streams with the following event types:
+
+### **AG-UI Event Types:**
+| Event Type | Description |
+|------------|-------------|
+| `RUN_STARTED` | Agent execution initiated |
+| `RUN_FINISHED` | Agent execution completed |
+| `RUN_ERROR` | Error occurred during execution |
+| `TEXT_MESSAGE_START` | Text message begins |
+| `TEXT_MESSAGE_CONTENT` | Message content chunk (streaming) |
+| `TEXT_MESSAGE_END` | Text message complete |
+| `STEP_STARTED` | Processing step begins |
+| `STEP_FINISHED` | Processing step complete |
+| `STATE_SNAPSHOT` | Complete state update |
+| `STATE_DELTA` | Incremental state change |
+| `TOOL_CALL_START` | Tool execution begins |
+| `TOOL_CALL_ARGS` | Tool arguments provided |
+| `TOOL_CALL_END` | Tool execution complete |
+
+### **AG-UI Event Examples:**
+```json
+{"type": "RUN_STARTED", "timestamp": 1704067106}
+{"type": "TEXT_MESSAGE_START", "message_id": "msg_123", "role": "assistant", "timestamp": 1704067106}
+{"type": "TEXT_MESSAGE_CONTENT", "message_id": "msg_123", "delta": "Starting workflow generation...", "timestamp": 1704067106}
+{"type": "STEP_STARTED", "step_name": "workflow_generation", "timestamp": 1704067107}
+{"type": "STATE_SNAPSHOT", "snapshot": {"current_step": "generation", "progress": 0.5}, "timestamp": 1704067108}
+{"type": "STEP_FINISHED", "step_name": "workflow_generation", "timestamp": 1704067110}
+{"type": "RUN_FINISHED", "timestamp": 1704067111}
+```
+
+---
+
+## 🔄 **Standard API Response Events (SSE)**
+
+Standard API endpoints return **Server-Sent Events (SSE)** with enhanced event types:
 
 ### **Core Events:**
 | Event Type | Description |
@@ -122,9 +262,14 @@ All workflow endpoints return **Server-Sent Events (SSE)** with enhanced event t
 
 ## 🗂️ **Key Endpoints**
 
-### **Workflow Operations:**
+### **AG-UI Protocol Endpoints:**
+- `POST /run-agent` - Execute agent with RunAgentInput (AG-UI)
+- `GET /health` - AG-UI server health check
+- `GET /status` - Detailed AG-UI server status
+
+### **Standard API Workflow Operations:**
 - `POST /generate` - Generate new workflow
-- `POST /modify` - Modify existing workflow  
+- `POST /modify` - Modify existing workflow
 - `POST /iterate` - Iterate with feedback
 - `GET /iterations/{id}` - Get iteration history
 - `GET /feedback/{id}` - Get feedback history
@@ -142,14 +287,71 @@ All workflow endpoints return **Server-Sent Events (SSE)** with enhanced event t
 - `GET /projects/{name}/workflows/{file}/compare/{v1}/{v2}` - Compare versions
 
 ### **Health & Status:**
-- `GET /health` - API health check
+- `GET /health` - Standard API health check
 - `GET /llm/health` - LLM service health
 
 ---
 
 ## 💻 **Client Examples**
 
-### **JavaScript (Enhanced Error Handling):**
+### **AG-UI JavaScript Client:**
+```javascript
+async function runAGUIAgent(messages, context = []) {
+  const response = await fetch('http://localhost:8003/run-agent', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      thread_id: crypto.randomUUID(),
+      run_id: crypto.randomUUID(),
+      forwarded_props: {},
+      messages: messages,
+      context: context,
+      tools: [],
+      state: null
+    })
+  });
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const {value, done} = await reader.read();
+    if (done) break;
+
+    const event = JSON.parse(decoder.decode(value));
+
+    switch(event.type) {
+      case 'RUN_STARTED':
+        console.log('Agent started');
+        break;
+      case 'TEXT_MESSAGE_CONTENT':
+        console.log('Agent:', event.delta);
+        break;
+      case 'STEP_STARTED':
+        console.log('Step:', event.step_name);
+        break;
+      case 'STATE_SNAPSHOT':
+        console.log('State:', event.snapshot);
+        break;
+      case 'RUN_FINISHED':
+        console.log('Agent completed');
+        return;
+      case 'RUN_ERROR':
+        console.error('Agent error:', event.message);
+        return;
+    }
+  }
+}
+
+// Usage
+await runAGUIAgent([
+  {role: "user", content: "Generate an email workflow"}
+], [
+  {description: "Workflow type", value: "email_automation"}
+]);
+```
+
+### **Standard API JavaScript (Enhanced Error Handling):**
 ```javascript
 async function modifyWorkflow(workflowJson, description) {
   const response = await fetch('/modify', {
@@ -185,7 +387,58 @@ async function modifyWorkflow(workflowJson, description) {
 }
 ```
 
-### **Python (with Error Handling):**
+### **AG-UI Python Client:**
+```python
+import requests
+import json
+import uuid
+
+def run_agui_agent(messages, context=None):
+    if context is None:
+        context = []
+
+    response = requests.post(
+        'http://localhost:8003/run-agent',
+        json={
+            'thread_id': str(uuid.uuid4()),
+            'run_id': str(uuid.uuid4()),
+            'forwarded_props': {},
+            'messages': messages,
+            'context': context,
+            'tools': [],
+            'state': None
+        },
+        stream=True
+    )
+
+    for line in response.iter_lines():
+        if line:
+            event = json.loads(line.decode('utf-8'))
+
+            if event['type'] == 'RUN_STARTED':
+                print("Agent execution started")
+            elif event['type'] == 'TEXT_MESSAGE_CONTENT':
+                print(f"Agent: {event['delta']}")
+            elif event['type'] == 'STEP_STARTED':
+                print(f"Step started: {event['step_name']}")
+            elif event['type'] == 'STATE_SNAPSHOT':
+                print(f"State: {event['snapshot']}")
+            elif event['type'] == 'RUN_FINISHED':
+                print("Agent execution completed")
+                break
+            elif event['type'] == 'RUN_ERROR':
+                print(f"Agent error: {event['message']}")
+                break
+
+# Usage
+run_agui_agent([
+    {"role": "user", "content": "Create a file processing workflow"}
+], [
+    {"description": "Workflow type", "value": "file_processing"}
+])
+```
+
+### **Standard API Python (with Error Handling):**
 ```python
 import requests
 import json
@@ -228,7 +481,13 @@ def modify_workflow(workflow_json, description):
 
 ### **Quick Health Checks:**
 ```bash
-# Basic API health
+# AG-UI server health
+curl http://localhost:8003/health
+
+# AG-UI server detailed status
+curl http://localhost:8003/status
+
+# Standard API health
 curl http://localhost:8002/health
 
 # LLM service health (with detailed response)
@@ -240,21 +499,26 @@ curl http://localhost:8002/llm/health
 ## 🎯 **Best Practices**
 
 ### **✅ DO:**
-- Use specific, actionable modification descriptions
-- Handle all SSE event types (validation, LLM, processing)
-- Check LLM health before complex operations
-- Use projects to organize related workflows
-- Enable auto-backup for important workflows
-- Monitor response times (local LLMs: 20-45s, cloud: 5-10s)
-- Include thread_id and run_id for tracking
+- **AG-UI Protocol**: Use structured RunAgentInput format with proper context
+- **AG-UI Protocol**: Handle all AG-UI event types (RUN_STARTED, TEXT_MESSAGE_*, STEP_*, etc.)
+- **Standard API**: Use specific, actionable modification descriptions
+- **Both APIs**: Check health endpoints before complex operations
+- **Both APIs**: Use projects to organize related workflows
+- **Both APIs**: Enable auto-backup for important workflows
+- **Both APIs**: Monitor response times (local LLMs: 20-45s, cloud: 5-10s)
+- **Both APIs**: Include thread_id and run_id for tracking
+- **AG-UI Protocol**: Provide meaningful context array for better agent selection
 
 ### **❌ DON'T:**
-- Send malformed JSON in workflow fields
-- Use overly vague descriptions ("make it better")
-- Ignore validation errors and user guidance
-- Make concurrent modifications to the same workflow
-- Skip error handling for LLM unavailability
-- Forget to set --no-buffer for streaming responses
+- **AG-UI Protocol**: Send malformed RunAgentInput structure
+- **AG-UI Protocol**: Ignore RUN_ERROR events
+- **Standard API**: Send malformed JSON in workflow fields
+- **Both APIs**: Use overly vague descriptions ("make it better")
+- **Both APIs**: Ignore validation errors and user guidance
+- **Both APIs**: Make concurrent modifications to the same workflow
+- **Both APIs**: Skip error handling for LLM unavailability
+- **Both APIs**: Forget to set --no-buffer for streaming responses
+- **AG-UI Protocol**: Mix AG-UI and Standard API request formats
 
 ---
 
@@ -262,24 +526,40 @@ curl http://localhost:8002/llm/health
 
 ### **Common Issues:**
 
-**1. LLM Service Issues:**
+**1. AG-UI Server Issues:**
+```bash
+# Check AG-UI server health
+curl http://localhost:8003/health
+# Get detailed AG-UI status including agent states
+curl http://localhost:8003/status
+```
+
+**2. LLM Service Issues:**
 ```bash
 # Check LLM health with details
 curl http://localhost:8002/llm/health
 # Response includes crash detection and recovery guidance
 ```
 
-**2. Validation Failures:**
+**3. Validation Failures:**
 - Check `validation_result` in workflow responses
 - Review `user_guidance` and `fix_suggestions` in error events
 - Ensure workflow JSON has required properties: `name`, `nodes`, `connections`
 
-**3. Performance Issues:**
+**4. Performance Issues:**
 - Local LLMs may take 20-45 seconds for complex operations
 - Monitor system resources (CPU/RAM) for local LLM
 - Consider using smaller models if memory-constrained
 
 ### **Enhanced Error Categories:**
+
+**AG-UI Protocol Errors:**
+- `RUN_ERROR` - General agent execution error
+- `agent_selection` - Unable to select appropriate agent
+- `context_parsing` - Invalid context or message format
+- `state_management` - State update or snapshot errors
+
+**Standard API Errors:**
 - `workflow_structure` - Invalid workflow JSON
 - `llm_service` - LLM unavailable or crashed
 - `validation` - Input validation failures
@@ -304,4 +584,21 @@ INFO:n8n_builder.validation:Workflow validation completed successfully
 
 ---
 
-*For complete documentation including all endpoints, data models, and advanced features, see API_DOCUMENTATION.md* 
+## 🎯 **Choosing the Right API**
+
+### **Use AG-UI Protocol when:**
+- Building AI-powered applications
+- Need structured agent interactions
+- Want fine-grained progress tracking
+- Building systems that integrate with other AG-UI compatible tools
+- Need advanced state management
+
+### **Use Standard REST API when:**
+- Building traditional web applications
+- Need simple HTTP request/response patterns
+- Working with existing REST tooling
+- Prefer familiar HTTP status codes
+
+---
+
+*For complete documentation including all endpoints, data models, and advanced features, see API_DOCUMENTATION.md*

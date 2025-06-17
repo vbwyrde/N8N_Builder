@@ -16,6 +16,15 @@ This comprehensive documentation is organized into specialized sections:
 
 N8N Builder is an intelligent workflow automation tool that translates plain English descriptions into executable N8N workflows. Think of it as a "conversation-to-code" translator for workflow automation - you describe what you want to happen, and it creates the technical blueprint to make it happen.
 
+### 🤖 **Dual Interface Architecture**
+
+N8N Builder now provides **two powerful interfaces**:
+
+1. **Standard REST API** - Traditional HTTP endpoints with Server-Sent Events for real-time updates
+2. **AG-UI Protocol** - Advanced agent-based interface following AG-UI (Agent-Generated User Interface) standards for structured AI interactions
+
+Both interfaces provide the same core functionality but are optimized for different use cases and integration patterns.
+
 ### 🌟 Why Use N8N Builder?
 
 **For Beginners:**
@@ -27,8 +36,10 @@ N8N Builder is an intelligent workflow automation tool that translates plain Eng
 **For Developers:**
 - Rapid prototyping of automation workflows
 - AI-powered code generation with validation
-- REST API for integration into larger systems
+- **Dual API interfaces**: Traditional REST API and modern AG-UI Protocol
 - Extensible architecture for custom workflow patterns
+- **AG-UI Protocol**: Structured agent interactions for AI-powered applications
+- **Standard REST API**: Familiar HTTP patterns for traditional integrations
 
 ---
 
@@ -50,14 +61,28 @@ N8N Builder is an intelligent workflow automation tool that translates plain Eng
 
 2. **Start the Application**
    ```bash
+   # Start Standard REST API server
    python -m n8n_builder.cli serve
+
+   # Or start AG-UI Protocol server
+   python -m n8n_builder.cli serve --agui
+
+   # Or start both servers simultaneously
+   python -m n8n_builder.cli serve --dual
    ```
 
 3. **Create Your First Workflow**
-   - Open your browser to `http://localhost:8000`
+
+   **Option A: Web Interface (Standard API)**
+   - Open your browser to `http://localhost:8002`
    - Type: "Send me an email when a new file is uploaded to my folder"
    - Click "Generate Workflow"
    - Copy the generated JSON to your N8N instance
+
+   **Option B: AG-UI Protocol**
+   - Use the `/run-agent` endpoint with `RunAgentInput` format
+   - Get structured event streams with detailed progress tracking
+   - Perfect for AI-powered applications and advanced integrations
 
 ### Example Use Cases
 - **File Monitoring**: "Alert me when files are added to a specific folder"
@@ -77,83 +102,133 @@ graph TB
     subgraph "User Interface Layer"
         UI[Web UI<br/>index.html]
         CLI[Command Line<br/>Interface]
-        API[REST API<br/>FastAPI]
+        API[Standard REST API<br/>FastAPI :8002]
+        AGUI[AG-UI Protocol Server<br/>FastAPI :8003]
     end
-    
+
     subgraph "Core Processing Layer"
         Builder[N8N Builder<br/>Core Engine]
         Validator[Workflow<br/>Validator]
         LLM[LLM Integration<br/>Mimo VL 7B]
     end
-    
-    subgraph "Agent System"
+
+    subgraph "AG-UI Agent System"
+        AGUIServer[AG-UI Server<br/>Event Streaming]
         BaseAgent[Base Agent<br/>Abstract Class]
-        AgentConfig[Agent<br/>Configuration]
-        AgentResult[Agent<br/>Results]
+        WorkflowAgent[Workflow Generator<br/>Agent]
+        ValidationAgent[Validation<br/>Agent]
+        OrchestratorAgent[Orchestrator<br/>Agent]
+        StateManager[State Manager<br/>AG-UI Compatible]
+        MessageBroker[Message Broker<br/>Event Routing]
     end
-    
+
     subgraph "Data Layer"
         Patterns[Workflow<br/>Patterns]
         Feedback[Feedback<br/>Storage]
         Config[Configuration<br/>Management]
+        Projects[Project<br/>Management]
     end
-    
+
     UI --> API
     CLI --> Builder
     API --> Builder
+    AGUI --> AGUIServer
+    AGUIServer --> BaseAgent
+    BaseAgent --> WorkflowAgent
+    BaseAgent --> ValidationAgent
+    BaseAgent --> OrchestratorAgent
+    AGUIServer --> StateManager
+    AGUIServer --> MessageBroker
+    WorkflowAgent --> Builder
+    ValidationAgent --> Validator
     Builder --> Validator
     Builder --> LLM
     Builder --> Patterns
     Builder --> Feedback
-    BaseAgent --> AgentConfig
-    BaseAgent --> AgentResult
-    
+    API --> Projects
+
     classDef userLayer fill:#e1f5fe
     classDef coreLayer fill:#f3e5f5
     classDef agentLayer fill:#e8f5e8
     classDef dataLayer fill:#fff3e0
-    
-    class UI,CLI,API userLayer
+
+    class UI,CLI,API,AGUI userLayer
     class Builder,Validator,LLM coreLayer
-    class BaseAgent,AgentConfig,AgentResult agentLayer
-    class Patterns,Feedback,Config dataLayer
+    class AGUIServer,BaseAgent,WorkflowAgent,ValidationAgent,OrchestratorAgent,StateManager,MessageBroker agentLayer
+    class Patterns,Feedback,Config,Projects dataLayer
 ```
 
 ### Workflow Generation Process
 
+#### Standard REST API Flow
 ```mermaid
 sequenceDiagram
     participant User
     participant UI as Web UI/CLI
-    participant API as FastAPI Server
+    participant API as Standard REST API
     participant Builder as N8N Builder
     participant LLM as Mimo VL 7B
     participant Validator as Workflow Validator
-    
+
     User->>UI: Enter plain English description
     UI->>API: POST /generate {description}
     API->>Builder: generate_workflow()
-    
+
     Builder->>Builder: Build AI prompt with context
     Builder->>LLM: Send prompt to Mimo VL 7B
     LLM-->>Builder: Return structured workflow data
-    
+
     Builder->>Builder: Map to N8N workflow structure
     Builder->>Validator: validate_workflow()
     Validator-->>Builder: Validation results
-    
+
     alt Validation Successful
         Builder-->>API: Return validated workflow JSON
-        API-->>UI: Stream workflow result
+        API-->>UI: Stream workflow result (SSE)
         UI-->>User: Display formatted workflow
     else Validation Failed
         Builder-->>API: Return error with details
-        API-->>UI: Stream error event
+        API-->>UI: Stream error event (SSE)
         UI-->>User: Display error message
     end
 ```
 
-### Agent Architecture
+#### AG-UI Protocol Flow
+```mermaid
+sequenceDiagram
+    participant Client
+    participant AGUI as AG-UI Server
+    participant Agent as Workflow Agent
+    participant StateManager as State Manager
+    participant Builder as N8N Builder
+    participant LLM as Mimo VL 7B
+
+    Client->>AGUI: POST /run-agent {RunAgentInput}
+    AGUI->>AGUI: Select appropriate agent
+    AGUI->>Agent: run_agent(input_data)
+
+    Agent->>Client: RUN_STARTED event
+    Agent->>Client: TEXT_MESSAGE_START event
+    Agent->>Client: STEP_STARTED event
+
+    Agent->>Builder: generate_workflow()
+    Builder->>LLM: Send prompt to Mimo VL 7B
+    LLM-->>Builder: Return workflow data
+
+    Agent->>StateManager: update_state()
+    StateManager-->>Agent: STATE_SNAPSHOT event
+    Agent->>Client: STATE_SNAPSHOT event
+
+    alt Success
+        Agent->>Client: TEXT_MESSAGE_CONTENT event
+        Agent->>Client: STEP_FINISHED event
+        Agent->>Client: RUN_FINISHED event
+    else Error
+        Agent->>Client: RUN_ERROR event
+    end
+```
+
+### AG-UI Agent Architecture
 
 ```mermaid
 classDiagram
@@ -162,48 +237,67 @@ classDiagram
         +config: AgentConfig
         +logger: Logger
         +name: str
-        +process(request)* AgentResult
+        +process_ag_ui_request(input)* AsyncGenerator~AGUIEvent~
+        +run_agent(input) AsyncGenerator~AGUIEvent~
+        +emit_text_message(content) AsyncGenerator~AGUIEvent~
+        +emit_state_update(state) StateSnapshotEvent
         +start() void
         +stop() void
         +get_status() Dict
         +close() void
     }
-    
-    class AgentConfig {
-        +name: str
-        +capabilities: Dict
-        +max_concurrent_workflows: int
-        +timeout: int
-        +security: Dict
-        +error_recovery: Dict
-        +monitoring: Dict
-        +resource_limits: Dict
-        +get(key, default) Any
+
+    class AGUIServer {
+        +app: FastAPI
+        +agents: Dict
+        +state_manager: StateManager
+        +message_broker: MessageBroker
+        +_stream_agent_run(input) AsyncGenerator~str~
+        +_select_agent(input) BaseAgent
+        +_format_event_for_streaming(event) str
+        +start() void
+        +stop() void
     }
-    
-    class AgentResult {
-        +success: bool
-        +data: Dict
-        +error: str
-        +metadata: Dict
-    }
-    
-    class WorkflowAgent {
-        +process_workflow(description) AgentResult
+
+    class WorkflowGeneratorAgent {
+        +process_ag_ui_request(input) AsyncGenerator~AGUIEvent~
+        +generate_workflow(description) str
         +validate_output() bool
-        +apply_patterns() void
     }
-    
+
     class ValidationAgent {
+        +process_ag_ui_request(input) AsyncGenerator~AGUIEvent~
         +validate_structure() bool
         +check_node_types() bool
         +verify_connections() bool
     }
-    
-    BaseAgent <|-- WorkflowAgent
+
+    class OrchestratorAgent {
+        +process_ag_ui_request(input) AsyncGenerator~AGUIEvent~
+        +coordinate_agents() void
+        +manage_workflow_lifecycle() void
+    }
+
+    class StateManager {
+        +update_state(updates) StateSnapshotEvent
+        +create_state_delta(changes) StateDeltaEvent
+        +get_current_state() Dict
+        +set_workflow_state(id, state) void
+    }
+
+    class MessageBroker {
+        +publish_event(event) void
+        +subscribe(event_type, callback) void
+        +start() void
+        +stop() void
+    }
+
+    BaseAgent <|-- WorkflowGeneratorAgent
     BaseAgent <|-- ValidationAgent
-    BaseAgent --> AgentConfig
-    BaseAgent --> AgentResult
+    BaseAgent <|-- OrchestratorAgent
+    AGUIServer --> BaseAgent
+    AGUIServer --> StateManager
+    AGUIServer --> MessageBroker
 ```
 
 ---
@@ -258,7 +352,7 @@ class N8NBuilder:
     def generate_workflow(self, description: str) -> str:
         # 1. Build AI prompt with context
         # 2. Call LLM (Mimo VL 7B)
-        # 3. Map response to N8N structure  
+        # 3. Map response to N8N structure
         # 4. Validate and return JSON
 ```
 
@@ -268,6 +362,24 @@ class N8NBuilder:
 - Comprehensive workflow validation
 - Feedback collection and learning system
 
+#### 1a. AG-UI Server (`n8n_builder/agui_server.py`)
+The AG-UI protocol implementation that provides structured agent interactions:
+
+```python
+class AGUIServer:
+    async def _stream_agent_run(self, input_data: RunAgentInput) -> AsyncGenerator[str, None]:
+        # 1. Select appropriate agent based on context
+        # 2. Stream AG-UI events from agent execution
+        # 3. Handle state management and error recovery
+        # 4. Format events for Server-Sent Events streaming
+```
+
+**Key Features:**
+- Structured RunAgentInput/AG-UI Event protocol
+- Intelligent agent selection based on context
+- Real-time state management with snapshots and deltas
+- Advanced error handling with structured error events
+
 #### 2. Workflow Validator (`n8n_builder/validators.py`)
 Ensures generated workflows meet N8N standards:
 
@@ -276,20 +388,29 @@ Ensures generated workflows meet N8N standards:
 - **Connection Validation**: Proper node linking and data flow
 - **Best Practices**: Security checks, performance considerations
 
-#### 3. Agent System (`agents/base_agent.py`)
-Extensible architecture for different processing agents:
+#### 3. AG-UI Agent System (`agents/base_agent.py`)
+Extensible architecture for AG-UI compatible agents:
 
 ```python
 @abstractmethod
-async def process(self, request: Dict[str, Any]) -> AgentResult:
-    """Each agent implements its specific processing logic"""
+async def process_ag_ui_request(self, input_data: RunAgentInput) -> AsyncGenerator[AGUIEvent, None]:
+    """Each agent implements AG-UI compatible processing logic"""
+
+async def run_agent(self, input_data: RunAgentInput) -> AsyncGenerator[AGUIEvent, None]:
+    """Main AG-UI entry point for running the agent"""
 ```
 
-**Agent Types:**
-- **Workflow Generation Agents**: Convert descriptions to workflows
-- **Validation Agents**: Ensure quality and compliance
-- **Enhancement Agents**: Optimize and improve workflows
-- **Integration Agents**: Connect with external systems
+**AG-UI Agent Types:**
+- **WorkflowGeneratorAgent**: Convert descriptions to workflows using AG-UI events
+- **ValidationAgent**: Ensure quality and compliance with structured feedback
+- **OrchestratorAgent**: Coordinate multiple agents and manage complex workflows
+- **Integration Agents**: Connect with external systems using AG-UI protocol
+
+**Key AG-UI Features:**
+- Structured event streaming with `AsyncGenerator[AGUIEvent, None]`
+- State management integration with `StateManager`
+- Message routing through `MessageBroker`
+- Intelligent agent selection based on context and capabilities
 
 ### Data Flow Architecture
 
@@ -333,10 +454,17 @@ For basic configuration, see the [README.md](../README.md#quick-start) setup gui
 
 **Advanced Configuration Options:**
 ```bash
-# Agent System Configuration
+# Server Configuration
+STANDARD_API_PORT=8002
+AGUI_SERVER_PORT=8003
+ENABLE_DUAL_MODE=true
+
+# AG-UI Agent System Configuration
 MAX_CONCURRENT_AGENTS=5
 AGENT_TIMEOUT=300
 ENABLE_MONITORING=true
+AGUI_ALLOWED_ORIGINS=*
+AGUI_STATE_PERSISTENCE=true
 
 # Performance Tuning
 MIMO_MAX_TOKENS=2000
@@ -349,30 +477,53 @@ DEBUG_MODE=true
 LOG_LEVEL=INFO
 ENABLE_PROFILING=false
 MOCK_LLM_RESPONSES=false
+AGUI_DEBUG_EVENTS=false
 ```
 
-### Custom Agent Development
+### Custom AG-UI Agent Development
 
 ```python
-from agents.base_agent import BaseAgent, AgentConfig, AgentResult
+from agents.base_agent import BaseAgent, AgentConfig
+from agents.integration import AGUIEvent, AGUIEventType, RunAgentInput
+from typing import AsyncGenerator
 
 class CustomWorkflowAgent(BaseAgent):
-    async def process(self, request: Dict[str, Any]) -> AgentResult:
-        # Your custom logic here
+    async def process_ag_ui_request(self, input_data: RunAgentInput) -> AsyncGenerator[AGUIEvent, None]:
+        """Custom AG-UI compatible agent implementation."""
         try:
-            # Process the request
-            result_data = await self.custom_processing(request)
-            
-            return AgentResult(
-                success=True,
-                data=result_data,
-                metadata={"processing_time": elapsed_time}
+            # Emit start event
+            yield RunStartedEvent(
+                type=AGUIEventType.RUN_STARTED,
+                timestamp=int(datetime.now().timestamp())
             )
+
+            # Emit progress messages
+            async for event in self.emit_text_message("Processing custom workflow..."):
+                yield event
+
+            # Your custom processing logic here
+            result_data = await self.custom_processing(input_data)
+
+            # Emit state update
+            state_event = await self.emit_state_update({
+                'status': 'completed',
+                'result': result_data
+            })
+            yield state_event
+
+            # Emit completion
+            yield RunFinishedEvent(
+                type=AGUIEventType.RUN_FINISHED,
+                timestamp=int(datetime.now().timestamp())
+            )
+
         except Exception as e:
-            return AgentResult(
-                success=False,
-                error=str(e),
-                metadata={"error_type": type(e).__name__}
+            # Emit error event
+            yield RunErrorEvent(
+                type=AGUIEventType.RUN_ERROR,
+                message=str(e),
+                code=type(e).__name__,
+                timestamp=int(datetime.now().timestamp())
             )
 ```
 
@@ -468,6 +619,13 @@ For complete API documentation, see:
 - **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick start guide with common examples and troubleshooting
 
 ### Key API Endpoints Summary:
+
+#### AG-UI Protocol Endpoints:
+- `POST /run-agent` - Execute agents with RunAgentInput (AG-UI)
+- `GET /health` - AG-UI server health check
+- `GET /status` - Detailed AG-UI server status
+
+#### Standard REST API Endpoints:
 - `POST /generate` - Generate new workflows from descriptions
 - `POST /modify` - Modify existing workflows
 - `POST /iterate` - Iterate workflows based on feedback
@@ -476,11 +634,32 @@ For complete API documentation, see:
 - `GET /projects` - Project management endpoints
 - `GET /iterations/{id}` - Workflow iteration history
 
-All endpoints return **Server-Sent Events (SSE)** for real-time progress updates with enhanced error handling and user guidance.
+**Response Formats:**
+- **AG-UI Protocol**: Structured AG-UI event streams with detailed state management
+- **Standard API**: Server-Sent Events (SSE) for real-time progress updates with enhanced error handling
 
-### Quick API Example:
+### Quick API Examples:
+
+#### AG-UI Protocol:
 ```bash
-# Generate a workflow
+# Generate a workflow using AG-UI
+curl -X POST "http://localhost:8003/run-agent" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "thread_id": "thread-123",
+    "run_id": "run-456",
+    "forwarded_props": {},
+    "messages": [{"role": "user", "content": "Send email when file uploaded"}],
+    "context": [{"description": "Workflow type", "value": "email_automation"}],
+    "tools": [],
+    "state": null
+  }' \
+  --no-buffer
+```
+
+#### Standard REST API:
+```bash
+# Generate a workflow using Standard API
 curl -X POST "http://localhost:8002/generate" \
   -H "Content-Type: application/json" \
   -d '{"description": "Send email when file uploaded"}' \

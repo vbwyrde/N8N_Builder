@@ -1,8 +1,9 @@
 # N8N Builder API Documentation
 
-**Version:** 1.0  
-**Base URL:** `http://localhost:8002`  
-**Last Updated:** January 2025  
+**Version:** 1.0
+**Base URL:** `http://localhost:8002`
+**AG-UI Server:** `http://localhost:8003` (when running separately)
+**Last Updated:** January 2025
 
 ---
 
@@ -10,9 +11,117 @@
 
 The N8N Builder API provides endpoints for generating, modifying, and iterating on N8N workflows using natural language descriptions. The API supports real-time streaming responses, comprehensive workflow iteration capabilities, project management, version control, and advanced error handling.
 
+### **🔄 Dual API Architecture**
+
+N8N Builder now supports **two complementary API interfaces**:
+
+1. **Standard REST API** (`http://localhost:8002`) - Traditional HTTP endpoints with Server-Sent Events
+2. **AG-UI Protocol API** (`http://localhost:8003`) - Advanced agent-based interface following AG-UI standards
+
+Both APIs provide the same core functionality but with different interaction patterns optimized for different use cases.
+
 ---
 
-## 🔧 **Core Workflow Endpoints**
+## 🤖 **AG-UI Protocol Endpoints**
+
+The AG-UI (Agent-Generated User Interface) protocol provides a standardized way to interact with AI agents through structured events and streaming responses. This is the recommended interface for advanced integrations and AI-powered applications.
+
+### **1. Run Agent (AG-UI)**
+**`POST /run-agent`** ✨ **AG-UI Protocol**
+
+Execute workflow operations using the AG-UI protocol with `RunAgentInput`.
+
+**Request Body (AG-UI Format):**
+```json
+{
+  "thread_id": "optional-thread-id",
+  "run_id": "optional-run-id",
+  "forwarded_props": {},
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate a workflow that sends email notifications for new files"
+    }
+  ],
+  "context": [
+    {
+      "description": "Workflow generation request",
+      "value": "email notification workflow"
+    }
+  ],
+  "tools": [],
+  "state": null
+}
+```
+
+**Response:** AG-UI Event Stream with the following event types:
+- `RUN_STARTED` - Agent execution initiated
+- `TEXT_MESSAGE_START` - Text message begins
+- `TEXT_MESSAGE_CONTENT` - Message content chunk
+- `TEXT_MESSAGE_END` - Text message complete
+- `STEP_STARTED` - Processing step begins
+- `STEP_FINISHED` - Processing step complete
+- `STATE_SNAPSHOT` - Current state update
+- `TOOL_CALL_START` - Tool execution begins
+- `TOOL_CALL_END` - Tool execution complete
+- `RUN_FINISHED` - Agent execution complete
+- `RUN_ERROR` - Error occurred
+
+**Example AG-UI Response Events:**
+```json
+{"type": "RUN_STARTED", "timestamp": 1704067106}
+{"type": "TEXT_MESSAGE_START", "message_id": "msg_123", "role": "assistant", "timestamp": 1704067106}
+{"type": "TEXT_MESSAGE_CONTENT", "message_id": "msg_123", "delta": "Starting workflow generation...", "timestamp": 1704067106}
+{"type": "STEP_STARTED", "step_name": "workflow_generation", "timestamp": 1704067107}
+{"type": "STATE_SNAPSHOT", "snapshot": {"current_step": "generation", "progress": 0.5}, "timestamp": 1704067108}
+{"type": "STEP_FINISHED", "step_name": "workflow_generation", "timestamp": 1704067110}
+{"type": "TEXT_MESSAGE_END", "message_id": "msg_123", "timestamp": 1704067110}
+{"type": "RUN_FINISHED", "timestamp": 1704067111}
+```
+
+### **2. AG-UI Health Check**
+**`GET /health`** (AG-UI Server)
+
+Check the health of the AG-UI server and agents.
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2025-01-11T00:58:26.000Z",
+  "active_runs": 2,
+  "agents": ["generator", "validator", "orchestrator"]
+}
+```
+
+### **3. AG-UI Server Status**
+**`GET /status`** (AG-UI Server)
+
+Get detailed status of the AG-UI server and all agents.
+
+**Response:**
+```json
+{
+  "server": {
+    "running": true,
+    "active_runs": 2,
+    "uptime": "2h 15m"
+  },
+  "agents": {
+    "generator": {"status": "ready", "active_tasks": 1},
+    "validator": {"status": "ready", "active_tasks": 0},
+    "orchestrator": {"status": "ready", "active_tasks": 1}
+  },
+  "config": {
+    "allowed_origins": ["*"],
+    "ag_ui_version": "1.0.0"
+  }
+}
+```
+
+---
+
+## 🔧 **Core Workflow Endpoints (Standard REST API)**
 
 ### **1. Generate Workflow**
 **`POST /generate`**
@@ -348,10 +457,10 @@ Remove old versions keeping only the most recent ones.
 
 ## 🏥 **Health Check Endpoints**
 
-### **21. Basic Health Check**
+### **21. Basic Health Check (Standard API)**
 **`GET /health`**
 
-Check the overall health of the API.
+Check the overall health of the standard REST API.
 
 **Response:**
 ```json
@@ -393,7 +502,53 @@ Check the health and availability of the LLM service.
 
 ---
 
-## 📊 **Enhanced Data Models**
+## 🤖 **AG-UI Data Models**
+
+### **RunAgentInput (AG-UI Protocol)**
+```typescript
+{
+  thread_id?: string;                    // Optional thread identifier
+  run_id?: string;                      // Optional run identifier
+  forwarded_props: Record<string, any>; // Additional properties
+  messages: Message[];                  // Conversation messages
+  context: Context[];                   // Request context
+  tools: Tool[];                       // Available tools
+  state?: State;                       // Current state
+}
+```
+
+### **AG-UI Message**
+```typescript
+{
+  role: "user" | "assistant" | "system"; // Message role
+  content: string;                       // Message content
+  timestamp?: number;                    // Optional timestamp
+}
+```
+
+### **AG-UI Context**
+```typescript
+{
+  description: string;                   // Context description
+  value: any;                           // Context value
+  type?: string;                        // Optional context type
+}
+```
+
+### **AG-UI Event Types**
+```typescript
+// Core event types
+"RUN_STARTED" | "RUN_FINISHED" | "RUN_ERROR" |
+"TEXT_MESSAGE_START" | "TEXT_MESSAGE_CONTENT" | "TEXT_MESSAGE_END" |
+"STEP_STARTED" | "STEP_FINISHED" |
+"STATE_SNAPSHOT" | "STATE_DELTA" |
+"TOOL_CALL_START" | "TOOL_CALL_ARGS" | "TOOL_CALL_END" |
+"MESSAGES_SNAPSHOT" | "RAW" | "CUSTOM"
+```
+
+---
+
+## 📊 **Enhanced Data Models (Standard API)**
 
 ### **WorkflowModificationRequest**
 ```typescript
@@ -605,7 +760,68 @@ eventSource.onmessage = function(event) {
 
 ## 🔗 **Integration Examples**
 
-### **Complete Workflow Lifecycle:**
+### **AG-UI Protocol Integration:**
+```javascript
+// Using AG-UI protocol for workflow generation
+async function generateWorkflowWithAGUI(description) {
+  const response = await fetch('http://localhost:8003/run-agent', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      thread_id: crypto.randomUUID(),
+      run_id: crypto.randomUUID(),
+      forwarded_props: {},
+      messages: [
+        {
+          role: "user",
+          content: description
+        }
+      ],
+      context: [
+        {
+          description: "Workflow generation request",
+          value: description
+        }
+      ],
+      tools: [],
+      state: null
+    })
+  });
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const {value, done} = await reader.read();
+    if (done) break;
+
+    const event = JSON.parse(decoder.decode(value));
+
+    switch(event.type) {
+      case 'RUN_STARTED':
+        console.log('Agent execution started');
+        break;
+      case 'TEXT_MESSAGE_CONTENT':
+        console.log('Agent message:', event.delta);
+        break;
+      case 'STEP_STARTED':
+        console.log('Step started:', event.step_name);
+        break;
+      case 'STATE_SNAPSHOT':
+        console.log('State update:', event.snapshot);
+        break;
+      case 'RUN_FINISHED':
+        console.log('Agent execution completed');
+        return;
+      case 'RUN_ERROR':
+        console.error('Agent error:', event.message);
+        return;
+    }
+  }
+}
+```
+
+### **Complete Workflow Lifecycle (Standard API):**
 ```bash
 # 1. Create a project
 curl -X POST "http://localhost:8002/projects/my-automation" \
@@ -633,6 +849,15 @@ curl -X POST "http://localhost:8002/modify" \
 curl -X GET "http://localhost:8002/iterations/workflow-id-here"
 ```
 
+### **AG-UI Health Monitoring:**
+```bash
+# Check AG-UI server health
+curl -X GET "http://localhost:8003/health"
+
+# Get detailed AG-UI server status
+curl -X GET "http://localhost:8003/status"
+```
+
 ---
 
 ## 📞 **Support**
@@ -645,4 +870,32 @@ For technical support or feature requests:
 
 ---
 
-*This documentation covers the complete N8N Builder API including workflow generation, project management, version control, and advanced error handling. For implementation details, see the codebase in `/n8n_builder/app.py`* 
+## 🎯 **Choosing Between API Interfaces**
+
+### **Use Standard REST API when:**
+- Building traditional web applications
+- Need simple HTTP request/response patterns
+- Working with existing REST API tooling
+- Prefer familiar HTTP status codes and patterns
+
+### **Use AG-UI Protocol when:**
+- Building AI-powered applications
+- Need advanced agent interaction patterns
+- Want structured event streaming
+- Building applications that integrate with other AG-UI compatible systems
+- Need fine-grained progress tracking and state management
+
+### **Key Differences:**
+
+| Feature | Standard REST API | AG-UI Protocol |
+|---------|------------------|----------------|
+| **Request Format** | JSON with specific fields | RunAgentInput structure |
+| **Response Format** | Server-Sent Events | AG-UI Event Stream |
+| **Agent Selection** | Automatic based on endpoint | Intelligent based on context |
+| **State Management** | Basic | Advanced with snapshots |
+| **Progress Tracking** | Event-based | Step-based with detailed states |
+| **Error Handling** | HTTP status codes | Structured error events |
+
+---
+
+*This documentation covers the complete N8N Builder API including both Standard REST and AG-UI Protocol interfaces, workflow generation, project management, version control, and advanced error handling. For implementation details, see the codebase in `/n8n_builder/app.py` (Standard API) and `/n8n_builder/agui_server.py` (AG-UI Protocol).*

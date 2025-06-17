@@ -12,15 +12,18 @@
 N8N Builder currently can only generate workflows from scratch. Users cannot iterate on existing workflows based on testing feedback or changing requirements. This forces users to start over completely when they need modifications, making the tool impractical for real-world development workflows.
 
 ### **Solution**
-Implement a project-based workflow iteration system that allows users to:
+Implement a comprehensive workflow iteration system with dual API interfaces that allows users to:
+- **Standard REST API**: Traditional HTTP endpoints for familiar web development patterns
+- **AG-UI Protocol**: Advanced agent-based interface for AI-powered applications
 - Organize workflows in project folders
-- Load existing N8N workflows 
+- Load existing N8N workflows
 - Describe desired changes in plain English
 - Get AI-powered modifications with automatic versioning
 - Maintain iteration history and documentation
+- Choose between traditional REST patterns or modern AG-UI structured interactions
 
 ### **Success Vision**
-Users can develop N8N workflows iteratively, just like code development - starting with a basic version, testing it, getting feedback, and continuously improving it through AI-assisted iterations.
+Users can develop N8N workflows iteratively, just like code development - starting with a basic version, testing it, getting feedback, and continuously improving it through AI-assisted iterations. The system now provides both traditional REST API patterns for familiar web development and advanced AG-UI protocol for AI-powered applications, giving developers flexibility in how they integrate workflow generation into their systems.
 
 ---
 
@@ -52,14 +55,34 @@ As a workflow developer, I want to:
 
 ### **Current Foundation (✅ Implemented)**
 - Core `modify_workflow()` method in N8NBuilder
-- Core `iterate_workflow()` method in N8NBuilder  
+- Core `iterate_workflow()` method in N8NBuilder
 - Basic workflow analysis capabilities
-- API endpoints (`/modify`, `/iterate`, `/iterations/{id}`)
-- WorkflowIterationAgent class
+- **Standard REST API** endpoints (`/modify`, `/iterate`, `/iterations/{id}`)
+- **AG-UI Protocol** implementation with `/run-agent` endpoint
+- WorkflowIterationAgent class with AG-UI compatibility
 - Server-sent events for real-time progress
+- **AG-UI Server** with structured event streaming
+- **Dual API Architecture** supporting both REST and AG-UI patterns
 
 ### **Target Architecture**
 ```
+Dual API Architecture:
+┌─────────────────────────────────────────────────────────────┐
+│                    N8N Builder System                      │
+├─────────────────────────────────────────────────────────────┤
+│  Standard REST API (Port 8002)  │  AG-UI Protocol (Port 8003) │
+│  ├── /generate                  │  ├── /run-agent             │
+│  ├── /modify                    │  ├── /health                │
+│  ├── /iterate                   │  └── /status                │
+│  ├── /projects/*                │                             │
+│  └── /health                    │  AG-UI Features:            │
+│                                 │  ├── RunAgentInput format   │
+│  Traditional Features:          │  ├── Structured events      │
+│  ├── Server-Sent Events        │  ├── State management       │
+│  ├── HTTP status codes         │  ├── Agent selection        │
+│  └── JSON request/response     │  └── Advanced error handling│
+└─────────────────────────────────────────────────────────────┘
+
 Project Structure:
 projects/
 ├── my-ecommerce-project/
