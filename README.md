@@ -1,282 +1,123 @@
 # N8N Workflow Builder
 
-A Python-based tool for generating n8n workflows using natural language descriptions. This tool uses a local LLM (Mimo VL 7B) to convert plain English descriptions into valid n8n workflow JSON structures.
+🤖 **Transform plain English into powerful N8N workflows using AI**
 
-## Features
+N8N Workflow Builder is an intelligent automation tool that converts natural language descriptions into executable N8N workflows. Simply describe what you want to automate in plain English, and get production-ready workflow JSON that you can import directly into N8N.
 
-- **Natural Language Processing** - Convert plain English to n8n workflows
-- **Real-time Workflow Validation** - Comprehensive validation with intelligent error handling
-- **Workflow Modification** - Modify existing workflows based on feedback and requirements
-- **Best Practices Checking** - Automated workflow optimization suggestions
-- **Command-line Interface** - Full CLI support for automation
-- **REST API with Streaming** - Server-sent events for real-time updates
-- **Feedback Tracking** - Learning system with iteration history
-- **Agent-Based Architecture** - Extensible system for custom workflow processing
-- **Performance Optimization** - Intelligent handling of large workflows
-- **Enhanced Error Recovery** - Robust retry mechanisms with fallback strategies
+## 🎯 What This Does
 
-## Prerequisites
+**For Business Users:**
+- Create complex automation workflows without coding
+- Describe processes in plain English: *"Send me an email when a new file is uploaded"*
+- Get instant, working N8N workflows ready to deploy
 
-- Python 3.8 or higher
-- Local LLM server running Mimo VL 7B (or compatible reasoning model)
-- n8n instance for testing generated workflows
+**For Developers:**
+- Rapid prototyping of automation workflows
+- AI-powered workflow generation with validation
+- REST API for integration into larger systems
+- Extensible architecture for custom patterns
 
-## Installation
+## ✨ Key Features
 
-1. Clone the repository:
-```bash
-git clone https://github.com/vbwyrde/N8N_Builder.git
-cd N8N_Builder
-```
+- **Natural Language to Workflow** - AI-powered conversion using local LLM
+- **Real-time Validation** - Ensures workflows meet N8N standards
+- **Web Interface & CLI** - Multiple ways to interact with the system
+- **Workflow Modification** - Update existing workflows with new requirements
+- **Agent Architecture** - Extensible system for custom processing
 
-2. Create and activate a virtual environment:
-```bash
-# Windows
-python -m venv venv
-.\venv\Scripts\activate
+## 🚀 Quick Start
 
-# Linux/Mac
-python -m venv venv
-source venv/bin/activate
-```
+### Prerequisites
+- Python 3.8+
+- Local LLM server (Mimo VL 7B recommended) or LLM API access
+- N8N instance for testing workflows
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+### Installation
 
-4. Configure environment variables:
-```bash
-# Create .env file or set environment variables
+1. **Clone and Setup**
+   ```bash
+   git clone https://github.com/vbwyrde/N8N_Builder.git
+   cd N8N_Builder
+   pip install -r requirements.txt
+   ```
 
-# LLM Configuration
-MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions
-MIMO_MODEL=mimo-vl-7b
-MIMO_TEMPERATURE=0.7
-MIMO_MAX_TOKENS=4000
-MIMO_IS_LOCAL=true
+2. **Configure Your LLM** (create `.env` file)
+   ```bash
+   # For local LLM (recommended)
+   MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions
+   MIMO_MODEL=mimo-vl-7b
+   MIMO_IS_LOCAL=true
 
-# For external LLM services (set MIMO_IS_LOCAL=false)
-# MIMO_API_KEY=your_api_key_here
+   # For external LLM services
+   # MIMO_IS_LOCAL=false
+   # MIMO_API_KEY=your_api_key_here
+   ```
 
-# Application Settings
-API_HOST=localhost
-API_PORT=8000
-DEBUG_MODE=true
-LOG_LEVEL=INFO
-```
+3. **Start the Application**
+   ```bash
+   python -m n8n_builder.cli serve
+   ```
 
-## Usage
+4. **Create Your First Workflow**
+   - Open `http://localhost:8000` in your browser
+   - Type: *"Send me an email when a new file is uploaded to my folder"*
+   - Click "Generate Workflow"
+   - Copy the JSON to your N8N instance
 
-### Command Line Interface
+## 💡 Example Use Cases
 
-1. Start the API server:
-```bash
-python -m n8n_builder.cli serve
-```
+- **File Monitoring**: *"Alert me when files are added to a specific folder"*
+- **Data Processing**: *"Convert CSV files to JSON and send to a webhook"*
+- **E-commerce**: *"Send customer welcome emails after purchase"*
+- **Social Media**: *"Post to Twitter when I publish a new blog article"*
+- **System Monitoring**: *"Check website status every 5 minutes and alert if down"*
 
-2. Generate a workflow:
-```bash
-python -m n8n_builder.cli generate "Create a workflow that sends an email when a new file is uploaded" -o workflow.json
-```
+## 🛠️ Usage Options
 
-3. Modify an existing workflow:
-```bash
-python -m n8n_builder.cli modify existing_workflow.json "Add an email notification step" -o modified_workflow.json
-```
-
-### Web Interface
-
-1. Start the server:
+### Web Interface (Recommended)
 ```bash
 python -m n8n_builder.cli serve
+# Open http://localhost:8000
 ```
 
-2. Open your browser to `http://localhost:8000`
+### Command Line
+```bash
+# Generate workflow
+python -m n8n_builder.cli generate "Send email when file uploaded" -o workflow.json
 
-3. Use the web interface to:
-   - Generate new workflows from descriptions
-   - Modify existing workflows
-   - View workflow validation results
-   - Track iteration history
+# Modify existing workflow
+python -m n8n_builder.cli modify workflow.json "Add SMS notification" -o updated.json
+```
 
-### API Usage
-
-#### Generate New Workflow
+### REST API
 ```bash
 curl -X POST "http://localhost:8000/generate" \
      -H "Content-Type: application/json" \
-     -d '{"description": "Create a workflow that sends an email when a new file is uploaded"}'
+     -d '{"description": "Your workflow description here"}'
 ```
-
-#### Modify Existing Workflow
-```bash
-curl -X POST "http://localhost:8000/modify" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "existing_workflow": "...",
-       "modification_description": "Add email notification",
-       "workflow_id": "my-workflow"
-     }'
-```
-
-#### Check System Health
-```bash
-curl "http://localhost:8000/health"
-```
-
-## Project Structure
-
-```
-N8N_Builder/
-├── n8n_builder/
-│   ├── __init__.py
-│   ├── app.py                    # FastAPI application with streaming
-│   ├── n8n_builder.py           # Core workflow generation engine
-│   ├── config.py                # Configuration management
-│   ├── validators.py            # Enhanced workflow validation
-│   ├── cli.py                   # Command-line interface
-│   ├── error_handler.py         # Comprehensive error handling
-│   ├── retry_manager.py         # Intelligent retry logic
-│   ├── performance_optimizer.py # Performance optimization
-│   ├── workflow_differ.py       # Workflow comparison and diffing
-│   ├── project_manager.py       # Project and workflow management
-│   └── code_generation_patterns.py
-├── agents/
-│   ├── base_agent.py            # Agent architecture foundation
-│   └── ...                     # Extensible agent implementations
-├── static/
-│   └── index.html              # Web interface
-├── logs/                       # Comprehensive logging
-├── tests/                      # Test suite
-├── Documentation/              # Detailed documentation
-├── requirements.txt
-├── setup.py
-└── README.md
-```
-
-## Key Components
-
-### Core Engine (`n8n_builder.py`)
-- **Workflow Generation** - AI-powered workflow creation
-- **Workflow Modification** - Intelligent workflow updates
-- **Validation System** - Multi-layer validation with smart error handling
-- **LLM Integration** - Robust handling of reasoning models
-
-### Enhanced Features
-- **Agent Architecture** - Extensible processing agents
-- **Performance Optimization** - Handles large workflows efficiently  
-- **Error Recovery** - Intelligent retry with fallback strategies
-- **Workflow Diffing** - Compare and track workflow changes
-- **Project Management** - Organize workflows by project
-
-## Development
-
-### Adding New Features
-
-1. **Custom Agents**
-   ```python
-   from agents.base_agent import BaseAgent, AgentResult
-   
-   class CustomAgent(BaseAgent):
-       async def process(self, request):
-           # Your custom logic
-           return AgentResult(success=True, data=result)
-   ```
-
-2. **New Workflow Patterns**
-   - Add patterns in `code_generation_patterns.py`
-   - Update validation rules in `validators.py`
-
-3. **API Endpoints**
-   - Extend `app.py` with new endpoints
-   - Update CLI commands in `cli.py`
-
-### Testing
-
-```bash
-# Run all tests
-python -m pytest
-
-# Run with coverage
-python -m pytest --cov=n8n_builder
-
-# Run specific test categories
-python -m pytest tests/unit/
-python -m pytest tests/integration/
-```
-
-### Debugging
-
-- **Logs Location**: `logs/` directory with separate files for different components
-- **Debug Mode**: Set `LOG_LEVEL=DEBUG` for detailed logging
-- **Health Check**: Use `/health` endpoint to check system status
-- **Validation Details**: Check `logs/n8n_builder.validation.log` for validation issues
-
-## Configuration
-
-### Environment Variables
-
-```bash
-# LLM Settings
-MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions
-MIMO_MODEL=mimo-vl-7b
-MIMO_TEMPERATURE=0.7
-MIMO_MAX_TOKENS=4000
-MIMO_IS_LOCAL=true
-MIMO_TIMEOUT=30
-
-# Application Settings  
-API_HOST=localhost
-API_PORT=8000
-DEBUG_MODE=true
-LOG_LEVEL=INFO
-
-# Agent Configuration
-MAX_CONCURRENT_AGENTS=5
-AGENT_TIMEOUT=300
-ENABLE_MONITORING=true
-```
-
-### Advanced Configuration
-
-See `DOCUMENTATION.md` for detailed configuration options including:
-- Custom agent development
-- Performance tuning
-- Security settings
-- Monitoring and analytics
-
-## Troubleshooting
-
-### Common Issues
-
-1. **LLM Connection Issues**
-   - Check if your local LLM server is running
-   - Verify `MIMO_ENDPOINT` is correct
-   - Check logs in `logs/n8n_builder.llm.log`
-
-2. **Validation Failures**
-   - Recent fixes resolved most validation issues
-   - Check `logs/n8n_builder.validation.log` for details
-   - Ensure workflow has proper node connections
-
-3. **Performance Issues**
-   - Large workflows are automatically optimized
-   - Check `logs/n8n_builder.performance.log`
-   - Adjust `MIMO_MAX_TOKENS` if needed
 
 ## 🚀 Recent Updates (June 2025)
 
 **Major Bug Fixes & Improvements:**
 - ✅ **Fixed Critical Validation Bugs** - Workflow modifications now apply successfully
-- ✅ **Enhanced LLM Response Parsing** - Robust handling of reasoning models with `<think>` tags
-- ✅ **Intelligent Isolated Node Validation** - Allows acceptable isolated nodes (e.g., webhook responses)
-- ✅ **Conflict Resolution** - Prevents duplicate connection actions
+- ✅ **Enhanced LLM Response Parsing** - Robust handling of reasoning models
+- ✅ **Intelligent Node Validation** - Allows acceptable isolated nodes
 - ✅ **Comprehensive Error Handling** - Enhanced retry logic and fallback strategies
 
-**Result:** Email nodes, database connections, and other workflow modifications now work reliably!
+**Result:** Email nodes, database connections, and workflow modifications now work reliably!
 
-## Contributing
+## 📚 Documentation
+
+For comprehensive documentation, see **[Documentation/DOCUMENTATION.MD](Documentation/DOCUMENTATION.MD)**:
+
+- **🏗️ Technical Architecture** - System design and component details
+- **🔧 Advanced Configuration** - Environment variables and custom settings
+- **🛠️ Development Guide** - Adding features, custom agents, and patterns
+- **📊 Monitoring & Analytics** - Performance metrics and health monitoring
+- **🔄 Complete API Reference** - All endpoints with examples
+- **🧪 Testing & Debugging** - Comprehensive testing and troubleshooting guides
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -284,20 +125,37 @@ See `DOCUMENTATION.md` for detailed configuration options including:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Development Guidelines
-
+**Development Guidelines:**
 - Follow the agent-based architecture patterns
 - Add comprehensive tests for new features
 - Update documentation for API changes
 - Use the logging system for debugging information
 
-## License
+## 🔧 Quick Troubleshooting
+
+**LLM Connection Issues:**
+- Ensure your local LLM server is running
+- Verify `MIMO_ENDPOINT` in your `.env` file
+- Check logs in `logs/n8n_builder.llm.log`
+
+**Validation Failures:**
+- Check `logs/n8n_builder.validation.log` for details
+- Ensure workflow has proper node connections
+- Recent fixes resolved most validation issues
+
+For detailed troubleshooting, see the [full documentation](Documentation/DOCUMENTATION.MD).
+
+## 📄 License
 
 MIT License - See LICENSE file for details
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- n8n team for the workflow automation platform
-- Mimo VL 7B team for the local LLM capabilities
-- FastAPI for the excellent web framework
-- The open-source community for inspiration and contributions 
+- **n8n team** for the workflow automation platform
+- **Mimo VL 7B team** for the local LLM capabilities
+- **FastAPI** for the excellent web framework
+- **Open-source community** for inspiration and contributions
+
+---
+
+**Ready to automate your workflows with AI?** [Get started now](#-quick-start) or explore the [complete documentation](Documentation/DOCUMENTATION.MD)!

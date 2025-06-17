@@ -1,5 +1,17 @@
 # N8N Workflow Builder - Complete Documentation
 
+## 📚 Documentation Navigation
+
+This comprehensive documentation is organized into specialized sections:
+
+- **[README.md](../README.md)** - Quick start guide and project overview
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference with all endpoints and examples
+- **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick API examples and troubleshooting
+- **[ProcessFlow.MD](ProcessFlow.MD)** - Automatically generated codebase map and flow diagrams
+- **This Document** - Technical architecture, development guides, and system design
+
+---
+
 ## 🎯 What is N8N Builder?
 
 N8N Builder is an intelligent workflow automation tool that translates plain English descriptions into executable N8N workflows. Think of it as a "conversation-to-code" translator for workflow automation - you describe what you want to happen, and it creates the technical blueprint to make it happen.
@@ -317,23 +329,26 @@ flowchart TD
 
 ### Environment Variables
 
+For basic configuration, see the [README.md](../README.md#quick-start) setup guide.
+
+**Advanced Configuration Options:**
 ```bash
-# LLM Configuration
-MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions
-MIMO_MODEL=mimo-vl-7b
-MIMO_TEMPERATURE=0.7
-MIMO_MAX_TOKENS=2000
-
-# Application Settings
-API_HOST=localhost
-API_PORT=8000
-DEBUG_MODE=true
-LOG_LEVEL=INFO
-
-# Agent Configuration
+# Agent System Configuration
 MAX_CONCURRENT_AGENTS=5
 AGENT_TIMEOUT=300
 ENABLE_MONITORING=true
+
+# Performance Tuning
+MIMO_MAX_TOKENS=2000
+MIMO_TEMPERATURE=0.7
+WORKFLOW_CACHE_SIZE=100
+VALIDATION_TIMEOUT=30
+
+# Development & Debugging
+DEBUG_MODE=true
+LOG_LEVEL=INFO
+ENABLE_PROFILING=false
+MOCK_LLM_RESPONSES=false
 ```
 
 ### Custom Agent Development
@@ -448,40 +463,31 @@ This separation allows for easier filtering and analysis of issues, and ensures 
 
 ## 🔄 API Reference
 
-### Core Endpoints
+For complete API documentation, see:
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Comprehensive API reference with all endpoints, data models, and examples
+- **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick start guide with common examples and troubleshooting
 
-```yaml
-POST /generate:
-  description: Generate workflow from description
-  body:
-    description: string (required)
-    thread_id: string (optional)
-    run_id: string (optional)
-  response: Server-Sent Events stream
+### Key API Endpoints Summary:
+- `POST /generate` - Generate new workflows from descriptions
+- `POST /modify` - Modify existing workflows
+- `POST /iterate` - Iterate workflows based on feedback
+- `GET /health` - System health check
+- `GET /llm/health` - LLM service status
+- `GET /projects` - Project management endpoints
+- `GET /iterations/{id}` - Workflow iteration history
 
-GET /health:
-  description: System health check
-  response:
-    status: string
-    timestamp: string
+All endpoints return **Server-Sent Events (SSE)** for real-time progress updates with enhanced error handling and user guidance.
 
-GET /feedback/{workflow_id}:
-  description: Get workflow feedback
-  response: Array of feedback entries
+### Quick API Example:
+```bash
+# Generate a workflow
+curl -X POST "http://localhost:8002/generate" \
+  -H "Content-Type: application/json" \
+  -d '{"description": "Send email when file uploaded"}' \
+  --no-buffer
 ```
 
-### Server-Sent Events Format
-
-```json
-{
-  "type": "RUN_STARTED|WORKFLOW_GENERATED|RUN_FINISHED|RUN_ERROR",
-  "workflow_id": "uuid",
-  "thread_id": "uuid", 
-  "run_id": "uuid",
-  "timestamp": "ISO-8601",
-  "data": { /* workflow or error data */ }
-}
-```
+For detailed examples, request/response formats, and error handling, see the [complete API documentation](API_DOCUMENTATION.md).
 
 ---
 
@@ -510,9 +516,11 @@ python -m pytest tests/load/
 ### Debugging Tips
 
 - Enable debug logging: `LOG_LEVEL=DEBUG`
-- Use mock responses for LLM testing
-- Monitor agent status via health endpoint
-- Check validation logs for workflow issues
+- Use mock responses for LLM testing: `MOCK_LLM_RESPONSES=true`
+- Monitor agent status via health endpoint: `GET /health`
+- Check validation logs for workflow issues in `logs/` directory
+- Use the [API health endpoints](API_DOCUMENTATION.md#health-check-endpoints) for system diagnostics
+- Review [API troubleshooting guide](API_QUICK_REFERENCE.md#debugging--troubleshooting) for common issues
 
 ---
 
@@ -532,6 +540,9 @@ python -m pytest tests/load/
 2. **Custom Agents**: Implement BaseAgent for new capabilities
 3. **UI Enhancements**: Modify static/index.html and API endpoints
 4. **Integration Points**: Add new LLM providers or external services
+5. **API Extensions**: Add new endpoints following the [API documentation patterns](API_DOCUMENTATION.md)
+
+For API development guidelines and endpoint examples, see [API_DOCUMENTATION.md](API_DOCUMENTATION.md).
 
 ---
 
@@ -539,4 +550,13 @@ python -m pytest tests/load/
 
 N8N Builder bridges the gap between natural language intent and technical workflow implementation. Its agent-based architecture ensures extensibility, while comprehensive validation guarantees reliable workflow generation. Whether you're a business user automating simple tasks or a developer building complex integration systems, N8N Builder provides the tools and flexibility you need.
 
-The combination of AI-powered generation, robust validation, and extensible architecture makes it a powerful platform for workflow automation in any context. 
+The combination of AI-powered generation, robust validation, and extensible architecture makes it a powerful platform for workflow automation in any context.
+
+## 🔗 Related Documentation
+
+- **[README.md](../README.md)** - Getting started guide and project overview
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference and integration examples
+- **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick API examples and troubleshooting
+- **[ProcessFlow.MD](ProcessFlow.MD)** - Codebase structure and flow analysis
+
+For the latest updates and community discussions, visit the [project repository](https://github.com/vbwyrde/N8N_Builder).
