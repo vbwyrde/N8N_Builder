@@ -144,7 +144,6 @@ All workflow endpoints return **Server-Sent Events (SSE)** with enhanced event t
 ### **Health & Status:**
 - `GET /health` - API health check
 - `GET /llm/health` - LLM service health
-- `GET /agui/status` - System status
 
 ---
 
@@ -234,9 +233,6 @@ curl http://localhost:8002/health
 
 # LLM service health (with detailed response)
 curl http://localhost:8002/llm/health
-
-# System status
-curl http://localhost:8002/agui/status
 ```
 
 ---

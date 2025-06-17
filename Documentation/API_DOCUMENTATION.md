@@ -346,41 +346,9 @@ Remove old versions keeping only the most recent ones.
 
 ---
 
-## 🤖 **AG_UI Integration Endpoints**
-
-### **21. Generate Workflow (AG_UI)**
-**`POST /generate-agui`**
-
-Alternative workflow generation endpoint using AG_UI system.
-
-### **22. Get System Status**
-**`GET /agui/status`**
-
-Get comprehensive system status for AG_UI integration.
-
-**Response:**
-```json
-{
-  "status": "operational",
-  "components": {
-    "llm_service": "available",
-    "workflow_builder": "ready",
-    "project_manager": "ready"
-  },
-  "timestamp": "2025-01-11T00:58:26.000Z"
-}
-```
-
-### **23. Stream Workflow with AG_UI**
-**`POST /agui/workflow/stream`**
-
-Advanced streaming workflow generation with AG_UI integration.
-
----
-
 ## 🏥 **Health Check Endpoints**
 
-### **24. Basic Health Check**
+### **21. Basic Health Check**
 **`GET /health`**
 
 Check the overall health of the API.
@@ -394,7 +362,7 @@ Check the overall health of the API.
 }
 ```
 
-### **25. LLM Health Check**
+### **22. LLM Health Check**
 **`GET /llm/health`**
 
 Check the health and availability of the LLM service.
