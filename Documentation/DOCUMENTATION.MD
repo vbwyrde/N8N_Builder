@@ -670,6 +670,154 @@ For detailed examples, request/response formats, and error handling, see the [co
 
 ---
 
+## 🤖 **AG-UI Protocol Deep Dive**
+
+### **What is AG-UI?**
+
+AG-UI (Agent-Generated User Interface) is a standardized protocol for structured interactions with AI agents. Unlike traditional REST APIs that focus on simple request-response patterns, AG-UI provides a rich, event-driven interface that enables:
+
+- **Structured Agent Communication**: Standardized `RunAgentInput` format with messages, context, tools, and state
+- **Real-time Event Streaming**: Detailed progress tracking through structured events
+- **Intelligent Agent Selection**: Context-aware routing to appropriate specialized agents
+- **Advanced State Management**: Snapshots and deltas for complex workflow state tracking
+- **Enhanced Error Handling**: Structured error events with detailed recovery information
+
+### **AG-UI vs Standard REST API**
+
+| Feature | Standard REST API | AG-UI Protocol |
+|---------|------------------|----------------|
+| **Input Format** | Simple JSON objects | Structured `RunAgentInput` |
+| **Response Format** | Server-Sent Events | AG-UI Event Stream |
+| **Agent Selection** | Endpoint-based | Context-aware intelligent selection |
+| **State Management** | Basic | Advanced with snapshots/deltas |
+| **Progress Tracking** | Event-based | Step-based with detailed states |
+| **Error Handling** | HTTP status codes | Structured `RUN_ERROR` events |
+| **Use Case** | Traditional web apps | AI-powered applications |
+
+### **AG-UI Event Types**
+
+The AG-UI protocol defines several structured event types:
+
+#### **Core Execution Events**
+- `RUN_STARTED` - Agent execution begins
+- `RUN_FINISHED` - Agent execution completes successfully
+- `RUN_ERROR` - Error occurred during execution
+
+#### **Message Events**
+- `TEXT_MESSAGE_START` - Text message begins
+- `TEXT_MESSAGE_CONTENT` - Message content chunk (for streaming)
+- `TEXT_MESSAGE_END` - Text message complete
+
+#### **Step Events**
+- `STEP_STARTED` - Processing step begins
+- `STEP_FINISHED` - Processing step completes
+
+#### **State Events**
+- `STATE_SNAPSHOT` - Complete state update
+- `STATE_DELTA` - Incremental state change
+
+#### **Tool Events**
+- `TOOL_CALL_START` - Tool execution begins
+- `TOOL_CALL_ARGS` - Tool arguments provided
+- `TOOL_CALL_END` - Tool execution completes
+
+### **When to Use AG-UI Protocol**
+
+**Choose AG-UI Protocol when:**
+- Building AI-powered applications that need rich agent interactions
+- Requiring detailed progress tracking and state management
+- Integrating with other AG-UI compatible systems
+- Need structured error handling and recovery
+- Building conversational or multi-step workflows
+- Want intelligent agent selection based on context
+
+**Choose Standard REST API when:**
+- Building traditional web applications
+- Need simple HTTP request/response patterns
+- Working with existing REST API tooling
+- Prefer familiar HTTP status codes and patterns
+- Building simple CRUD operations
+
+### **AG-UI Implementation in N8N Builder**
+
+N8N Builder's AG-UI implementation includes:
+
+#### **Intelligent Agent Selection**
+The AG-UI server analyzes the `RunAgentInput` context and messages to automatically select the most appropriate agent:
+
+```python
+# Context-based agent selection
+if "validate" in combined_text:
+    return self.agents["validator"]
+elif "generate" in combined_text:
+    return self.agents["generator"]
+elif "orchestrate" in combined_text:
+    return self.agents["orchestrator"]
+```
+
+#### **Structured State Management**
+The `StateManager` provides AG-UI compatible state tracking:
+
+```python
+# State updates return AG-UI events
+state_event = await state_manager.update_state({
+    'current_step': 'workflow_generation',
+    'progress': 0.75
+})
+# Returns StateSnapshotEvent
+```
+
+#### **Event Streaming**
+All agents emit structured AG-UI events:
+
+```python
+# Agents emit structured events
+async for event in agent.run_agent(input_data):
+    # Events are properly formatted AG-UI events
+    yield f"data: {json.dumps(event.model_dump())}\n\n"
+```
+
+### **AG-UI Integration Examples**
+
+#### **Basic Workflow Generation**
+```python
+import requests
+import json
+
+def generate_workflow_agui(description):
+    response = requests.post('http://localhost:8003/run-agent',
+        json={
+            "thread_id": "thread-123",
+            "run_id": "run-456",
+            "messages": [{"role": "user", "content": description}],
+            "context": [{"description": "operation", "value": "workflow_generation"}],
+            "tools": [],
+            "state": None
+        },
+        stream=True
+    )
+
+    for line in response.iter_lines():
+        if line:
+            event = json.loads(line.decode('utf-8'))
+            print(f"Event: {event['type']}")
+            if event['type'] == 'RUN_FINISHED':
+                break
+```
+
+#### **Advanced Context Usage**
+```python
+# Rich context for better agent selection
+context = [
+    {"description": "operation_type", "value": "workflow_modification"},
+    {"description": "workflow_complexity", "value": "high"},
+    {"description": "modification_type", "value": "add_error_handling"},
+    {"description": "existing_workflow", "value": workflow_json}
+]
+```
+
+---
+
 ## 🧪 Testing and Development
 
 ### Running Tests
