@@ -742,12 +742,12 @@
         // Update project list
         function updateProjectList() {
             const container = document.getElementById('projectListContainer');
-            
+
             if (projects.length === 0) {
                 showEmptyState('projectListContainer', 'folder', 'No projects found');
                 return;
             }
-            
+
             container.innerHTML = '';
             projects.forEach(project => {
                 const item = document.createElement('div');
@@ -761,6 +761,12 @@
                 item.addEventListener('click', () => selectProject(project.name));
                 container.appendChild(item);
             });
+
+            // Auto-select the first project if no project is currently selected
+            // This ensures the quick save button can work for new workflows
+            if (!currentProject && projects.length > 0) {
+                selectProject(projects[0].name);
+            }
         }
         
         // Update workflow list
@@ -1338,9 +1344,21 @@
             const name = document.getElementById('workflowName').value.trim();
             const description = document.getElementById('description').value.trim();
             const quickSaveBtn = document.getElementById('quickSaveBtn');
-            
+
             // Enable quick save if we have a workflow, a name, and a selected project
-            quickSaveBtn.disabled = !(currentWorkflow && name && currentProject);
+            const canSave = currentWorkflow && name && currentProject;
+            quickSaveBtn.disabled = !canSave;
+
+            // Update button title to provide helpful feedback
+            if (!currentWorkflow) {
+                quickSaveBtn.title = 'Generate a workflow first to enable quick save';
+            } else if (!name) {
+                quickSaveBtn.title = 'Enter a workflow name to enable quick save';
+            } else if (!currentProject) {
+                quickSaveBtn.title = 'Select a project to enable quick save';
+            } else {
+                quickSaveBtn.title = 'Save workflow to the selected project';
+            }
         }
         
         // Handle quick save

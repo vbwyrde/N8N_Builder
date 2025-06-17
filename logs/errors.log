@@ -287,3 +287,11 @@ ValueError: Could not extract valid workflow JSON from response
 [2025-06-17 13:59:49,473] ERROR n8n_builder.agents.base_agent.test_validator: Agent test_validator run failed: Any cannot be instantiated
 [2025-06-17 14:34:52,434] ERROR n8n_builder.agents.base_agent.workflow_generator: Agent workflow_generator run failed: Any cannot be instantiated
 [2025-06-17 14:34:52,443] ERROR n8n_builder.agents.base_agent.workflow_generator: Agent workflow_generator run failed: Any cannot be instantiated
+[2025-06-17 17:16:20,606] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): HTTP Request to Database
+[2025-06-17 17:16:20,606] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-17 17:16:20,606] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-17 17:16:20,606] ERROR n8n_builder.n8n_builder: Error generating workflow: Generated workflow failed validation
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 433, in generate_workflow
+    raise ValueError("Generated workflow failed validation")
+ValueError: Generated workflow failed validation

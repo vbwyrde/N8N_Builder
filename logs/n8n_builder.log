@@ -1154,3 +1154,126 @@ ValueError: Could not extract valid workflow JSON from response
 [2025-06-17 16:57:46,764] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
 [2025-06-17 16:57:46,765] INFO n8n_builder.llm: LLM call successful
 [2025-06-17 16:57:46,765] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:01:41,692] INFO n8n_builder.project: Refreshed project cache: 2 projects found
+[2025-06-17 17:01:41,694] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:01:44,541] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:01:44,542] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:01:44,542] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:03:14,309] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor
+[2025-06-17 17:03:14,310] INFO n8n_builder.retry: Starting retry operation [ID: llm_call_1750194194310]
+[2025-06-17 17:03:14,310] INFO n8n_builder.retry: Attempt 1/3 [ID: llm_call_1750194194310]
+[2025-06-17 17:03:14,311] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:03:33,293] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:03:33,309] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:03:33,309] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:03:33,309] INFO n8n_builder.retry: Operation successful on attempt 1 [ID: llm_call_1750194194310]
+[2025-06-17 17:03:33,309] INFO n8n_builder.n8n_builder: LLM call successful
+[2025-06-17 17:03:33,309] INFO n8n_builder.n8n_builder: Direct JSON parsing failed, attempting to extract JSON from response
+[2025-06-17 17:03:33,309] INFO n8n_builder.n8n_builder: Successfully extracted and parsed JSON from LLM response
+2025-06-17 17:13:54,621 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-17 17:13:54,691 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:13:54,691 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:13:54,694 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-17 17:13:54,694 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-17 17:13:54,842] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:13:54,842] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:13:54,842] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-17 17:13:54,842] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-17 17:13:54,842] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-17 17:13:54,842] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:13:54,842] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:13:54,851] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-17 17:13:54,851] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-17 17:13:54,851] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-17 17:13:54,851] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-17 17:13:54,852] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-17 17:13:54,920] INFO n8n_builder.app: N8N Builder system started successfully
+[2025-06-17 17:14:15,573] INFO n8n_builder.project: Refreshed project cache: 2 projects found
+[2025-06-17 17:14:15,575] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:14:18,122] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:14:18,123] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:14:18,123] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:14:29,122] INFO n8n_builder.project: Creating new project: test-project
+[2025-06-17 17:14:29,126] INFO n8n_builder.project: Generated README for project test-project
+[2025-06-17 17:14:29,126] INFO n8n_builder.project: Successfully created project 'test-project' at C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects\test-project
+[2025-06-17 17:14:53,976] INFO n8n_builder.project: Refreshed project cache: 3 projects found
+[2025-06-17 17:14:53,977] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:14:56,871] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:14:56,872] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:14:56,872] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:15:57,812] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor
+[2025-06-17 17:15:57,812] INFO n8n_builder.retry: Starting retry operation [ID: llm_call_1750194957812]
+[2025-06-17 17:15:57,812] INFO n8n_builder.retry: Attempt 1/3 [ID: llm_call_1750194957812]
+[2025-06-17 17:15:57,812] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:16:20,606] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:16:20,606] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:16:20,606] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:16:20,606] INFO n8n_builder.retry: Operation successful on attempt 1 [ID: llm_call_1750194957812]
+[2025-06-17 17:16:20,606] INFO n8n_builder.n8n_builder: LLM call successful
+[2025-06-17 17:16:20,606] INFO n8n_builder.n8n_builder: Direct JSON parsing failed, attempting to extract JSON from response
+[2025-06-17 17:16:20,606] INFO n8n_builder.n8n_builder: Successfully extracted and parsed JSON from LLM response
+[2025-06-17 17:16:20,606] ERROR n8n_builder.validation: Workflow validation error: Isolated nodes found (not connected): HTTP Request to Database
+[2025-06-17 17:16:20,606] ERROR n8n_builder.validation: Total validation errors: 1
+[2025-06-17 17:16:20,606] ERROR n8n_builder.n8n_builder: Modified workflow failed validation, returning original
+[2025-06-17 17:16:20,606] ERROR n8n_builder.n8n_builder: Error generating workflow: Generated workflow failed validation
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 433, in generate_workflow
+    raise ValueError("Generated workflow failed validation")
+ValueError: Generated workflow failed validation
+2025-06-17 17:19:28,169 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-17 17:19:28,252 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:19:28,252 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:19:28,257 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-17 17:19:28,257 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-17 17:19:28,390] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:19:28,390] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:19:28,390] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-17 17:19:28,390] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-17 17:19:28,390] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-17 17:19:28,390] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:19:28,390] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:19:28,390] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-17 17:19:28,390] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-17 17:19:28,406] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-17 17:19:28,406] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-17 17:19:28,406] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-17 17:19:28,466] INFO n8n_builder.app: N8N Builder system started successfully
+[2025-06-17 17:20:23,262] INFO n8n_builder.app: N8N Builder system stopped successfully
+[2025-06-17 17:20:27,199] INFO n8n_builder.app: N8N Builder system stopped successfully
+2025-06-17 17:20:30,916 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-17 17:20:30,976 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:20:30,976 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-17 17:20:30,987 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-17 17:20:30,987 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-17 17:20:31,132] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:20:31,132] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-17 17:20:31,133] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-17 17:20:31,133] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-17 17:20:31,133] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-17 17:20:31,133] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:20:31,134] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-17 17:20:31,134] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-17 17:20:31,134] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-17 17:20:31,134] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-17 17:20:31,135] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-17 17:20:31,135] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-17 17:20:32,659] INFO n8n_builder.app: N8N Builder system started successfully
+[2025-06-17 17:20:48,975] INFO n8n_builder.project: Refreshed project cache: 3 projects found
+[2025-06-17 17:20:48,977] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:20:53,141] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:20:53,141] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:20:53,142] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:21:06,333] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor
+[2025-06-17 17:21:06,334] INFO n8n_builder.retry: Starting retry operation [ID: llm_call_1750195266334]
+[2025-06-17 17:21:06,334] INFO n8n_builder.retry: Attempt 1/3 [ID: llm_call_1750195266334]
+[2025-06-17 17:21:06,335] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-17 17:21:30,121] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-17 17:21:30,121] INFO n8n_builder.llm: LLM call successful
+[2025-06-17 17:21:30,121] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-17 17:21:30,121] INFO n8n_builder.retry: Operation successful on attempt 1 [ID: llm_call_1750195266334]
+[2025-06-17 17:21:30,137] INFO n8n_builder.n8n_builder: LLM call successful
+[2025-06-17 17:21:30,137] INFO n8n_builder.n8n_builder: Direct JSON parsing failed, attempting to extract JSON from response
+[2025-06-17 17:21:30,137] INFO n8n_builder.n8n_builder: Successfully extracted and parsed JSON from LLM response
+[2025-06-17 17:21:39,664] INFO n8n_builder.project: Refreshed project cache: 3 projects found
+[2025-06-17 17:21:39,664] INFO n8n_builder.filesystem: Successfully wrote workflow World1.json to project elthosdb1
+[2025-06-17 17:21:39,665] INFO n8n_builder.filesystem: Successfully read workflow World1.json from project elthosdb1
