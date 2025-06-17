@@ -25,7 +25,7 @@ A Python-based tool for generating n8n workflows using natural language descript
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/vbwyrde/N8N_Builder.git
 cd N8N_Builder
 ```
 
