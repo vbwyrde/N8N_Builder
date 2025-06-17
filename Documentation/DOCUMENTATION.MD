@@ -43,7 +43,7 @@ N8N Builder is an intelligent workflow automation tool that translates plain Eng
 
 1. **Install and Setup**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/vbwyrde/N8N_Builder.git
    cd N8N_Builder
    pip install -r requirements.txt
    ```
