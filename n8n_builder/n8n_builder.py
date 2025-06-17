@@ -11,6 +11,7 @@ from pathlib import Path
 import concurrent.futures
 import threading
 import copy
+import re
 
 from .config import config
 from .error_handler import EnhancedErrorHandler, ErrorDetail, ValidationError as EValidationError
@@ -411,14 +412,12 @@ class N8NBuilder:
             except Exception as e:
                 # If LLM call fails, preserve the detailed error information instead of wrapping it
                 logger.error(f"LLM API call failed: {str(e)}")
-                
-                # Check if this is already a detailed error message from our enhanced error handling
                 error_message = str(e)
+                # If the error is a known LLM crash, token limit, or truncation, surface it directly
                 if any(keyword in error_message.lower() for keyword in [
                     "crashed", "exit code", "connection refused", "connection reset", 
-                    "broken pipe", "terminated", "killed", "service error"
+                    "broken pipe", "terminated", "killed", "service error", "token limit", "truncated"
                 ]):
-                    # This is already a detailed error, preserve it
                     raise RuntimeError(error_message)
                 else:
                     # Generic error, add context
@@ -1928,78 +1927,57 @@ CRITICAL: Return ONLY valid JSON array. NO thinking tags (<think>), NO code bloc
         return resolved_modifications
 
     def _extract_json_from_response(self, response: str) -> str:
-        """Extract valid JSON from LLM response with multiple strategies, designed for reasoning LLMs that always include thinking tags."""
+        """Extract the last valid JSON object or array from the LLM response, robust to multiline and nested structures."""
         if not response or response.strip() == "":
             return ""
-        
-        response = response.strip()
-        logger.debug(f"Extracting JSON from response (length: {len(response)})")
-        
-        # Strategy 0: Remove thinking tags if present (reasoning LLMs always include these)
         import re
-        
-        # Remove <think>...</think> blocks completely - this is essential for reasoning LLMs
+        # Remove <think>...</think> tags
         think_pattern = r'<think>.*?</think>'
         response_no_think = re.sub(think_pattern, '', response, flags=re.DOTALL | re.IGNORECASE)
         response_no_think = response_no_think.strip()
-        
-        if response_no_think:
-            response = response_no_think
-            logger.debug(f"Removed thinking tags, remaining content: {response[:200]}...")
-        
-        # Strategy 0.5: Split response into parts and look for JSON in the last meaningful part
-        # This handles cases where LLM provides multiple outputs/sections
-        parts = response.split('\n\n')  # Split on double newlines (common section separators)
-        if len(parts) > 1:
-            logger.debug(f"Response has {len(parts)} parts, checking from last to first")
-            # Check parts from last to first to find the final JSON result
-            for part in reversed(parts):
-                part = part.strip()
-                if len(part) > 10:  # Skip very short parts
-                    try:
-                        parsed = json.loads(part)
-                        if self._is_valid_modifications_json(parsed):
-                            logger.debug(f"Found valid JSON in response part: {part[:100]}...")
-                            return part
-                    except json.JSONDecodeError:
-                        # Try other strategies on this part
-                        extracted = self._try_json_extraction_strategies(part)
-                        if extracted:
-                            return extracted
-        
-        # Strategy 1: Response is already valid JSON
-        try:
-            parsed = json.loads(response)
-            # Validate it's the right kind of JSON (array of modifications)
-            if self._is_valid_modifications_json(parsed):
-                logger.debug("Response is already valid JSON")
-                return response
-        except json.JSONDecodeError:
-            pass
-        
-        # Try all other strategies on the full response
-        return self._try_json_extraction_strategies(response)
-    
+
+        # Stack-based scan for last top-level JSON object or array
+        text = response_no_think
+        stack = []
+        start_idx = None
+        last_valid = ""
+        for i, char in enumerate(text):
+            if char in '{[':
+                if not stack:
+                    start_idx = i
+                stack.append(char)
+            elif char in '}]':
+                if stack:
+                    open_char = stack.pop()
+                    if not stack and start_idx is not None:
+                        candidate = text[start_idx:i+1].strip()
+                        try:
+                            parsed = json.loads(candidate)
+                            if self._is_valid_modifications_json(parsed) or self._is_valid_workflow_json(parsed):
+                                last_valid = candidate
+                        except Exception:
+                            pass
+        if last_valid:
+            return last_valid
+
+        # Fallback: try previous strategies
+        return self._try_json_extraction_strategies(response_no_think)
+
     def _try_json_extraction_strategies(self, text: str) -> str:
-        """Try multiple JSON extraction strategies on a piece of text."""
+        """Try multiple JSON extraction strategies on a piece of text, supporting both workflow objects and modifications arrays."""
         import re
-        
-        # Strategy 2: Look for JSON between ```json and ``` blocks
         json_block_pattern = r'```(?:json)?\s*(.*?)\s*```'
         matches = re.findall(json_block_pattern, text, re.DOTALL | re.IGNORECASE)
         for match in matches:
             try:
                 parsed = json.loads(match.strip())
-                if self._is_valid_modifications_json(parsed):
+                if self._is_valid_modifications_json(parsed) or self._is_valid_workflow_json(parsed):
                     logger.debug("Found valid JSON in code block")
                     return match.strip()
             except json.JSONDecodeError:
                 continue
-        
-        # Strategy 3: Look for array-like content using bracket counting (handles nested objects)
-        # Find the LAST occurrence of '[' to get the final JSON array
         start_indices = [i for i, char in enumerate(text) if char == '[']
-        for start_idx in reversed(start_indices):  # Check from last to first
+        for start_idx in reversed(start_indices):
             bracket_count = 0
             end_idx = -1
             for i, char in enumerate(text[start_idx:], start_idx):
@@ -2010,47 +1988,37 @@ CRITICAL: Return ONLY valid JSON array. NO thinking tags (<think>), NO code bloc
                     if bracket_count == 0:
                         end_idx = i
                         break
-            
             if end_idx != -1:
                 potential_json = text[start_idx:end_idx+1]
                 try:
                     parsed = json.loads(potential_json)
-                    if self._is_valid_modifications_json(parsed):
-                        logger.debug(f"Found valid modifications JSON using bracket counting")
+                    if self._is_valid_modifications_json(parsed) or self._is_valid_workflow_json(parsed):
+                        logger.debug(f"Found valid JSON using bracket counting")
                         return potential_json
                 except json.JSONDecodeError:
                     continue
-        
-        # Strategy 4: Look for JSON-like content between curly braces (single modification)
-        # Find the LAST occurrence to get the final result
         brace_pattern = r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}'
         matches = re.findall(brace_pattern, text, re.DOTALL)
-        for match in reversed(matches):  # Check from last to first
+        for match in reversed(matches):
             try:
                 parsed = json.loads(match)
-                if self._is_valid_modifications_json([parsed]):  # Wrap single object in array
-                    logger.debug("Found valid JSON object, wrapping in array")
-                    return f"[{match}]"  # Return as array
+                if self._is_valid_modifications_json([parsed]) or self._is_valid_workflow_json(parsed):
+                    logger.debug("Found valid JSON object")
+                    return match
             except json.JSONDecodeError:
                 continue
-        
-        # Strategy 5: Look for lines that start with '[' or '{' (common in LLM outputs)
         lines = text.split('\n')
-        for line in reversed(lines):  # Check from last to first
+        for line in reversed(lines):
             line = line.strip()
             if line.startswith('[') or line.startswith('{'):
                 try:
                     parsed = json.loads(line)
-                    if isinstance(parsed, list) and self._is_valid_modifications_json(parsed):
+                    if (isinstance(parsed, list) and self._is_valid_modifications_json(parsed)) or self._is_valid_workflow_json(parsed):
                         logger.debug("Found valid JSON in line starting with bracket")
                         return line
-                    elif isinstance(parsed, dict) and self._is_valid_modifications_json([parsed]):
-                        logger.debug("Found valid JSON object in line, wrapping in array")
-                        return f"[{line}]"
                 except json.JSONDecodeError:
                     continue
-        
-        logger.warning(f"Could not extract valid modifications JSON from text: {text[:200]}...")
+        logger.warning(f"Could not extract valid workflow or modifications JSON from text: {text[:200]}...")
         return ""
 
     def _is_valid_modifications_json(self, parsed_json) -> bool:
@@ -2072,6 +2040,20 @@ CRITICAL: Return ONLY valid JSON array. NO thinking tags (<think>), NO code bloc
             if item.get("action") not in valid_actions:
                 return False
         
+        return True
+
+    def _is_valid_workflow_json(self, parsed_json) -> bool:
+        """Check if the parsed JSON is a valid workflow object."""
+        if not isinstance(parsed_json, dict):
+            return False
+        # Must have at least 'nodes' and 'connections' keys
+        if 'nodes' not in parsed_json or 'connections' not in parsed_json:
+            return False
+        # Nodes should be a list, connections should be a dict or list
+        if not isinstance(parsed_json['nodes'], list):
+            return False
+        if not (isinstance(parsed_json['connections'], dict) or isinstance(parsed_json['connections'], list)):
+            return False
         return True
 
     def _validate_modification_structure(self, modification: Dict[str, Any]) -> bool:

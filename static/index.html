@@ -986,6 +986,19 @@
             
             try {
                 const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(selectedWorkflow)}`);
+                const contentType = response.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                    // Handle JSON error response
+                    const errorJson = await response.json();
+                    if (errorJson.error) {
+                        const errorMsg = errorJson.error.message || JSON.stringify(errorJson.error);
+                        result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>${errorJson.error.user_guidance || 'Check the console for more details.'}</small></div>`;
+                        showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
+                        loading.style.display = 'none';
+                        return;
+                    }
+                }
+                
                 const workflowData = await response.json();
                 
                 currentWorkflow = workflowData.workflow_data;
@@ -1090,19 +1103,18 @@
                     body: JSON.stringify(requestBody),
                 });
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
+                console.log('Fetch response:', response);
                 const reader = response.body.getReader();
                 let workflowData = null;
                 let errorMessage = null;
+                let eventCount = 0;
                 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
                     
                     const text = new TextDecoder().decode(value);
+                    console.log('Event text:', text); // Log raw event text
                     const events = text.split('\n').filter(Boolean);
                     
                     for (const event of events) {
@@ -1118,13 +1130,18 @@
                             }
                             
                             const data = JSON.parse(jsonData);
+                            eventCount++;
                             console.log('Received event:', data); // Debug logging
                             
                             // Handle different event types for both generation and iteration
                             if (data.type === 'WORKFLOW_GENERATED' || data.type === 'WORKFLOW_MODIFIED' || data.type === 'WORKFLOW_ITERATED') {
-                                if (data.data && data.data.workflow_json) {
+                                // Accept both top-level and nested workflow_json for compatibility
+                                if (data.workflow_json) {
+                                    workflowData = { workflow_json: data.workflow_json };
+                                    console.log('Workflow data received (top-level):', workflowData);
+                                } else if (data.data && data.data.workflow_json) {
                                     workflowData = data.data;
-                                    console.log('Workflow data received:', workflowData); // Debug logging
+                                    console.log('Workflow data received (nested):', workflowData);
                                 } else {
                                     console.warn('Received workflow event but data is missing or malformed:', data);
                                 }
@@ -1144,6 +1161,10 @@
                                 console.log('LLM available:', data.message); // Debug logging
                             } else if (data.type === 'RUN_FINISHED' || data.type === 'MODIFICATION_FINISHED' || data.type === 'ITERATION_FINISHED') {
                                 console.log('Operation completed successfully:', data); // Debug logging
+                            } else if (data.type === 'GENERATION_ERROR') {
+                                // Handle backend error event: show the error message directly
+                                errorMessage = data.error && data.error.message ? data.error.message : JSON.stringify(data.error);
+                                console.log('GENERATION_ERROR event detected:', data);
                             }
                         } catch (parseError) {
                             console.warn('Could not parse event:', event, 'Error:', parseError);
@@ -1153,7 +1174,10 @@
                 
                 if (errorMessage) {
                     console.error('Server returned error:', errorMessage);
-                    throw new Error(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
+                    // Show the error message directly in the results area and as a toast
+                    result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${escapeHtml(errorMessage)}</p><small>This error was returned by the backend. Check the logs for more details if needed.</small></div>`;
+                    showToast(`Error ${operation} workflow: ${errorMessage}`, 'error');
+                    return;
                 }
                 
                 if (workflowData && workflowData.workflow_json) {
@@ -1221,7 +1245,15 @@
                 } else {
                     console.error('No valid workflow data found in server response');
                     console.log('All events received during processing - check browser console for details');
-                    throw new Error('No workflow data received from the server');
+                    // Only show the generic error if no errorMessage was set
+                    if (!errorMessage) {
+                        if (eventCount === 0) {
+                            result.innerHTML = `<div class=\"empty-state text-danger\"><i class=\"bi bi-exclamation-triangle\"></i><p>No events received from backend. Check network tab and backend logs.</p></div>`;
+                            showToast('No events received from backend', 'error');
+                        } else {
+                            throw new Error('No workflow data received from the server');
+                        }
+                    }
                 }
             } catch (error) {
                 console.error(`Error ${operation} workflow:`, error);

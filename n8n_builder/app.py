@@ -351,7 +351,7 @@ async def generate_workflow_events_agui(request: WorkflowRequest):
                 "thread_id": thread_id,
                 "run_id": run_id,
                 "timestamp": datetime.now().isoformat(),
-                "workflow_json": workflow_json
+                "workflow_json": json.loads(workflow_json)
             }) + "\n\n"
             
         except Exception as e:
@@ -529,18 +529,49 @@ async def generate_workflow_events_agui(request: WorkflowRequest):
                 }
             }) + "\n\n"
             
-    finally:
-        # Clean up session
-        # await ui_controller.remove_ui_session(session_id)
-        pass
+    except Exception as e:
+        # Always yield the raw error message as a GENERATION_ERROR event
+        yield "data: " + json.dumps({
+            "type": "GENERATION_ERROR",
+            "error": {
+                "message": str(e)
+            }
+        }) + "\n\n"
+        return
 
 @app.post("/generate")
 async def generate_workflow(request: WorkflowRequest):
     """Generate an n8n workflow from a description."""
-    return StreamingResponse(
-        generate_workflow_events_agui(request),
-        media_type="text/event-stream"
-    )
+    workflow_id = str(uuid.uuid4())
+    thread_id = request.thread_id or str(uuid.uuid4())
+    run_id = request.run_id or str(uuid.uuid4())
+    try:
+        # Try to generate the workflow and stream events as before
+        return StreamingResponse(
+            generate_workflow_events_agui(request),
+            media_type="text/event-stream"
+        )
+    except Exception as e:
+        error_message = str(e)
+        # Return a structured error response if streaming fails
+        return {
+            "error": {
+                "type": "GENERATION_ERROR",
+                "workflow_id": workflow_id,
+                "thread_id": thread_id,
+                "run_id": run_id,
+                "timestamp": datetime.now().isoformat(),
+                "title": "Workflow Generation Failed",
+                "message": error_message,
+                "user_guidance": "An error occurred while generating the workflow. Please check your LLM service and try again.",
+                "fix_suggestions": [
+                    "Check that your LLM service is running and healthy.",
+                    "Increase the max_tokens parameter if you see truncation errors.",
+                    "Try again with a simpler workflow description.",
+                    "Contact support if the problem persists."
+                ]
+            }
+        }
 
 @app.post("/modify")
 async def modify_workflow(request: WorkflowModificationRequest):
@@ -1732,7 +1763,7 @@ async def stream_workflow_with_agui(request: WorkflowRequest):
                     "type": "STREAM_COMPLETED",
                     "workflow_id": workflow_id,
                     "timestamp": datetime.now().isoformat(),
-                    "workflow_json": workflow_json,
+                    "workflow_json": json.loads(workflow_json),
                     "message": "AG_UI streaming completed successfully"
                 }) + "\n\n"
                 

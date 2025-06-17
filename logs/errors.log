@@ -1,0 +1,285 @@
+[2025-06-15 21:25:38,541] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750037084632]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2709, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-15 21:26:21,558] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-15 21:26:21,560] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-15 22:24:40,405] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750040625383]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2709, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-15 22:25:33,638] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-15 22:25:33,638] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-15 22:34:58,625] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750041245189]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2709, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-15 22:35:41,934] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-15 22:35:41,934] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-15 23:03:58,146] ERROR n8n_builder.n8n_builder: Could not extract valid JSON from LLM response
+[2025-06-15 23:03:58,147] ERROR n8n_builder.n8n_builder: Error generating workflow: Could not extract valid workflow JSON from response
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2961, in _map_to_workflow_structure
+    workflow = json.loads(response)
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 428, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2973, in _map_to_workflow_structure
+    raise ValueError("Could not extract valid workflow JSON from response")
+ValueError: Could not extract valid workflow JSON from response
+[2025-06-16 20:05:05,215] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750118649922]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 20:05:46,121] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-16 20:05:46,121] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-16 20:38:11,558] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750120637564]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 20:38:53,575] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-16 20:38:53,575] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-16 20:47:07,043] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750121170720]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 20:47:50,665] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-16 20:47:50,666] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-16 22:15:20,849] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750126468557]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 22:16:14,403] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1750126468557]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 22:16:58,251] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-16 22:16:58,252] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    raise RuntimeError(f"LLM service unavailable: {str(e)}")
+RuntimeError: LLM service unavailable: 
+[2025-06-16 22:44:36,043] ERROR n8n_builder.retry: Attempt 1 failed [ID: llm_call_1750128223669]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    logger.warning(f"Unexpected finish_reason: {finish_reason}")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 22:45:29,122] ERROR n8n_builder.retry: Attempt 2 failed [ID: llm_call_1750128223669]
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\retry_manager.py", line 409, in execute_with_retry
+    result = await operation(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2692, in _execute_llm_call
+    logger.warning(f"Unexpected finish_reason: {finish_reason}")
+ValueError: LLM response was truncated due to token limit - increase max_tokens
+[2025-06-16 22:46:15,501] ERROR n8n_builder.n8n_builder: LLM API call failed: 
+[2025-06-16 22:46:15,501] ERROR n8n_builder.n8n_builder: Error generating workflow: LLM service unavailable: 
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 403, in generate_workflow
+    response = future.result(timeout=60)  # 60 second timeout
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\concurrent\futures\_base.py", line 458, in result
+    raise TimeoutError()
+TimeoutError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 425, in generate_workflow
+    # 2. Map to n8n workflow structure
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: LLM service unavailable: 
+[2025-06-16 22:51:06,793] ERROR n8n_builder.n8n_builder: Could not extract valid JSON from LLM response
+[2025-06-16 22:51:06,793] ERROR n8n_builder.n8n_builder: Error generating workflow: Could not extract valid workflow JSON from response
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2944, in _map_to_workflow_structure
+    except json.JSONDecodeError:
+                   ^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 428, in generate_workflow
+    # 3. Validate and return JSON
+                    ^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2956, in _map_to_workflow_structure
+    try:
+        ^
+ValueError: Could not extract valid workflow JSON from response
+[2025-06-16 23:16:25,215] ERROR n8n_builder.n8n_builder: Could not extract valid JSON from LLM response
+[2025-06-16 23:16:25,215] ERROR n8n_builder.n8n_builder: Error generating workflow: Could not extract valid workflow JSON from response
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2931, in _map_to_workflow_structure
+    workflow = json.loads(response)
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\anaconda3\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 427, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2943, in _map_to_workflow_structure
+    raise ValueError("Could not extract valid workflow JSON from response")
+ValueError: Could not extract valid workflow JSON from response
