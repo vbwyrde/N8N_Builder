@@ -32,3 +32,9 @@ nul
 CON
 PRN
 AUX
+
+# nGrok configuration (contains auth tokens)
+ngrok.yml
+ngrok-config*.yml
+**/ngrok.yml
+**/ngrok-config*.yml
