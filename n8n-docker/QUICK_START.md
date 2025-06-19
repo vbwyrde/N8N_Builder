@@ -41,10 +41,11 @@ docker-compose up -d
 ### Step 3: Access n8n
 
 1. Open browser: http://localhost:5678
-2. Login with:
+2. **⚠️ SECURITY**: Login with default credentials (CHANGE IMMEDIATELY):
    - Username: `admin`
    - Password: `admin123`
-3. Start creating workflows! 🎉
+3. **🔒 IMPORTANT**: Change these credentials immediately (see Configuration section below)
+4. Start creating workflows! 🎉
 
 ## ⚡ Essential Commands
 
@@ -66,19 +67,31 @@ docker-compose restart n8n
 scripts\backup.bat     # Windows
 ```
 
-## 🔧 First-Time Configuration
+## � CRITICAL: Security Configuration (Do This First!)
 
-1. **Change Default Password:**
-   - Edit `.env` file
-   - Update `N8N_BASIC_AUTH_PASSWORD`
+**⚠️ WARNING**: The default credentials are publicly known and MUST be changed before use!
+
+1. **🚨 IMMEDIATELY Change Default Password:**
+   ```bash
+   # Edit .env file and change:
+   N8N_BASIC_AUTH_USER=your-username        # Change from 'admin'
+   N8N_BASIC_AUTH_PASSWORD=your-secure-password  # Change from 'admin123'
+   ```
+   - Use a strong, unique password
    - Restart: `docker-compose restart n8n`
 
-2. **Set Encryption Key:**
-   - Edit `.env` file
-   - Change `N8N_ENCRYPTION_KEY` to a random string
+2. **🔑 Generate Secure Encryption Key:**
+   ```bash
+   # Generate a secure random key:
+   openssl rand -base64 32
+
+   # Or use PowerShell:
+   [System.Web.Security.Membership]::GeneratePassword(32, 8)
+   ```
+   - Copy the generated key to `N8N_ENCRYPTION_KEY` in `.env`
    - Restart containers
 
-3. **Configure Timezone:**
+3. **🌍 Configure Timezone:**
    - Edit `.env` file
    - Set `GENERIC_TIMEZONE=America/New_York` (or your timezone)
 
