@@ -1,8 +1,11 @@
 # n8n Docker Environment - Git Ignore
 
 # Sensitive configuration files
+.env
 .env.local
 .env.production
+.env.development
+config.ps1
 *.key
 *.pem
 *.crt

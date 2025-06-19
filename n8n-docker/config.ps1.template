@@ -1,0 +1,41 @@
+# Configuration file for n8n + nGrok automation scripts
+# Copy this file and customize paths for your environment
+
+# nGrok Configuration
+# Update this path to match your nGrok installation
+$NGROK_PATH = "C:\Installation\ngrok.exe"
+
+# Alternative common locations (uncomment the one that matches your setup):
+# $NGROK_PATH = "C:\Program Files\ngrok\ngrok.exe"
+# $NGROK_PATH = "C:\Users\$env:USERNAME\AppData\Local\ngrok\ngrok.exe"
+# $NGROK_PATH = "ngrok"  # If ngrok is in your PATH
+
+# Docker Configuration
+# This should be the directory containing docker-compose.yml
+$N8N_DOCKER_PATH = Split-Path -Parent $PSScriptRoot
+
+# Environment File
+$ENV_FILE = "$N8N_DOCKER_PATH\.env"
+
+# nGrok API Configuration
+$NGROK_API_URL = "http://127.0.0.1:4040/api/tunnels"
+
+# Container Names (change if you modify docker-compose.yml)
+$N8N_CONTAINER_NAME = "n8n-dev"
+$POSTGRES_CONTAINER_NAME = "n8n-postgres"
+
+# Timeout Settings (in seconds)
+$N8N_STARTUP_TIMEOUT = 60
+$NGROK_STARTUP_TIMEOUT = 30
+
+# Export variables for use in other scripts
+$script:Config = @{
+    NgrokPath = $NGROK_PATH
+    DockerPath = $N8N_DOCKER_PATH
+    EnvFile = $ENV_FILE
+    NgrokApiUrl = $NGROK_API_URL
+    N8NContainer = $N8N_CONTAINER_NAME
+    PostgresContainer = $POSTGRES_CONTAINER_NAME
+    N8NTimeout = $N8N_STARTUP_TIMEOUT
+    NgrokTimeout = $NGROK_STARTUP_TIMEOUT
+}

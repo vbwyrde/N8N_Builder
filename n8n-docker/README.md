@@ -23,6 +23,16 @@ n8n-docker/
     └── maintenance.sh           # Maintenance utilities (Linux/Mac)
 ```
 
+## 🔒 Security First
+
+**IMPORTANT**: This repository excludes sensitive files for security. Before starting:
+
+1. **Run setup**: `powershell -ExecutionPolicy Bypass -File "setup.ps1"`
+2. **Edit `.env`**: Change default passwords and encryption key
+3. **Edit `config.ps1`**: Set your nGrok path
+
+See [SECURITY.md](SECURITY.md) for complete security guidelines.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
