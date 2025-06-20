@@ -401,7 +401,7 @@ class N8NBuilder:
                     # Run the LLM call in a separate thread with its own event loop
                     with concurrent.futures.ThreadPoolExecutor() as executor:
                         future = executor.submit(call_llm_sync)
-                        response = future.result(timeout=60)  # 60 second timeout
+                        response = future.result(timeout=360)  # 60 second timeout
                     
                     logger.info("LLM call successful")
                     
