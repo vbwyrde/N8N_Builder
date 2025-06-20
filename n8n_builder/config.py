@@ -61,7 +61,7 @@ class LLMConfig(BaseModel):
     model: str
     temperature: float = 0.7
     max_tokens: int = 4000
-    timeout: int = 30
+    timeout: int = 360
     headers: Dict[str, str] = {}
     is_local: bool = False
 
@@ -100,7 +100,7 @@ class Config:
             model=model,
             temperature=float(os.getenv("MIMO_TEMPERATURE", "0.7")),
             max_tokens=int(os.getenv("MIMO_MAX_TOKENS", "4000")),
-            timeout=int(os.getenv("MIMO_TIMEOUT", "30")),
+            timeout=int(os.getenv("MIMO_TIMEOUT", "360")),
             is_local=is_local_mimo
         )
         

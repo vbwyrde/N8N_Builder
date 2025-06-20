@@ -1,0 +1,123 @@
+{
+  "name": "Random Blog Post Tweet",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.schedule",
+      "parameters": {
+        "intervalDay": 0,
+        "intervalHour": 0,
+        "intervalMinute": 0,
+        "intervalSecond": 3600
+      },
+      "position": [
+        150,
+        300
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Fetch Blog RSS",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "GET",
+        "url": "https://elthosrpg.blogspot.com/feed/posts/atom"
+      },
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Select Random Post",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "const random = Math.floor(Math.random() * items[0].json.items.length);\nreturn [{ json: { link: items[0].json.items[random].link } }]"
+      },
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Create Tweet",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "return [{ json: { text: '{{$json.link}} #Elthos' } }]"
+      },
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Post to Twitter",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.twitter.com/2/tweets",
+        "headers": {
+          "Authorization": "Bearer YOUR_BEARER_TOKEN"
+        },
+        "body": "{{ $json.text }}"
+      },
+      "position": [
+        1150,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "1": {
+      "main": [
+        [
+          {
+            "node": "2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2": {
+      "main": [
+        [
+          {
+            "node": "3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3": {
+      "main": [
+        [
+          {
+            "node": "4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4": {
+      "main": [
+        [
+          {
+            "node": "5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": true,
+  "version": 1
+}
