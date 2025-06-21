@@ -41,6 +41,82 @@ curl http://127.0.0.1:4040/api/tunnels
 
 ⚠️ **CRITICAL**: nGrok URL changes on each restart (free plan). You MUST update all OAuth redirect URLs when this happens.
 
+### 📍 Exact Locations to Update OAuth URLs
+
+⚠️ **IMPORTANT**: These changes are made in **external service websites**, NOT in local files!
+
+When your nGrok URL changes, update redirect URLs in these **external service dashboards**:
+
+**🔍 Google Services (Google Cloud Console Website)**
+- **Website**: Navigate to https://console.cloud.google.com/
+- **Path**: **APIs & Services** → **Credentials**
+- **Action**: Click your **OAuth 2.0 Client ID** (e.g., "n8n Google Services")
+- **Field**: **Authorized redirect URIs** section
+- **Update**: Delete old nGrok URL, add new: `https://YOUR-NEW-NGROK-URL/rest/oauth2-credential/callback`
+- **Save**: Click **Save** button
+
+**🐦 Twitter/X (Developer Portal Website)**
+- **Website**: Navigate to https://developer.twitter.com/en/portal/dashboard
+- **Path**: **Projects & Apps** → Your App → **App settings**
+- **Action**: Click **Authentication settings** → **Edit**
+- **Field**: **Callback URLs** section
+- **Update**: Delete old nGrok URL, add new: `https://YOUR-NEW-NGROK-URL/rest/oauth1-credential/callback`
+- **Save**: Click **Save** button
+
+**💬 Slack (API Dashboard Website)**
+- **Website**: Navigate to https://api.slack.com/apps
+- **Path**: Click your app → **OAuth & Permissions** (left sidebar)
+- **Field**: **Redirect URLs** section
+- **Update**: Delete old nGrok URL, add new: `https://YOUR-NEW-NGROK-URL/rest/oauth2-credential/callback`
+- **Save**: Click **Save URLs** button
+
+**🐙 GitHub (Developer Settings Website)**
+- **Website**: Navigate to https://github.com/settings/developers
+- **Path**: **OAuth Apps** → Your app → **Edit** button
+- **Field**: **Authorization callback URL** field
+- **Update**: Replace old nGrok URL with: `https://YOUR-NEW-NGROK-URL/rest/oauth2-credential/callback`
+- **Save**: Click **Update application** button
+
+**📧 Other Services (General Pattern)**
+- **Location**: External service websites (NOT local files)
+- **Path**: Usually Settings → Developer/API → OAuth Apps → Edit
+- **Fields**: Look for "Redirect URI", "Callback URL", "Authorization callback URL"
+- **Pattern**: Always use: `https://YOUR-NEW-NGROK-URL/rest/oauth2-credential/callback`
+
+### 📁 Local Files - Automation vs Manual Updates
+
+**🤖 Fully Automated (No User Action Required):**
+When you run the startup automation (`start-n8n.bat` or `Start-N8N-NgRok.ps1`), these are handled automatically:
+- ✅ **nGrok tunnel creation** - Script starts nGrok and gets new URL
+- ✅ **`.env` file update** - WEBHOOK_URL is auto-updated with new nGrok URL
+- ✅ **n8n restart** - Container is restarted to apply new webhook URL
+- ✅ **URL detection** - Script extracts the new URL from nGrok API
+
+**🌐 Manual Updates Required (External Websites Only):**
+After automation completes, you still need to manually update:
+- ⚠️ **Google Cloud Console** - Update OAuth redirect URIs
+- ⚠️ **Twitter Developer Portal** - Update callback URLs
+- ⚠️ **Slack API Dashboard** - Update redirect URLs
+- ⚠️ **GitHub Developer Settings** - Update authorization callback URL
+- ⚠️ **Other OAuth services** - Update their redirect/callback URLs
+
+**❌ Never Need Manual Updates (Leave These Alone):**
+- ✅ **docker-compose.yml** - No nGrok URLs stored here
+- ✅ **Documentation files** - Use dynamic URL templates
+- ✅ **PowerShell scripts** - Use nGrok API for URL detection
+- ✅ **n8n credential configurations** - Reuse existing credentials, just test after URL change
+
+### 🔄 Complete Automation Flow
+
+**When you run `start-n8n.bat`:**
+1. 🤖 **Script starts Docker** containers
+2. 🤖 **Script starts nGrok** tunnel
+3. 🤖 **Script detects new URL** from nGrok API
+4. 🤖 **Script updates .env** with new WEBHOOK_URL
+5. 🤖 **Script restarts n8n** to apply changes
+6. 👤 **You manually update** external OAuth services (Google, Slack, etc.)
+7. ✅ **System ready** with new nGrok URL
+
 ## 🔑 Service-Specific Setup Instructions
 
 ### 🔧 Before You Start
