@@ -2,6 +2,8 @@
 
 Quick navigation to all documentation files with clear purpose and target audience.
 
+**🏗️ Complete System**: This is the **execution environment** documentation. For the complete N8N_Builder ecosystem, see the [Master Documentation Index](../../DOCUMENTATION_INDEX.md).
+
 ## 🎯 Start Here (Essential for Everyone)
 
 ### 🚀 [QUICK_START.md](QUICK_START.md)
@@ -97,6 +99,12 @@ Quick navigation to all documentation files with clear purpose and target audien
 - **Docker Docs**: https://docs.docker.com/
 - **nGrok Docs**: https://ngrok.com/docs
 
+## 📝 Documentation Standards
+
+This documentation follows the [N8N_Builder Documentation Style Guide](../../DOCUMENTATION_STYLE_GUIDE.md) for consistency across the complete system.
+
 ---
 
 **💡 Pro Tip**: Bookmark this index for quick navigation to any documentation you need!
+
+**🏗️ Complete System**: For the full N8N_Builder ecosystem documentation, visit the [Master Documentation Index](../../DOCUMENTATION_INDEX.md).

@@ -7,14 +7,20 @@ This comprehensive documentation is organized into specialized sections:
 - **[README.md](../README.md)** - Quick start guide and project overview
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference with all endpoints and examples
 - **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick API examples and troubleshooting
-- **[ProcessFlow.MD](ProcessFlow.MD)** - Automatically generated codebase map and flow diagrams
+- **[ProcessFlow.md](ProcessFlow.MD)** - Automatically generated codebase map and flow diagrams
 - **This Document** - Technical architecture, development guides, and system design
 
 ---
 
 ## 🎯 What is N8N Builder?
 
-N8N Builder is an intelligent workflow automation tool that translates plain English descriptions into executable N8N workflows. Think of it as a "conversation-to-code" translator for workflow automation - you describe what you want to happen, and it creates the technical blueprint to make it happen.
+N8N Builder is the **workflow generation component** of a complete automation ecosystem that translates plain English descriptions into executable N8N workflows. Think of it as a "conversation-to-code" translator for workflow automation - you describe what you want to happen, and it creates the technical blueprint to make it happen.
+
+**🏗️ Complete System Architecture:**
+- **🤖 N8N_Builder** (this component): Generates JSON workflows from plain English
+- **🐳 n8n-docker**: Executes the generated workflows in production ([Setup Guide](../n8n-docker/Documentation/README.md))
+
+**📚 [Master Documentation Index](../DOCUMENTATION_INDEX.md)** - Complete system overview
 
 ### 🤖 **Dual Interface Architecture**
 
@@ -77,12 +83,20 @@ Both interfaces provide the same core functionality but are optimized for differ
    - Open your browser to `http://localhost:8002`
    - Type: "Send me an email when a new file is uploaded to my folder"
    - Click "Generate Workflow"
-   - Copy the generated JSON to your N8N instance
+   - Copy the generated JSON
 
    **Option B: AG-UI Protocol**
    - Use the `/run-agent` endpoint with `RunAgentInput` format
    - Get structured event streams with detailed progress tracking
    - Perfect for AI-powered applications and advanced integrations
+
+4. **Deploy to n8n-docker Environment**
+   - **🐳 Setup n8n-docker**: Follow the [n8n-docker Quick Start](../n8n-docker/Documentation/QUICK_START.md)
+   - **Import Workflow**: Open http://localhost:5678 → Settings → Import from JSON
+   - **Paste & Activate**: Import your generated JSON and toggle the workflow active
+   - **🎉 Complete**: Your AI-generated workflow is now running in production!
+
+   **📖 Complete Integration Guide**: [Master Documentation Index](../DOCUMENTATION_INDEX.md#integration-guide)
 
 ### Example Use Cases
 - **File Monitoring**: "Alert me when files are added to a specific folder"
@@ -884,6 +898,6 @@ The combination of AI-powered generation, robust validation, and extensible arch
 - **[README.md](../README.md)** - Getting started guide and project overview
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference and integration examples
 - **[API_QUICK_REFERENCE.md](API_QUICK_REFERENCE.md)** - Quick API examples and troubleshooting
-- **[ProcessFlow.MD](ProcessFlow.MD)** - Codebase structure and flow analysis
+- **[ProcessFlow.md](ProcessFlow.MD)** - Codebase structure and flow analysis
 
 For the latest updates and community discussions, visit the [project repository](https://github.com/vbwyrde/N8N_Builder).
