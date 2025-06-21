@@ -1,48 +1,90 @@
-# RunSystem.md - n8n + nGrok Startup Guide
+# 📋 RunSystem.md - Complete n8n System Operations Guide
 
-This document provides step-by-step instructions to start your n8n Docker environment with nGrok tunneling for webhook access.
+This document provides comprehensive step-by-step instructions for operating your n8n Docker environment with nGrok tunneling. Use this guide when you need detailed manual control or when troubleshooting automation scripts.
+
+## 📚 Documentation Navigation
+
+- **🚀 [Quick Start](Documentation/QUICK_START.md)** - Fastest setup (5 minutes)
+- **🤖 [Automation Guide](Documentation/AUTOMATION-README.md)** - Automated scripts
+- **🔒 [Security Guide](Documentation/SECURITY.md)** - Security best practices
+- **🔑 [Credentials Setup](Documentation/CREDENTIALS_SETUP.md)** - External service integration
 
 ## 🚀 Quick Start Options
 
-### Option A: Automated Script (Recommended)
+### 🤖 Option A: Automated Script (Recommended for Daily Use)
 ```bash
-# Double-click or run from command line:
+# Method 1: Double-click
 start-n8n.bat
 
-# Or run PowerShell script directly:
+# Method 2: PowerShell command
 powershell -ExecutionPolicy Bypass -File "Start-N8N-NgRok.ps1"
+
+# Method 3: With parameters
+Start-N8N-NgRok.ps1 -Verbose -Force
 ```
-**What it does automatically:**
-- ✅ Starts Docker containers
-- ✅ Starts nGrok tunnel
-- ✅ Extracts public URL from nGrok API
-- ✅ Updates .env file with new webhook URL
-- ✅ Restarts n8n to apply changes
-- ✅ Shows all access URLs
 
-### Option B: Manual Commands
+**✨ Automation Features:**
+- ✅ Pre-flight checks (Docker, nGrok, config files)
+- ✅ Intelligent service detection (skips if already running)
+- ✅ Automatic URL extraction and configuration updates
+- ✅ Health monitoring and error recovery
+- ✅ Complete status reporting
 
-### 1. Start Docker Desktop
-- Ensure Docker Desktop is running on your system
-- Wait for Docker to fully initialize
+**📖 See [AUTOMATION-README.md](Documentation/AUTOMATION-README.md) for complete automation guide**
 
-### 2. Start n8n Docker Container
+### 📋 Option B: Manual Commands (For Learning/Troubleshooting)
+
+**When to use manual commands:**
+- Learning how the system works
+- Troubleshooting automation script issues
+- Custom configurations not supported by automation
+- Step-by-step debugging
+
+### 🔧 Manual Process Overview
+
+### 1. Pre-Requisites Check
 ```bash
+# Verify Docker is running
+docker info
+
+# Check if n8n containers already exist
+docker-compose ps
+
+# Verify nGrok is installed and authenticated
+ngrok config check
+```
+
+### 2. Start Docker Services
+```bash
+# Navigate to project directory
 cd C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n-docker
+
+# Start with PostgreSQL (recommended)
 docker-compose up -d
+
+# Alternative: Start with SQLite (development only)
+docker-compose -f docker-compose.dev.yml up -d
 ```
 
-### 3. Verify n8n is Running
+### 3. Verify n8n Container Health
 ```bash
-docker ps
-docker logs n8n-dev --tail 10
+# Check container status
+docker-compose ps
+
+# Monitor startup logs
+docker logs n8n-dev --tail 20 --follow
+
+# Wait for this message: "n8n ready on 0.0.0.0, port 5678"
+# Local access: http://localhost:5678
 ```
-- Look for: `n8n ready on 0.0.0.0, port 5678`
-- Local access: http://localhost:5678
 
 ### 4. Start nGrok Tunnel
 ```bash
+# Method 1: Using configured profile
 powershell "& 'C:\Installation\ngrok.exe' start n8n"
+
+# Method 2: Direct command
+powershell "& 'C:\Installation\ngrok.exe' http 5678"
 ```
 
 ### 5. Get nGrok Public URL
