@@ -6,11 +6,16 @@ n8n_builder/app.py
 n8n_builder/cli.py
 n8n_builder/code_generation_patterns.py
 n8n_builder/config.py
+n8n_builder/enhanced_prompt_builder.py
 n8n_builder/error_handler.py
+n8n_builder/knowledge_cache.py
 n8n_builder/logging_config.py
+n8n_builder/mcp_research_tool.py
 n8n_builder/n8n_builder.py
 n8n_builder/performance_optimizer.py
 n8n_builder/project_manager.py
+n8n_builder/research_formatter.py
+n8n_builder/research_validator.py
 n8n_builder/retry_manager.py
 n8n_builder/validators.py
 n8n_builder/workflow_differ.py

@@ -19,6 +19,7 @@ from .validators import EdgeCaseValidator, EdgeCaseValidationResult
 from .performance_optimizer import performance_optimizer, PerformanceMetrics
 from .retry_manager import retry_manager, RetryConfig, RetryStrategy, FailureType
 from .workflow_differ import workflow_differ, WorkflowDiff
+from .enhanced_prompt_builder import EnhancedPromptBuilder
 from logging_config import setup_logging
 
 # Initialize logging configuration
@@ -137,6 +138,13 @@ class N8NBuilder:
         self._setup_retry_configurations()
         self._register_fallback_strategies()
         logger.info("Enhanced retry manager initialized with intelligent failure handling", extra={'operation_id': 'init'})
+
+        # Initialize enhanced prompt builder with MCP research
+        self.enhanced_prompt_builder = EnhancedPromptBuilder(
+            enable_research=getattr(config, 'enable_mcp_research', True),
+            research_timeout=getattr(config, 'research_timeout', 30)
+        )
+        logger.info("Enhanced prompt builder initialized with MCP research capabilities", extra={'operation_id': 'init'})
         
         try:
             self.initialize_builder()
@@ -382,32 +390,57 @@ class N8NBuilder:
         })
 
     def generate_workflow(self, plain_english_description: str) -> str:
-        """Generate an n8n workflow from a plain English description."""
+        """Generate an n8n workflow from a plain English description with enhanced research."""
         try:
-            # 1. Generate with LLM
+            # 1. Generate enhanced prompt with research
             try:
-                prompt = self._build_prompt(plain_english_description)
-                
                 # Check if we're in an async context
                 try:
                     asyncio.get_running_loop()
                     # We're in an async context, can't use asyncio.run
-                    logger.info("In async context, using ThreadPoolExecutor")
-                    
+                    logger.info("In async context, using ThreadPoolExecutor for enhanced prompt building")
+
+                    # Create a function to run the async prompt building in a separate thread
+                    def build_prompt_sync():
+                        return asyncio.run(self.enhanced_prompt_builder.build_enhanced_prompt(plain_english_description))
+
+                    # Run the enhanced prompt building in a separate thread with its own event loop
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(build_prompt_sync)
+                        prompt = future.result(timeout=60)  # 60 second timeout for research
+
+                    logger.info("Enhanced prompt building successful")
+
+                except RuntimeError:
+                    # No event loop running, we can use asyncio.run normally
+                    logger.info("Not in async context, using asyncio.run for enhanced prompt building")
+                    prompt = asyncio.run(self.enhanced_prompt_builder.build_enhanced_prompt(plain_english_description))
+
+            except Exception as e:
+                # If enhanced prompt building fails, fall back to basic prompt
+                logger.warning(f"Enhanced prompt building failed, using basic prompt: {str(e)}")
+                prompt = self._build_prompt(plain_english_description)
+
+                # 2. Generate with LLM using enhanced prompt
+                try:
+                    asyncio.get_running_loop()
+                    # We're in an async context, can't use asyncio.run
+                    logger.info("In async context, using ThreadPoolExecutor for LLM call")
+
                     # Create a function to run the async call in a separate thread
                     def call_llm_sync():
                         return asyncio.run(self._call_mimo_vl7b(prompt))
-                    
+
                     # Run the LLM call in a separate thread with its own event loop
                     with concurrent.futures.ThreadPoolExecutor() as executor:
                         future = executor.submit(call_llm_sync)
-                        response = future.result(timeout=360)  # 60 second timeout
-                    
+                        response = future.result(timeout=360)  # 6 minute timeout
+
                     logger.info("LLM call successful")
-                    
+
                 except RuntimeError:
                     # No event loop running, we can use asyncio.run normally
-                    logger.info("Not in async context, using asyncio.run")
+                    logger.info("Not in async context, using asyncio.run for LLM call")
                     response = asyncio.run(self._call_mimo_vl7b(prompt))
             except Exception as e:
                 # If LLM call fails, preserve the detailed error information instead of wrapping it
@@ -435,6 +468,17 @@ class N8NBuilder:
             logger.exception(f"Error generating workflow: {str(e)}", extra={'operation_id': 'generate'})
             # Re-raise the exception instead of returning empty string
             raise
+
+    def get_research_stats(self) -> Dict[str, Any]:
+        """Get research performance statistics."""
+        if hasattr(self, 'enhanced_prompt_builder'):
+            return self.enhanced_prompt_builder.get_research_stats()
+        return {}
+
+    async def close(self):
+        """Clean up resources."""
+        if hasattr(self, 'enhanced_prompt_builder'):
+            await self.enhanced_prompt_builder.close()
 
     def _mock_llm_response(self, description: str) -> str:
         """Generate a mock workflow for testing purposes with proper trigger nodes."""

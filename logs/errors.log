@@ -399,3 +399,231 @@ Traceback (most recent call last):
   File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 2716, in _execute_llm_call
     raise ValueError("LLM response was truncated due to token limit - increase max_tokens")
 ValueError: LLM response was truncated due to token limit - increase max_tokens
+2025-06-21 16:56:19,309 - __main__ - ERROR - Offline test failed: No module named 'bs4'
+2025-06-21 16:56:19,309 - __main__ - ERROR - Full error details:
+Traceback (most recent call last):
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 153, in test_offline_functionality
+    from n8n_builder.research_formatter import ResearchFormatter
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\__init__.py", line 5, in <module>
+    from .n8n_builder import N8NBuilder
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 22, in <module>
+    from .enhanced_prompt_builder import EnhancedPromptBuilder
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\enhanced_prompt_builder.py", line 14, in <module>
+    from .mcp_research_tool import N8NResearchTool
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 18, in <module>
+    from bs4 import BeautifulSoup
+ModuleNotFoundError: No module named 'bs4'
+2025-06-21 16:56:19,313 - __main__ - ERROR - Import error - missing dependencies: No module named 'bs4'
+2025-06-21 16:56:19,314 - __main__ - ERROR - Integration test failed: No module named 'bs4'
+2025-06-21 16:56:19,314 - __main__ - ERROR - Full error details:
+Traceback (most recent call last):
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 112, in test_integration
+    from n8n_builder.n8n_builder import N8NBuilder
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\__init__.py", line 5, in <module>
+    from .n8n_builder import N8NBuilder
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 22, in <module>
+    from .enhanced_prompt_builder import EnhancedPromptBuilder
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\enhanced_prompt_builder.py", line 14, in <module>
+    from .mcp_research_tool import N8NResearchTool
+  File "c:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 18, in <module>
+    from bs4 import BeautifulSoup
+ModuleNotFoundError: No module named 'bs4'
+[2025-06-21 17:02:52,123] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,124] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 228, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 151, in _cache_result
+    self.enhanced_cache.put(method, result, source=source, *args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,221] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,231] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,585] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:04:00,675] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,675] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 230, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 153, in _cache_result
+    self.enhanced_cache.put(method, result, ttl=None, source=source, *args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,785] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,792] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:01,115] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:05:34,428] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,429] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 230, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 153, in _cache_result
+    self.enhanced_cache.put(method, result, source=source, *cache_args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,538] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,539] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,807] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:07,765] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,765] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 231, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 154, in _cache_result
+    self.enhanced_cache.put(method, result, ttl=None, source=source, *cache_args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,883] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,886] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:08,230] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:44,899] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:07:12,559] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:38:36,507] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:44:23,522] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:59:23,452] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-22 15:38:52,293] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-22 15:43:51,420] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:48:51,423] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:53:51,425] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:58:51,428] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:03:51,430] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:08:51,433] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:13:51,434] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:18:51,436] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:23:51,438] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:28:51,441] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:33:51,444] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:38:51,447] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:43:51,449] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:48:51,453] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:53:51,456] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:58:51,457] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:03:51,461] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:08:51,463] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:13:51,463] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:18:51,466] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:23:51,468] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:28:51,470] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:33:51,474] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:38:51,476] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:43:51,477] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:48:51,479] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:53:51,480] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:58:51,481] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:03:51,484] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:08:51,486] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:13:51,487] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:18:51,490] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:23:51,493] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:28:51,496] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:33:51,499] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:38:51,502] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:43:51,505] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:48:51,508] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:53:51,511] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:58:51,513] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:03:51,515] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:08:51,517] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:13:51,518] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:18:51,522] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:23:51,524] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:28:51,526] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:33:51,529] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:38:51,530] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:43:51,533] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:48:51,536] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:53:51,538] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:58:51,542] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:03:51,544] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:08:51,547] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:13:51,548] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:18:51,551] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:23:51,554] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:28:51,555] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:33:51,557] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:38:51,560] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:43:51,564] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:48:51,567] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:53:51,570] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:58:51,573] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:03:51,576] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:08:51,578] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:13:51,580] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:18:51,583] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:23:51,586] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:28:51,588] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:33:51,591] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:38:51,593] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:43:51,596] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:48:51,598] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:53:51,601] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:58:51,603] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:03:51,606] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:08:51,609] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:13:51,610] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:18:51,614] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:23:51,616] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:28:51,620] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:33:51,623] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:38:51,625] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:43:51,628] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:48:51,631] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:53:51,633] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'

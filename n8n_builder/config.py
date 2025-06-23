@@ -65,6 +65,20 @@ class LLMConfig(BaseModel):
     headers: Dict[str, str] = {}
     is_local: bool = False
 
+class MCPResearchConfig(BaseModel):
+    """Configuration for MCP Research Tool."""
+    enabled: bool = True
+    timeout: int = 30
+    cache_ttl: int = 3600  # 1 hour
+    max_content_length: int = 2000
+    max_results_per_source: int = 5
+    sources: Dict[str, str] = {
+        'official_docs': 'https://docs.n8n.io/',
+        'community_forum': 'https://community.n8n.io/',
+        'github_main': 'https://github.com/n8n-io/n8n',
+        'templates': 'https://n8n.io/workflows/'
+    }
+
 class Config:
     """Main configuration class."""
     def __init__(self):
@@ -103,9 +117,23 @@ class Config:
             timeout=int(os.getenv("MIMO_TIMEOUT", "360")),
             is_local=is_local_mimo
         )
-        
+
+        # MCP Research configuration
+        self.mcp_research = MCPResearchConfig(
+            enabled=os.getenv("MCP_RESEARCH_ENABLED", "true").lower() == "true",
+            timeout=int(os.getenv("MCP_RESEARCH_TIMEOUT", "30")),
+            cache_ttl=int(os.getenv("MCP_RESEARCH_CACHE_TTL", "3600")),
+            max_content_length=int(os.getenv("MCP_RESEARCH_MAX_CONTENT", "2000")),
+            max_results_per_source=int(os.getenv("MCP_RESEARCH_MAX_RESULTS", "5"))
+        )
+
+        # Add MCP research attributes for backward compatibility
+        self.enable_mcp_research = self.mcp_research.enabled
+        self.research_timeout = self.mcp_research.timeout
+
         logger.debug(f"\nFinal LLM Configuration:")
         logger.debug(f"Mimo LLM Config: {self.mimo_llm}")
+        logger.debug(f"MCP Research Config: {self.mcp_research}")
 
 # Create a global config instance
 config = Config() 

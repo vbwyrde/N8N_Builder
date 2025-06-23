@@ -1559,3 +1559,1357 @@ ValueError: LLM response was truncated due to token limit - increase max_tokens
 [2025-06-19 22:04:07,520] INFO n8n_builder.project: Refreshed project cache: 3 projects found
 [2025-06-19 22:04:07,520] INFO n8n_builder.filesystem: Successfully wrote workflow BlogToTweet.json to project elthosdb1
 [2025-06-19 22:04:07,520] INFO n8n_builder.filesystem: Successfully read workflow BlogToTweet.json from project elthosdb1
+2025-06-21 16:56:19,301 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 16:56:19,301 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-21 17:02:51,452 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:02:51,452 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:02:51,903] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:02:51,903] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:02:51,903] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:02:51,903] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:02:51,903] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:02:51,903] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:02:51,903] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:02:51,903] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:02:51,927] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:02:51,927] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:02:51,927] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:02:51,927] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:02:51,931] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:02:51,932] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:02:51,932] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:02:51,937] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:02:52,091] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:02:52,123] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,124] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 228, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 151, in _cache_result
+    self.enhanced_cache.put(method, result, source=source, *args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,125] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:02:52,125] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:02:52,125] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:02:52,126] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:02:52,126] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:02:52,126] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:02:52,126] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:02:52,126] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:02:52,126] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:02:52,126] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:02:52,126] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:02:52,126] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:02:52,128] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:02:52,128] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:02:52,129] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:02:52,129] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:02:52,136] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:02:52,136] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:02:52,137] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:02:52,137] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:02:52,138] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:02:52,138] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:02:52,138] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:02:52,138] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:02:52,139] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:02:52,200] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:02:52,200] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:02:52,200] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:02:52,221] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,231] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:02:52,253] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:02:52,563] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 17:02:52,583] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:02:52,583] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for official_docs, No results found for github_examples
+[2025-06-21 17:02:52,584] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:02:52,585] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:02:52,585] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:02:52,586] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:02:52,586] INFO __main__: Integration test completed!
+[2025-06-21 17:02:52,586] INFO __main__: 
+==================================================
+[2025-06-21 17:02:52,587] INFO __main__: TEST SUMMARY
+[2025-06-21 17:02:52,587] INFO __main__: ==================================================
+[2025-06-21 17:02:52,587] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:02:52,587] INFO __main__: Online research tool: ❌ FAIL
+[2025-06-21 17:02:52,587] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:02:52,587] INFO __main__: 
+⚠️ Some tests failed. Check the logs above for details.
+2025-06-21 17:04:00,331 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:04:00,331 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:04:00,559] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:04:00,559] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:04:00,559] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:04:00,559] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:04:00,559] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:04:00,559] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:04:00,559] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:04:00,559] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:04:00,559] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:04:00,575] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:04:00,575] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:04:00,576] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:04:00,576] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:04:00,576] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:04:00,576] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:04:00,582] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:04:00,658] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:04:00,675] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,675] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 230, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 153, in _cache_result
+    self.enhanced_cache.put(method, result, ttl=None, source=source, *args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,675] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:04:00,675] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:04:00,675] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:04:00,675] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:04:00,675] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:04:00,675] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:04:00,675] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:04:00,675] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:04:00,685] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:04:00,686] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:04:00,691] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:04:00,691] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:04:00,692] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:04:00,692] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:04:00,693] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:04:00,693] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:04:00,693] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:04:00,693] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:04:00,694] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:04:00,765] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:04:00,765] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:04:00,765] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:04:00,785] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,792] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:04:00,809] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:04:01,097] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 17:04:01,113] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:04:01,113] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for official_docs, No best practices found, No results found for github_examples
+[2025-06-21 17:04:01,114] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:04:01,115] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:04:01,115] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:04:01,117] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:04:01,117] INFO __main__: Integration test completed!
+[2025-06-21 17:04:01,117] INFO __main__: 
+==================================================
+[2025-06-21 17:04:01,117] INFO __main__: TEST SUMMARY
+[2025-06-21 17:04:01,117] INFO __main__: ==================================================
+[2025-06-21 17:04:01,117] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:04:01,117] INFO __main__: Online research tool: ❌ FAIL
+[2025-06-21 17:04:01,118] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:04:01,118] INFO __main__: 
+⚠️ Some tests failed. Check the logs above for details.
+2025-06-21 17:05:33,999 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:05:34,002 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:05:34,226] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:05:34,228] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:05:34,228] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:05:34,228] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:05:34,228] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:05:34,228] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:05:34,228] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:05:34,228] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:05:34,228] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:05:34,228] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:05:34,228] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:05:34,228] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:05:34,231] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:05:34,238] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:05:34,238] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:05:34,238] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:05:34,247] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:05:34,247] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:05:34,247] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:05:34,248] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:05:34,255] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:05:34,389] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:05:34,428] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,429] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 230, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 153, in _cache_result
+    self.enhanced_cache.put(method, result, source=source, *cache_args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,432] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:05:34,432] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:05:34,432] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:05:34,432] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:05:34,432] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:05:34,432] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:05:34,432] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:05:34,432] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:05:34,432] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:05:34,432] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:05:34,432] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:05:34,434] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:05:34,434] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:05:34,434] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:05:34,435] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:05:34,436] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:05:34,444] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:05:34,444] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:05:34,445] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:05:34,445] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:05:34,446] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:05:34,446] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:05:34,446] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:05:34,447] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:05:34,447] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:05:34,514] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:05:34,519] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:05:34,533] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:05:34,538] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,539] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'source'
+[2025-06-21 17:05:34,567] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:05:34,782] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 17:05:34,794] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:05:34,794] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for official_docs, No results found for github_examples
+[2025-06-21 17:05:34,806] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:05:34,807] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:05:34,807] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:05:34,809] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:05:34,809] INFO __main__: Integration test completed!
+[2025-06-21 17:05:34,809] INFO __main__: 
+==================================================
+[2025-06-21 17:05:34,810] INFO __main__: TEST SUMMARY
+[2025-06-21 17:05:34,810] INFO __main__: ==================================================
+[2025-06-21 17:05:34,810] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:05:34,810] INFO __main__: Online research tool: ❌ FAIL
+[2025-06-21 17:05:34,811] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:05:34,811] INFO __main__: 
+⚠️ Some tests failed. Check the logs above for details.
+2025-06-21 17:06:07,420 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:06:07,425 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:06:07,642] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:06:07,642] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:06:07,643] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:06:07,643] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:06:07,643] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:06:07,643] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:07,643] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:07,644] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:06:07,644] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:06:07,644] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:06:07,644] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:06:07,644] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:06:07,644] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:06:07,658] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:06:07,658] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:06:07,658] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:06:07,658] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:06:07,658] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:06:07,658] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:06:07,658] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:06:07,658] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:06:07,747] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:07,765] ERROR __main__: Test failed with error: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,765] ERROR __main__: Full error details:
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\test_mcp_research.py", line 34, in test_research_tool
+    docs_results = await research_tool.search_n8n_docs("email notification")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 231, in search_n8n_docs
+    self._cache_result('search_docs', results, 'official_docs', query, node_type or '')
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\mcp_research_tool.py", line 154, in _cache_result
+    self.enhanced_cache.put(method, result, ttl=None, source=source, *cache_args, **kwargs)
+TypeError: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,767] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:06:07,767] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:06:07,767] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:06:07,767] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:06:07,768] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:07,768] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:07,768] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:06:07,768] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:06:07,768] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:06:07,768] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:06:07,769] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:06:07,769] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:06:07,769] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:06:07,769] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:06:07,771] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:06:07,771] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:06:07,778] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:06:07,778] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:07,781] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:07,781] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:07,781] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:07,782] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:07,782] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:06:07,782] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:06:07,783] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:06:07,854] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:07,855] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:07,857] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:07,883] ERROR n8n_builder.mcp_research_tool: Error researching patterns for email: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,886] ERROR n8n_builder.mcp_research_tool: Error getting best practices: EnhancedKnowledgeCache.put() got multiple values for argument 'ttl'
+[2025-06-21 17:06:07,887] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:06:08,210] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 17:06:08,216] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:06:08,216] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No best practices found, No results found for github_examples
+[2025-06-21 17:06:08,229] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:06:08,230] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:06:08,230] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:08,232] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:08,232] INFO __main__: Integration test completed!
+[2025-06-21 17:06:08,232] INFO __main__: 
+==================================================
+[2025-06-21 17:06:08,232] INFO __main__: TEST SUMMARY
+[2025-06-21 17:06:08,233] INFO __main__: ==================================================
+[2025-06-21 17:06:08,233] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:06:08,233] INFO __main__: Online research tool: ❌ FAIL
+[2025-06-21 17:06:08,233] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:06:08,233] INFO __main__: 
+⚠️ Some tests failed. Check the logs above for details.
+2025-06-21 17:06:40,909 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:06:40,927 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:06:41,153] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:06:41,153] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:06:41,153] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:06:41,153] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:41,153] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:06:41,153] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:06:41,153] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:06:41,153] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:06:41,174] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:06:41,174] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:06:41,174] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:06:41,175] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:06:41,175] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:06:41,175] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:06:41,176] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:06:41,181] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:06:41,263] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:41,284] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:41,284] INFO __main__: Found 0 documentation results
+[2025-06-21 17:06:41,284] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:06:41,966] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:06:41,987] INFO __main__: Found 0 community examples
+[2025-06-21 17:06:41,987] INFO n8n_builder.mcp_research_tool: Getting best practices for: email automation
+[2025-06-21 17:06:41,989] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email automation best practices
+[2025-06-21 17:06:42,002] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20automation%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:42,028] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:42,029] INFO n8n_builder.mcp_research_tool: Searching community examples for: email automation best practices
+[2025-06-21 17:06:42,310] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20automation%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:06:42,420] INFO __main__: Found 4 best practices
+[2025-06-21 17:06:42,420] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:06:42,420] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:06:42,420] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:06:42,420] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:06:42,435] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:06:42,436] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 17:06:42,436] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 17:06:42,437] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:06:42,463] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:42,472] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:42,502] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:42,502] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:42,532] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:42,532] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:06:42,536] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:42,536] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 17:06:42,542] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:06:42,779] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 200 OK"
+[2025-06-21 17:06:42,936] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:06:42,969] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 17:06:42,988] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,003] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,019] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 17:06:43,155] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:06:43,166] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:06:43,172] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 17:06:43,190] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,193] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,193] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 17:06:43,342] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:06:43,342] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,342] INFO __main__: Comprehensive research completed with 7 result categories
+[2025-06-21 17:06:43,342] INFO __main__: Test 2: Research formatter
+[2025-06-21 17:06:43,342] INFO __main__: Formatted research length: 303 characters
+[2025-06-21 17:06:43,342] INFO __main__: Test 3: Enhanced prompt builder
+[2025-06-21 17:06:43,342] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:06:43,342] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:06:43,356] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Send me an email notification when a new file is u...
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 17:06:43,356] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:06:43,421] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,434] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,436] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,448] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,448] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 17:06:43,448] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,448] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:06:43,448] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,459] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:06:43,763] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:06:43,786] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 17:06:43,815] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:43,834] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:43,835] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 17:06:43,982] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:06:43,983] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 17:06:43,996] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 200 OK"
+[2025-06-21 17:06:44,010] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:44,012] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:44,012] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 17:06:44,043] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:06:44,141] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:06:44,155] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:44,155] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:06:44,156] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for official_docs, No results found for github_examples
+[2025-06-21 17:06:44,158] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:06:44,159] INFO __main__: Enhanced prompt length: 917 characters
+[2025-06-21 17:06:44,159] INFO n8n_builder.enhanced_prompt_builder: Research disabled, using basic prompt
+[2025-06-21 17:06:44,159] INFO __main__: Basic prompt length: 917 characters
+[2025-06-21 17:06:44,159] INFO __main__: Research statistics: {'total_requests': 2, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0.0, 'average_research_time': 0}
+[2025-06-21 17:06:44,160] INFO __main__: All tests completed successfully!
+[2025-06-21 17:06:44,160] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:06:44,161] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:06:44,161] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:06:44,161] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:06:44,162] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:44,162] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:06:44,162] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:06:44,162] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:06:44,162] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:06:44,162] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:06:44,163] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:06:44,163] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:06:44,164] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:06:44,164] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:06:44,165] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:06:44,165] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:06:44,169] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:06:44,169] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:44,172] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:44,172] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:44,172] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:44,173] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:06:44,173] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:06:44,173] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:06:44,173] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:06:44,237] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:44,244] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:44,247] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:06:44,247] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:06:44,259] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:44,261] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:06:44,263] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:44,266] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:06:44,266] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:06:44,529] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:06:44,625] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 17:06:44,873] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:06:44,895] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:06:44,895] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for official_docs, No results found for github_examples
+[2025-06-21 17:06:44,898] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:06:44,899] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:06:44,899] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:44,901] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:06:44,901] INFO __main__: Integration test completed!
+[2025-06-21 17:06:44,901] INFO __main__: 
+==================================================
+[2025-06-21 17:06:44,901] INFO __main__: TEST SUMMARY
+[2025-06-21 17:06:44,901] INFO __main__: ==================================================
+[2025-06-21 17:06:44,901] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:06:44,901] INFO __main__: Online research tool: ✅ PASS
+[2025-06-21 17:06:44,901] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:06:44,901] INFO __main__: 
+🎉 All tests passed! MCP Research Tool is ready to use.
+2025-06-21 17:07:08,080 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 17:07:08,080 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 17:07:08,294] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:07:08,294] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:07:08,294] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:07:08,294] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:07:08,294] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:07:08,294] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:07:08,294] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:07:08,294] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:07:08,311] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 17:07:08,311] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 17:07:08,311] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 17:07:08,311] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 17:07:08,323] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 17:07:08,323] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:07:08,324] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:07:08,329] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 17:07:08,405] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:08,425] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:08,426] INFO __main__: Found 0 documentation results
+[2025-06-21 17:07:08,427] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:07:08,919] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:08,998] INFO __main__: Found 0 community examples
+[2025-06-21 17:07:08,998] INFO n8n_builder.mcp_research_tool: Getting best practices for: email automation
+[2025-06-21 17:07:08,998] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email automation best practices
+[2025-06-21 17:07:09,027] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20automation%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:09,048] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:09,049] INFO n8n_builder.mcp_research_tool: Searching community examples for: email automation best practices
+[2025-06-21 17:07:09,314] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20automation%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:07:09,434] INFO __main__: Found 4 best practices
+[2025-06-21 17:07:09,434] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:07:09,434] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:07:09,434] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:07:09,434] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:07:09,434] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 17:07:09,441] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 17:07:09,441] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 17:07:09,441] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:07:09,461] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:09,472] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:09,513] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:09,521] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:09,533] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:09,533] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 17:07:09,543] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:09,543] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:07:09,549] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:07:09,689] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 200 OK"
+[2025-06-21 17:07:09,857] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:09,877] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 17:07:09,883] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:09,914] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:09,914] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 17:07:10,201] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:07:10,482] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:10,503] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 17:07:10,528] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:10,535] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:10,535] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 17:07:11,186] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:11,222] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,222] INFO __main__: Comprehensive research completed with 7 result categories
+[2025-06-21 17:07:11,226] INFO __main__: Test 2: Research formatter
+[2025-06-21 17:07:11,226] INFO __main__: Formatted research length: 303 characters
+[2025-06-21 17:07:11,227] INFO __main__: Test 3: Enhanced prompt builder
+[2025-06-21 17:07:11,227] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:07:11,227] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:07:11,231] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Send me an email notification when a new file is u...
+[2025-06-21 17:07:11,231] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:07:11,234] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:07:11,234] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:07:11,234] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:07:11,235] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 17:07:11,235] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 17:07:11,235] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 17:07:11,235] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:07:11,295] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:11,295] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:11,310] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:11,329] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,331] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,332] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 17:07:11,333] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,334] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:07:11,355] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:07:11,530] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:11,646] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 17:07:11,662] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:11,685] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,686] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 17:07:11,690] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 17:07:11,825] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:07:11,825] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 17:07:11,846] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:11,853] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,854] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 17:07:11,889] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 200 OK"
+[2025-06-21 17:07:11,994] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:07:11,998] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:11,998] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:07:12,002] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for official_docs, No results found for community_examples, No results found for github_examples
+[2025-06-21 17:07:12,003] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:07:12,004] INFO __main__: Enhanced prompt length: 917 characters
+[2025-06-21 17:07:12,005] INFO n8n_builder.enhanced_prompt_builder: Research disabled, using basic prompt
+[2025-06-21 17:07:12,005] INFO __main__: Basic prompt length: 917 characters
+[2025-06-21 17:07:12,006] INFO __main__: Research statistics: {'total_requests': 2, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0.0, 'average_research_time': 0}
+[2025-06-21 17:07:12,007] INFO __main__: All tests completed successfully!
+[2025-06-21 17:07:12,008] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 17:07:12,009] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 17:07:12,009] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 17:07:12,009] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 17:07:12,010] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:07:12,010] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 17:07:12,010] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 17:07:12,011] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 17:07:12,011] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 17:07:12,011] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 17:07:12,012] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 17:07:12,012] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 17:07:12,012] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 17:07:12,012] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 17:07:12,012] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 17:07:12,012] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 17:07:12,012] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 17:07:12,012] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:07:12,021] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:07:12,021] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:07:12,021] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:07:12,022] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 17:07:12,022] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:07:12,022] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 17:07:12,023] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 17:07:12,095] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:12,096] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:12,096] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 17:07:12,110] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 17:07:12,126] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:12,127] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 17:07:12,128] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:12,128] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 17:07:12,128] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 17:07:12,404] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 17:07:12,422] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:07:12,545] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 17:07:12,555] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 17:07:12,556] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for official_docs, No results found for community_examples, No results found for github_examples
+[2025-06-21 17:07:12,558] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 17:07:12,559] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 17:07:12,559] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:07:12,561] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 17:07:12,561] INFO __main__: Integration test completed!
+[2025-06-21 17:07:12,561] INFO __main__: 
+==================================================
+[2025-06-21 17:07:12,562] INFO __main__: TEST SUMMARY
+[2025-06-21 17:07:12,562] INFO __main__: ==================================================
+[2025-06-21 17:07:12,562] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 17:07:12,562] INFO __main__: Online research tool: ✅ PASS
+[2025-06-21 17:07:12,562] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 17:07:12,562] INFO __main__: 
+🎉 All tests passed! MCP Research Tool is ready to use.
+2025-06-21 21:38:32,006 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 21:38:32,008 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 21:38:32,382] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:38:32,382] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:38:32,382] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:38:32,382] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:38:32,382] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:38:32,382] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:38:32,382] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:38:32,382] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:38:32,404] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 21:38:32,404] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 21:38:32,404] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 21:38:32,406] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 21:38:32,406] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 21:38:32,406] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:38:32,407] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:38:32,414] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 21:38:32,548] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:32,560] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:32,560] INFO __main__: Found 0 documentation results
+[2025-06-21 21:38:32,560] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:38:33,307] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:38:33,329] INFO __main__: Found 0 community examples
+[2025-06-21 21:38:33,329] INFO n8n_builder.mcp_research_tool: Getting best practices for: email automation
+[2025-06-21 21:38:33,337] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email automation best practices
+[2025-06-21 21:38:33,356] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20automation%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:33,375] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:33,376] INFO n8n_builder.mcp_research_tool: Searching community examples for: email automation best practices
+[2025-06-21 21:38:33,693] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20automation%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:38:33,804] INFO __main__: Found 4 best practices
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:38:33,804] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:38:33,818] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:38:33,818] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:38:33,836] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:33,854] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:33,886] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:33,887] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:33,889] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:33,889] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:38:33,907] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:33,907] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:38:33,934] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:38:33,969] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:38:34,307] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:38:34,329] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:38:34,413] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:38:34,446] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:34,466] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,468] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:38:34,617] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:38:34,620] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:38:34,631] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:34,644] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,644] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:38:34,833] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:38:34,833] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,833] INFO __main__: Comprehensive research completed with 7 result categories
+[2025-06-21 21:38:34,847] INFO __main__: Test 2: Research formatter
+[2025-06-21 21:38:34,848] INFO __main__: Formatted research length: 303 characters
+[2025-06-21 21:38:34,849] INFO __main__: Test 3: Enhanced prompt builder
+[2025-06-21 21:38:34,852] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:38:34,853] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:38:34,859] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Send me an email notification when a new file is u...
+[2025-06-21 21:38:34,859] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:38:34,861] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:38:34,861] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:38:34,862] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:38:34,862] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:38:34,862] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:38:34,862] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:38:34,863] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:38:34,924] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:34,939] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:34,939] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:34,948] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,948] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,948] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:38:34,948] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:38:34,963] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:34,963] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:38:35,350] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:38:35,350] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 200 OK"
+[2025-06-21 21:38:35,418] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:38:35,444] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:38:35,466] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:35,481] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,481] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:38:35,626] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:38:35,629] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:38:35,653] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:35,659] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,660] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:38:35,787] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:38:35,787] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,802] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:38:35,802] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for github_examples, No results found for community_examples, No results found for official_docs
+[2025-06-21 21:38:35,806] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:38:35,807] INFO __main__: Enhanced prompt length: 917 characters
+[2025-06-21 21:38:35,807] INFO n8n_builder.enhanced_prompt_builder: Research disabled, using basic prompt
+[2025-06-21 21:38:35,808] INFO __main__: Basic prompt length: 917 characters
+[2025-06-21 21:38:35,809] INFO __main__: Research statistics: {'total_requests': 2, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0.0, 'average_research_time': 0}
+[2025-06-21 21:38:35,809] INFO __main__: All tests completed successfully!
+[2025-06-21 21:38:35,810] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 21:38:35,811] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:38:35,811] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:38:35,811] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:38:35,813] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:38:35,813] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:38:35,813] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:38:35,814] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:38:35,814] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:38:35,814] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:38:35,815] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:38:35,815] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:38:35,816] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 21:38:35,816] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 21:38:35,816] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:38:35,818] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:38:35,819] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 21:38:35,819] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:38:35,825] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:38:35,825] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:38:35,825] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:38:35,826] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:38:35,826] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:38:35,826] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 21:38:35,827] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:38:35,898] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:35,898] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:35,898] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:38:35,917] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,927] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,927] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:38:35,928] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:38:35,928] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:38:35,928] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:38:36,226] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 21:38:36,382] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:38:36,460] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:38:36,507] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:38:36,507] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for github_examples, No results found for community_examples, No results found for official_docs
+[2025-06-21 21:38:36,507] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:38:36,507] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 21:38:36,507] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:38:36,507] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:38:36,507] INFO __main__: Integration test completed!
+[2025-06-21 21:38:36,507] INFO __main__: 
+==================================================
+[2025-06-21 21:38:36,507] INFO __main__: TEST SUMMARY
+[2025-06-21 21:38:36,507] INFO __main__: ==================================================
+[2025-06-21 21:38:36,507] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 21:38:36,507] INFO __main__: Online research tool: ✅ PASS
+[2025-06-21 21:38:36,507] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 21:38:36,507] INFO __main__: 
+🎉 All tests passed! MCP Research Tool is ready to use.
+2025-06-21 21:44:19,678 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 21:44:19,685 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 21:44:19,897] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:44:19,897] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:44:19,897] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:44:19,897] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:44:19,897] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:44:19,897] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:44:19,897] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:44:19,897] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:44:19,916] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 21:44:19,917] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 21:44:19,917] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 21:44:19,918] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 21:44:19,918] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 21:44:19,918] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:44:19,919] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:44:19,923] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 21:44:20,038] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:20,042] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:20,042] INFO __main__: Found 0 documentation results
+[2025-06-21 21:44:20,057] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:44:20,760] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:44:20,791] INFO __main__: Found 0 community examples
+[2025-06-21 21:44:20,792] INFO n8n_builder.mcp_research_tool: Getting best practices for: email automation
+[2025-06-21 21:44:20,792] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email automation best practices
+[2025-06-21 21:44:20,810] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20automation%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:20,828] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:20,829] INFO n8n_builder.mcp_research_tool: Searching community examples for: email automation best practices
+[2025-06-21 21:44:21,069] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20automation%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:44:21,087] INFO __main__: Found 4 best practices
+[2025-06-21 21:44:21,088] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:44:21,088] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:44:21,088] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:44:21,088] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:44:21,089] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:44:21,089] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:44:21,089] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:44:21,090] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:44:21,106] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:21,120] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,147] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:21,166] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:21,168] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,168] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:44:21,185] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,185] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:44:21,226] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:44:21,337] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 200 OK"
+[2025-06-21 21:44:21,553] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:44:21,601] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:21,601] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:44:21,622] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:21,632] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,632] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:44:21,757] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:21,773] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:44:21,794] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:21,804] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,804] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:44:21,937] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:21,940] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:21,940] INFO __main__: Comprehensive research completed with 7 result categories
+[2025-06-21 21:44:21,941] INFO __main__: Test 2: Research formatter
+[2025-06-21 21:44:21,943] INFO __main__: Formatted research length: 303 characters
+[2025-06-21 21:44:21,943] INFO __main__: Test 3: Enhanced prompt builder
+[2025-06-21 21:44:21,944] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:44:21,945] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:44:21,950] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Send me an email notification when a new file is u...
+[2025-06-21 21:44:21,950] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:44:21,952] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:44:21,952] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:44:21,952] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:44:21,953] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:44:21,953] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:44:21,953] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:44:21,953] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:44:22,022] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,022] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,022] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,044] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,044] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:44:22,044] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,044] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,044] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:44:22,061] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:44:22,418] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:44:22,477] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:22,477] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:44:22,497] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,521] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,521] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:44:22,608] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 200 OK"
+[2025-06-21 21:44:22,664] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:22,664] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:44:22,695] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,697] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,697] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:44:22,845] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:22,846] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,847] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:44:22,847] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for official_docs, No results found for community_examples, No results found for github_examples
+[2025-06-21 21:44:22,847] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:44:22,848] INFO __main__: Enhanced prompt length: 917 characters
+[2025-06-21 21:44:22,848] INFO n8n_builder.enhanced_prompt_builder: Research disabled, using basic prompt
+[2025-06-21 21:44:22,848] INFO __main__: Basic prompt length: 917 characters
+[2025-06-21 21:44:22,848] INFO __main__: Research statistics: {'total_requests': 2, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0.0, 'average_research_time': 0}
+[2025-06-21 21:44:22,848] INFO __main__: All tests completed successfully!
+[2025-06-21 21:44:22,849] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 21:44:22,849] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:44:22,850] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:44:22,850] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:44:22,850] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:44:22,850] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:44:22,850] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:44:22,850] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:44:22,850] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:44:22,850] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:44:22,850] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:44:22,851] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:44:22,851] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 21:44:22,851] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 21:44:22,852] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:44:22,853] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:44:22,856] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 21:44:22,856] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:44:22,860] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:44:22,860] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:44:22,860] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:44:22,861] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:44:22,861] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:44:22,861] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 21:44:22,862] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:44:22,929] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,929] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,935] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:44:22,948] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,949] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:44:22,949] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:44:22,950] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,950] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:44:22,950] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:44:23,323] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 21:44:23,323] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:44:23,506] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:44:23,507] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:44:23,507] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for official_docs, No results found for community_examples, No results found for github_examples
+[2025-06-21 21:44:23,520] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:44:23,521] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 21:44:23,522] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:44:23,523] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:44:23,523] INFO __main__: Integration test completed!
+[2025-06-21 21:44:23,523] INFO __main__: 
+==================================================
+[2025-06-21 21:44:23,523] INFO __main__: TEST SUMMARY
+[2025-06-21 21:44:23,524] INFO __main__: ==================================================
+[2025-06-21 21:44:23,524] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 21:44:23,524] INFO __main__: Online research tool: ✅ PASS
+[2025-06-21 21:44:23,524] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 21:44:23,524] INFO __main__: 
+🎉 All tests passed! MCP Research Tool is ready to use.
+2025-06-21 21:59:18,715 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-21 21:59:18,719 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-21 21:59:18,959] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:59:18,959] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:59:18,959] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:59:18,959] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:59:18,959] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:59:18,959] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:59:18,959] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:59:18,959] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:59:18,977] INFO __main__: Formatted mock research: 881 characters
+[2025-06-21 21:59:18,977] INFO __main__: Generated prompt: 1789 characters
+[2025-06-21 21:59:18,978] INFO __main__: Offline functionality test completed successfully!
+[2025-06-21 21:59:18,978] INFO __main__: Testing MCP Research Tool...
+[2025-06-21 21:59:18,978] INFO __main__: Test 1: Basic research tool functionality
+[2025-06-21 21:59:18,978] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:59:18,979] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:59:18,985] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email notification
+[2025-06-21 21:59:19,086] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20notification "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:19,104] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:19,105] INFO __main__: Found 0 documentation results
+[2025-06-21 21:59:19,106] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:59:19,836] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:59:19,869] INFO __main__: Found 0 community examples
+[2025-06-21 21:59:19,869] INFO n8n_builder.mcp_research_tool: Getting best practices for: email automation
+[2025-06-21 21:59:19,869] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email automation best practices
+[2025-06-21 21:59:19,886] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20automation%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:19,913] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:19,914] INFO n8n_builder.mcp_research_tool: Searching community examples for: email automation best practices
+[2025-06-21 21:59:20,131] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20automation%20best%20practices "HTTP/1.1 200 OK"
+[2025-06-21 21:59:20,164] INFO __main__: Found 4 best practices
+[2025-06-21 21:59:20,164] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:59:20,165] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:59:20,165] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:59:20,166] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:59:20,166] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email when a new file is uploaded to Google Drive
+[2025-06-21 21:59:20,166] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:59:20,167] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:59:20,167] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:59:20,184] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:20,201] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:20,228] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:20,239] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:20,256] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:20,258] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:59:20,262] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:20,263] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email when a new file is uploaded to Google Drive best practices
+[2025-06-21 21:59:20,264] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:59:20,411] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive "HTTP/1.1 200 OK"
+[2025-06-21 21:59:20,665] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:20,665] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:59:20,665] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20when%20a%20new%20file%20is%20uploaded%20to%20Google%20Drive%20best%20practices "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:20,680] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:20,711] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:20,712] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:59:20,851] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:20,855] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:59:20,873] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:20,880] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:20,880] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:59:21,257] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:59:21,367] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:21,367] INFO __main__: Comprehensive research completed with 7 result categories
+[2025-06-21 21:59:21,381] INFO __main__: Test 2: Research formatter
+[2025-06-21 21:59:21,381] INFO __main__: Formatted research length: 303 characters
+[2025-06-21 21:59:21,381] INFO __main__: Test 3: Enhanced prompt builder
+[2025-06-21 21:59:21,381] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:59:21,382] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:59:21,387] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Send me an email notification when a new file is u...
+[2025-06-21 21:59:21,388] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:59:21,388] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:59:21,389] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:59:21,389] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:59:21,389] INFO n8n_builder.mcp_research_tool: Getting best practices for: Send me an email notification when a new file is uploaded to my Google Drive folder
+[2025-06-21 21:59:21,389] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:59:21,389] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email', 'google', 'file']
+[2025-06-21 21:59:21,390] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:59:21,455] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:21,455] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:21,455] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:21,478] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:21,480] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:21,480] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:59:21,483] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:21,483] INFO n8n_builder.mcp_research_tool: Searching community examples for: Send me an email notification when a new file is uploaded to my Google Drive folder best practices
+[2025-06-21 21:59:21,485] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:59:21,834] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:21,834] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: google integration workflow
+[2025-06-21 21:59:21,857] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=google%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:21,884] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:21,885] INFO n8n_builder.mcp_research_tool: Searching community examples for: google workflow
+[2025-06-21 21:59:21,888] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder%20best%20practices "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:22,040] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Send%20me%20an%20email%20notification%20when%20a%20new%20file%20is%20uploaded%20to%20my%20Google%20Drive%20folder "HTTP/1.1 200 OK"
+[2025-06-21 21:59:22,306] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=google%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:59:22,327] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: file integration workflow
+[2025-06-21 21:59:22,335] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=file%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:22,368] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:22,369] INFO n8n_builder.mcp_research_tool: Searching community examples for: file workflow
+[2025-06-21 21:59:22,818] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=file%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:59:22,852] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:22,854] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:59:22,854] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for github_examples, No results found for official_docs
+[2025-06-21 21:59:22,854] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:59:22,854] INFO __main__: Enhanced prompt length: 917 characters
+[2025-06-21 21:59:22,855] INFO n8n_builder.enhanced_prompt_builder: Research disabled, using basic prompt
+[2025-06-21 21:59:22,855] INFO __main__: Basic prompt length: 917 characters
+[2025-06-21 21:59:22,855] INFO __main__: Research statistics: {'total_requests': 2, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0.0, 'average_research_time': 0}
+[2025-06-21 21:59:22,855] INFO __main__: All tests completed successfully!
+[2025-06-21 21:59:22,855] INFO __main__: Testing integration with N8N_Builder...
+[2025-06-21 21:59:22,855] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-21 21:59:22,855] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-21 21:59:22,856] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-21 21:59:22,856] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:59:22,856] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-21 21:59:22,856] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-21 21:59:22,856] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-21 21:59:22,856] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-21 21:59:22,856] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-21 21:59:22,857] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-21 21:59:22,857] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-21 21:59:22,857] INFO __main__: Initial research stats: {'total_requests': 0, 'successful_research': 0, 'cache_hits': 0, 'research_time_total': 0.0, 'success_rate': 0, 'average_research_time': 0}
+[2025-06-21 21:59:22,857] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-21 21:59:22,858] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-21 21:59:22,858] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-21 21:59:22,864] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Create a workflow that sends me an email when some...
+[2025-06-21 21:59:22,864] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:59:22,865] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:59:22,867] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:59:22,868] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:59:22,868] INFO n8n_builder.mcp_research_tool: Getting best practices for: Create a workflow that sends me an email when someone submits a form on my website
+[2025-06-21 21:59:22,868] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:59:22,868] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['email']
+[2025-06-21 21:59:22,869] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: email integration workflow
+[2025-06-21 21:59:22,936] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=email%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:22,937] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:22,940] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 404 Not Found"
+[2025-06-21 21:59:22,956] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:22,957] INFO n8n_builder.mcp_research_tool: Searching community examples for: email workflow
+[2025-06-21 21:59:22,958] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:22,958] INFO n8n_builder.mcp_research_tool: Searching community examples for: Create a workflow that sends me an email when someone submits a form on my website best practices
+[2025-06-21 21:59:22,964] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website+repo:n8n-io%2Fn8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-21 21:59:22,967] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-21 21:59:23,355] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website "HTTP/1.1 200 OK"
+[2025-06-21 21:59:23,355] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Create%20a%20workflow%20that%20sends%20me%20an%20email%20when%20someone%20submits%20a%20form%20on%20my%20website%20best%20practices "HTTP/1.1 429 Too Many Requests"
+[2025-06-21 21:59:23,414] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=email%20workflow "HTTP/1.1 200 OK"
+[2025-06-21 21:59:23,452] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-21 21:59:23,452] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for github_examples, No results found for official_docs
+[2025-06-21 21:59:23,452] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-21 21:59:23,452] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-21 21:59:23,452] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:59:23,452] WARNING __main__: Workflow generation failed (this is expected if no LLM is running): cannot access local variable 'response' where it is not associated with a value
+[2025-06-21 21:59:23,452] INFO __main__: Integration test completed!
+[2025-06-21 21:59:23,452] INFO __main__: 
+==================================================
+[2025-06-21 21:59:23,452] INFO __main__: TEST SUMMARY
+[2025-06-21 21:59:23,452] INFO __main__: ==================================================
+[2025-06-21 21:59:23,452] INFO __main__: Offline functionality: ✅ PASS
+[2025-06-21 21:59:23,452] INFO __main__: Online research tool: ✅ PASS
+[2025-06-21 21:59:23,452] INFO __main__: Integration test: ✅ PASS
+[2025-06-21 21:59:23,452] INFO __main__: 
+🎉 All tests passed! MCP Research Tool is ready to use.
+2025-06-22 15:37:07,863 - n8n_builder.config - INFO - [<module>:55] - Enhanced logging configured - logs will be written to C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\logs
+2025-06-22 15:37:07,929 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-22 15:37:07,929 - n8n_builder.retry - INFO - [__init__:280] - Retry Manager initialized with advanced failure handling
+2025-06-22 15:37:07,931 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+2025-06-22 15:37:07,931 - n8n_builder.diff - INFO - [__init__:190] - Workflow differ initialized
+[2025-06-22 15:37:08,333] INFO n8n_builder.project: Ensured projects root directory exists: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-22 15:37:08,333] INFO n8n_builder.project: Project manager initialized with root: C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\projects
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: N8N Builder LLM Config: endpoint=http://localhost:1234/v1/chat/completions, is_local=True, model=mimo-vl-7b
+[2025-06-22 15:37:08,333] INFO n8n_builder.validation: EdgeCaseValidator initialized with size limits and node type validation
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: Performance optimizer initialized for large workflow processing
+[2025-06-22 15:37:08,333] INFO n8n_builder.retry: Configured retry behavior for endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: Configured retry strategies for LLM endpoint: http://localhost:1234/v1/chat/completions
+[2025-06-22 15:37:08,333] INFO n8n_builder.retry: Registered fallback strategy: mock_response
+[2025-06-22 15:37:08,333] INFO n8n_builder.retry: Registered fallback strategy: simplified_response
+[2025-06-22 15:37:08,333] INFO n8n_builder.retry: Registered fallback strategy: basic_workflow
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: Registered 3 fallback strategies for LLM failures
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: Enhanced retry manager initialized with intelligent failure handling
+[2025-06-22 15:37:08,333] INFO n8n_builder.n8n_builder: Enhanced prompt builder initialized with MCP research capabilities
+[2025-06-22 15:37:09,585] INFO n8n_builder.app: N8N Builder system started successfully
+[2025-06-22 15:37:14,062] INFO n8n_builder.project: Refreshed project cache: 3 projects found
+[2025-06-22 15:37:14,062] INFO n8n_builder.llm: Executing LLM API call
+[2025-06-22 15:37:16,466] INFO httpx: HTTP Request: POST http://localhost:1234/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-06-22 15:37:16,469] INFO n8n_builder.llm: LLM call successful
+[2025-06-22 15:37:16,469] INFO n8n_builder.n8n_builder: Successfully received response from LLM
+[2025-06-22 15:38:51,417] INFO n8n_builder.n8n_builder: In async context, using ThreadPoolExecutor for enhanced prompt building
+[2025-06-22 15:38:51,418] INFO n8n_builder.knowledge_cache: Knowledge cache initialized with persistence at cache\research
+[2025-06-22 15:38:51,418] INFO n8n_builder.mcp_research_tool: Enhanced knowledge cache initialized for research tool
+[2025-06-22 15:38:51,426] INFO n8n_builder.enhanced_prompt_builder: Starting research for: Can you create a workflow that will got to blogger...
+[2025-06-22 15:38:51,427] INFO n8n_builder.mcp_research_tool: Starting comprehensive research for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com
+[2025-06-22 15:38:51,427] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com
+[2025-06-22 15:38:51,428] INFO n8n_builder.mcp_research_tool: Searching community examples for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com
+[2025-06-22 15:38:51,428] INFO n8n_builder.mcp_research_tool: Searching GitHub for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com
+[2025-06-22 15:38:51,429] INFO n8n_builder.mcp_research_tool: Getting best practices for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com
+[2025-06-22 15:38:51,429] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com best practices
+[2025-06-22 15:38:51,429] INFO n8n_builder.mcp_research_tool: Researching integration patterns for: ['twitter']
+[2025-06-22 15:38:51,429] INFO n8n_builder.mcp_research_tool: Searching n8n docs for: twitter integration workflow
+[2025-06-22 15:38:51,532] INFO httpx: HTTP Request: GET https://api.github.com/search/code?q=Can%20you%20create%20a%20workflow%20that%20will%20got%20to%20blogger%20at%20ElthosRPG.Blogspot.com,%20pick%20a%20random%20page.%20%20It%20should%20then%20use%20the%20local%20LLM%20to%20summarize%20the%20page,%20and%20then%20write%20a%20tweet%20about%20it,%20which%20includes%20#ElthosRPG%20and%20a%20link%20to%20Elthos.com+repo:n8n-io/n8n+extension:json "HTTP/1.1 401 Unauthorized"
+[2025-06-22 15:38:51,570] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=twitter%20integration%20workflow "HTTP/1.1 404 Not Found"
+[2025-06-22 15:38:51,612] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-22 15:38:51,612] INFO n8n_builder.mcp_research_tool: Searching community examples for: twitter workflow
+[2025-06-22 15:38:51,627] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Can%20you%20create%20a%20workflow%20that%20will%20got%20to%20blogger%20at%20ElthosRPG.Blogspot.com,%20pick%20a%20random%20page.%20%20It%20should%20then%20use%20the%20local%20LLM%20to%20summarize%20the%20page,%20and%20then%20write%20a%20tweet%20about%20it,%20which%20includes%20#ElthosRPG%20and%20a%20link%20to%20Elthos.com "HTTP/1.1 404 Not Found"
+[2025-06-22 15:38:51,651] INFO httpx: HTTP Request: GET https://docs.n8n.io/search/?q=Can%20you%20create%20a%20workflow%20that%20will%20got%20to%20blogger%20at%20ElthosRPG.Blogspot.com,%20pick%20a%20random%20page.%20%20It%20should%20then%20use%20the%20local%20LLM%20to%20summarize%20the%20page,%20and%20then%20write%20a%20tweet%20about%20it,%20which%20includes%20#ElthosRPG%20and%20a%20link%20to%20Elthos.com%20best%20practices "HTTP/1.1 404 Not Found"
+[2025-06-22 15:38:51,654] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-22 15:38:51,675] WARNING n8n_builder.mcp_research_tool: Enhanced cache put failed: EnhancedKnowledgeCache.put() got multiple values for argument 'source', falling back to simple cache
+[2025-06-22 15:38:51,675] INFO n8n_builder.mcp_research_tool: Searching community examples for: Can you create a workflow that will got to blogger at ElthosRPG.Blogspot.com, pick a random page.  It should then use the local LLM to summarize the page, and then write a tweet about it, which includes #ElthosRPG and a link to Elthos.com best practices
+[2025-06-22 15:38:51,862] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Can%20you%20create%20a%20workflow%20that%20will%20got%20to%20blogger%20at%20ElthosRPG.Blogspot.com,%20pick%20a%20random%20page.%20%20It%20should%20then%20use%20the%20local%20LLM%20to%20summarize%20the%20page,%20and%20then%20write%20a%20tweet%20about%20it,%20which%20includes%20#ElthosRPG%20and%20a%20link%20to%20Elthos.com "HTTP/1.1 200 OK"
+[2025-06-22 15:38:52,084] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=Can%20you%20create%20a%20workflow%20that%20will%20got%20to%20blogger%20at%20ElthosRPG.Blogspot.com,%20pick%20a%20random%20page.%20%20It%20should%20then%20use%20the%20local%20LLM%20to%20summarize%20the%20page,%20and%20then%20write%20a%20tweet%20about%20it,%20which%20includes%20#ElthosRPG%20and%20a%20link%20to%20Elthos.com%20best%20practices "HTTP/1.1 429 Too Many Requests"
+[2025-06-22 15:38:52,268] INFO httpx: HTTP Request: GET https://community.n8n.io/search?q=twitter%20workflow "HTTP/1.1 200 OK"
+[2025-06-22 15:38:52,288] WARNING n8n_builder.enhanced_prompt_builder: Research data validation failed (quality: 0.00)
+[2025-06-22 15:38:52,288] WARNING n8n_builder.enhanced_prompt_builder: Issues: No results found for community_examples, No results found for github_examples, No results found for official_docs
+[2025-06-22 15:38:52,292] WARNING n8n_builder.enhanced_prompt_builder: Research returned no data, falling back to basic prompt
+[2025-06-22 15:38:52,293] INFO n8n_builder.n8n_builder: Enhanced prompt building successful
+[2025-06-22 15:38:52,293] ERROR n8n_builder.n8n_builder: Error generating workflow: cannot access local variable 'response' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder\n8n_builder\n8n_builder.py", line 460, in generate_workflow
+    workflow_json = self._map_to_workflow_structure(response)
+                                                    ^^^^^^^^
+UnboundLocalError: cannot access local variable 'response' where it is not associated with a value
+[2025-06-22 15:43:51,420] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:48:51,423] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:53:51,425] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 15:58:51,428] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:03:51,430] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:08:51,433] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:13:51,434] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:18:51,436] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:23:51,438] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:28:51,441] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:33:51,444] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:38:51,447] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:43:51,449] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:48:51,453] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:53:51,456] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 16:58:51,457] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:03:51,461] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:08:51,463] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:13:51,463] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:18:51,466] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:23:51,468] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:28:51,470] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:33:51,474] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:38:51,476] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:43:51,477] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:48:51,479] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:53:51,480] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 17:58:51,481] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:03:51,484] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:08:51,486] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:13:51,487] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:18:51,490] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:23:51,493] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:28:51,496] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:33:51,499] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:38:51,502] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:43:51,505] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:48:51,508] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:53:51,511] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 18:58:51,513] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:03:51,515] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:08:51,517] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:13:51,518] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:18:51,522] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:23:51,524] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:28:51,526] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:33:51,529] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:38:51,530] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:43:51,533] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:48:51,536] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:53:51,538] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 19:58:51,542] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:03:51,544] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:08:51,547] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:13:51,548] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:18:51,551] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:23:51,554] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:28:51,555] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:33:51,557] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:38:51,560] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:43:51,564] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:48:51,567] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:53:51,570] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 20:58:51,573] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:03:51,576] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:08:51,578] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:13:51,580] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:18:51,583] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:23:51,586] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:28:51,588] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:33:51,591] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:38:51,593] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:43:51,596] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:48:51,598] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:53:51,601] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 21:58:51,603] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:03:51,606] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:08:51,609] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:13:51,610] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:18:51,614] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:23:51,616] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:28:51,620] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:33:51,623] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:38:51,625] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:43:51,628] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:48:51,631] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
+[2025-06-22 22:53:51,633] ERROR n8n_builder.knowledge_cache: Error in cache cleanup thread: '>' not supported between instances of 'float' and 'str'
