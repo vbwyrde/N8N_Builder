@@ -42,6 +42,7 @@ graph TB
 
 **🤖 N8N_Builder (Workflow Generator):**
 - **AI-Powered Generation**: Convert plain English to N8N workflow JSON
+- **MCP Research Integration**: Real-time research of n8n docs, community examples, and best practices
 - **Dual API Architecture**: Standard REST API + AG-UI Protocol
 - **Real-time Validation**: Ensures workflows meet N8N standards
 - **Intelligent Iteration**: Modify existing workflows with new requirements
@@ -67,10 +68,13 @@ graph TB
 ## ✨ Key Features
 
 - **Natural Language to Workflow** - AI-powered conversion using local LLM
+- **MCP Research Tool** - Real-time research of n8n documentation and community best practices
+- **Enhanced Prompt Building** - Context-aware workflow generation with research integration
 - **Real-time Validation** - Ensures workflows meet N8N standards
 - **Web Interface & CLI** - Multiple ways to interact with the system
 - **Workflow Modification** - Update existing workflows with new requirements
 - **Agent Architecture** - Extensible system for custom processing
+- **Intelligent Caching** - Performance optimization with persistent research cache
 
 ## 🚀 Complete System Quick Start
 
@@ -95,10 +99,12 @@ echo "MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions" > .env
 echo "MIMO_MODEL=mimo-vl-7b" >> .env
 echo "MIMO_IS_LOCAL=true" >> .env
 
-# Start the workflow generator
+# Start the workflow generator (Method A - Robust)
+python run.py
+# OR Method B - Configurable
 python -m n8n_builder.cli serve
 ```
-**✅ N8N_Builder running at**: http://localhost:8000
+**✅ N8N_Builder running at**: http://localhost:8002 (Method A) or http://localhost:8000 (Method B)
 
 #### **Step 2: Setup n8n-docker (Workflow Executor)**
 ```bash
@@ -113,7 +119,7 @@ docker-compose up -d
 **✅ n8n running at**: http://localhost:5678
 
 #### **Step 3: Generate & Deploy Your First Workflow**
-1. **Generate**: Open http://localhost:8000
+1. **Generate**: Open http://localhost:8002 (or http://localhost:8000 if using CLI method)
 2. **Describe**: *"Send me an email when a new file is uploaded to my folder"*
 3. **Create**: Click "Generate Workflow" and copy the JSON
 4. **Deploy**: Open http://localhost:5678 → Settings → Import from JSON
@@ -132,10 +138,20 @@ docker-compose up -d
 ## 🛠️ Usage Options
 
 ### Web Interface (Recommended)
+
+#### **Method A: Direct Python (Robust)**
+```bash
+python run.py
+# Open http://localhost:8002
+```
+**Features**: Auto port cleanup, enhanced error handling, auto-reload enabled
+
+#### **Method B: CLI Command (Configurable)**
 ```bash
 python -m n8n_builder.cli serve
 # Open http://localhost:8000
 ```
+**Features**: Configurable host/port, optional auto-reload
 
 ### Command Line
 ```bash
@@ -161,18 +177,27 @@ curl -X POST "http://localhost:8000/generate" \
 - ✅ **Intelligent Node Validation** - Allows acceptable isolated nodes
 - ✅ **Comprehensive Error Handling** - Enhanced retry logic and fallback strategies
 
-**Result:** Email nodes, database connections, and workflow modifications now work reliably!
+**New MCP Research Integration:**
+- ✅ **Real-time Research Tool** - Searches n8n docs, community examples, and GitHub
+- ✅ **Enhanced Prompt Building** - Context-aware workflow generation with research data
+- ✅ **Intelligent Caching** - Persistent cache with graceful fallback mechanisms
+- ✅ **Quality Validation** - Automatic research result filtering and optimization
+- ✅ **Complete Test Suite** - Comprehensive testing for reliability and performance
+
+**Result:** Email nodes, database connections, and workflow modifications now work reliably with enhanced research-driven generation!
 
 ## 📚 Complete System Documentation
 
 ### **📋 Master Documentation Index**
-**[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Your complete guide to both systems
+**[DOCUMENTATION_INDEX.md](Documentation/DOCUMENTATION_INDEX.md)** - Your complete guide to both systems
 
 ### **🤖 N8N_Builder (Workflow Generator) Documentation**
-- **📚 [Technical Architecture](Documentation/DOCUMENTATION.MD)** - System design and AG-UI Protocol
+- **📚 [Technical Architecture](Documentation/DOCUMENTATION.md)** - System design and AG-UI Protocol
 - **🔧 [API Documentation](Documentation/API_DOCUMENTATION.md)** - REST API & AG-UI endpoints
 - **⚡ [API Quick Reference](Documentation/API_QUICK_REFERENCE.md)** - Common examples & troubleshooting
-- **🗺️ [Process Flow](Documentation/ProcessFlow.MD)** - Codebase structure and flow analysis
+- **🚀 [Server Startup Methods](Documentation/SERVER_STARTUP_METHODS.md)** - run.py vs CLI serve comparison and guide
+- **🔍 [MCP Research Setup Guide](Documentation/MCP_RESEARCH_SETUP_GUIDE.md)** - Research tool integration and usage
+- **🗺️ [Process Flow](Documentation/ProcessFlow.md)** - Codebase structure and flow analysis
 
 ### **🐳 n8n-docker (Workflow Executor) Documentation**
 - **📖 [Complete Setup Guide](n8n-docker/Documentation/README.md)** - Full Docker environment reference
@@ -180,7 +205,7 @@ curl -X POST "http://localhost:8000/generate" \
 - **🔒 [Security Guide](n8n-docker/Documentation/SECURITY.md)** - Production security hardening
 - **🔑 [Credentials Setup](n8n-docker/Documentation/CREDENTIALS_SETUP.md)** - External service integration
 - **🤖 [Automation Scripts](n8n-docker/Documentation/AUTOMATION-README.md)** - Automated management
-- **📋 [Manual Operations](n8n-docker/RunSystem.md)** - Step-by-step manual control
+- **📋 [Manual Operations](n8n-docker/Documentation/RunSystem.md)** - Step-by-step manual control
 
 ## 🤝 Contributing
 
@@ -213,7 +238,7 @@ curl -X POST "http://localhost:8000/generate" \
 - **Node Errors**: Ensure all required n8n nodes are available in your n8n version
 - **Connection Problems**: Verify both systems are running on correct ports
 
-**📖 Complete troubleshooting**: [Master Documentation Index](DOCUMENTATION_INDEX.md#troubleshooting)
+**📖 Complete troubleshooting**: [Master Documentation Index](Documentation/DOCUMENTATION_INDEX.md#troubleshooting)
 
 ## 📄 License
 
@@ -230,9 +255,9 @@ MIT License - See LICENSE file for details
 
 ## 🎯 **Next Steps**
 
-1. **🚀 [Get Started Now](DOCUMENTATION_INDEX.md#quick-start)** - Complete system setup in 10 minutes
-2. **🔗 [Integration Guide](DOCUMENTATION_INDEX.md#integration-guide)** - Connect generator to executor
-3. **📚 [Master Documentation](DOCUMENTATION_INDEX.md)** - Complete system reference
+1. **🚀 [Get Started Now](Documentation/DOCUMENTATION_INDEX.md#quick-start)** - Complete system setup in 10 minutes
+2. **🔗 [Integration Guide](Documentation/DOCUMENTATION_INDEX.md#integration-guide)** - Connect generator to executor
+3. **📚 [Master Documentation](Documentation/DOCUMENTATION_INDEX.md)** - Complete system reference
 4. **🔒 [Security Setup](n8n-docker/Documentation/SECURITY.md)** - Harden your installation
 
 **Ready to automate your workflows with AI?** The complete N8N_Builder ecosystem is waiting for you!

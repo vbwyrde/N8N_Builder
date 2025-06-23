@@ -26,7 +26,12 @@ setup(
         "passlib>=1.7.4",
         "bcrypt>=4.0.1",
         "python-dateutil>=2.8.2",
-        "uuid>=1.30"
+        "uuid>=1.30",
+        # MCP Research Tool dependencies
+        "beautifulsoup4>=4.12.2",
+        "lxml>=4.9.3",
+        # AG-UI Protocol
+        "ag-ui-protocol>=0.1.0"
     ],
     extras_require={
         "test": [

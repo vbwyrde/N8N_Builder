@@ -54,11 +54,13 @@ graph TB
 
 | Document | Purpose | Audience | Location |
 |----------|---------|----------|----------|
-| **📖 [Main README](README.md)** | Project overview & quick start | Everyone | Root |
-| **📚 [Complete Documentation](Documentation/DOCUMENTATION.MD)** | Technical architecture & API | Developers | `/Documentation/` |
-| **🔧 [API Documentation](Documentation/API_DOCUMENTATION.md)** | REST API & AG-UI Protocol | Integrators | `/Documentation/` |
-| **⚡ [API Quick Reference](Documentation/API_QUICK_REFERENCE.md)** | Common examples & troubleshooting | Developers | `/Documentation/` |
-| **🗺️ [Process Flow](Documentation/ProcessFlow.MD)** | Codebase structure & flow | Contributors | `/Documentation/` |
+| **📖 [Main README](../README.md)** | Project overview & quick start | Everyone | Root |
+| **📚 [Complete Documentation](DOCUMENTATION.md)** | Technical architecture & API | Developers | `/Documentation/` |
+| **🔧 [API Documentation](API_DOCUMENTATION.md)** | REST API & AG-UI Protocol | Integrators | `/Documentation/` |
+| **⚡ [API Quick Reference](API_QUICK_REFERENCE.md)** | Common examples & troubleshooting | Developers | `/Documentation/` |
+| **🚀 [Server Startup Methods](SERVER_STARTUP_METHODS.md)** | run.py vs CLI serve comparison | Everyone | `/Documentation/` |
+| **🔍 [MCP Research Setup Guide](MCP_RESEARCH_SETUP_GUIDE.md)** | Research tool integration & usage | Developers | `/Documentation/` |
+| **🗺️ [Process Flow](ProcessFlow.md)** | Codebase structure & flow | Contributors | `/Documentation/` |
 
 ### 🐳 **n8n-docker (Workflow Executor)**
 
@@ -70,7 +72,7 @@ graph TB
 | **🔒 [Security Guide](n8n-docker/Documentation/SECURITY.md)** | Production security | Everyone | `/n8n-docker/Documentation/` |
 | **🔑 [Credentials Setup](n8n-docker/Documentation/CREDENTIALS_SETUP.md)** | External service integration | Integration users | `/n8n-docker/Documentation/` |
 | **🤖 [Automation Scripts](n8n-docker/Documentation/AUTOMATION-README.md)** | Automated startup/management | Daily users | `/n8n-docker/Documentation/` |
-| **📋 [Manual Operations](n8n-docker/RunSystem.md)** | Step-by-step manual control | Advanced users | `/n8n-docker/` |
+| **📋 [Manual Operations](../n8n-docker/Documentation/RunSystem.md)** | Step-by-step manual control | Advanced users | `/n8n-docker/Documentation/` |
 
 ---
 
@@ -82,18 +84,18 @@ graph TB
 3. **🎨 Create Your First Workflow** - Generate and deploy (5 minutes)
 
 ### 🔧 **"I'm a developer building integrations"**
-1. **📚 [N8N_Builder Technical Docs](Documentation/DOCUMENTATION.MD)** - Architecture deep dive
-2. **🔧 [API Documentation](Documentation/API_DOCUMENTATION.md)** - REST API & AG-UI Protocol
-3. **🐳 [n8n-docker Setup](n8n-docker/Documentation/README.md)** - Execution environment
+1. **📚 [N8N_Builder Technical Docs](DOCUMENTATION.md)** - Architecture deep dive
+2. **🔧 [API Documentation](API_DOCUMENTATION.md)** - REST API & AG-UI Protocol
+3. **🐳 [n8n-docker Setup](../n8n-docker/Documentation/README.md)** - Execution environment
 
 ### 🏭 **"I'm setting up for production"**
-1. **🔒 [Security Guide](n8n-docker/Documentation/SECURITY.md)** - Harden your installation
-2. **🔑 [Credentials Setup](n8n-docker/Documentation/CREDENTIALS_SETUP.md)** - External services
-3. **🤖 [Automation Scripts](n8n-docker/Documentation/AUTOMATION-README.md)** - Operational efficiency
+1. **🔒 [Security Guide](../n8n-docker/Documentation/SECURITY.md)** - Harden your installation
+2. **🔑 [Credentials Setup](../n8n-docker/Documentation/CREDENTIALS_SETUP.md)** - External services
+3. **🤖 [Automation Scripts](../n8n-docker/Documentation/AUTOMATION-README.md)** - Operational efficiency
 
 ### 🆘 **"Something's broken!"**
 1. **❓ [Troubleshooting](#troubleshooting)** - Common issues & solutions
-2. **📋 [Manual Operations](n8n-docker/RunSystem.md)** - Step-by-step debugging
+2. **📋 [Manual Operations](../n8n-docker/Documentation/RunSystem.md)** - Step-by-step debugging
 3. **🔍 [Log Analysis](#logging)** - Understanding system logs
 
 ---
@@ -118,10 +120,12 @@ echo "MIMO_ENDPOINT=http://localhost:1234/v1/chat/completions" > .env
 echo "MIMO_MODEL=mimo-vl-7b" >> .env
 echo "MIMO_IS_LOCAL=true" >> .env
 
-# Start the workflow generator
+# Start the workflow generator (Method A - Robust)
+python run.py
+# OR Method B - Configurable
 python -m n8n_builder.cli serve
 ```
-**✅ N8N_Builder running at**: http://localhost:8000
+**✅ N8N_Builder running at**: http://localhost:8002 (Method A) or http://localhost:8000 (Method B)
 
 ### **Step 2: Start n8n-docker (Workflow Executor)**
 ```bash
@@ -205,7 +209,7 @@ graph LR
 - **Encryption**: Generate secure `N8N_ENCRYPTION_KEY`
 - **Network**: Use nGrok paid plan for production webhooks
 
-**📖 Complete security guide**: [n8n-docker Security Documentation](n8n-docker/Documentation/SECURITY.md)
+**📖 Complete security guide**: [n8n-docker Security Documentation](../n8n-docker/Documentation/SECURITY.md)
 
 ---
 
@@ -354,10 +358,10 @@ This project follows standardized documentation practices:
 - **Consistent naming**: Follow the patterns in [Documentation Style Guide](DOCUMENTATION_STYLE_GUIDE.md)
 
 ### **Current Standardization Status**
-Some legacy files still use `.MD` (uppercase) extensions. These will be gradually updated to maintain consistency:
-- `Documentation/DOCUMENTATION.MD` → `Documentation/DOCUMENTATION.md`
-- `Documentation/ProcessFlow.MD` → `Documentation/ProcessFlow.md`
-- `Documentation/PRD.MD` → `Documentation/PRD.md`
+✅ **All files now use standardized `.md` extensions** - The documentation structure has been fully organized:
+- ✅ All files moved to proper Documentation folders
+- ✅ All extensions standardized to lowercase `.md`
+- ✅ All cross-references updated to new locations
 
 **📖 Complete style guide**: [Documentation Style Guide](DOCUMENTATION_STYLE_GUIDE.md)
 

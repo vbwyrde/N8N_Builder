@@ -13,6 +13,10 @@ httpx==0.25.1
 aiofiles==23.2.1
 psutil==5.9.7
 
+# MCP Research Tool dependencies
+beautifulsoup4>=4.12.2
+lxml>=4.9.3
+
 # AG-UI Protocol
 ag-ui-protocol>=0.1.0
 
