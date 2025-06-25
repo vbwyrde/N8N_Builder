@@ -1,0 +1,371 @@
+# Generic Self-Healer Project Configuration
+# This file defines project-specific settings to make Self-Healer work with any project
+
+# Project Information
+project:
+  name: "N8N_Builder"  # Project name for identification
+  version: "1.0.0"     # Project version
+  description: "N8N workflow automation builder"
+  
+# Project Structure Configuration
+structure:
+  # Root directory (relative to Self-Healer location or absolute)
+  project_root: "../"
+  
+  # Source code directories to analyze
+  source_directories:
+    - "n8n_builder"
+    - "agents"
+    - "static"
+  
+  # Documentation directories
+  documentation_directories:
+    - "Documentation"
+    - "README.md"
+    - "*.md"
+  
+  # Test directories
+  test_directories:
+    - "tests"
+    - "Tests"
+  
+  # Configuration directories/files
+  config_directories:
+    - "config"
+    - "*.yaml"
+    - "*.json"
+    - ".env*"
+  
+  # Log directories
+  log_directories:
+    - "logs"
+    - "Self-Healer/logs"
+  
+  # Backup location
+  backup_directory: "Self-Healer/backups"
+  
+  # Learning data location
+  learning_data_directory: "Self-Healer/learning_data"
+
+# Error Detection Configuration
+error_detection:
+  # Log files to monitor (relative to project_root)
+  log_files:
+    - "logs/errors.log"
+    - "logs/n8n_builder.log"
+    - "logs/*.log"
+  
+  # Error patterns to detect
+  error_patterns:
+    - pattern: "ERROR"
+      severity: "error"
+      category: "general"
+    - pattern: "CRITICAL"
+      severity: "critical"
+      category: "system"
+    - pattern: "Exception"
+      severity: "error"
+      category: "exception"
+    - pattern: "Failed"
+      severity: "error"
+      category: "failure"
+    - pattern: "Traceback"
+      severity: "error"
+      category: "exception"
+  
+  # Patterns to ignore
+  ignore_patterns:
+    - "DEBUG"
+    - "INFO"
+    - "test_"
+    - "mock_"
+
+# External Dependencies Configuration
+dependencies:
+  # Error handler integration
+  error_handler:
+    enabled: true
+    module_path: "n8n_builder.error_handler"
+    class_name: "EnhancedErrorHandler"
+    error_detail_class: "ErrorDetail"
+    fallback_to_builtin: true  # Use built-in error handling if module not found
+  
+  # Logging integration
+  logging:
+    enabled: true
+    module_path: "n8n_builder.logging_config"
+    logger_function: "get_logger"
+    fallback_to_builtin: true
+  
+  # Project manager integration
+  project_manager:
+    enabled: true
+    module_path: "n8n_builder.project_manager"
+    manager_instance: "project_manager"
+    filesystem_utils: "filesystem_utils"
+    fallback_to_builtin: true
+  
+  # Performance optimizer integration
+  performance_optimizer:
+    enabled: true
+    module_path: "n8n_builder.performance_optimizer"
+    optimizer_instance: "performance_optimizer"
+    fallback_to_builtin: false
+  
+  # LLM integration
+  llm:
+    enabled: true
+    module_path: "n8n_builder.config"
+    config_object: "config.mimo_llm"
+    fallback_endpoint: "http://localhost:1234/v1"
+    fallback_model: "mimo-vl-7b-rl"
+
+# File Type Associations
+file_types:
+  # Programming languages and their extensions
+  code_files:
+    python: [".py"]
+    javascript: [".js", ".ts"]
+    yaml: [".yaml", ".yml"]
+    json: [".json"]
+    markdown: [".md"]
+    text: [".txt"]
+  
+  # Configuration files
+  config_files:
+    - "config.py"
+    - "settings.py"
+    - "*.yaml"
+    - "*.yml"
+    - "*.json"
+    - ".env*"
+  
+  # Critical files that require extra caution
+  critical_files:
+    - "config.py"
+    - "app.py"
+    - "__init__.py"
+    - "main.py"
+    - "run.py"
+    - "setup.py"
+
+# Context Analysis Configuration
+context_analysis:
+  # Keywords for different error categories
+  error_category_keywords:
+    llm_communication:
+      - "llm"
+      - "ai"
+      - "model"
+      - "endpoint"
+      - "connection"
+      - "timeout"
+      - "mimo"
+      - "lm_studio"
+    
+    json_parsing:
+      - "json"
+      - "parse"
+      - "format"
+      - "syntax"
+      - "structure"
+      - "workflow"
+      - "nodes"
+      - "connections"
+    
+    workflow_structure:
+      - "workflow"
+      - "node"
+      - "connection"
+      - "validation"
+      - "structure"
+      - "format"
+    
+    file_operations:
+      - "file"
+      - "path"
+      - "directory"
+      - "read"
+      - "write"
+      - "permission"
+      - "access"
+    
+    performance:
+      - "memory"
+      - "timeout"
+      - "slow"
+      - "performance"
+      - "optimization"
+      - "cache"
+    
+    system:
+      - "system"
+      - "environment"
+      - "configuration"
+      - "setup"
+      - "initialization"
+
+# Solution Templates Configuration
+solution_templates:
+  # Template directories (relative to Self-Healer)
+  template_directories:
+    - "templates/generic"
+    - "templates/project_specific"
+  
+  # Built-in solution patterns
+  patterns:
+    connection_failed:
+      title: "Fix Connection Issues"
+      applicable_errors: ["connection", "refused", "timeout"]
+      steps:
+        - action: "check_service"
+        - action: "verify_endpoint"
+        - action: "test_connection"
+        - action: "restart_service"
+      confidence: 0.8
+      risk_level: "low"
+    
+    file_not_found:
+      title: "Resolve File Not Found"
+      applicable_errors: ["not found", "no such file"]
+      steps:
+        - action: "check_path"
+        - action: "create_directory"
+        - action: "create_file"
+      confidence: 0.9
+      risk_level: "low"
+    
+    permission_denied:
+      title: "Fix Permission Issues"
+      applicable_errors: ["permission denied", "access denied"]
+      steps:
+        - action: "check_permissions"
+        - action: "update_permissions"
+        - action: "verify_access"
+      confidence: 0.8
+      risk_level: "medium"
+
+# Integration Hooks
+integration_hooks:
+  # Pre-healing hooks
+  pre_healing:
+    - hook: "backup_critical_files"
+      enabled: true
+    - hook: "notify_administrators"
+      enabled: false
+  
+  # Post-healing hooks
+  post_healing:
+    - hook: "run_tests"
+      enabled: true
+    - hook: "update_documentation"
+      enabled: false
+    - hook: "send_notifications"
+      enabled: false
+
+# Custom Commands
+custom_commands:
+  # Project-specific commands that can be executed
+  restart_service:
+    command: "systemctl restart n8n-builder"
+    requires_sudo: true
+    timeout: 30
+  
+  run_tests:
+    command: "python -m pytest tests/"
+    working_directory: "{project_root}"
+    timeout: 300
+  
+  validate_config:
+    command: "python -c 'import yaml; yaml.safe_load(open(\"config.yaml\"))'"
+    working_directory: "{project_root}"
+    timeout: 10
+
+# Environment Configuration
+environment:
+  # Environment variables that may be relevant
+  variables:
+    - "PYTHONPATH"
+    - "PATH"
+    - "N8N_*"
+    - "MIMO_*"
+    - "LM_STUDIO_*"
+  
+  # Required environment setup
+  requirements:
+    python_version: ">=3.8"
+    required_packages:
+      - "asyncio"
+      - "pathlib"
+      - "logging"
+    optional_packages:
+      - "yaml"
+      - "json"
+      - "pickle"
+
+# Validation Rules
+validation:
+  # Rules for validating solutions before implementation
+  file_modification_rules:
+    max_files_per_solution: 10
+    max_lines_per_file: 1000
+    forbidden_operations:
+      - "rm -rf"
+      - "delete"
+      - "drop table"
+      - "truncate"
+    
+    allowed_file_types:
+      - ".py"
+      - ".yaml"
+      - ".yml"
+      - ".json"
+      - ".md"
+      - ".txt"
+    
+    protected_files:
+      - "setup.py"
+      - "requirements.txt"
+      - "__init__.py"
+  
+  # Safety thresholds
+  safety_thresholds:
+    min_confidence: 0.6
+    max_risk_factors: 3
+    max_implementation_time: 300  # seconds
+
+# Monitoring Configuration
+monitoring:
+  # Metrics to track
+  metrics:
+    - "error_detection_rate"
+    - "solution_success_rate"
+    - "average_healing_time"
+    - "system_stability_score"
+    - "learning_effectiveness"
+  
+  # Health checks
+  health_checks:
+    - check: "log_files_accessible"
+      interval: 60
+    - check: "backup_directory_writable"
+      interval: 300
+    - check: "learning_data_size"
+      interval: 3600
+
+# Extensibility Configuration
+extensibility:
+  # Plugin directories
+  plugin_directories:
+    - "Self-Healer/plugins"
+    - "plugins/self_healer"
+  
+  # Custom solution generators
+  custom_generators:
+    enabled: true
+    directory: "Self-Healer/custom_generators"
+  
+  # Custom validators
+  custom_validators:
+    enabled: true
+    directory: "Self-Healer/custom_validators"

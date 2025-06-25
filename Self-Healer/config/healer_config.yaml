@@ -1,0 +1,104 @@
+# Self-Healer System Configuration
+
+# Monitoring Configuration
+monitoring:
+  check_interval: 5.0  # seconds between error checks
+  max_concurrent_sessions: 3  # maximum concurrent healing sessions
+  error_cooldown: 300  # seconds before re-processing same error
+
+# Safety Configuration
+safety:
+  max_healing_attempts_per_hour: 10  # rate limiting
+  require_validation: true  # require solution validation
+  auto_rollback_on_failure: true  # automatic rollback on failure
+  emergency_stop_threshold: 5  # consecutive failures before emergency stop
+  max_file_changes: 10  # maximum files that can be changed per solution
+  max_config_changes: 5  # maximum config changes per solution
+
+# Learning Configuration
+learning:
+  enable_learning: true  # enable learning from healing results
+  feedback_collection: true  # collect feedback for improvement
+  pattern_analysis: true  # analyze patterns in errors and solutions
+  min_pattern_occurrences: 3  # minimum occurrences to establish pattern
+  min_confidence_threshold: 0.6  # minimum confidence for pattern recognition
+  max_records_in_memory: 1000  # maximum learning records in memory
+
+# Validation Configuration
+validation:
+  require_backup: true  # require backup before implementation
+  require_tests: true  # require test validation
+  max_implementation_time: 300  # maximum time for implementation (seconds)
+  syntax_validation: true  # validate code syntax
+  dependency_validation: true  # validate dependencies
+
+# Error Detection Configuration
+error_detection:
+  log_files:
+    - "logs/errors.log"
+    - "logs/n8n_builder.log"
+  error_patterns:
+    - "ERROR"
+    - "CRITICAL"
+    - "Exception"
+    - "Failed"
+  ignore_patterns:
+    - "DEBUG"
+    - "INFO"
+
+# Solution Generation Configuration
+solution_generation:
+  use_llm: true  # use local LLM for solution generation
+  use_templates: true  # use solution templates
+  use_patterns: true  # use pattern-based solutions
+  max_solutions_per_error: 10  # maximum solutions to generate per error
+  confidence_threshold: 0.5  # minimum confidence for solution acceptance
+
+# Context Analysis Configuration
+context_analysis:
+  max_related_files: 20  # maximum related files to analyze
+  max_documentation_matches: 10  # maximum documentation matches
+  keyword_extraction_limit: 20  # maximum keywords to extract
+  similarity_threshold: 0.7  # threshold for error similarity
+
+# Logging Configuration
+logging:
+  level: "INFO"  # logging level
+  file_rotation: true  # enable log file rotation
+  max_log_size: "10MB"  # maximum log file size
+  backup_count: 5  # number of backup log files
+
+# Backup Configuration
+backup:
+  backup_directory: "Self-Healer/backups"  # backup directory
+  max_backup_age_days: 30  # maximum age of backups in days
+  compress_backups: true  # compress backup files
+  verify_backups: true  # verify backup integrity
+
+# Performance Configuration
+performance:
+  cache_enabled: true  # enable caching
+  cache_size_mb: 100  # cache size in MB
+  parallel_processing: true  # enable parallel processing
+  max_worker_threads: 4  # maximum worker threads
+
+# Integration Configuration
+integration:
+  n8n_builder_integration: true  # integrate with N8N Builder
+  test_suite_integration: true  # integrate with test suite
+  project_manager_integration: true  # integrate with project manager
+  performance_optimizer_integration: true  # integrate with performance optimizer
+
+# Dashboard Configuration
+dashboard:
+  enable_dashboard: true  # enable web dashboard
+  dashboard_port: 8081  # dashboard port
+  real_time_updates: true  # enable real-time updates
+  metrics_retention_days: 7  # metrics retention period
+
+# Notification Configuration
+notifications:
+  enable_notifications: false  # enable notifications
+  notification_channels: []  # notification channels
+  critical_error_notifications: true  # notify on critical errors
+  healing_success_notifications: false  # notify on successful healing
