@@ -1,5 +1,9 @@
 # N8N Builder API - Quick Reference
 
+> **📖 New to N8N_Builder?** Start with [Lightning Start](../../LIGHTNING_START.md) or [Getting Started](../../GETTING_STARTED.md)
+> **📚 Complete API Docs**: [API Documentation](API_DOCUMENTATION.md)
+> **🏠 Back to Documentation**: [Documentation Index](../../DOCUMENTATION_INDEX.md)
+
 **Standard API:** `http://localhost:8002`
 **AG-UI Protocol:** `http://localhost:8003`
 

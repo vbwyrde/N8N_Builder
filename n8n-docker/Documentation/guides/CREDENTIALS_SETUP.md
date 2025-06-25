@@ -1,5 +1,9 @@
 # 🔑 External Service Credentials Setup Guide
 
+> **📖 New to n8n-docker?** Start with [Lightning Start](../../LIGHTNING_START.md) or [Getting Started](../../GETTING_STARTED.md)
+> **🔒 Need Security Setup?** See [Security Setup](SECURITY_SETUP.md) first
+> **🏠 Back to Documentation**: [Main README](../README.md)
+
 This guide covers setting up credentials for external services with your local n8n instance using nGrok tunneling for webhook access.
 
 ## 📚 Related Documentation

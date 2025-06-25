@@ -1,4 +1,8 @@
-# 📋 RunSystem.md - Complete n8n System Operations Guide
+# 📋 Manual Operations Guide
+
+> **📖 New to n8n-docker?** Start with [Lightning Start](../../LIGHTNING_START.md) or [Getting Started](../../GETTING_STARTED.md)
+> **🤖 Want Automation?** See [Automation Setup](../guides/AUTOMATION_SETUP.md) for easier daily operations
+> **🏠 Back to Documentation**: [Main README](../README.md)
 
 This document provides comprehensive step-by-step instructions for operating your n8n Docker environment with nGrok tunneling. Use this guide when you need detailed manual control or when troubleshooting automation scripts.
 
