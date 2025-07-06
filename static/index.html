@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N8N Workflow Builder</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        /* Proper Glassmorphism Effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(226, 232, 240, 0.6);
+            min-height: 100vh;
+            padding: 1.5rem;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* High Contrast Text */
+        .text-primary-dark {
+            color: #1e293b !important;
+        }
+        
+        .text-secondary-dark {
+            color: #475569 !important;
+        }
+        
+        .section-header {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Clean Form Controls */
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            color: #1e293b;
+        }
+        
+        .form-text {
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Project and Workflow Lists */
+        .list-container {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .list-item {
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item:hover {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .list-item.selected {
+            background: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .list-item .item-icon {
+            color: #6b7280;
+            margin-right: 0.5rem;
+        }
+        
+        .list-item.selected .item-icon {
+            color: #3b82f6;
+        }
+        
+        .list-item .item-count {
+            color: #9ca3af;
+            font-size: 0.8rem;
+            float: right;
+        }
+        
+        /* Clean Buttons */
+        .btn-clean {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-clean:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            color: #1f2937;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-clean:disabled {
+            background: #f3f4f6;
+            border-color: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-primary-clean {
+            background: #3b82f6;
+            border: 1px solid #2563eb;
+            color: white;
+        }
+        
+        .btn-primary-clean:hover {
+            background: #2563eb;
+            border-color: #1d4ed8;
+            color: white;
+        }
+        
+        .btn-danger-clean {
+            background: #ef4444;
+            border: 1px solid #dc2626;
+            color: white;
+        }
+        
+        .btn-danger-clean:hover {
+            background: #dc2626;
+            border-color: #b91c1c;
+            color: white;
+        }
+        
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .nav-tabs .nav-link {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            margin-right: 0.25rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid white;
+            color: #1e293b;
+        }
+        
+        .nav-tabs .nav-link:hover:not(.active) {
+            background: rgba(248, 250, 252, 0.8);
+            color: #475569;
+        }
+        
+        .tab-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            padding: 2rem;
+        }
+        
+        /* JSON Viewer - High Contrast */
+        .json-viewer {
+            background: white !important;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #111827 !important;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .json-viewer:empty {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            color: #6b7280;
+            text-align: center;
+            padding: 3rem;
+            font-family: inherit;
+        }
+        
+        /* Loading States */
+        .loading {
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        .loading .spinner-border {
+            color: #3b82f6;
+        }
+        
+        /* Stats Card */
+        .stats-card {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stats-card .stat-number {
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .stats-card .stat-label {
+            color: #475569;
+            font-size: 0.875rem;
+        }
+        
+        /* Modal Improvements */
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        /* Scrollbar Styling */
+        .list-container::-webkit-scrollbar, .json-viewer::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .list-container::-webkit-scrollbar-track, .json-viewer::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        .list-container::-webkit-scrollbar-thumb, .json-viewer::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        .list-container::-webkit-scrollbar-thumb:hover, .json-viewer::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Search Input */
+        .search-input {
+            position: relative;
+        }
+        
+        .search-input .bi-search {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            pointer-events: none;
+        }
+        
+        .search-input input {
+            padding-left: 2.5rem;
+        }
+        
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #6b7280;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                padding: 1rem;
+            }
+            
+            .tab-content {
+                padding: 1rem;
+            }
+        }
+        
+        /* LLM Status Indicator */
+        .llm-status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: help;
+            border: 1px solid transparent;
+        }
+        
+        .llm-status-indicator.status-available {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+        
+        .llm-status-indicator.status-unavailable {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+        
+        .llm-status-indicator.status-checking {
+            background: #fef3c7;
+            color: #d97706;
+            border-color: #fed7aa;
+        }
+        
+        .llm-status-indicator .spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h4 class="text-primary-dark mb-4">
+                    <i class="bi bi-diagram-3"></i> N8N Builder
+                </h4>
+                
+                <!-- Project Management -->
+                <div class="section-header">
+                    <i class="bi bi-folder2"></i>
+                    Projects
+                </div>
+                
+                <!-- Project Search -->
+                <div class="search-input mb-2">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" id="projectSearch" 
+                           placeholder="Search projects..." autocomplete="off">
+                </div>
+                
+                <!-- Project List -->
+                <div class="list-container mb-3" id="projectListContainer">
+                    <div class="empty-state">
+                        <i class="bi bi-folder"></i>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+                
+                <!-- Project Actions -->
+                <div class="d-flex gap-2 mb-4">
+                    <button class="btn btn-clean btn-sm flex-fill" id="newProjectBtn">
+                        <i class="bi bi-plus"></i> New
+                    </button>
+                    <button class="btn btn-clean btn-sm flex-fill" id="deleteProjectBtn" disabled>
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+                
+                <!-- Workflow Management -->
+                <div class="section-header">
+                    <i class="bi bi-diagram-2"></i>
+                    Workflows
+                </div>
+                
+                <!-- Workflow Search -->
+                <div class="search-input mb-2">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" id="workflowSearch" 
+                           placeholder="Search workflows..." autocomplete="off" disabled>
+                </div>
+                
+                <!-- Workflow List -->
+                <div class="list-container mb-3" id="workflowListContainer">
+                    <div class="empty-state">
+                        <i class="bi bi-diagram-2"></i>
+                        <p>Select a project first</p>
+                    </div>
+                </div>
+                
+                <!-- Workflow Actions -->
+                <div class="d-flex gap-2 mb-4">
+                    <button class="btn btn-clean btn-sm flex-fill" id="loadWorkflowBtn" disabled>
+                        <i class="bi bi-upload"></i> Load
+                    </button>
+                    <button class="btn btn-clean btn-sm flex-fill" id="saveWorkflowBtn" disabled>
+                        <i class="bi bi-download"></i> Save
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-card">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="stat-number" id="projectCount">0</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="workflowCount">0</div>
+                            <div class="stat-label">Workflows</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 p-4">
+                <div class="glass-panel p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-primary-dark mb-0">N8N Workflow Builder</h2>
+                        <div id="llmStatusIndicator" class="llm-status-indicator status-checking">
+                            <i class="bi bi-hourglass-split spin"></i> Checking AI Service...
+                        </div>
+                    </div>
+                    
+                    <!-- Tabbed Interface -->
+                    <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="generation-tab" data-bs-toggle="tab" data-bs-target="#generation" type="button" role="tab">
+                                <i class="bi bi-magic"></i> Generate
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="viewer-tab" data-bs-toggle="tab" data-bs-target="#viewer" type="button" role="tab">
+                                <i class="bi bi-eye"></i> Workflow Viewer
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab">
+                                <i class="bi bi-list-check"></i> Results
+                            </button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="mainTabContent">
+                        <!-- Generation Tab -->
+                        <div class="tab-pane fade show active" id="generation" role="tabpanel">
+                            <form id="workflowForm">
+                                <div class="mb-3">
+                                    <label for="workflowName" class="form-label text-secondary-dark">Workflow Name</label>
+                                    <input type="text" class="form-control" id="workflowName" 
+                                           placeholder="Enter a descriptive name for your workflow..." required>
+                                    <div class="form-text">This will be used to identify and save your workflow.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label text-secondary-dark">Workflow Description</label>
+                                    <textarea class="form-control" id="description" rows="4" 
+                                            placeholder="Describe what you want this workflow to do..." required></textarea>
+                                    <div class="form-text">Detailed instructions for the AI to generate your workflow.</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary-clean btn-lg" id="generateBtn">
+                                        <i class="bi bi-magic"></i> <span id="generateBtnText">Generate Workflow</span>
+                                    </button>
+                                    <button type="button" class="btn btn-clean btn-lg" id="quickSaveBtn" disabled>
+                                        <i class="bi bi-floppy"></i> Quick Save
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="loading">
+                                <div class="d-flex align-items-center">
+                                    <div class="spinner-border me-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span class="text-secondary-dark">Generating workflow...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Workflow Viewer Tab -->
+                        <div class="tab-pane fade" id="viewer" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="text-primary-dark mb-0">Workflow Structure</h5>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-clean btn-sm" id="formatJsonBtn">
+                                        <i class="bi bi-code"></i> Format
+                                    </button>
+                                    <button class="btn btn-clean btn-sm" id="validateJsonBtn">
+                                        <i class="bi bi-check-circle"></i> Validate
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="workflowViewer" class="json-viewer">
+                                <div class="empty-state">
+                                    <i class="bi bi-diagram-3"></i>
+                                    <p>No workflow loaded. Generate or load a workflow to view its structure.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Tab -->
+                        <div class="tab-pane fade" id="results" role="tabpanel">
+                            <h5 class="text-primary-dark mb-3">Generation Results</h5>
+                            <div id="result" class="json-viewer">
+                                <div class="empty-state">
+                                    <i class="bi bi-list-check"></i>
+                                    <p>Results will appear here after generating a workflow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal fade" id="newProjectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-dark">
+                        <i class="bi bi-folder-plus"></i> Create New Project
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newProjectForm">
+                        <div class="mb-3">
+                            <label for="projectName" class="form-label">Project Name</label>
+                            <input type="text" class="form-control" id="projectName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-clean" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-clean" id="createProjectBtn">
+                        <i class="bi bi-plus"></i> Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // State management
+        let currentWorkflow = null;
+        let currentProject = null;
+        let selectedWorkflow = null;
+        let currentWorkflowName = null;
+        let projects = [];
+        let workflows = [];
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects();
+            setupEventListeners();
+            setupKeyboardNavigation();
+            updateGenerateButtonState();
+            updateQuickSaveState();
+            checkLLMStatus(); // Check LLM availability on load
+        });
+        
+        // Event listeners setup
+        function setupEventListeners() {
+            // Project management
+            document.getElementById('projectSearch').addEventListener('input', filterProjects);
+            document.getElementById('newProjectBtn').addEventListener('click', showNewProjectModal);
+            document.getElementById('deleteProjectBtn').addEventListener('click', handleDeleteProject);
+            
+            // Workflow management
+            document.getElementById('workflowSearch').addEventListener('input', filterWorkflows);
+            document.getElementById('loadWorkflowBtn').addEventListener('click', handleLoadWorkflow);
+            document.getElementById('saveWorkflowBtn').addEventListener('click', handleSaveWorkflow);
+            document.getElementById('quickSaveBtn').addEventListener('click', handleQuickSave);
+            
+            // Form validation and quick save enablement
+            document.getElementById('workflowName').addEventListener('input', updateQuickSaveState);
+            document.getElementById('description').addEventListener('input', updateQuickSaveState);
+            
+            // Main form
+            document.getElementById('workflowForm').addEventListener('submit', handleWorkflowGeneration);
+            
+            // Modal actions
+            document.getElementById('createProjectBtn').addEventListener('click', handleCreateProject);
+            
+            // Viewer actions
+            document.getElementById('formatJsonBtn').addEventListener('click', formatWorkflowJson);
+            document.getElementById('validateJsonBtn').addEventListener('click', validateWorkflowJson);
+        }
+        
+        // Keyboard navigation setup
+        function setupKeyboardNavigation() {
+            // Global keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case 'n':
+                            e.preventDefault();
+                            showNewProjectModal();
+                            break;
+                        case 's':
+                            e.preventDefault();
+                            if (currentWorkflow) handleSaveWorkflow();
+                            break;
+                        case 'Enter':
+                            e.preventDefault();
+                            if (document.getElementById('description').value) {
+                                document.getElementById('workflowForm').dispatchEvent(new Event('submit'));
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+        
+        // Load projects from API
+        async function loadProjects() {
+            try {
+                const response = await fetch('/projects');
+                projects = await response.json();
+                updateProjectList();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                showToast('Error loading projects', 'error');
+                showEmptyState('projectListContainer', 'folder', 'Failed to load projects');
+            }
+        }
+        
+        // Load workflows for current project
+        async function loadWorkflows() {
+            if (!currentProject) return;
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows`);
+                workflows = await response.json();
+                updateWorkflowList();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading workflows:', error);
+                showToast('Error loading workflows', 'error');
+                showEmptyState('workflowListContainer', 'diagram-2', 'Failed to load workflows');
+            }
+        }
+        
+        // Update project list
+        function updateProjectList() {
+            const container = document.getElementById('projectListContainer');
+
+            if (projects.length === 0) {
+                showEmptyState('projectListContainer', 'folder', 'No projects found');
+                return;
+            }
+
+            container.innerHTML = '';
+            projects.forEach(project => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.dataset.project = project.name;
+                item.innerHTML = `
+                    <i class="bi bi-folder item-icon"></i>
+                    <span class="item-name">${escapeHtml(project.name)}</span>
+                    <span class="item-count">${project.workflow_count}</span>
+                `;
+                item.addEventListener('click', () => selectProject(project.name));
+                container.appendChild(item);
+            });
+
+            // Auto-select the first project if no project is currently selected
+            // This ensures the quick save button can work for new workflows
+            if (!currentProject && projects.length > 0) {
+                selectProject(projects[0].name);
+            }
+        }
+        
+        // Update workflow list
+        function updateWorkflowList() {
+            const container = document.getElementById('workflowListContainer');
+            
+            if (!currentProject) {
+                showEmptyState('workflowListContainer', 'diagram-2', 'Select a project first');
+                return;
+            }
+            
+            if (workflows.length === 0) {
+                showEmptyState('workflowListContainer', 'diagram-2', 'No workflows found');
+                return;
+            }
+            
+            container.innerHTML = '';
+            workflows.forEach(workflow => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.dataset.workflow = workflow;
+                item.innerHTML = `
+                    <i class="bi bi-lightning item-icon"></i>
+                    <span class="item-name" title="${escapeHtml(workflow)}">${escapeHtml(workflow)}</span>
+                `;
+                item.addEventListener('click', () => selectWorkflow(workflow));
+                container.appendChild(item);
+            });
+        }
+        
+        // Show empty state
+        function showEmptyState(containerId, icon, message) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="bi bi-${icon}"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+        
+        // Clear current workflow and update UI
+        function clearCurrentWorkflow() {
+            currentWorkflow = null;
+            currentWorkflowName = null;
+            updateGenerateButtonState();
+            
+            // Clear the workflow viewer
+            const viewer = document.getElementById('workflowViewer');
+            viewer.innerHTML = '<div class="empty-state"><i class="bi bi-diagram-3"></i><p>No workflow loaded. Generate or load a workflow to view its structure.</p></div>';
+            
+            // Clear the results
+            const result = document.getElementById('result');
+            result.innerHTML = '<div class="empty-state"><i class="bi bi-list-check"></i><p>Results will appear here after generating a workflow.</p></div>';
+        }
+        
+        // Select project
+        function selectProject(projectName) {
+            // Update selection state
+            currentProject = projectName;
+            selectedWorkflow = null;
+            clearCurrentWorkflow(); // Clear current workflow when switching projects
+            
+            // Update UI
+            document.querySelectorAll('#projectListContainer .list-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.project === projectName);
+            });
+            
+            // Clear workflow selection
+            document.querySelectorAll('#workflowListContainer .list-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Enable/disable buttons
+            document.getElementById('deleteProjectBtn').disabled = false;
+            document.getElementById('workflowSearch').disabled = false;
+            document.getElementById('loadWorkflowBtn').disabled = true;
+            document.getElementById('saveWorkflowBtn').disabled = false;
+            
+            // Load workflows
+            loadWorkflows();
+        }
+        
+        // Select workflow
+        function selectWorkflow(workflowName) {
+            selectedWorkflow = workflowName;
+            
+            // Update UI
+            document.querySelectorAll('#workflowListContainer .list-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.workflow === workflowName);
+            });
+            
+            // Enable load button
+            document.getElementById('loadWorkflowBtn').disabled = false;
+        }
+        
+        // Filter projects based on search
+        function filterProjects() {
+            const searchTerm = document.getElementById('projectSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#projectListContainer .list-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.item-name').textContent.toLowerCase();
+                item.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        // Filter workflows based on search
+        function filterWorkflows() {
+            const searchTerm = document.getElementById('workflowSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#workflowListContainer .list-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.item-name').textContent.toLowerCase();
+                item.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        // Show new project modal
+        function showNewProjectModal() {
+            const modal = new bootstrap.Modal(document.getElementById('newProjectModal'));
+            modal.show();
+        }
+        
+        // Handle create project
+        async function handleCreateProject() {
+            const name = document.getElementById('projectName').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+            
+            if (!name) {
+                showToast('Project name is required', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(name)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        description: description
+                    }),
+                });
+                
+                if (response.ok) {
+                    showToast('Project created successfully', 'success');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('newProjectModal'));
+                    modal.hide();
+                    document.getElementById('newProjectForm').reset();
+                    loadProjects();
+                } else {
+                    const error = await response.json();
+                    showToast(error.detail || 'Error creating project', 'error');
+                }
+            } catch (error) {
+                console.error('Error creating project:', error);
+                showToast('Error creating project', 'error');
+            }
+        }
+        
+        // Handle delete project
+        async function handleDeleteProject() {
+            if (!currentProject) return;
+            
+            if (confirm(`Are you sure you want to delete project "${currentProject}"?`)) {
+                try {
+                    const response = await fetch(`/projects/${encodeURIComponent(currentProject)}?confirm=true`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        showToast('Project deleted successfully', 'success');
+                        currentProject = null;
+                        selectedWorkflow = null;
+                        clearCurrentWorkflow(); // Clear current workflow when project is deleted
+                        document.getElementById('deleteProjectBtn').disabled = true;
+                        document.getElementById('workflowSearch').disabled = true;
+                        document.getElementById('loadWorkflowBtn').disabled = true;
+                        document.getElementById('saveWorkflowBtn').disabled = true;
+                        loadProjects();
+                        showEmptyState('workflowListContainer', 'diagram-2', 'Select a project first');
+                    } else {
+                        const error = await response.json();
+                        showToast(error.detail || 'Error deleting project', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error deleting project:', error);
+                    showToast('Error deleting project', 'error');
+                }
+            }
+        }
+        
+        // Update generate button state based on whether a workflow is loaded
+        function updateGenerateButtonState() {
+            const generateBtn = document.getElementById('generateBtn');
+            const generateBtnText = document.getElementById('generateBtnText');
+            const generateBtnIcon = generateBtn.querySelector('i');
+            const descriptionTextarea = document.getElementById('description');
+            
+            if (currentWorkflow) {
+                // Workflow is loaded - show iteration mode
+                generateBtnText.textContent = 'Update Workflow';
+                generateBtnIcon.className = 'bi bi-arrow-repeat';
+                generateBtn.title = 'Update the loaded workflow with your changes';
+                descriptionTextarea.placeholder = 'Describe the changes you want to make to the loaded workflow (e.g., "Add email notification when task fails", "Include error handling", "Add a database save step")...';
+            } else {
+                // No workflow loaded - show generation mode
+                generateBtnText.textContent = 'Generate Workflow';
+                generateBtnIcon.className = 'bi bi-magic';
+                generateBtn.title = 'Generate a new workflow from your description';
+                descriptionTextarea.placeholder = 'Describe what you want this workflow to do...';
+            }
+        }
+        
+        // Handle load workflow
+        async function handleLoadWorkflow() {
+            if (!currentProject || !selectedWorkflow) {
+                showToast('Please select a project and workflow', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(selectedWorkflow)}`);
+                const contentType = response.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                    // Handle JSON error response
+                    const errorJson = await response.json();
+                    if (errorJson.error) {
+                        let errorMsg;
+                        if (errorJson.error.message) {
+                            errorMsg = errorJson.error.message;
+                        } else if (typeof errorJson.error === 'object') {
+                            errorMsg = errorJson.error.title || errorJson.error.user_guidance || 'An error occurred';
+                        } else {
+                            errorMsg = String(errorJson.error);
+                        }
+                        result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>${errorJson.error.user_guidance || 'Check the console for more details.'}</small></div>`;
+                        showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
+                        loading.style.display = 'none';
+                        return;
+                    }
+                }
+                
+                const workflowData = await response.json();
+                
+                currentWorkflow = workflowData.workflow_data;
+                currentWorkflowName = selectedWorkflow.replace(/\.json$/, ''); // Remove .json extension
+                
+                // Populate the workflow name field
+                document.getElementById('workflowName').value = currentWorkflowName;
+                
+                updateWorkflowViewer(currentWorkflow);
+                updateQuickSaveState();
+                updateGenerateButtonState(); // Update button state when workflow is loaded
+                showToast('Workflow loaded successfully', 'success');
+                
+                // Switch to viewer tab
+                const viewerTab = new bootstrap.Tab(document.getElementById('viewer-tab'));
+                viewerTab.show();
+            } catch (error) {
+                console.error('Error loading workflow:', error);
+                showToast('Error loading workflow', 'error');
+            }
+        }
+        
+        // Handle save workflow
+        async function handleSaveWorkflow() {
+            if (!currentWorkflow) {
+                showToast('No workflow to save', 'error');
+                return;
+            }
+            
+            if (!currentProject) {
+                showToast('Please select a project first', 'error');
+                return;
+            }
+            
+            // Try to use the current workflow name, or prompt for a new one
+            let workflowName = currentWorkflowName || document.getElementById('workflowName').value.trim();
+            
+            if (!workflowName) {
+                workflowName = prompt('Enter workflow name:');
+                if (!workflowName) return;
+            }
+            
+            await saveWorkflowWithName(workflowName);
+        }
+        
+        // Handle workflow generation or iteration
+        async function handleWorkflowGeneration(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('workflowName').value.trim();
+            const description = document.getElementById('description').value;
+            const loading = document.querySelector('.loading');
+            const result = document.getElementById('result');
+            
+            if (!name) {
+                showToast('Please enter a workflow name', 'error');
+                return;
+            }
+            
+            if (!description.trim()) {
+                showToast('Please enter a workflow description', 'error');
+                return;
+            }
+            
+            // Determine if we're generating a new workflow or iterating on existing one
+            const isIteration = currentWorkflow !== null;
+            const operation = isIteration ? 'iteration' : 'generation';
+            const endpoint = isIteration ? '/iterate' : '/generate';
+            
+            // Store the workflow name for later use
+            currentWorkflowName = name;
+            
+            loading.style.display = 'block';
+            result.innerHTML = `<div class="empty-state"><div class="spinner-border text-primary"></div><p>${isIteration ? 'Updating' : 'Generating'} workflow...</p></div>`;
+            
+            // Switch to results tab
+            const resultsTab = new bootstrap.Tab(document.getElementById('results-tab'));
+            resultsTab.show();
+            
+            try {
+                let requestBody;
+                if (isIteration) {
+                    // For iteration, we need the existing workflow and feedback
+                    requestBody = {
+                        workflow_id: currentWorkflowName || 'workflow_' + Date.now(),
+                        existing_workflow_json: JSON.stringify(currentWorkflow),
+                        feedback_from_testing: description,
+                        additional_requirements: ""
+                    };
+                } else {
+                    // For generation, we just need the description
+                    requestBody = {
+                        description: description
+                    };
+                }
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+                
+                console.log('Fetch response:', response);
+                const reader = response.body.getReader();
+                let workflowData = null;
+                let errorMessage = null;
+                let eventCount = 0;
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const text = new TextDecoder().decode(value);
+                    console.log('Event text:', text); // Log raw event text
+                    const events = text.split('\n').filter(Boolean);
+                    
+                    for (const event of events) {
+                        try {
+                            // Handle server-sent event format: "data: {JSON}"
+                            let jsonData;
+                            if (event.startsWith('data: ')) {
+                                jsonData = event.substring(6); // Remove "data: " prefix
+                            } else if (event.trim()) {
+                                jsonData = event; // Fallback for direct JSON
+                            } else {
+                                continue; // Skip empty lines
+                            }
+                            
+                            const data = JSON.parse(jsonData);
+                            eventCount++;
+                            console.log('Received event:', data); // Debug logging
+                            
+                            // Handle different event types for both generation and iteration
+                            if (data.type === 'WORKFLOW_GENERATED' || data.type === 'WORKFLOW_MODIFIED' || data.type === 'WORKFLOW_ITERATED') {
+                                // Accept both top-level and nested workflow_json for compatibility
+                                if (data.workflow_json) {
+                                    workflowData = { workflow_json: data.workflow_json };
+                                    console.log('Workflow data received (top-level):', workflowData);
+                                } else if (data.data && data.data.workflow_json) {
+                                    workflowData = data.data;
+                                    console.log('Workflow data received (nested):', workflowData);
+                                } else {
+                                    console.warn('Received workflow event but data is missing or malformed:', data);
+                                }
+                            } else if (data.type === 'RUN_ERROR' || data.type === 'MODIFICATION_ERROR' || data.type === 'ITERATION_ERROR') {
+                                errorMessage = data.error;
+                                console.log('Error received:', errorMessage); // Debug logging
+                            } else if (data.type === 'VALIDATION_ERROR') {
+                                errorMessage = data.error;
+                                console.log('Validation error received:', errorMessage); // Debug logging
+                            } else if (data.type === 'LLM_UNAVAILABLE') {
+                                // Handle LLM unavailability - preserve user data and show informative message
+                                errorMessage = data.error;
+                                console.log('LLM unavailable:', errorMessage); // Debug logging
+                            } else if (data.type === 'LLM_CHECK_STARTED') {
+                                console.log('LLM availability check started:', data.message); // Debug logging
+                            } else if (data.type === 'LLM_AVAILABLE') {
+                                console.log('LLM available:', data.message); // Debug logging
+                            } else if (data.type === 'RUN_FINISHED' || data.type === 'MODIFICATION_FINISHED' || data.type === 'ITERATION_FINISHED') {
+                                console.log('Operation completed successfully:', data); // Debug logging
+                            } else if (data.type === 'GENERATION_ERROR') {
+                                // Handle backend error event: show the error message directly
+                                if (data.error && data.error.message) {
+                                    errorMessage = data.error.message;
+                                } else if (data.error && typeof data.error === 'object') {
+                                    // Try to extract meaningful error information
+                                    errorMessage = data.error.title || data.error.user_guidance || 'An error occurred during workflow generation';
+                                } else if (data.error) {
+                                    errorMessage = String(data.error);
+                                } else {
+                                    errorMessage = 'Unknown error occurred during workflow generation';
+                                }
+                                console.log('GENERATION_ERROR event detected:', data);
+                            }
+                        } catch (parseError) {
+                            console.warn('Could not parse event:', event, 'Error:', parseError);
+                        }
+                    }
+                }
+                
+                if (errorMessage) {
+                    console.error('Server returned error:', errorMessage);
+                    // Show the error message directly in the results area and as a toast
+                    result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${escapeHtml(errorMessage)}</p><small>This error was returned by the backend. Check the logs for more details if needed.</small></div>`;
+                    showToast(`Error ${operation} workflow: ${errorMessage}`, 'error');
+                    return;
+                }
+                
+                if (workflowData && workflowData.workflow_json) {
+                    console.log('Processing workflow data:', workflowData);
+                    let parsedJson;
+                    try {
+                        // Handle both string and object workflow data
+                        if (typeof workflowData.workflow_json === 'string') {
+                            parsedJson = JSON.parse(workflowData.workflow_json);
+                        } else {
+                            parsedJson = workflowData.workflow_json;
+                        }
+                        
+                        // Validate the parsed JSON has the required structure
+                        if (!parsedJson || typeof parsedJson !== 'object') {
+                            throw new Error('Invalid workflow data structure');
+                        }
+
+                        // Ensure node IDs in connections match node IDs in nodes array
+                        if (parsedJson.nodes && parsedJson.connections) {
+                            const nodeIds = new Set(parsedJson.nodes.map(node => node.id));
+                            const nodeNames = new Map(parsedJson.nodes.map(node => [node.name, node.id]));
+                            
+                            // Create a new connections object with corrected node IDs
+                            const correctedConnections = {};
+                            
+                            for (const [sourceNode, connectionData] of Object.entries(parsedJson.connections)) {
+                                // Try to find the correct node ID for the source node
+                                const sourceNodeId = nodeIds.has(sourceNode) ? sourceNode : nodeNames.get(sourceNode);
+                                
+                                if (sourceNodeId) {
+                                    correctedConnections[sourceNodeId] = connectionData;
+                                    
+                                    // Update target node IDs in the connections
+                                    if (connectionData.main) {
+                                        connectionData.main = connectionData.main.map(targetList => 
+                                            targetList.map(target => {
+                                                const targetNodeId = nodeIds.has(target.node) ? target.node : nodeNames.get(target.node);
+                                                return {
+                                                    ...target,
+                                                    node: targetNodeId || target.node
+                                                };
+                                            })
+                                        );
+                                    }
+                                }
+                            }
+                            
+                            parsedJson.connections = correctedConnections;
+                        }
+                        
+                        console.log('Final parsed workflow:', parsedJson);
+                        currentWorkflow = parsedJson;
+                        const formattedJson = JSON.stringify(parsedJson, null, 2);
+                        result.innerHTML = formattedJson;
+                        updateWorkflowViewer(parsedJson);
+                        updateQuickSaveState();
+                        updateGenerateButtonState(); // Update button state after operation
+                        showToast(`Workflow "${name}" ${isIteration ? 'updated' : 'generated'} successfully`, 'success');
+                    } catch (e) {
+                        console.error('Error processing workflow data:', e);
+                        console.log('Raw workflow data:', workflowData);
+                        throw new Error('Failed to process workflow data: ' + e.message);
+                    }
+                } else {
+                    console.error('No valid workflow data found in server response');
+                    console.log('All events received during processing - check browser console for details');
+                    // Only show the generic error if no errorMessage was set
+                    if (!errorMessage) {
+                        if (eventCount === 0) {
+                            result.innerHTML = `<div class=\"empty-state text-danger\"><i class=\"bi bi-exclamation-triangle\"></i><p>No events received from backend. Check network tab and backend logs.</p></div>`;
+                            showToast('No events received from backend', 'error');
+                        } else {
+                            throw new Error('No workflow data received from the server');
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error(`Error ${operation} workflow:`, error);
+                const errorMsg = error.message || 'Unknown error occurred';
+                result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>Check the console for more details.</small></div>`;
+                showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        // Update workflow viewer
+        function updateWorkflowViewer(workflow) {
+            const viewer = document.getElementById('workflowViewer');
+            const formattedJson = JSON.stringify(workflow, null, 2);
+            viewer.innerHTML = formattedJson;
+        }
+        
+        // Format JSON in viewer
+        function formatWorkflowJson() {
+            if (!currentWorkflow) {
+                showToast('No workflow to format', 'error');
+                return;
+            }
+            updateWorkflowViewer(currentWorkflow);
+            showToast('JSON formatted', 'success');
+        }
+        
+        // Validate JSON in viewer
+        function validateWorkflowJson() {
+            if (!currentWorkflow) {
+                showToast('No workflow to validate', 'error');
+                return;
+            }
+            
+            try {
+                JSON.parse(JSON.stringify(currentWorkflow));
+                showToast('Workflow JSON is valid', 'success');
+            } catch (error) {
+                showToast('Invalid JSON format', 'error');
+            }
+        }
+        
+        // Update stats
+        function updateStats() {
+            document.getElementById('projectCount').textContent = projects.length;
+            document.getElementById('workflowCount').textContent = workflows.length;
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const alertClass = type === 'error' ? 'alert-danger' : 
+                              type === 'success' ? 'alert-success' : 'alert-info';
+            
+            const toast = document.createElement('div');
+            toast.className = `alert ${alertClass} alert-dismissible fade show`;
+            toast.style.cssText = 'min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 5000);
+        }
+        
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Update quick save button state
+        function updateQuickSaveState() {
+            const name = document.getElementById('workflowName').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const quickSaveBtn = document.getElementById('quickSaveBtn');
+
+            // Enable quick save if we have a workflow, a name, and a selected project
+            const canSave = currentWorkflow && name && currentProject;
+            quickSaveBtn.disabled = !canSave;
+
+            // Update button title to provide helpful feedback
+            if (!currentWorkflow) {
+                quickSaveBtn.title = 'Generate a workflow first to enable quick save';
+            } else if (!name) {
+                quickSaveBtn.title = 'Enter a workflow name to enable quick save';
+            } else if (!currentProject) {
+                quickSaveBtn.title = 'Select a project to enable quick save';
+            } else {
+                quickSaveBtn.title = 'Save workflow to the selected project';
+            }
+        }
+        
+        // Handle quick save
+        async function handleQuickSave() {
+            const name = document.getElementById('workflowName').value.trim();
+            
+            if (!currentWorkflow || !currentProject || !name) {
+                showToast('Cannot save: missing workflow, project, or name', 'error');
+                return;
+            }
+            
+            await saveWorkflowWithName(name);
+        }
+        
+        // Save workflow with given name
+        async function saveWorkflowWithName(workflowName) {
+            if (!currentWorkflow || !currentProject) {
+                showToast('No workflow to save or no project selected', 'error');
+                return;
+            }
+            
+            // Ensure the filename has .json extension
+            const filename = workflowName.endsWith('.json') ? workflowName : `${workflowName}.json`;
+            
+            try {
+                const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(filename)}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        workflow_data: currentWorkflow
+                    }),
+                });
+                
+                if (response.ok) {
+                    currentWorkflowName = workflowName;
+                    showToast(`Workflow "${workflowName}" saved successfully`, 'success');
+                    loadWorkflows();
+                    updateQuickSaveState();
+                } else {
+                    const error = await response.json();
+                    showToast(error.detail || 'Error saving workflow', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving workflow:', error);
+                showToast('Error saving workflow', 'error');
+            }
+        }
+        
+        // Check LLM service availability
+        async function checkLLMStatus() {
+            console.log('Checking LLM status...');
+            
+            // Show checking state immediately
+            updateLLMStatus({ status: 'checking' });
+            
+            try {
+                const response = await fetch('/llm/health');
+                console.log('LLM health response received:', response.status);
+                const status = await response.json();
+                console.log('LLM status data:', status);
+                
+                updateLLMStatus(status);
+                return status.status === 'available';
+            } catch (error) {
+                console.error('Error checking LLM status:', error);
+                updateLLMStatus({
+                    status: 'error',
+                    error: 'Failed to check LLM service status - network or server error'
+                });
+                return false;
+            }
+        }
+        
+        // Update UI based on LLM status
+        function updateLLMStatus(status) {
+            console.log('Updating LLM status UI with:', status);
+            const statusIndicator = document.getElementById('llmStatusIndicator');
+            const generateBtn = document.getElementById('generateBtn');
+            console.log('Status indicator element:', statusIndicator);
+            console.log('Generate button element:', generateBtn);
+            
+            // Remove existing status classes
+            statusIndicator.className = 'llm-status-indicator';
+            
+            if (status.status === 'available') {
+                console.log('Setting status to available');
+                statusIndicator.className += ' status-available';
+                statusIndicator.innerHTML = '<i class="bi bi-check-circle-fill"></i> AI Service Ready';
+                statusIndicator.title = `LLM: ${status.llm_model} (${status.is_local ? 'Local' : 'External'}) - Response time: ${status.response_time_ms}ms`;
+                
+                // Enable generation buttons
+                generateBtn.disabled = false;
+                
+            } else if (status.status === 'no_model_loaded') {
+                console.log('Setting status to no_model_loaded');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> No Model Loaded';
+                statusIndicator.title = status.error || 'LLM service is running but no model is loaded';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show specific message for no model loaded
+                const suggestion = status.suggestion || 'Load a model in your LLM service interface';
+                showToast(`No Model Loaded: ${status.error || 'LLM service is running but no model is loaded'}. ${suggestion}`, 'warning');
+                
+            } else if (status.status === 'service_error') {
+                console.log('Setting status to service_error');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> AI Service Error';
+                statusIndicator.title = status.error || 'LLM service encountered an error';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show service error message
+                const suggestion = status.suggestion || 'Check your LLM service logs';
+                showToast(`AI Service Error: ${status.error || 'LLM service error'}. ${suggestion}`, 'error');
+                
+            } else if (status.status === 'timeout') {
+                console.log('Setting status to timeout');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-clock-fill"></i> AI Service Timeout';
+                statusIndicator.title = status.error || 'LLM service timed out - may be slow or overloaded';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show timeout-specific message
+                showToast(`AI Service Timeout: ${status.error || 'LLM service is not responding within expected time'}. Please check if your LLM service is running and responsive.`, 'warning');
+                
+            } else if (status.status === 'unavailable') {
+                console.log('Setting status to unavailable');
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-x-circle-fill"></i> AI Service Unavailable';
+                statusIndicator.title = status.error || 'LLM service is not available';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Show unavailable-specific message
+                const suggestion = status.suggestion || 'Please start your LLM service and refresh';
+                showToast(`AI Service Unavailable: ${status.error || 'LLM service is not running'}. ${suggestion}`, 'error');
+                
+            } else if (status.status === 'checking') {
+                console.log('Setting status to checking');
+                statusIndicator.className += ' status-checking';
+                statusIndicator.innerHTML = '<i class="bi bi-arrow-clockwise spin"></i> Checking AI Service...';
+                statusIndicator.title = 'Checking LLM service availability...';
+                
+                // Disable generation buttons while checking
+                generateBtn.disabled = true;
+                
+            } else {
+                // Unknown status or error
+                console.log('Setting status to error/unknown, status:', status.status);
+                statusIndicator.className += ' status-unavailable';
+                statusIndicator.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> AI Service Error';
+                statusIndicator.title = status.error || 'Unknown LLM service status';
+                
+                // Disable generation buttons
+                generateBtn.disabled = true;
+                
+                // Only show error toast for actual errors, not manual refreshes
+                if (status.status === 'error') {
+                    const errorDetails = status.error || 'Unknown error checking LLM service';
+                    showToast(`AI Service Error: ${errorDetails}`, 'error');
+                }
+            }
+        }
+        
+        // Refresh LLM status manually
+        async function refreshLLMStatus() {
+            const isAvailable = await checkLLMStatus();
+            if (isAvailable) {
+                showToast('AI service is now available', 'success');
+            } else {
+                showToast('AI service is still unavailable', 'warning');
+            }
+        }
+    </script>
+</body>
+</html> 

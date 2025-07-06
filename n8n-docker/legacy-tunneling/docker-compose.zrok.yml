@@ -1,0 +1,159 @@
+# Zrok Self-Hosted Instance Docker Compose
+# This creates a complete zrok instance with OpenZiti controller and router
+# Provides stable URLs for n8n webhooks without the ngrok URL change problem
+
+services:
+  # OpenZiti Controller - Core network controller
+  ziti-controller:
+    image: openziti/ziti-controller:latest
+    container_name: zrok-ziti-controller
+    restart: unless-stopped
+    ports:
+      - "1280:1280"  # Controller API
+      - "6262:6262"  # Controller edge API
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=ziti-controller
+      - ZITI_CTRL_ADVERTISED_PORT=6262
+      - ZITI_PWD=${ZITI_PWD:-admin123}
+    volumes:
+      - ziti_controller_data:/persistent
+    networks:
+      - zrok-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6262/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # OpenZiti Router - Network router
+  ziti-router:
+    image: openziti/ziti-router:latest
+    container_name: zrok-ziti-router
+    restart: unless-stopped
+    ports:
+      - "3022:3022"  # Router port
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=ziti-controller
+      - ZITI_CTRL_ADVERTISED_PORT=6262
+      - ZITI_ROUTER_ADVERTISED_ADDRESS=ziti-router
+      - ZITI_ROUTER_PORT=3022
+    volumes:
+      - ziti_router_data:/persistent
+    networks:
+      - zrok-network
+    depends_on:
+      ziti-controller:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3022"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Zrok Controller - Main zrok service
+  zrok-controller:
+    image: openziti/zrok:latest
+    container_name: zrok-controller
+    restart: unless-stopped
+    ports:
+      - "18080:18080"  # Zrok controller API
+    environment:
+      - ZROK_ADMIN_TOKEN=${ZROK_ADMIN_TOKEN:-zrok-admin-token}
+      - ZROK_CTRL_ZITI_ENDPOINT=https://ziti-controller:6262
+      - ZROK_CTRL_ZITI_USERNAME=admin
+      - ZROK_CTRL_ZITI_PASSWORD=${ZITI_PWD:-admin123}
+    volumes:
+      - zrok_controller_data:/etc/zrok-controller
+      - ./zrok-config:/etc/zrok-controller/config
+    networks:
+      - zrok-network
+    depends_on:
+      ziti-controller:
+        condition: service_healthy
+      ziti-router:
+        condition: service_healthy
+    command: ["controller", "run", "/etc/zrok-controller/config/controller.yml"]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:18080/api/v1/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  # Zrok Frontend - Public access point
+  zrok-frontend:
+    image: openziti/zrok:latest
+    container_name: zrok-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # Public HTTP access
+      - "8443:8443"   # Public HTTPS access
+    environment:
+      - ZROK_FRONTEND_TOKEN=${ZROK_FRONTEND_TOKEN:-zrok-frontend-token}
+      - ZROK_API_ENDPOINT=http://zrok-controller:18080
+    volumes:
+      - zrok_frontend_data:/etc/zrok-frontend
+      - ./zrok-config:/etc/zrok-frontend/config
+    networks:
+      - zrok-network
+      - n8n-network  # Connect to n8n network for access
+    depends_on:
+      zrok-controller:
+        condition: service_healthy
+    command: ["access", "public", "--frontend-mode", "proxy"]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  # Zrok Share Service - Handles the actual sharing
+  zrok-share:
+    image: openziti/zrok:latest
+    container_name: zrok-share
+    restart: unless-stopped
+    environment:
+      - ZROK_API_ENDPOINT=http://zrok-controller:18080
+      - ZROK_ENVIRONMENT_TOKEN=${ZROK_ENVIRONMENT_TOKEN:-}
+      - TARGET_SERVICE=http://n8n:5678  # Point to n8n service
+    volumes:
+      - zrok_share_data:/home/zrok
+      - ./zrok-config:/etc/zrok/config
+    networks:
+      - zrok-network
+      - n8n-network  # Connect to n8n network
+    depends_on:
+      zrok-controller:
+        condition: service_healthy
+      zrok-frontend:
+        condition: service_healthy
+    # This will be configured via script after setup
+    command: ["sleep", "infinity"]
+
+networks:
+  zrok-network:
+    external: true
+    name: zrok-network
+  n8n-network:
+    external: true
+    name: n8n-network
+
+volumes:
+  ziti_controller_data:
+    external: true
+    name: zrok_ziti_controller_data
+  ziti_router_data:
+    external: true
+    name: zrok_ziti_router_data
+  zrok_controller_data:
+    external: true
+    name: zrok_controller_data
+  zrok_frontend_data:
+    external: true
+    name: zrok_frontend_data
+  zrok_share_data:
+    external: true
+    name: zrok_share_data

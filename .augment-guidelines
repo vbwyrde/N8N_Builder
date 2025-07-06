@@ -1,0 +1,65 @@
+# N8N_Builder Community Edition Guidelines
+
+## 🎯 Project Overview
+- N8N_Builder Community Edition is an AI-powered workflow automation system that converts plain English to n8n workflows
+- Uses local AI models (mimo-vl-7b-rl) with LM Studio endpoint (localhost:1234/v1)
+- Production deployment via Docker with n8n-docker environment
+- Showcases AI-assisted development using Augment Code
+
+## 🛠️ Project-Specific Technology Stack
+
+### Core Architecture
+- FastAPI for REST APIs with uvicorn server
+- AG-UI Protocol implementation for advanced agent interactions
+- Dual API mode: Standard REST (port 8002) + AG-UI (port 8003)
+- Use Pydantic models for data validation and configuration
+
+### Project Infrastructure
+- Docker for n8n production environment
+- PowerShell for Windows automation and scripting (use Invoke-WebRequest instead of curl)
+- Local hosting with LM Studio endpoint
+- nGrok tunnels for webhook access during development
+
+### MCP Integration
+- MCP Research Tool for real-time n8n documentation lookup
+- MCP Database Tool for data interactions (when database features are needed)
+- Modular MCP tool architecture for extensibility
+
+## 🔧 N8N_Builder Specific Patterns
+
+### Error Handling
+- Comprehensive error handling with structured logging
+- Basic retry logic and fallback strategies
+- Clean shutdown mechanisms that properly terminate all components
+
+### Project Architecture
+- Modular, self-contained components with clear separation of concerns
+- Configuration-driven design using YAML files
+- Minimal dependencies - question if all packages are truly required
+- Maintain clean project structure for version control
+
+### Testing & Validation
+- Comprehensive pytest test suites in Tests/ folder
+- System health monitoring and validation scripts
+- Workflow validation to ensure n8n compatibility
+- Integration tests for MCP tool functionality
+
+## 📋 N8N_Builder Response Preferences
+
+### Code Examples
+- Reference existing patterns from the codebase when possible
+- Show both the implementation and how to test it
+- Include proper error handling and logging patterns
+- Design for modularity and extensibility
+
+### Problem Solving
+- Always check existing documentation and configuration first
+- Consider impact on overall system architecture
+- Provide context about how changes fit into the N8N_Builder system
+- Suggest testing approaches for validating solutions
+
+### Development Focus
+- Emphasize AI-assisted development patterns
+- Showcase effective use of Augment Code for development
+- Demonstrate clean architecture and separation of concerns
+- Focus on community-friendly, open-source best practices

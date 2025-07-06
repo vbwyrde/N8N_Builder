@@ -1,0 +1,2 @@
+# This file keeps the data directory in git
+# The data directory is used for sharing files between the host and n8n container

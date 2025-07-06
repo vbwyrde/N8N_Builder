@@ -1,0 +1,64 @@
+# n8n Docker Environment - Git Ignore
+
+# Sensitive configuration files
+.env
+.env.local
+.env.production
+.env.development
+config.ps1
+*.key
+*.pem
+*.crt
+
+# SSL certificates
+ssl/*.key
+ssl/*.pem
+ssl/*.crt
+ssl/*.p12
+
+# Backup files
+backups/*.tar.gz
+backups/*.zip
+backups/n8n_backup_*
+
+# Local data directories
+data/workflows/*
+data/credentials/*
+data/executions/*
+data/logs/*
+
+# Docker volumes (if mounted locally)
+volumes/
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js (if any local development)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Keep directory structure but ignore contents
+data/workflows/.gitkeep
+data/credentials/.gitkeep
+backups/.gitkeep
+ssl/.gitkeep
