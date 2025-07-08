@@ -1,8 +1,8 @@
 # N8N Builder API Documentation
 
-> **📖 New to N8N_Builder?** Start with [Lightning Start](../../LIGHTNING_START.md) or [Getting Started](../../GETTING_STARTED.md)
-> **🔧 Need Quick Examples?** See [API Quick Reference](API_QUICK_REFERENCE.md)
-> **🏠 Back to Documentation**: [Documentation Index](../../DOCUMENTATION_INDEX.md)
+> **📖 New to N8N_Builder?** Start with [Getting Started](../../GETTING_STARTED.md)
+> **🔧 Need Technical Details?** See [Technical Specifications](../technical/Specifications.md)
+> **🏠 Back to Documentation**: [Architecture Overview](../Architecture.md)
 
 **Version:** 1.0
 **Base URL:** `http://localhost:8002`

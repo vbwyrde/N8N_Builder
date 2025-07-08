@@ -167,9 +167,9 @@ cd ..\N8N_Builder
 ## 📚 **Related Documentation**
 
 - **[README.md](../README.md)**: Project overview and quick start
-- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Technical architecture details
-- **[API_DOCUMENTATION.md](api/API_DOCUMENTATION.md)**: API reference
-- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**: General troubleshooting guide
+- **[Architecture.md](Architecture.md)**: Technical architecture details
+- **[API_Reference.md](api/API_Reference.md)**: API reference
+- **[Troubleshooting.md](guides/Troubleshooting.md)**: General troubleshooting guide
 
 ## 🤝 **Team Development**
 

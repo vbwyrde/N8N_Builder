@@ -250,7 +250,7 @@ netstat -an | grep -E "(8002|8003|5678|5432)"
 4. **Document error messages exactly**
 
 ### Where to Get Help
-- **📖 Documentation**: [Master Index](../DOCUMENTATION_INDEX.md)
+- **📖 Documentation**: [Architecture Overview](../Architecture.md)
 - **💬 n8n Community**: https://community.n8n.io/
 - **🐛 GitHub Issues**: https://github.com/vbwyrde/N8N_Builder/issues
 - **📧 Email Support**: Include logs and error messages

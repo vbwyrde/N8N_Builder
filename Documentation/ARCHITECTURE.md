@@ -44,16 +44,33 @@ graph TB
 ## 📁 Project Structure
 
 ```
-n8n_builder/
-├── n8n_builder/           # Core application code
-│   ├── app.py            # FastAPI application
-│   ├── n8n_builder.py   # Main workflow generation logic
-│   ├── config.py         # Configuration management
-│   └── validators.py     # Input/output validation
-├── Documentation/         # Project documentation
-├── Scripts/              # Utility scripts
-├── tests/               # Test suite
-└── n8n-docker/          # Docker configuration for n8n
+N8N_Builder/
+├── README.md                    # Project overview & quick start
+├── GETTING_STARTED.md          # Comprehensive setup guide
+├── FEATURES.md                 # Feature overview
+├── run.py                      # Main application entry point
+├── requirements.txt            # Python dependencies
+├── n8n_builder/               # Core application code
+│   ├── app.py                 # FastAPI application
+│   ├── n8n_builder.py        # Main workflow generation logic
+│   ├── config.py              # Configuration management
+│   └── validators.py          # Input/output validation
+├── Documentation/             # Consolidated documentation
+│   ├── Architecture.md        # Technical architecture (this file)
+│   ├── DesignPrinciples.md   # Design philosophy
+│   ├── DevelopersWorkflow.md  # Developer guide
+│   ├── guides/               # User guides
+│   │   ├── Integration.md    # Integration setup
+│   │   └── Troubleshooting.md # Problem solving
+│   ├── technical/            # Technical specifications
+│   │   └── Specifications.md # Detailed tech specs
+│   └── api/                  # API documentation
+│       └── API_Reference.md  # Complete API reference
+├── Scripts/                   # Utility and maintenance scripts
+├── config/                   # Configuration files
+├── data/                     # Analysis and log files
+├── tests/                    # Test suite
+└── n8n-docker/              # Docker configuration for n8n
 ```
 
 ## 🔧 Configuration Management

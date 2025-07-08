@@ -12,7 +12,7 @@
 ## Prerequisites
 
 - ✅ N8N_Builder and n8n-docker running
-- ✅ Completed [First Workflow Guide](FIRST_WORKFLOW.md)
+- ✅ Completed [Getting Started Guide](../../GETTING_STARTED.md)
 - ✅ External service accounts (Gmail, Slack, etc.)
 
 ## Common Integrations
@@ -195,8 +195,8 @@ docker logs n8n-dev -f
 ## Next Steps
 
 ### More Complex Integrations
-- **[Production Deployment](PRODUCTION_DEPLOYMENT.md)** - Scale for production use
-- **[Advanced Patterns](../technical/ADVANCED_PATTERNS.md)** - Complex workflow architectures
+- **[Technical Specifications](../technical/Specifications.md)** - Detailed system specifications
+- **[Architecture Overview](../Architecture.md)** - System design and components
 
 ### Service-Specific Guides
 - **Google Workspace**: Drive, Sheets, Calendar integration
@@ -208,4 +208,4 @@ docker logs n8n-dev -f
 
 **🎉 Congratulations!** You can now connect N8N_Builder workflows to external services. Your automations can now interact with the real world!
 
-**Next**: Try [Production Deployment](PRODUCTION_DEPLOYMENT.md) to scale your integrations for production use.
+**Next**: Review [Technical Specifications](../technical/Specifications.md) for detailed system requirements and configuration options.

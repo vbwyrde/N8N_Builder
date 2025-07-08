@@ -193,7 +193,7 @@ For external service integration:
 3. Use the https URL for webhook endpoints
 
 ### Production Security
-See: [Security Guide](n8n-docker/Documentation/SECURITY.md)
+See: [Technical Specifications](Documentation/technical/Specifications.md)
 - Change default passwords
 - Generate encryption keys
 - Configure authentication
@@ -203,10 +203,10 @@ See: [Security Guide](n8n-docker/Documentation/SECURITY.md)
 ### I Want To...
 | Goal | Guide | Time |
 |------|-------|------|
-| Create complex workflows | [First Workflow Guide](Documentation/guides/FIRST_WORKFLOW.md) | 20 min |
-| Connect external services | [Integration Setup](Documentation/guides/INTEGRATION_SETUP.md) | 15 min |
-| Deploy to production | [Production Guide](Documentation/guides/PRODUCTION_DEPLOYMENT.md) | 30 min |
-| Use the API | [API Documentation](Documentation/technical/API_DOCUMENTATION.md) | Reference |
+| Connect external services | [Integration Guide](Documentation/guides/Integration.md) | 15 min |
+| Understand the architecture | [Architecture Overview](Documentation/Architecture.md) | 10 min |
+| Learn design principles | [Design Principles](Documentation/DesignPrinciples.md) | 10 min |
+| Use the API | [API Reference](Documentation/api/API_Reference.md) | Reference |
 
 ### Troubleshooting
 
@@ -233,7 +233,7 @@ pip install -r requirements.txt
 .\venv\Scripts\python.exe -c "import pyodbc; print('✅ Environment ready')"
 ```
 
-**📖 Complete troubleshooting**: [Troubleshooting Guide](Documentation/TROUBLESHOOTING.md)
+**📖 Complete troubleshooting**: [Troubleshooting Guide](Documentation/guides/Troubleshooting.md)
 
 ## Success Indicators
 
