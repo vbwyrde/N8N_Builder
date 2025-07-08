@@ -186,6 +186,14 @@ N8N_Builder represents a focused, well-architected solution for AI-powered workf
 - **📈 Continuous Improvement**: Regular optimization and cleanup
 
 ---
+## Notes:
+
+For what it's worth, this is the latest version, and as such I have not had time to test this version yet, so there may be, potentially, issues with it.  However, despite that, you will at the very least be able to see how N8N_Builder is constructed, and browse the readme.md and documentation md files...  So while I have extensively tested previous versions, this current one is a draft, although I have every expectation that it will work as well as the former ones.  Also, please don't expect me to turn this into a big deal or a lot of work for myself.  I have no intention of doing more with it than using it for my own N8N workflow development.  You are welcome to do the same. Feel free to fork it if you want to add your own improvements.  Note:  there is a private version that includes a few additional features that I do not care to share as they are a bit too experimental and potentially OP for what I want to put out in the public domain at this point.  Anyway, I hope it may be helpful to others if anyone cares to use it.  I will be making use of it myself... for free, locally, and with a good deal of interest to see how useful it really turns out to be.  At any rate, N8N_Builder is not locked-in to anyone else's proprietary system, and to my mind that's a huge plus.  
+
+Also note:  This was built using Cursor for the first pass, but it fell down completely after that, so I switched to Augment, which is much more stable once the first pass has been completed.  I could have used Augment for both, as they both would use Claude 4, but I had existing credits to use on Cursor... and if it hadn't crapped out on me with ridiculous mistakes and code crushing errors, I would have simply stuck with it. Augment is far more stable on existing code bases in my experience.  I started working on this on June 20th, so that may give you an idea of how effective Augment is.  On the other hand I ran out of credits for it several times since then, and so I paid about $40 in extra credits.  Not too bad given how much I learned in the process, and how happy I am with the results overall.   
+
+If you wind up using this code for any purpose other than your own personal enjoyment, please be considerate and provide a link back to this repository in order to give credit where credit is do - to Augment Code and Claude 4, of course.  Well, and to me for having the chops to use them well enough to get something as sophisticated as this working.  Thank you!
+---
 
 **🎉 Ready to automate your workflows with AI?** Start with [📖 Getting Started](GETTING_STARTED.md) and be running in 15 minutes!
 
