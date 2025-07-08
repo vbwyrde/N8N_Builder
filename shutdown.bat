@@ -6,7 +6,7 @@ REM To run this from PowerShell, use: & '.\shutdown.bat'
 echo ========================================
 echo N8N_Builder Emergency Shutdown
 echo ========================================
-echo To run this from PowerShell, use:  PS C:\Users\mabramsR\source\Cursor_Workspaces\N8N_Builder>.\Shutdown.bat
+echo To run this from PowerShell, use:  PS C:\...\N8N_Builder>.\Shutdown.bat
 echo.
 
 echo [INFO] Stopping N8N_Builder processes...
