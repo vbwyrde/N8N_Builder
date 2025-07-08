@@ -193,6 +193,7 @@ For what it's worth, this is the latest version, and as such I have not had time
 Also note:  This was built using Cursor for the first pass, but it fell down completely after that, so I switched to Augment, which is much more stable once the first pass has been completed.  I could have used Augment for both, as they both would use Claude 4, but I had existing credits to use on Cursor... and if it hadn't crapped out on me with ridiculous mistakes and code crushing errors, I would have simply stuck with it. Augment is far more stable on existing code bases in my experience.  I started working on this on June 20th, so that may give you an idea of how effective Augment is.  On the other hand I ran out of credits for it several times since then, and so I paid about $40 in extra credits.  Not too bad given how much I learned in the process, and how happy I am with the results overall.   
 
 If you wind up using this code for any purpose other than your own personal enjoyment, please be considerate and provide a link back to this repository in order to give credit where credit is do - to Augment Code and Claude 4, of course.  Well, and to me for having the chops to use them well enough to get something as sophisticated as this working.  Thank you!
+
 ---
 
 **🎉 Ready to automate your workflows with AI?** Start with [📖 Getting Started](GETTING_STARTED.md) and be running in 15 minutes!
