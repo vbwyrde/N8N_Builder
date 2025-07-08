@@ -1,0 +1,37 @@
+# Configuration file for n8n + Stable URL Proxy automation scripts
+# Copy this file and customize paths for your environment
+
+# Docker Configuration
+# This should be the directory containing docker-compose.yml
+$N8N_DOCKER_PATH = Split-Path -Parent $PSScriptRoot
+
+# Environment File
+$ENV_FILE = "$N8N_DOCKER_PATH\.env"
+
+# Stable URL Configuration
+$STABLE_URL = "http://localhost:8080"
+$STABLE_HEALTH_URL = "http://localhost:8080/health"
+$N8N_DIRECT_URL = "http://localhost:5678"
+
+# Container Names (change if you modify docker-compose.yml)
+$N8N_CONTAINER_NAME = "n8n"
+$POSTGRES_CONTAINER_NAME = "n8n-postgres"
+$PROXY_CONTAINER_NAME = "n8n-stable-proxy"
+
+# Timeout Settings (in seconds)
+$N8N_STARTUP_TIMEOUT = 60
+$PROXY_STARTUP_TIMEOUT = 30
+
+# Export variables for use in other scripts
+$script:Config = @{
+    DockerPath = $N8N_DOCKER_PATH
+    EnvFile = $ENV_FILE
+    StableUrl = $STABLE_URL
+    HealthUrl = $STABLE_HEALTH_URL
+    DirectUrl = $N8N_DIRECT_URL
+    N8NContainer = $N8N_CONTAINER_NAME
+    PostgresContainer = $POSTGRES_CONTAINER_NAME
+    ProxyContainer = $PROXY_CONTAINER_NAME
+    N8NTimeout = $N8N_STARTUP_TIMEOUT
+    ProxyTimeout = $PROXY_STARTUP_TIMEOUT
+}

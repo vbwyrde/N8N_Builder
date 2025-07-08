@@ -1,0 +1,38 @@
+requests>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.5.2
+typing-extensions>=4.8.0
+fastapi>=0.109.0
+uvicorn==0.24.0
+python-multipart==0.0.6
+aiohttp==3.9.1
+websockets>=12.0
+click>=8.1.7
+rich>=13.7.0
+httpx==0.25.1
+aiofiles==23.2.1
+psutil==5.9.7
+
+# MCP Research Tool dependencies
+beautifulsoup4>=4.12.2
+lxml>=4.9.3
+
+# AG-UI Protocol
+ag-ui-protocol>=0.1.0
+
+# Testing dependencies
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+
+# Workflow processing dependencies
+asyncio>=3.4.3
+aiodns>=3.1.1
+cryptography>=41.0.0
+python-jose[cryptography]>=3.3.0
+passlib>=1.7.4
+bcrypt>=4.0.1
+python-dateutil>=2.8.2
+uuid>=1.30
+schedule>=1.2.0

@@ -1,0 +1,106 @@
+# Simplified Zrok Docker Compose for testing
+# This creates a minimal zrok setup to test basic functionality
+
+services:
+  # OpenZiti Controller - Core network controller
+  ziti-controller:
+    image: openziti/ziti-controller:latest
+    container_name: zrok-ziti-controller-simple
+    restart: unless-stopped
+    ports:
+      - "1280:1280"  # Controller API
+      - "6262:6262"  # Controller edge API
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=ziti-controller
+      - ZITI_CTRL_ADVERTISED_PORT=6262
+      - ZITI_PWD=${ZITI_PWD:-ziti-secure-n8n-2025}
+    volumes:
+      - ziti_controller_data:/persistent
+    networks:
+      - zrok-network
+    # Disable health check for now - controller is running based on logs
+    # healthcheck:
+    #   test: ["CMD", "sh", "-c", "ss -ln | grep :6262 || nc -z localhost 6262 || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
+    #   start_period: 60s
+
+  # OpenZiti Router - Network router
+  ziti-router:
+    image: openziti/ziti-router:latest
+    container_name: zrok-ziti-router-simple
+    restart: unless-stopped
+    ports:
+      - "3022:3022"  # Router port
+    environment:
+      - ZITI_CTRL_ADVERTISED_ADDRESS=ziti-controller
+      - ZITI_CTRL_ADVERTISED_PORT=6262
+      - ZITI_ROUTER_ADVERTISED_ADDRESS=ziti-router
+      - ZITI_ROUTER_PORT=3022
+    volumes:
+      - ziti_router_data:/persistent
+    networks:
+      - zrok-network
+    depends_on:
+      - ziti-controller
+    # Disable health check for now
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3022"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
+    #   start_period: 60s
+
+  # Zrok Controller - Main zrok service
+  zrok-controller:
+    image: openziti/zrok:latest
+    container_name: zrok-controller-simple
+    restart: unless-stopped
+    ports:
+      - "18080:18080"  # Zrok controller API
+    environment:
+      - ZROK_ADMIN_TOKEN=${ZROK_ADMIN_TOKEN:-zrok-admin-n8n-builder-2025}
+    volumes:
+      - zrok_controller_data:/etc/zrok-controller
+    networks:
+      - zrok-network
+    depends_on:
+      - ziti-controller
+    command: ["controller", "run"]
+
+  # Zrok Share Service - Simple HTTP proxy
+  zrok-share:
+    image: openziti/zrok:latest
+    container_name: zrok-share-simple
+    restart: unless-stopped
+    ports:
+      - "8080:8080"  # Public access port
+    environment:
+      - ZROK_API_ENDPOINT=http://zrok-controller:18080
+      - TARGET_SERVICE=http://n8n:5678
+    networks:
+      - zrok-network
+      - n8n-network
+    depends_on:
+      - zrok-controller
+    command: ["share", "public", "--headless", "--backend-mode", "proxy", "http://n8n:5678"]
+
+networks:
+  zrok-network:
+    external: true
+    name: zrok-network
+  n8n-network:
+    external: true
+    name: n8n-network
+
+volumes:
+  ziti_controller_data:
+    external: true
+    name: zrok_ziti_controller_data
+  ziti_router_data:
+    external: true
+    name: zrok_ziti_router_data
+  zrok_controller_data:
+    external: true
+    name: zrok_controller_data

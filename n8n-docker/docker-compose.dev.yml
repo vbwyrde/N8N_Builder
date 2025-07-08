@@ -1,0 +1,41 @@
+version: '3.8'
+
+# Simplified Docker Compose for Development with SQLite
+# Use this for quick development setup without external database
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-dev
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    env_file:
+      - .env
+    volumes:
+      # Persistent data storage
+      - n8n_data:/home/node/.n8n
+      # Mount local projects folder for development
+      - ../projects:/home/node/projects:ro
+      # Mount current directory for easy access to workflows
+      - ./data:/home/node/shared
+    networks:
+      - n8n-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5678/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  n8n-network:
+    external: true
+    name: n8n-dev-network
+
+volumes:
+  n8n_data:
+    name: n8n_dev_data

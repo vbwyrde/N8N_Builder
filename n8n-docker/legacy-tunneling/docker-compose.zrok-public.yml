@@ -1,0 +1,28 @@
+# Simple Zrok Public Service Setup
+# Uses zrok's public service with reserved shares for stable URLs
+
+services:
+  # Zrok Share Service - Public sharing with reserved URLs
+  zrok-share:
+    image: openziti/zrok:latest
+    container_name: zrok-public-share
+    restart: unless-stopped
+    environment:
+      - ZROK_ENABLE_METRICS=false
+    volumes:
+      - zrok_share_data:/home/zrok
+      - ./zrok-init.sh:/usr/local/bin/zrok-init.sh:ro
+    networks:
+      - n8n-network
+    # Use our initialization script
+    entrypoint: ["/bin/sh", "/usr/local/bin/zrok-init.sh"]
+
+networks:
+  n8n-network:
+    external: true
+    name: n8n-network
+
+volumes:
+  zrok_share_data:
+    external: true
+    name: zrok_share_data

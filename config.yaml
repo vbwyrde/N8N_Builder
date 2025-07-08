@@ -1,0 +1,104 @@
+# N8N_Builder Community Edition Configuration
+
+# Application Settings
+app:
+  name: "N8N_Builder Community Edition"
+  version: "1.0.0"
+  description: "AI-powered workflow automation system"
+  
+# Server Configuration
+server:
+  host: "127.0.0.1"
+  port: 8002
+  agui_port: 8003
+  log_level: "INFO"
+  reload: false
+
+# AI Model Configuration
+ai:
+  endpoint: "http://localhost:1234/v1"
+  model: "mimo-vl-7b-rl"
+  max_tokens: 2000
+  temperature: 0.7
+  timeout: 30
+
+# MCP Research Tool Configuration
+mcp_research:
+  enabled: true
+  timeout: 30
+  cache_ttl: 3600
+  max_content_length: 2000
+  max_results_per_source: 5
+  sources:
+    official_docs: "https://docs.n8n.io/"
+    community_forum: "https://community.n8n.io/"
+    github_main: "https://github.com/n8n-io/n8n"
+    templates: "https://n8n.io/workflows/"
+
+# Workflow Generation Settings
+workflow:
+  validation_enabled: true
+  cache_enabled: true
+  cache_size: 100
+  default_timeout: 360
+
+# Error Handling Configuration
+error_handling:
+  mode: "basic"  # Community edition uses basic error handling
+  log_errors: true
+  retry_attempts: 3
+  retry_delay: 1.0
+
+# Optional Features (Advanced components not available in Community Edition)
+optional_features:
+  Enterprise_Module:
+    enabled: false
+    reason: "Available in Enterprise Edition"
+  
+  Enterprise_Database:
+    enabled: false
+    reason: "Available in Enterprise Edition"
+  
+  advanced_analytics:
+    enabled: false
+    reason: "Available in Enterprise Edition"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_rotation: true
+  max_file_size: "10MB"
+  backup_count: 5
+  log_directory: "logs"
+
+# Testing Configuration
+testing:
+  enabled: true
+  test_directory: "tests"
+  coverage_enabled: true
+  mock_ai_responses: false
+
+# Development Settings
+development:
+  debug_mode: false
+  profiling_enabled: false
+  hot_reload: false
+  
+# Performance Settings
+performance:
+  max_concurrent_requests: 10
+  request_timeout: 300
+  cache_cleanup_interval: 3600
+  
+# Security Settings
+security:
+  cors_enabled: true
+  allowed_origins: ["http://localhost:*"]
+  rate_limiting: false  # Disabled for community edition
+  
+# Documentation Settings
+documentation:
+  auto_generate: true
+  include_examples: true
+  format: "markdown"
