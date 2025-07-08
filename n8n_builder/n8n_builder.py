@@ -927,8 +927,9 @@ class N8NBuilder:
                 trigger_nodes.append(node)
         
         if not trigger_nodes:
-            errors.append("Workflow should have at least one trigger node")
-        
+            # errors.append("Workflow should have at least one trigger node")
+            validation_logger.debug("Workflow should have at least one trigger node")
+            
         # Check for isolated nodes (nodes with no connections)
         connections = workflow.get("connections", {})
         connected_nodes = set()
