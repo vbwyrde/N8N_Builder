@@ -184,21 +184,25 @@ docker-compose up -d
 
 ### "Webhooks not working"
 
-**Check nGrok**
+**Check LocalTunnel**
 ```bash
-# Verify nGrok is running
-curl http://127.0.0.1:4040/api/tunnels
+# Verify LocalTunnel SSH process is running
+Get-Process -Name "ssh" | Where-Object { $_.CommandLine -like "*localhost.run*" }
+
+# Check if n8n is accessible locally
+curl http://localhost:5678
 ```
 
 **Update Webhook URLs**
-- Get current nGrok URL
-- Update external service webhook settings
-- Test webhook with curl
+- Get current LocalTunnel URL from SSH terminal output
+- Update external service webhook settings with new URL
+- Test webhook with curl using the LocalTunnel URL
 
 **Solutions:**
-- Restart nGrok tunnel
-- Check nGrok account limits
-- Verify webhook URL format
+- Restart LocalTunnel: `ssh -R 80:localhost:5678 nokey@localhost.run`
+- Update docker-compose.yml with new tunnel URL
+- Restart n8n container: `docker-compose stop n8n && docker-compose up -d n8n`
+- Verify webhook URL format: `https://[tunnel-id].lhr.life/webhook/[path]`
 
 ## 🔍 Diagnostic Commands
 

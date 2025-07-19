@@ -2,22 +2,33 @@
 # This script provides step-by-step guidance for setting up Blogger API credentials
 
 param(
-    [string]$NgrokUrl = ""
+    [string]$TunnelUrl = ""
 )
 
-# Get current nGrok URL if not provided
-if (-not $NgrokUrl) {
+# Get current LocalTunnel URL if not provided
+if (-not $TunnelUrl) {
     try {
-        $NgrokApi = Invoke-RestMethod -Uri "http://127.0.0.1:4040/api/tunnels" -ErrorAction Stop
-        $NgrokUrl = $NgrokApi.tunnels[0].public_url
-        Write-Host "🔍 Detected nGrok URL: $NgrokUrl" -ForegroundColor Green
+        # Check if LocalTunnel is running by looking for the SSH process
+        $sshProcess = Get-Process -Name "ssh" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*localhost.run*" }
+
+        if ($sshProcess) {
+            Write-Host "⚠️  LocalTunnel SSH process detected, but URL must be provided manually." -ForegroundColor Yellow
+            Write-Host "💡 LocalTunnel URLs are displayed in the SSH terminal when you run:" -ForegroundColor Cyan
+            Write-Host "   ssh -R 80:localhost:5678 nokey@localhost.run" -ForegroundColor Cyan
+            Write-Host "   Look for a URL like: https://7cf5d5df8e061d.lhr.life" -ForegroundColor Cyan
+        } else {
+            Write-Host "⚠️  LocalTunnel not detected. Please start it first:" -ForegroundColor Yellow
+            Write-Host "   ssh -R 80:localhost:5678 nokey@localhost.run" -ForegroundColor Cyan
+        }
+
+        $TunnelUrl = Read-Host "Enter your current LocalTunnel URL (e.g., https://7cf5d5df8e061d.lhr.life)"
     } catch {
-        Write-Host "⚠️  Could not detect nGrok URL. Please provide it manually." -ForegroundColor Yellow
-        $NgrokUrl = Read-Host "Enter your current nGrok URL (e.g., https://abc123.ngrok-free.app)"
+        Write-Host "⚠️  Could not detect LocalTunnel. Please provide it manually." -ForegroundColor Yellow
+        $TunnelUrl = Read-Host "Enter your current LocalTunnel URL (e.g., https://7cf5d5df8e061d.lhr.life)"
     }
 }
 
-$CallbackUrl = "$NgrokUrl/rest/oauth2-credential/callback"
+$CallbackUrl = "$TunnelUrl/rest/oauth2-credential/callback"
 
 Write-Host "🚀 Blogger API Credentials Setup Guide" -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
@@ -44,7 +55,7 @@ Write-Host "5. Authorized redirect URIs:" -ForegroundColor White
 Write-Host "   $CallbackUrl" -ForegroundColor Cyan
 
 Write-Host "`n📋 Step 4: N8N Configuration" -ForegroundColor Yellow
-Write-Host "1. Open N8N: $NgrokUrl" -ForegroundColor White
+Write-Host "1. Open N8N: $TunnelUrl" -ForegroundColor White
 Write-Host "2. Go to: Settings → Credentials" -ForegroundColor White
 Write-Host "3. Add new credential: 'Google OAuth2 API'" -ForegroundColor White
 Write-Host "4. Enter Client ID and Client Secret from Google Console" -ForegroundColor White
@@ -80,13 +91,15 @@ Write-Host "`n⚠️  Important Notes:" -ForegroundColor Red
 Write-Host "• Blogger API has rate limits (requests per day/per 100 seconds)" -ForegroundColor White
 Write-Host "• OAuth consent screen must be configured for external users" -ForegroundColor White
 Write-Host "• Add your email as a test user during development" -ForegroundColor White
-Write-Host "• Update redirect URI when nGrok URL changes" -ForegroundColor White
+Write-Host "• Update redirect URI when LocalTunnel URL changes (URLs change on each restart)" -ForegroundColor White
+Write-Host "• LocalTunnel URLs are temporary - OAuth tokens persist after setup" -ForegroundColor White
 
 Write-Host "`n🔗 Useful Links:" -ForegroundColor Blue
 Write-Host "• Google Cloud Console: https://console.cloud.google.com/" -ForegroundColor White
 Write-Host "• Blogger API Documentation: https://developers.google.com/blogger" -ForegroundColor White
 Write-Host "• OAuth 2.0 Playground: https://developers.google.com/oauthplayground/" -ForegroundColor White
-Write-Host "• Current nGrok URL: $NgrokUrl" -ForegroundColor White
+Write-Host "• Current LocalTunnel URL: $TunnelUrl" -ForegroundColor White
+Write-Host "• LocalTunnel Setup Guide: Documentation\ReadMe_TunnelSetup.md" -ForegroundColor White
 
 Write-Host "`n✅ Setup Complete!" -ForegroundColor Green
 Write-Host "After completing these steps, you'll be able to create custom Blogger nodes in N8N." -ForegroundColor White

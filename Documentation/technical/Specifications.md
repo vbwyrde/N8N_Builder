@@ -46,6 +46,14 @@
 - **Environment**: `.env` file support
 - **Runtime**: Hot-reload capability
 
+#### 5. **External Access (LocalTunnel)**
+- **Protocol**: SSH reverse tunneling
+- **Command**: `ssh -R 80:localhost:5678 nokey@localhost.run`
+- **URL Format**: `https://[random-id].lhr.life`
+- **Purpose**: OAuth callbacks and webhook testing
+- **Persistence**: URLs change on each restart (by design)
+- **Security**: Temporary exposure, OAuth tokens persist
+
 ### Data Flow Architecture
 
 ```mermaid

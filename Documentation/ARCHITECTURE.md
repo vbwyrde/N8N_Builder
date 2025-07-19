@@ -97,6 +97,12 @@ N8N_Builder/
 - **Load Balancing**: Handle multiple concurrent requests
 - **Monitoring**: Health checks and performance monitoring
 
+### External Access (OAuth Setup)
+- **LocalTunnel Integration**: SSH-based tunneling for OAuth callbacks
+- **Temporary URLs**: `https://[random-id].lhr.life` format
+- **OAuth Flow**: Secure authentication with external services
+- **No Dependencies**: Uses built-in SSH, no additional software required
+
 ## 🔒 Security Considerations
 
 ### Data Privacy

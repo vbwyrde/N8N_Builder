@@ -1,0 +1,21 @@
+{
+  "name": "n8n-localtunnel",
+  "version": "1.0.0",
+  "description": "LocalTunnel integration for n8n stable webhook URLs",
+  "scripts": {
+    "start": "powershell -File Start-LocalTunnel.ps1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "n8n",
+    "localtunnel",
+    "oauth",
+    "webhook",
+    "docker"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "localtunnel": "^2.0.2"
+  }
+} 

@@ -72,20 +72,22 @@ and upload timestamp.
 
 ### 🌐 Webhook Integrations
 
-#### Setup nGrok for External Access
+#### Setup LocalTunnel for External Access
 ```bash
-# Install nGrok (if not already installed)
-# Download from https://ngrok.com/download
-
-# Start tunnel to n8n
-ngrok http 5678
+# Start LocalTunnel to n8n (no installation required)
+ssh -R 80:localhost:5678 nokey@localhost.run
 ```
 
 #### Get Public Webhook URL
-1. **Open nGrok dashboard**: http://127.0.0.1:4040
-2. **Copy HTTPS URL** (e.g., https://abc123.ngrok.io)
-3. **Your webhook endpoints** will be:
-   - `https://abc123.ngrok.io/webhook/your-webhook-path`
+1. **Check SSH terminal output** for the tunnel URL (e.g., https://7cf5d5df8e061d.lhr.life)
+2. **Update docker-compose.yml** with the new tunnel URL:
+   ```yaml
+   - N8N_EDITOR_BASE_URL=https://[NEW-TUNNEL-URL]
+   - WEBHOOK_URL=https://[NEW-TUNNEL-URL]/
+   ```
+3. **Restart n8n**: `docker-compose stop n8n && docker-compose up -d n8n`
+4. **Your webhook endpoints** will be:
+   - `https://[tunnel-id].lhr.life/webhook/your-webhook-path`
 
 #### Configure External Services
 Update webhook URLs in external services:

@@ -2,6 +2,19 @@
 
 This is the core module of N8N_Builder, containing the main application logic for AI-powered workflow automation.
 
+
+## 🚀 Quick Start
+
+**For developers working with N8N_Builder Module:**
+
+1. **Setup**: Ensure virtual environment is activated
+2. **Install**: Dependencies should be installed via main requirements.txt
+3. **Usage**: See examples and documentation below
+4. **Testing**: Run relevant tests to verify functionality
+
+**Need help?** See main [Getting Started Guide](../GETTING_STARTED.md) for complete setup.
+
+
 ## 🏗️ Module Structure
 
 ### Core Application Files

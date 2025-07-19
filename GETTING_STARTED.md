@@ -173,7 +173,7 @@ docker-compose up -d
 
 ### n8n-docker Features
 - **Production Environment**: Docker-based n8n with PostgreSQL
-- **Webhook Support**: nGrok tunneling for external integrations
+- **Webhook Support**: LocalTunnel integration for external integrations
 - **Automated Scripts**: Easy startup/shutdown
 - **Security**: Authentication and encryption ready
 
@@ -186,11 +186,22 @@ STANDARD_API_PORT=8002
 AGUI_SERVER_PORT=8003
 ```
 
-### Enable Webhooks
-For external service integration:
-1. Install nGrok: https://ngrok.com/download
-2. Run: `ngrok http 5678`
-3. Use the https URL for webhook endpoints
+### Enable Webhooks & OAuth2 Integration
+
+**For external service integration (Twitter, Google, GitHub, etc.):**
+
+**Quick Setup:**
+```bash
+cd n8n-docker
+.\Start-LocalTunnel.ps1
+```
+
+**Use this OAuth2 callback URL:**
+```
+https://n8n-oauth-stable.loca.lt/rest/oauth2-credential/callback
+```
+
+**Complete guide**: See [LocalTunnel Setup](n8n-docker/README-LocalTunnel.md)
 
 ### Production Security
 See: [Technical Specifications](Documentation/technical/Specifications.md)
