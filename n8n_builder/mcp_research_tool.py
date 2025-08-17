@@ -101,13 +101,17 @@ class N8NResearchTool:
             self.simple_cache = {}
             logger.info("Using simple cache for research tool")
         
-        # Research sources configuration
+        # Research sources configuration - Updated with current API endpoints
         self.sources = {
             'official_docs': 'https://docs.n8n.io/',
             'community_forum': 'https://community.n8n.io/',
             'github_main': 'https://github.com/n8n-io/n8n',
+            'github_docs_repo': 'https://github.com/n8n-io/n8n-docs',
+            'github_api_docs': 'https://api.github.com/repos/n8n-io/n8n-docs/contents/docs',
+            'github_api_nodes': 'https://api.github.com/repos/n8n-io/n8n/contents/packages/nodes-base/nodes',
             'github_workflows': 'https://github.com/n8n-io/n8n/tree/master/packages/nodes-base/nodes',
-            'templates': 'https://n8n.io/workflows/'
+            'templates': 'https://n8n.io/workflows/',
+            'workflow_examples': 'https://api.github.com/search/repositories?q=n8n+workflow+topic:n8n'
         }
         
         # Request headers to appear as a legitimate browser
@@ -223,60 +227,97 @@ class N8NResearchTool:
 
             for target in search_targets:
                 try:
-                    doc_url = f"{self.sources['official_docs']}{target['path']}"
-                    response = await self.session.get(doc_url)
+                    result = None
 
-                    if response.status_code == 200:
-                        if BeautifulSoup is None:
-                            # Fallback: use simple text extraction
-                            content = response.text[:1000] + "..." if len(response.text) > 1000 else response.text
-                            title = target['title']
-                            relevance = self._calculate_relevance(query, content)
+                    # Handle different source types
+                    if target['source'] == 'web':
+                        # Original web scraping approach for official docs
+                        doc_url = f"{self.sources['official_docs']}{target['path']}"
+                        response = await self.session.get(doc_url)
 
-                            results.append(ResearchResult(
-                                source='official_docs',
-                                title=title,
-                                content=content,
-                                url=doc_url,
-                                relevance_score=relevance,
-                                timestamp=time.time(),
-                                metadata={'section': target['section']}
-                            ))
-                        else:
-                            soup = BeautifulSoup(response.text, 'html.parser')
+                        if response.status_code == 200:
+                            if BeautifulSoup is None:
+                                # Fallback: use simple text extraction
+                                content = response.text[:1000] + "..." if len(response.text) > 1000 else response.text
+                                title = target['title']
+                                relevance = self._calculate_relevance(query, content)
 
-                            # Extract main content
-                            main_content = soup.find('main') or soup.find('article') or soup.find('div', class_='content')
-                            if main_content and hasattr(main_content, 'find_all'):
-                                title_elem = soup.find('h1')
-                                title = title_elem.get_text(strip=True) if title_elem else target['title']
+                                result = ResearchResult(
+                                    source='official_docs',
+                                    title=title,
+                                    content=content,
+                                    url=doc_url,
+                                    relevance_score=relevance,
+                                    timestamp=time.time(),
+                                    metadata={'section': target['section']}
+                                )
+                            else:
+                                soup = BeautifulSoup(response.text, 'html.parser')
 
-                                # Extract relevant paragraphs that match the query
-                                content_parts = []
-                                for p in main_content.find_all(['p', 'li', 'div'], limit=10):
-                                    if hasattr(p, 'get_text'):
-                                        text = p.get_text(strip=True)
-                                        if text and len(text) > 20:  # Skip very short text
-                                            # Check if paragraph is relevant to query
-                                            if any(keyword.lower() in text.lower() for keyword in query.split()):
+                                # Extract main content with improved targeting
+                                main_content = soup.find('main') or soup.find('article') or soup.find('div', class_='content')
+                                if main_content and hasattr(main_content, 'find_all'):
+                                    title_elem = soup.find('h1')
+                                    title = title_elem.get_text(strip=True) if title_elem else target['title']
+
+                                    # Remove navigation and sidebar elements
+                                    for nav in main_content.find_all(['nav', 'aside', 'header', 'footer']):
+                                        nav.decompose()
+
+                                    # Remove elements with navigation-related classes
+                                    for elem in main_content.find_all(class_=['nav', 'navigation', 'sidebar', 'menu', 'breadcrumb']):
+                                        elem.decompose()
+
+                                    # Extract meaningful content paragraphs
+                                    content_parts = []
+
+                                    # Look for specific documentation sections first
+                                    doc_sections = main_content.find_all(['section', 'div'], class_=['description', 'parameters', 'examples', 'usage'])
+                                    if doc_sections:
+                                        for section in doc_sections[:2]:  # First 2 sections
+                                            text = section.get_text(strip=True)
+                                            if text and len(text) > 50:
                                                 content_parts.append(text)
 
-                                if content_parts:
-                                    content = ' '.join(content_parts[:3])  # Limit to first 3 relevant paragraphs
-                                    if len(content) > 1000:
-                                        content = content[:1000] + "..."
+                                    # If no specific sections, get paragraphs and list items
+                                    if not content_parts:
+                                        for elem in main_content.find_all(['p', 'li', 'dd'], limit=15):
+                                            if hasattr(elem, 'get_text'):
+                                                text = elem.get_text(strip=True)
+                                                if text and len(text) > 30:  # Skip very short text
+                                                    # Skip navigation-like text
+                                                    if not any(nav_word in text.lower() for nav_word in ['menu', 'navigation', 'breadcrumb', 'skip to']):
+                                                        content_parts.append(text)
 
-                                    relevance = self._calculate_relevance(query, title + ' ' + content)
+                                    if content_parts:
+                                        content = ' '.join(content_parts[:4])  # First 4 relevant parts
+                                        if len(content) > 1500:
+                                            content = content[:1500] + "..."
 
-                                    results.append(ResearchResult(
-                                        source='official_docs',
-                                        title=title,
-                                        content=content,
-                                        url=doc_url,
-                                        relevance_score=relevance,
-                                        timestamp=time.time(),
-                                        metadata={'section': target['section']}
-                                    ))
+                                        relevance = self._calculate_relevance(query, title + ' ' + content)
+
+                                        result = ResearchResult(
+                                            source='official_docs',
+                                            title=title,
+                                            content=content,
+                                            url=doc_url,
+                                            relevance_score=relevance,
+                                            timestamp=time.time(),
+                                            metadata={'section': target['section']}
+                                        )
+                        else:
+                            logger.debug(f"Failed to fetch documentation from {doc_url}: {response.status_code}")
+
+                    elif target['source'] == 'github_api':
+                        # Use GitHub API for documentation
+                        result = await self._search_github_docs_api(target['path'], target['title'])
+
+                    elif target['source'] == 'github_nodes':
+                        # Use GitHub API for node definitions
+                        result = await self._search_github_node_definitions(target['path'])
+
+                    if result:
+                        results.append(result)
 
                     # Add small delay to be respectful to the server
                     await asyncio.sleep(0.5)
@@ -302,64 +343,196 @@ class N8NResearchTool:
     def _get_documentation_targets(self, query: str, node_type: Optional[str] = None) -> List[Dict[str, str]]:
         """
         Get targeted documentation URLs based on query content and node type.
+        Updated with current N8N documentation structure.
 
         Args:
             query: Search query
             node_type: Optional node type
 
         Returns:
-            List of documentation targets with path, title, and section
+            List of documentation targets with path, title, section, and source type
         """
         targets = []
         query_lower = query.lower()
 
-        # Core concepts based on query keywords
+        # Core concepts based on query keywords - Updated paths
         if any(keyword in query_lower for keyword in ['webhook', 'trigger', 'http']):
             targets.extend([
-                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.webhook/', 'title': 'Webhook Node', 'section': 'core_nodes'},
-                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.httprequest/', 'title': 'HTTP Request Node', 'section': 'core_nodes'},
-                {'path': 'workflows/components/nodes/', 'title': 'Understanding Nodes', 'section': 'concepts'}
+                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.webhook/', 'title': 'Webhook Node', 'section': 'core_nodes', 'source': 'web'},
+                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.httprequest/', 'title': 'HTTP Request Node', 'section': 'core_nodes', 'source': 'web'},
+                {'path': 'workflows/components/nodes.md', 'title': 'Understanding Nodes', 'section': 'concepts', 'source': 'github_api'},
+                {'path': 'Webhook', 'title': 'Webhook Node Definition', 'section': 'node_definition', 'source': 'github_nodes'}
             ])
 
         if any(keyword in query_lower for keyword in ['email', 'notification', 'send']):
             targets.extend([
-                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.sendemail/', 'title': 'Send Email Node', 'section': 'core_nodes'},
-                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.gmail/', 'title': 'Gmail Node', 'section': 'app_nodes'}
+                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.sendemail/', 'title': 'Send Email Node', 'section': 'core_nodes', 'source': 'web'},
+                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.gmail/', 'title': 'Gmail Node', 'section': 'app_nodes', 'source': 'web'},
+                {'path': 'Gmail', 'title': 'Gmail Node Definition', 'section': 'node_definition', 'source': 'github_nodes'}
             ])
 
         if any(keyword in query_lower for keyword in ['database', 'sql', 'mysql', 'postgres']):
             targets.extend([
-                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.mysql/', 'title': 'MySQL Node', 'section': 'app_nodes'},
-                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.postgres/', 'title': 'PostgreSQL Node', 'section': 'app_nodes'}
+                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.mysql/', 'title': 'MySQL Node', 'section': 'app_nodes', 'source': 'web'},
+                {'path': 'integrations/builtin/app-nodes/n8n-nodes-base.postgres/', 'title': 'PostgreSQL Node', 'section': 'app_nodes', 'source': 'web'},
+                {'path': 'MySql', 'title': 'MySQL Node Definition', 'section': 'node_definition', 'source': 'github_nodes'}
             ])
 
         if any(keyword in query_lower for keyword in ['schedule', 'cron', 'timer']):
-            targets.append({'path': 'integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/', 'title': 'Schedule Trigger', 'section': 'core_nodes'})
+            targets.extend([
+                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/', 'title': 'Schedule Trigger', 'section': 'core_nodes', 'source': 'web'},
+                {'path': 'ScheduleTrigger', 'title': 'Schedule Trigger Definition', 'section': 'node_definition', 'source': 'github_nodes'}
+            ])
 
         if any(keyword in query_lower for keyword in ['code', 'javascript', 'function']):
-            targets.append({'path': 'integrations/builtin/core-nodes/n8n-nodes-base.code/', 'title': 'Code Node', 'section': 'core_nodes'})
+            targets.extend([
+                {'path': 'integrations/builtin/core-nodes/n8n-nodes-base.code/', 'title': 'Code Node', 'section': 'core_nodes', 'source': 'web'},
+                {'path': 'Code', 'title': 'Code Node Definition', 'section': 'node_definition', 'source': 'github_nodes'}
+            ])
 
-        # If specific node type is provided, add it
+        # If specific node type is provided, add multiple sources
         if node_type:
-            node_path = f'integrations/builtin/core-nodes/n8n-nodes-base.{node_type.lower()}/'
-            targets.append({'path': node_path, 'title': f'{node_type} Node', 'section': 'specific_node'})
+            node_name_clean = node_type.replace(' ', '').replace('Request', '').replace('Node', '')
+            targets.extend([
+                {'path': f'integrations/builtin/core-nodes/n8n-nodes-base.{node_type.lower().replace(" ", "")}/', 'title': f'{node_type} Node', 'section': 'specific_node', 'source': 'web'},
+                {'path': f'integrations/builtin/core-nodes/n8n-nodes-base.{node_type.lower().replace(" ", "")}.md', 'title': f'{node_type} Documentation', 'section': 'specific_node', 'source': 'github_api'},
+                {'path': node_name_clean, 'title': f'{node_type} Node Definition', 'section': 'node_definition', 'source': 'github_nodes'}
+            ])
 
-        # Always include general workflow concepts
+        # Always include general workflow concepts from multiple sources
         targets.extend([
-            {'path': 'workflows/', 'title': 'Understanding Workflows', 'section': 'concepts'},
-            {'path': 'workflows/components/', 'title': 'Workflow Components', 'section': 'concepts'}
+            {'path': 'workflows/', 'title': 'Understanding Workflows', 'section': 'concepts', 'source': 'web'},
+            {'path': 'workflows/components/', 'title': 'Workflow Components', 'section': 'concepts', 'source': 'web'},
+            {'path': 'workflows/index.md', 'title': 'Workflow Documentation', 'section': 'concepts', 'source': 'github_api'}
         ])
 
         # Remove duplicates while preserving order
         seen = set()
         unique_targets = []
         for target in targets:
-            if target['path'] not in seen:
-                seen.add(target['path'])
+            target_key = f"{target['path']}_{target['source']}"
+            if target_key not in seen:
+                seen.add(target_key)
                 unique_targets.append(target)
 
-        return unique_targets[:5]  # Limit to top 5 targets
-    
+        return unique_targets[:8]  # Increased limit for better coverage
+
+    async def _search_github_docs_api(self, path: str, title: str) -> Optional[ResearchResult]:
+        """
+        Search GitHub documentation using the Contents API.
+
+        Args:
+            path: Path to the documentation file
+            title: Title for the result
+
+        Returns:
+            ResearchResult if found, None otherwise
+        """
+        try:
+            if not self.session:
+                logger.warning("Session not available for GitHub API search")
+                return None
+
+            # Construct GitHub API URL
+            api_url = f"{self.sources['github_api_docs']}/{path}"
+
+            # Use GitHub-specific headers for authentication
+            headers = self.github_headers if hasattr(self, 'github_headers') else self.headers
+
+            response = await self.session.get(api_url, headers=headers)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                # GitHub API returns base64 encoded content
+                if 'content' in data and data['type'] == 'file':
+                    import base64
+                    content_bytes = base64.b64decode(data['content'])
+                    content_text = content_bytes.decode('utf-8')
+
+                    # Extract meaningful content (skip frontmatter if present)
+                    if content_text.startswith('---'):
+                        parts = content_text.split('---', 2)
+                        if len(parts) >= 3:
+                            content_text = parts[2].strip()
+
+                    # Limit content length
+                    if len(content_text) > 2000:
+                        content_text = content_text[:2000] + "..."
+
+                    return ResearchResult(
+                        source='github_docs_api',
+                        title=title,
+                        content=content_text,
+                        url=data.get('html_url', api_url),
+                        relevance_score=0.8,  # High relevance for direct API access
+                        timestamp=time.time(),
+                        metadata={'sha': data.get('sha'), 'size': data.get('size')}
+                    )
+
+            elif response.status_code == 404:
+                logger.debug(f"GitHub documentation not found: {path}")
+            else:
+                logger.warning(f"GitHub API error {response.status_code} for {path}")
+
+        except Exception as e:
+            logger.error(f"Error searching GitHub docs API for {path}: {e}")
+
+        return None
+
+    async def _search_github_node_definitions(self, node_name: str) -> Optional[ResearchResult]:
+        """
+        Search GitHub for node definitions and implementations.
+
+        Args:
+            node_name: Name of the node to search for
+
+        Returns:
+            ResearchResult if found, None otherwise
+        """
+        try:
+            if not self.session:
+                logger.warning("Session not available for GitHub node search")
+                return None
+
+            # Search for node definition files
+            search_url = f"https://api.github.com/search/code?q={node_name}+repo:n8n-io/n8n+filename:.node.json"
+
+            headers = self.github_headers if hasattr(self, 'github_headers') else self.headers
+            response = await self.session.get(search_url, headers=headers)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                if data.get('items') and len(data['items']) > 0:
+                    # Get the first matching node definition
+                    item = data['items'][0]
+
+                    # Fetch the actual file content
+                    content_response = await self.session.get(item['url'], headers=headers)
+                    if content_response.status_code == 200:
+                        content_data = content_response.json()
+
+                        if 'content' in content_data:
+                            import base64
+                            content_bytes = base64.b64decode(content_data['content'])
+                            content_text = content_bytes.decode('utf-8')
+
+                            return ResearchResult(
+                                source='github_node_definition',
+                                title=f"{node_name} Node Definition",
+                                content=content_text,
+                                url=item['html_url'],
+                                relevance_score=0.9,  # Very high relevance for node definitions
+                                timestamp=time.time(),
+                                metadata={'path': item['path'], 'repository': item['repository']['full_name']}
+                            )
+
+        except Exception as e:
+            logger.error(f"Error searching GitHub node definitions for {node_name}: {e}")
+
+        return None
+
     async def _search_node_documentation(self, node_type: str) -> List[ResearchResult]:
         """Search for specific node documentation."""
         results = []

@@ -48,6 +48,8 @@ services:
       - ../projects:/home/node/projects:ro
       # Mount SSL certificates (if using HTTPS)
       - ./ssl:/etc/ssl/certs:ro
+      # Mount shared data directory for DNS reports and alerts
+      - ../data:/home/node/shared
     networks:
       - n8n-network
     depends_on:
