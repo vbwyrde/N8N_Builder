@@ -1,4 +1,4 @@
-# DNS Security Monitor
+﻿# DNS Security Monitor
 
 A comprehensive DNS security monitoring system built with N8N that analyzes your Windows DNS cache for potential security threats and generates detailed HTML reports.
 
@@ -45,7 +45,7 @@ N8N_Builder/
 ### 2. Setup (One Command)
 ```powershell
 # Run from N8N_Builder root directory
-.\Scripts\setup_dns_monitoring.ps1
+.\data\dns_reports\setup\setup_dns_monitoring.ps1
 ```
 
 Choose **Option 1** for automated Windows Task Scheduler setup.
@@ -104,7 +104,7 @@ Open `data/dns_reports/index.html` in your browser to view:
 
 #### Windows Task Scheduler (Recommended)
 ```powershell
-.\Scripts\setup_dns_automation.ps1
+.\data\dns_reports\setup\setup_dns_automation.ps1
 ```
 - Runs every 60 minutes automatically (synchronized with N8N)
 - Starts with Windows boot
@@ -113,7 +113,7 @@ Open `data/dns_reports/index.html` in your browser to view:
 
 #### Continuous Loop Script
 ```powershell
-.\Scripts\dns_cache_loop.ps1
+.\data\dns_reports\setup\dns_cache_loop.ps1
 ```
 - Runs in PowerShell window
 - Good for testing and monitoring
@@ -130,18 +130,18 @@ Open `data/dns_reports/index.html` in your browser to view:
 ### Management Commands
 ```powershell
 # Check automation status
-.\Scripts\setup_dns_automation.ps1 -Status
+.\data\dns_reports\setup\setup_dns_automation.ps1 -Status
 
 # Remove automation
-.\Scripts\setup_dns_automation.ps1 -Remove
+.\data\dns_reports\setup\setup_dns_automation.ps1 -Remove
 
 # Setup directories and permissions
-.\Scripts\create_dns_reports_directory.ps1
+.\data\dns_reports\setup\create_dns_reports_directory.ps1
 
 # Query domain history
-.\Scripts\query_domain_history.ps1 -Query summary
-.\Scripts\query_domain_history.ps1 -Query recent -Days 7
-.\Scripts\query_domain_history.ps1 -Query highrisk
+.\data\dns_reports\setup\query_domain_history.ps1 -Query summary
+.\data\dns_reports\setup\query_domain_history.ps1 -Query recent -Days 7
+.\data\dns_reports\setup\query_domain_history.ps1 -Query highrisk
 ```
 
 ## 🛠️ Troubleshooting
