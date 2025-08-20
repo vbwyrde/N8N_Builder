@@ -992,27 +992,28 @@
             
             try {
                 const response = await fetch(`/projects/${encodeURIComponent(currentProject)}/workflows/${encodeURIComponent(selectedWorkflow)}`);
-                const contentType = response.headers.get('content-type') || '';
-                if (contentType.includes('application/json')) {
-                    // Handle JSON error response
-                    const errorJson = await response.json();
-                    if (errorJson.error) {
-                        let errorMsg;
-                        if (errorJson.error.message) {
-                            errorMsg = errorJson.error.message;
-                        } else if (typeof errorJson.error === 'object') {
-                            errorMsg = errorJson.error.title || errorJson.error.user_guidance || 'An error occurred';
-                        } else {
-                            errorMsg = String(errorJson.error);
-                        }
-                        result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>${errorJson.error.user_guidance || 'Check the console for more details.'}</small></div>`;
-                        showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
-                        loading.style.display = 'none';
-                        return;
+
+                // Read the response body once
+                const responseData = await response.json();
+
+                // Check if this is an error response
+                if (responseData.error) {
+                    let errorMsg;
+                    if (responseData.error.message) {
+                        errorMsg = responseData.error.message;
+                    } else if (typeof responseData.error === 'object') {
+                        errorMsg = responseData.error.title || responseData.error.user_guidance || 'An error occurred';
+                    } else {
+                        errorMsg = String(responseData.error);
                     }
+                    result.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle"></i><p>Error: ${errorMsg}</p><small>${responseData.error.user_guidance || 'Check the console for more details.'}</small></div>`;
+                    showToast(`Error ${operation} workflow: ${errorMsg}`, 'error');
+                    loading.style.display = 'none';
+                    return;
                 }
-                
-                const workflowData = await response.json();
+
+                // Use the already parsed response data
+                const workflowData = responseData;
                 
                 currentWorkflow = workflowData.workflow_data;
                 currentWorkflowName = selectedWorkflow.replace(/\.json$/, ''); // Remove .json extension
