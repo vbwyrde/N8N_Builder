@@ -42,16 +42,16 @@
       - N8N_RUNNERS_ENABLED=${N8N_RUNNERS_ENABLED}
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=${N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS}
     volumes:
+      # Mount common shared resources
+      - C:\Docker_Share\Common:/home/node/common
       # Persistent data storage
       - n8n_data:/home/node/.n8n
       # Mount local projects folder for development
-      - C:\Docker_Share\N8N\projects:/home/node/projects:ro
+      - ../projects:/home/node/projects:ro
       # Mount SSL certificates (if using HTTPS)
-      - C:\Docker_Share\N8N\ssl:/etc/ssl/certs:ro
-      # Mount centralized shared data directory
-      - C:\Docker_Share\N8N:/home/node/shared
-      # Mount common shared resources
-      - C:\Docker_Share\Common:/home/node/common
+      - ./ssl:/etc/ssl/certs:ro
+      # Mount shared data directory for DNS reports and alerts
+      - ../data:/home/node/shared
     networks:
       - n8n-network
     depends_on:
@@ -74,6 +74,8 @@
       - POSTGRES_PASSWORD=${DB_POSTGRESDB_PASSWORD:-n8n_password}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Mount common shared resources
+      - C:\Docker_Share\Common:/home/node/common
     networks:
       - n8n-network
     healthcheck:
@@ -91,6 +93,8 @@
   #   container_name: n8n-redis
   #   restart: unless-stopped
   #   volumes:
+      # Mount common shared resources
+      - C:\Docker_Share\Common:/home/node/common
   #     - redis_data:/data
   #   networks:
   #     - n8n-network
@@ -106,6 +110,8 @@ networks:
     name: n8n-network
 
 volumes:
+      # Mount common shared resources
+      - C:\Docker_Share\Common:/home/node/common
   n8n_data:
     external: true
     name: n8n_data

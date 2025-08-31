@@ -1,4 +1,4 @@
-﻿services:
+services:
   n8n:
     image: n8nio/n8n:latest
     container_name: n8n
@@ -45,13 +45,11 @@
       # Persistent data storage
       - n8n_data:/home/node/.n8n
       # Mount local projects folder for development
-      - C:\Docker_Share\N8N\projects:/home/node/projects:ro
+      - ../projects:/home/node/projects:ro
       # Mount SSL certificates (if using HTTPS)
-      - C:\Docker_Share\N8N\ssl:/etc/ssl/certs:ro
-      # Mount centralized shared data directory
-      - C:\Docker_Share\N8N:/home/node/shared
-      # Mount common shared resources
-      - C:\Docker_Share\Common:/home/node/common
+      - ./ssl:/etc/ssl/certs:ro
+      # Mount shared data directory for DNS reports and alerts
+      - ../data:/home/node/shared
     networks:
       - n8n-network
     depends_on:

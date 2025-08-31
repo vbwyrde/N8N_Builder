@@ -1,4 +1,4 @@
-﻿version: '3.8'
+version: '3.8'
 
 # Simplified Docker Compose for Development with SQLite
 # Use this for quick development setup without external database
@@ -16,13 +16,9 @@ services:
       # Persistent data storage
       - n8n_data:/home/node/.n8n
       # Mount local projects folder for development
-      - C:\Docker_Share\N8N\projects:/home/node/projects:ro
-      # Mount SSL certificates (if using HTTPS)
-      - C:\Docker_Share\N8N\ssl:/etc/ssl/certs:ro
-      # Mount centralized shared data directory
-      - C:\Docker_Share\N8N:/home/node/shared
-      # Mount common shared resources
-      - C:\Docker_Share\Common:/home/node/common
+      - ../projects:/home/node/projects:ro
+      # Mount current directory for easy access to workflows
+      - ./data:/home/node/shared
     networks:
       - n8n-network
     healthcheck:
